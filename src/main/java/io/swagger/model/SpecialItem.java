@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.UUID;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -17,10 +20,11 @@ import javax.validation.constraints.*;
 
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-09-26T03:54:46.062Z[GMT]")
-
+@ApiModel
+@RequestMapping("/special")
 public class SpecialItem {
   @JsonProperty("id")
-  private UUID id = null;
+  private String id = null;
 
   @JsonProperty("name")
   private String name = null;
@@ -28,30 +32,27 @@ public class SpecialItem {
   @JsonProperty("description")
   private String description = null;
 
-  public SpecialItem id(UUID id) {
+  public SpecialItem(String id, String name, String description) {
+    super();
     this.id = id;
-    return this;
+    this.name = name;
+    this.description = description;
   }
 
   /**
    * Get id
    * @return id
    **/
-  @ApiModelProperty(example = "d290f1ee-6c54-4b01-90e6-d701748f0851", required = true, value = "")
+  @ApiModelProperty(example = "1", required = true, value = "")
   @NotNull
 
   @Valid
-  public UUID getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(UUID id) {
+  public void setId(String id) {
     this.id = id;
-  }
-
-  public SpecialItem name(String name) {
-    this.name = name;
-    return this;
   }
 
   /**
@@ -60,18 +61,13 @@ public class SpecialItem {
    **/
   @ApiModelProperty(example = "Buy1Get1Free", required = true, value = "")
   @NotNull
-
+  @GetMapping("/{specialName}")
   public String getName() {
     return name;
   }
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public SpecialItem description(String description) {
-    this.description = description;
-    return this;
   }
 
   /**

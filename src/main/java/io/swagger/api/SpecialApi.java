@@ -26,25 +26,14 @@ import java.util.Map;
 @Api(value = "special", description = "the special API")
 public interface SpecialApi {
 
-  @ApiOperation(value = "adds a Special item", nickname = "addSpecial", notes = "Adds a Special to the system", tags={ "special", })
-  @ApiResponses(value = {
-      @ApiResponse(code = 201, message = "special created"),
-      @ApiResponse(code = 400, message = "invalid input, object invalid"),
-      @ApiResponse(code = 409, message = "an existing item already exists") })
-  @RequestMapping(value = "/special",
-      consumes = { "application/json" },
-      method = RequestMethod.POST)
-  ResponseEntity<Void> addSpecial(@ApiParam(value = "Special item to add"  )  @Valid @RequestBody SpecialItem body);
 
-  @ApiOperation(value = "searchs for special", nickname = "searchSpecial",
-      notes = "By passing in the appropriate options, you can search for available specials in the system ",
-      response = SpecialItem.class, responseContainer = "List", tags={ "special", })
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "search results matching criteria", response = SpecialItem.class, responseContainer = "List"),
-      @ApiResponse(code = 400, message = "bad input parameter") })
-  @RequestMapping(value = "/special",
-      produces = { "application/json" },
-      method = RequestMethod.GET)
-  ResponseEntity<List<SpecialItem>> searchSpecial(@ApiParam(value = "pass an optional search string for looking up specials") @Valid @RequestParam(value = "searchString", required = false) String searchString,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit);
+  void addSpecial(@ApiParam(value = "Special item to add"  )  @Valid @RequestBody SpecialItem body);
+
+
+  List<SpecialItem> getAllSpecials();
+
+
+  ResponseEntity<SpecialItem> getSpecialById(@PathVariable("id") String id);
+
 
 }
