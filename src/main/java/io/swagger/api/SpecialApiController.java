@@ -48,7 +48,7 @@ public class SpecialApiController implements SpecialApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       try {
-        return new ResponseEntity<List<SpecialItem>>(objectMapper.readValue("[ {\n  \"releaseDate\" : \"2016-08-29T09:12:33.001Z\",\n  \"name\" : \"Widget Adapter\",\n  \"id\" : \"d290f1ee-6c54-4b01-90e6-d701748f0851\"\n}, {\n  \"releaseDate\" : \"2016-08-29T09:12:33.001Z\",\n  \"name\" : \"Widget Adapter\",\n  \"id\" : \"d290f1ee-6c54-4b01-90e6-d701748f0851\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<List<SpecialItem>>(objectMapper.readValue("[ {\n \"name\" : \"Buy1Get1Free\",\n  \"description\" : \"Only one special at a time. If you buy 1 pizza, you get 1 free pizza that is equal or less value.\",\n \"id\" : \"d290f1ee-6c54-4b01-90e6-d701748f0851\"\n}, {\n  \"releaseDate\" : \"2016-08-29T09:12:33.001Z\",\n  \"name\" : \"Widget Adapter\",\n  \"id\" : \"d290f1ee-6c54-4b01-90e6-d701748f0851\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
       } catch (IOException e) {
         log.error("Couldn't serialize response for content type application/json", e);
         return new ResponseEntity<List<SpecialItem>>(HttpStatus.INTERNAL_SERVER_ERROR);

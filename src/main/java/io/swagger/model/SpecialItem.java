@@ -25,8 +25,8 @@ public class SpecialItem {
   @JsonProperty("name")
   private String name = null;
 
-  @JsonProperty("releaseDate")
-  private OffsetDateTime releaseDate = null;
+  @JsonProperty("description")
+  private String description = null;
 
   public SpecialItem id(UUID id) {
     this.id = id;
@@ -58,7 +58,7 @@ public class SpecialItem {
    * Get name
    * @return name
    **/
-  @ApiModelProperty(example = "Widget Adapter", required = true, value = "")
+  @ApiModelProperty(example = "Buy1Get1Free", required = true, value = "")
   @NotNull
 
   public String getName() {
@@ -69,25 +69,25 @@ public class SpecialItem {
     this.name = name;
   }
 
-  public SpecialItem releaseDate(OffsetDateTime releaseDate) {
-    this.releaseDate = releaseDate;
+  public SpecialItem description(String description) {
+    this.description = description;
     return this;
   }
 
   /**
-   * Get releaseDate
-   * @return releaseDate
+   * Get description
+   * @return description
    **/
-  @ApiModelProperty(example = "2019-10-04T09:12:33.001Z", required = true, value = "")
+  @ApiModelProperty(example = "Only one special at a time. If you buy 1 pizza, you get 1 free pizza that is equal or less value.", required = true, value = "")
   @NotNull
 
   @Valid
-  public OffsetDateTime getReleaseDate() {
-    return releaseDate;
+  public String getDescription() {
+    return description;
   }
 
-  public void setReleaseDate(OffsetDateTime releaseDate) {
-    this.releaseDate = releaseDate;
+  public void setDescription(String releaseDate) {
+    this.description = description;
   }
 
   @Override
@@ -101,12 +101,12 @@ public class SpecialItem {
     SpecialItem specialItem = (SpecialItem) o;
     return Objects.equals(this.id, specialItem.id) &&
         Objects.equals(this.name, specialItem.name) &&
-        Objects.equals(this.releaseDate, specialItem.releaseDate);
+        Objects.equals(this.description, specialItem.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, releaseDate);
+    return Objects.hash(id, name, description);
   }
 
   @Override
@@ -116,7 +116,7 @@ public class SpecialItem {
 
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    releaseDate: ").append(toIndentedString(releaseDate)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }
