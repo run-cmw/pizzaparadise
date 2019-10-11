@@ -16,8 +16,8 @@ public class SwaggerDocumentationConfig {
 
   ApiInfo apiInfo() {
     return new ApiInfoBuilder()
-        .title("Toppings API")
-        .description("This is Toppings API")
+        .title("PIZZA PARADISE APIs")
+        .description("This is Pizza Paradise")
         .license("Apache 2.0")
         .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
         .termsOfServiceUrl("")
