@@ -1,24 +1,19 @@
 package io.swagger.model;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.LocalTime;
+import java.util.Objects;
 import java.util.UUID;
-import org.threeten.bp.OffsetDateTime;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-import java.time.LocalTime;
+import org.springframework.validation.annotation.Validated;
 
-/**
- * StoreItem
- */
-
+/** StoreItem */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-09-26T03:54:46.062Z[GMT]")
-
+@javax.annotation.Generated(
+    value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
+    date = "2019-09-26T03:54:46.062Z[GMT]")
 public class StoreItem {
   @JsonProperty("id")
   private UUID id = null;
@@ -34,6 +29,7 @@ public class StoreItem {
 
   /**
    * Construct a StoreItem id with the given id.
+   *
    * @param id store's id.
    * @return
    */
@@ -44,11 +40,11 @@ public class StoreItem {
 
   /**
    * Get store's id.
+   *
    * @return store's id.
-   **/
+   */
   @ApiModelProperty(example = "d290f1ee-6c54-4b01-90e6-d701748f0851", required = true, value = "")
   @NotNull
-
   @Valid
   public UUID getId() {
     return id;
@@ -56,6 +52,7 @@ public class StoreItem {
 
   /**
    * Set store's id.
+   *
    * @param id store's id.
    */
   public void setId(UUID id) {
@@ -64,6 +61,7 @@ public class StoreItem {
 
   /**
    * Construct a StoreItem address with the given address information.
+   *
    * @param name
    * @return
    */
@@ -74,17 +72,18 @@ public class StoreItem {
 
   /**
    * Get store's address.
+   *
    * @return store's address.
-   **/
+   */
   @ApiModelProperty(example = "123 Main St Coastal State 77777", required = true, value = "")
   @NotNull
-
   public Address getAddress() {
     return address;
   }
 
   /**
    * Set store's address.
+   *
    * @param address
    */
   public void setAddress(Address address) {
@@ -93,6 +92,7 @@ public class StoreItem {
 
   /**
    * Construct a StoreItem timeOpen with the given opening time information.
+   *
    * @param timeOpen
    * @return
    */
@@ -103,11 +103,11 @@ public class StoreItem {
 
   /**
    * Get store's time open.
+   *
    * @return store's time open.
-   **/
+   */
   @ApiModelProperty(example = "09:12:33", required = true, value = "")
   @NotNull
-
   @Valid
   public LocalTime getTimeOpen() {
     return timeOpen;
@@ -115,6 +115,7 @@ public class StoreItem {
 
   /**
    * Set store's time open.
+   *
    * @param timeOpen
    */
   public void setTimeOpen(LocalTime timeOpen) {
@@ -123,6 +124,7 @@ public class StoreItem {
 
   /**
    * Construct a StoreItem timeClosed with the given closing time information.
+   *
    * @param timeClosed
    * @return
    */
@@ -133,11 +135,11 @@ public class StoreItem {
 
   /**
    * Get store's time closed.
+   *
    * @return store's time closed.
-   **/
+   */
   @ApiModelProperty(example = "09:12:33", required = true, value = "")
   @NotNull
-
   @Valid
   public LocalTime getTimeClosed() {
     return timeClosed;
@@ -145,6 +147,7 @@ public class StoreItem {
 
   /**
    * Set store's time closed.
+   *
    * @param timeClosed
    */
   public void setTimeClosed(LocalTime timeClosed) {
@@ -153,6 +156,7 @@ public class StoreItem {
 
   /**
    * Helper to check if store is currently open.
+   *
    * @return {@true} if store is open and {@false} otherwise.
    */
   public boolean isOpenCheck() {
@@ -171,10 +175,10 @@ public class StoreItem {
       return false;
     }
     StoreItem storeItem = (StoreItem) o;
-    return Objects.equals(this.id, storeItem.id) &&
-        Objects.equals(this.address, storeItem.address) &&
-        Objects.equals(this.timeOpen, storeItem.timeOpen) &&
-        Objects.equals(this.timeClosed, storeItem.timeClosed);
+    return Objects.equals(this.id, storeItem.id)
+        && Objects.equals(this.address, storeItem.address)
+        && Objects.equals(this.timeOpen, storeItem.timeOpen)
+        && Objects.equals(this.timeClosed, storeItem.timeClosed);
   }
 
   @Override
@@ -196,8 +200,7 @@ public class StoreItem {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

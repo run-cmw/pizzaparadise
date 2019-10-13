@@ -1,22 +1,20 @@
 package io.swagger.model;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import java.util.UUID;
-import org.threeten.bp.OffsetDateTime;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
+import org.threeten.bp.OffsetDateTime;
 
-/**
- * ToppingItem
- */
+/** ToppingItem */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-09-26T03:54:46.062Z[GMT]")
-public class ToppingItem   {
+@javax.annotation.Generated(
+    value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
+    date = "2019-09-26T03:54:46.062Z[GMT]")
+public class ToppingItem {
   @JsonProperty("id")
   private UUID id = null;
 
@@ -33,11 +31,11 @@ public class ToppingItem   {
 
   /**
    * Get id
+   *
    * @return id
-   **/
+   */
   @ApiModelProperty(example = "d290f1ee-6c54-4b01-90e6-d701748f0851", required = true, value = "")
   @NotNull
-
   @Valid
   public UUID getId() {
     return id;
@@ -54,11 +52,11 @@ public class ToppingItem   {
 
   /**
    * Get name
+   *
    * @return name
-   **/
+   */
   @ApiModelProperty(example = "Widget Adapter", required = true, value = "")
   @NotNull
-
   public String getName() {
     return name;
   }
@@ -74,11 +72,11 @@ public class ToppingItem   {
 
   /**
    * Get releaseDate
+   *
    * @return releaseDate
-   **/
+   */
   @ApiModelProperty(example = "2016-08-29T09:12:33.001Z", required = true, value = "")
   @NotNull
-
   @Valid
   public OffsetDateTime getReleaseDate() {
     return releaseDate;
@@ -87,7 +85,6 @@ public class ToppingItem   {
   public void setReleaseDate(OffsetDateTime releaseDate) {
     this.releaseDate = releaseDate;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -98,9 +95,9 @@ public class ToppingItem   {
       return false;
     }
     ToppingItem toppingItem = (ToppingItem) o;
-    return Objects.equals(this.id, toppingItem.id) &&
-        Objects.equals(this.name, toppingItem.name) &&
-        Objects.equals(this.releaseDate, toppingItem.releaseDate);
+    return Objects.equals(this.id, toppingItem.id)
+        && Objects.equals(this.name, toppingItem.name)
+        && Objects.equals(this.releaseDate, toppingItem.releaseDate);
   }
 
   @Override
@@ -121,8 +118,7 @@ public class ToppingItem   {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

@@ -1,20 +1,9 @@
 package io.swagger.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.util.UUID;
-import org.threeten.bp.OffsetDateTime;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
 import javax.validation.constraints.*;
-import java.time.LocalTime;
 
-/**
- * Address represents information for a store's location.
- */
+/** Address represents information for a store's location. */
 public class Address {
   private String street;
   private String city;
@@ -23,6 +12,7 @@ public class Address {
 
   /**
    * Construct an Address object with the given street, city, state, and zip code.
+   *
    * @param street street number and name of store.
    * @param city city of store.
    * @param state state of store.
@@ -37,6 +27,7 @@ public class Address {
 
   /**
    * Get store's street.
+   *
    * @return store's street.
    */
   public String getStreet() {
@@ -45,6 +36,7 @@ public class Address {
 
   /**
    * Get store's city.
+   *
    * @return store's city.
    */
   public String getCity() {
@@ -53,6 +45,7 @@ public class Address {
 
   /**
    * Get store's state.
+   *
    * @return store's state.
    */
   public String getState() {
@@ -61,6 +54,7 @@ public class Address {
 
   /**
    * Get store's zip code.
+   *
    * @return store's zip code.
    */
   public String getZipCode() {
@@ -69,6 +63,7 @@ public class Address {
 
   /**
    * Set store's street.
+   *
    * @param street store's street.
    */
   public void setStreet(String street) {
@@ -77,6 +72,7 @@ public class Address {
 
   /**
    * Set store's city.
+   *
    * @param city store's city.
    */
   public void setCity(String city) {
@@ -85,6 +81,7 @@ public class Address {
 
   /**
    * Set store's state.
+   *
    * @param state store's state.
    */
   public void setState(String state) {
@@ -93,6 +90,7 @@ public class Address {
 
   /**
    * Set stores's zip code.
+   *
    * @param zipCode store's zip code.
    */
   public void setZipCode(String zipCode) {
@@ -108,15 +106,15 @@ public class Address {
       return false;
     }
     Address address = (Address) o;
-    return Objects.equals(this.street, address.street) &&
-        Objects.equals(this.city, address.city) &&
-        Objects.equals(this.state, address.state) &&
-        Objects.equals(this.zipCode, address.zipCode);
+    return Objects.equals(this.street, address.street)
+        && Objects.equals(this.city, address.city)
+        && Objects.equals(this.state, address.state)
+        && Objects.equals(this.zipCode, address.zipCode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(street, city,state, zipCode);
+    return Objects.hash(street, city, state, zipCode);
   }
 
   @Override
@@ -133,8 +131,7 @@ public class Address {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

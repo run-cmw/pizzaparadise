@@ -1,25 +1,20 @@
 package io.swagger.model;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.UUID;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.threeten.bp.OffsetDateTime;
-import org.springframework.validation.annotation.Validated;
+import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- * SpecialItem
- */
-
+/** SpecialItem */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-09-26T03:54:46.062Z[GMT]")
+@javax.annotation.Generated(
+    value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
+    date = "2019-09-26T03:54:46.062Z[GMT]")
 @ApiModel
 @RequestMapping("/special")
 public class SpecialItem {
@@ -41,11 +36,11 @@ public class SpecialItem {
 
   /**
    * Get id
+   *
    * @return id
-   **/
+   */
   @ApiModelProperty(example = "1", required = true, value = "")
   @NotNull
-
   @Valid
   public String getId() {
     return id;
@@ -57,8 +52,9 @@ public class SpecialItem {
 
   /**
    * Get name
+   *
    * @return name
-   **/
+   */
   @ApiModelProperty(example = "Buy1Get1Free", required = true, value = "")
   @NotNull
   @GetMapping("/{specialName}")
@@ -72,11 +68,15 @@ public class SpecialItem {
 
   /**
    * Get description
+   *
    * @return description
-   **/
-  @ApiModelProperty(example = "Only one special at a time. If you buy 1 pizza, you get 1 free pizza that is equal or less value.", required = true, value = "")
+   */
+  @ApiModelProperty(
+      example =
+          "Only one special at a time. If you buy 1 pizza, you get 1 free pizza that is equal or less value.",
+      required = true,
+      value = "")
   @NotNull
-
   @Valid
   public String getDescription() {
     return description;
@@ -95,9 +95,9 @@ public class SpecialItem {
       return false;
     }
     SpecialItem specialItem = (SpecialItem) o;
-    return Objects.equals(this.id, specialItem.id) &&
-        Objects.equals(this.name, specialItem.name) &&
-        Objects.equals(this.description, specialItem.description);
+    return Objects.equals(this.id, specialItem.id)
+        && Objects.equals(this.name, specialItem.name)
+        && Objects.equals(this.description, specialItem.description);
   }
 
   @Override
@@ -118,8 +118,7 @@ public class SpecialItem {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

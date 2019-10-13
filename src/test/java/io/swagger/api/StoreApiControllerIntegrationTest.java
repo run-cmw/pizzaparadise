@@ -1,9 +1,9 @@
 package io.swagger.api;
 
+import static org.junit.Assert.assertEquals;
+
 import io.swagger.model.StoreItem;
-
 import java.util.*;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class StoreApiControllerIntegrationTest {
 
-  @Autowired
-  private StoreApi api;
+  @Autowired private StoreApi api;
 
   @Test
   public void addStoreTest() throws Exception {
@@ -36,5 +33,4 @@ public class StoreApiControllerIntegrationTest {
     ResponseEntity<List<StoreItem>> responseEntity = api.searchStore(searchString, skip, limit);
     assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
   }
-
 }
