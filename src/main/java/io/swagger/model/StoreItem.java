@@ -10,8 +10,7 @@ import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-import java.time;
-import java.sql.Timestamp;
+import java.time.LocalTime;
 
 /**
  * StoreItem
@@ -21,7 +20,7 @@ import java.sql.Timestamp;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-09-26T03:54:46.062Z[GMT]")
 
 public class StoreItem {
-  @JsonPropety("id")
+  @JsonProperty("id")
   private UUID id = null;
 
   @JsonProperty("address")
@@ -33,10 +32,6 @@ public class StoreItem {
   @JsonProperty("timeClosed")
   private LocalTime timeClosed = null;
 
-  @JsonProperty("isOpen")
-  private Boolean isOpen = null;
-
-  // I now know that these are not constructors and will update code accordingly.
   /**
    * Construct a StoreItem id with the given id.
    * @param id store's id.
@@ -156,37 +151,15 @@ public class StoreItem {
     this.timeClosed = timeClosed;
   }
 
-  // This is created by seeing if the current time is within the time open and time closed
-  // range. Not sure if it's done correctly.
-
-  /**
-   * Construct a StoreItem isOpen based on the isOpenCheck().
-   * @return isOpen.
-   */
-  public StoreItem isOpen() {
-    this.releaseDate = isOpenCheck();
-    return this;
-  }
-
-  /**
-   * Get isOpen.
-   * @return isOpen.
-   **/
-  @ApiModelProperty(example = "true", required = true, value = "") // Does the example true not belong in quotes?
-  @NotNull
-
-  @Valid
-  public boolean getIsOpen() {
-    return isOpen;
-  }
-
   /**
    * Helper to check if store is currently open.
    * @return {@true} if store is open and {@false} otherwise.
    */
   public boolean isOpenCheck() {
-    Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-    return (currentTime > timeOpen && currentTime < timeClosed);
+    // What if the user is in a different time zone?
+    // What if the server is in a different time zone?
+    LocalTime currentTime = LocalTime.now();
+    return (currentTime.isAfter(timeOpen) && currentTime.isBefore(timeClosed));
   }
 
   @Override
@@ -201,13 +174,12 @@ public class StoreItem {
     return Objects.equals(this.id, storeItem.id) &&
         Objects.equals(this.address, storeItem.address) &&
         Objects.equals(this.timeOpen, storeItem.timeOpen) &&
-        Objects.equals(this.timeClosed, storeItem.timeClosed) &&
-        Object.equals(this.isOpen, storeItem.isOpen);
+        Objects.equals(this.timeClosed, storeItem.timeClosed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, address, timeOpen, timeClosed, isOpen);
+    return Objects.hash(id, address, timeOpen, timeClosed);
   }
 
   @Override
@@ -219,7 +191,6 @@ public class StoreItem {
     sb.append("    address: ").append(toIndentedString(address)).append("\n");
     sb.append("    timeOpen: ").append(toIndentedString(timeOpen)).append("\n");
     sb.append("    timeClosed: ").append(toIndentedString(timeClosed)).append("\n");
-    sb.append("    isOpen: ").append(toIndentedString(isOpen)).append("\n");
     sb.append("}");
     return sb.toString();
   }
