@@ -8,10 +8,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SpecialService {
 
-  public List<SpecialItem> listOfSpecials = getAllSpecialItems();
-
   public List<SpecialItem> getAllSpecialItems() {
-    listOfSpecials = new ArrayList<>();
+    List<SpecialItem> listOfSpecials = new ArrayList<>();
     listOfSpecials.add(
         new SpecialItem(
             "1",
@@ -23,7 +21,7 @@ public class SpecialService {
   }
 
   public SpecialItem getSpecialById(String id) {
-    for (SpecialItem item : listOfSpecials) {
+    for (SpecialItem item : getAllSpecialItems()) {
       if (item.getId().equals(id)) {
         return item;
       }
@@ -32,6 +30,6 @@ public class SpecialService {
   }
 
   public void addSpecialItem(SpecialItem newSpecial) {
-    listOfSpecials.add(newSpecial);
+    throw new UnsupportedOperationException("Not yet implemented!");
   }
 }

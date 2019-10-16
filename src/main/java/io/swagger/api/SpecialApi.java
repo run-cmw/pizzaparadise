@@ -17,7 +17,7 @@ public interface SpecialApi {
 
   void addSpecial(@ApiParam(value = "Special item to add") @Valid @RequestBody SpecialItem body);
 
-  List<SpecialItem> getAllSpecials();
+  ResponseEntity<List<SpecialItem>> getAllSpecials();
 
   ResponseEntity<SpecialItem> getSpecialById(@PathVariable("id") String id);
 }
