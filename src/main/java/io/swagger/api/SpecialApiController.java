@@ -4,6 +4,7 @@ import io.swagger.annotations.*;
 import io.swagger.model.SpecialItem;
 import io.swagger.repository.SpecialItemRepository;
 
+import io.swagger.service.SpecialItemService;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SpecialApiController implements SpecialApi {
 
   @Autowired
-  private SpecialItemRepository specialItemRepository;
+  private SpecialItemService specialItemService;
 
   @GetMapping("/special")
   @ApiOperation(
@@ -34,7 +35,7 @@ public class SpecialApiController implements SpecialApi {
         "special",
       })
   public ResponseEntity<List<SpecialItem>> getAllSpecials() {
-    return new ResponseEntity<List<SpecialItem>>(specialItemRepository.findAll(), HttpStatus.OK);
+    return new ResponseEntity<List<SpecialItem>>(specialItemService.getAllSpecials(), HttpStatus.OK);
   }
 
   @GetMapping("/special/{id}")
@@ -44,13 +45,10 @@ public class SpecialApiController implements SpecialApi {
         "special",
       })
   public ResponseEntity<SpecialItem> getSpecialById(@PathVariable String id) {
-
-    for (SpecialItem item : specialItemRepository.findAll()) {
-      if (item.getId().equals(id)) {
-        return new ResponseEntity<SpecialItem>(item, HttpStatus.OK);
-      }
+    if(specialItemService.getSpecialById(id) == null) {
+      return new ResponseEntity<SpecialItem>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<SpecialItem>(HttpStatus.NOT_FOUND);
+    return new ResponseEntity<SpecialItem>(specialItemService.getSpecialById(id), HttpStatus.FOUND);
   }
 
   @PostMapping("/special/add")
@@ -61,8 +59,8 @@ public class SpecialApiController implements SpecialApi {
       })
   public ResponseEntity<SpecialItem> addSpecial(
       @ApiParam(value = "Special item to add") @Valid @RequestBody SpecialItem newSpecial) {
-    specialItemRepository.save(newSpecial);
-    return new ResponseEntity<SpecialItem>(newSpecial, HttpStatus.CREATED);
+
+    return new ResponseEntity<SpecialItem>(specialItemService.addSpecial(newSpecial), HttpStatus.CREATED);
   }
 
   @DeleteMapping("/special/delete/{id}")
@@ -72,11 +70,12 @@ public class SpecialApiController implements SpecialApi {
           "special",
       })
   public ResponseEntity<String> deleteSpecial(@PathVariable String id) {
-    if(specialItemRepository.existsById(id) ) {
-      specialItemRepository.deleteById(id);
-      return new ResponseEntity<String>("deleted with id " + id, HttpStatus.OK);
+
+    if (specialItemService.getSpecialById(id) == null) {
+      return new ResponseEntity<String>("id does not exist: " + id, HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<String>("id does not exist: " + id, HttpStatus.NOT_FOUND);
+    return new ResponseEntity<String>(specialItemService.deleteSpecial(id), HttpStatus.OK);
+
   }
 
 }
