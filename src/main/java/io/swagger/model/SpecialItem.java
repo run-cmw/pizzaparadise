@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
     date = "2019-09-26T03:54:46.062Z[GMT]")
 @ApiModel
+@Document(collection = "SpecialItem")
 public class SpecialItem {
+
+
   @JsonProperty("id")
+  @Id
   private String id;
 
   @JsonProperty("name")
@@ -52,7 +58,6 @@ public class SpecialItem {
    */
   @ApiModelProperty(example = "Buy1Get1Free", required = true, value = "")
   @NotNull
-  @GetMapping("/{specialName}")
   public String getName() {
     return name;
   }
@@ -85,5 +90,18 @@ public class SpecialItem {
   public void setDescription(String description) {
     this.description = description;
   }
+
+  /*
+   * Spring representation of a Special Item
+   */
+  @Override
+  public String toString() {
+    return "SpecialItem{" +
+        "id='" + id + '\'' +
+        ", name='" + name + '\'' +
+        ", description='" + description +
+        '}';
+  }
+
 
 }
