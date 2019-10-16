@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @javax.annotation.Generated(
@@ -28,14 +29,14 @@ public class SpecialApiController implements SpecialApi {
 
   @Autowired private SpecialService specialService;
 
-  @GetMapping("/specials")
+  @GetMapping("/special")
   @ApiOperation(
       value = "Get all Specials",
       tags = {
         "special",
       })
-  public List<SpecialItem> getAllSpecials() {
-    return specialService.getAllSpecialItems();
+  public ResponseEntity<List<SpecialItem>> getAllSpecials() {
+    return new ResponseEntity<List<SpecialItem>>(specialService.getAllSpecialItems(), HttpStatus.OK);
   }
 
   @GetMapping("/special/{id}")
