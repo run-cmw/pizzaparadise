@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import io.swagger.model.SpecialItem;
 import io.swagger.service.SpecialService;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -20,23 +21,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
     date = "2019-09-26T03:54:46.062Z[GMT]")
-@Controller
+@RestController
 public class SpecialApiController implements SpecialApi {
 
-  @Autowired private SpecialService specialService;
+  List<SpecialItem> specialItems = new ArrayList<>();
+  // @Autowired private SpecialService specialService;
 
   @GetMapping("/special")
   @ApiOperation(
-      value = "Get all Specials",
+      value = "Get all SpecialItems",
       tags = {
         "special",
       })
   public ResponseEntity<List<SpecialItem>> getAllSpecials() {
-    return new ResponseEntity<List<SpecialItem>>(specialService.getAllSpecialItems(), HttpStatus.OK);
+    return new ResponseEntity<List<SpecialItem>>(specialItems, HttpStatus.OK);
   }
 
   @GetMapping("/special/{id}")
@@ -45,14 +48,28 @@ public class SpecialApiController implements SpecialApi {
       tags = {
         "special",
       })
-  public ResponseEntity<SpecialItem> getSpecialById(@PathVariable("id") String id) {
-    SpecialItem special = specialService.getSpecialById(id);
-    if (special == null) {
-      return new ResponseEntity<SpecialItem>(HttpStatus.NOT_FOUND);
+  public ResponseEntity<SpecialItem> getSpecialById(@PathVariable String id) {
+    for (SpecialItem item : specialItems) {
+      if (item.getId().equals(id)) {
+        return new ResponseEntity<SpecialItem>(item, HttpStatus.OK);
+      }
     }
-    return new ResponseEntity<SpecialItem>(special, HttpStatus.OK);
+    return new ResponseEntity<SpecialItem>(HttpStatus.NOT_FOUND);
   }
 
+  @PostMapping("/special/add")
+  @ApiOperation(
+      value = "adds a Special item",
+      tags = {
+          "special",
+      })
+  public ResponseEntity<SpecialItem> addSpecial(
+      @ApiParam(value = "Special item to add") @Valid @RequestBody SpecialItem newSpecial) {
+    specialItems.add(newSpecial);
+    return new ResponseEntity<SpecialItem>(newSpecial, HttpStatus.CREATED);
+  }
+
+  /*
   private static final Logger log = LoggerFactory.getLogger(SpecialApiController.class);
 
   private final ObjectMapper objectMapper;
@@ -64,18 +81,6 @@ public class SpecialApiController implements SpecialApi {
     this.objectMapper = objectMapper;
     this.request = request;
   }
+  */
 
-  @PostMapping("/special/add")
-  @ResponseStatus(HttpStatus.CREATED)
-  @ApiOperation(
-      value = "adds a Special item",
-      nickname = "addSpecial",
-      notes = "Adds a Special to the system",
-      tags = {
-        "special",
-      })
-  public void addSpecial(
-      @ApiParam(value = "Special item to add") @Valid @RequestBody SpecialItem newSpecial) {
-    specialService.addSpecialItem(newSpecial);
-  }
 }

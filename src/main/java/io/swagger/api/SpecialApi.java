@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Api(value = "special", description = "the special API")
 public interface SpecialApi {
 
-  void addSpecial(@ApiParam(value = "Special item to add") @Valid @RequestBody SpecialItem body);
-
   ResponseEntity<List<SpecialItem>> getAllSpecials();
 
-  ResponseEntity<SpecialItem> getSpecialById(@PathVariable("id") String id);
+  ResponseEntity<SpecialItem> getSpecialById(@PathVariable String id);
+
+  ResponseEntity<SpecialItem> addSpecial(
+      @ApiParam(value = "Special item to add") @Valid @RequestBody SpecialItem body);
 }
