@@ -8,6 +8,7 @@ import javax.validation.constraints.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
@@ -15,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Api(value = "special", description = "the special API")
 public interface SpecialApi {
 
-  void addSpecial(@ApiParam(value = "Special item to add") @Valid @RequestBody SpecialItem body);
-
   ResponseEntity<List<SpecialItem>> getAllSpecials();
 
-  ResponseEntity<SpecialItem> getSpecialById(@PathVariable("id") String id);
+  ResponseEntity<SpecialItem> getSpecialById(@PathVariable String id);
+
+  ResponseEntity<SpecialItem>addSpecial(@ApiParam(value = "add Special item")
+                                        @Valid @RequestBody SpecialItem specialItem);
 }

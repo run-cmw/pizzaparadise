@@ -16,23 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
     date = "2019-09-26T03:54:46.062Z[GMT]")
 @ApiModel
-@RequestMapping("/special")
+
 public class SpecialItem {
+
   @JsonProperty("id")
-  private String id = null;
+  private String id;
 
   @JsonProperty("name")
-  private String name = null;
+  private String name;
 
   @JsonProperty("description")
-  private String description = null;
-
-  public SpecialItem(String id, String name, String description) {
-    super();
-    this.id = id;
-    this.name = name;
-    this.description = description;
-  }
+  private String description;
 
   /**
    * Get id
@@ -68,7 +62,6 @@ public class SpecialItem {
 
   /**
    * Get description
-   *
    * @return description
    */
   @ApiModelProperty(
@@ -82,48 +75,7 @@ public class SpecialItem {
     return description;
   }
 
-  public void setDescription(String releaseDate) {
+  public void setDescription(String description) {
     this.description = description;
-  }
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    SpecialItem specialItem = (SpecialItem) o;
-    return Objects.equals(this.id, specialItem.id)
-        && Objects.equals(this.name, specialItem.name)
-        && Objects.equals(this.description, specialItem.description);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name, description);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class SpecialItem {\n");
-
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
   }
 }

@@ -7,16 +7,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SpecialService {
+  public List<SpecialItem> listOfSpecials = new ArrayList<>();
+
+
 
   public List<SpecialItem> getAllSpecialItems() {
-    List<SpecialItem> listOfSpecials = new ArrayList<>();
-    listOfSpecials.add(
-        new SpecialItem(
-            "1",
-            "Buy1Get1Free",
-            "Only one special at a time. If you buy 1 pizza, you get 1 free pizza"
-                + " that is equal or less value."));
-
     return listOfSpecials;
   }
 
@@ -30,6 +25,8 @@ public class SpecialService {
   }
 
   public void addSpecialItem(SpecialItem newSpecial) {
+
+
     throw new UnsupportedOperationException("Not yet implemented!");
   }
 }
