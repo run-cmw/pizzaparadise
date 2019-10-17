@@ -99,11 +99,11 @@ public class StoreItem {
    *
    * @return store's address.
    */
-  @ApiModelProperty(example = "123 Main St, Coastal, State, 77777", required = true, value = "")
+  @ApiModelProperty(example = "123 Main St, Coastal, State 77777", required = true, value = "")
   @NotNull
   @Valid
   public Address getAddress() {
-    return address.getStreet() + ", " + address.getCity() + ", " + address.getState() + ", " + address.getZipCode();
+    return address.getStreet() + ", " + address.getCity() + ", " + address.getState() + " " + address.getZipCode();
   }
 
   /**
