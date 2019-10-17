@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
     date = "2019-09-26T03:54:46.062Z[GMT]")
 @Api(value = "stores", description = "the store API")
 public interface StoreApi {
+
   // Get all stores
   ResponseEntity<List<StoreItem>> getAllStores();
 
@@ -26,3 +27,4 @@ public interface StoreApi {
 
   // Delete a StoreItem by id
   ResponseEntity<String> deleteStore(@PathVariable String id);
+}
