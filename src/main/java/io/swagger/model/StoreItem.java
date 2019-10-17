@@ -51,7 +51,7 @@ public class StoreItem {
    * @param minuteClosed minute value of the store's close time, between 00 and 59
    */
   public StoreItem(Address address, String hourOpen, String minuteOpen, String hourClosed, String minuteClosed) {
-    super()
+    super();
     this.id = generateUUID();
     this.address = address;
     this.hourOpen = hourOpen;
