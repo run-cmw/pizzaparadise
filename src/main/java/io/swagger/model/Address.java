@@ -18,11 +18,7 @@ public class Address {
 
   @JsonProperty("zipCode")
   private String zipCode = null;
-
-  @JsonProperty("fullAddress")
-  private String fullAddress = null;
-
-
+  
   /**
    * Construct an Address object with the given street, city, state, and zip code.
    *
@@ -36,7 +32,6 @@ public class Address {
     this.city = city;
     this.state = state;
     this.zipCode = zipCode;
-    this.fullAddress = generateFullAddress();
   }
 
   /**
@@ -73,25 +68,6 @@ public class Address {
    */
   public String getZipCode() {
     return zipCode;
-  }
-
-  /**
-   * Helper to combine all address elements into a full address.
-   *
-   * @return store's full address in the form street, city, state, zip code.
-   */
-  private String generateFullAddress() {
-    String fullAddress = getStreet() + ", " + getCity() + ", " + getState() + ", " + getZipCode();
-    return fullAddress;
-  }
-
-  /**
-   * Get store's full address.
-   *
-   * @return store's full address in the form street, city, state, zip code.
-   */
-  public String getFullAdress() {
-    return fullAddress;
   }
 
   /**
