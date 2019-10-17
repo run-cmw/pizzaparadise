@@ -5,7 +5,6 @@ import javax.validation.constraints.*;
 
 /** Address represents location information for a store. */
 @ApiModel
-@RequestMapping("/stores")
 public class Address {
   @JsonProperty("street")
   private String street = null;
@@ -18,7 +17,7 @@ public class Address {
 
   @JsonProperty("zipCode")
   private String zipCode = null;
-  
+
   /**
    * Construct an Address object with the given street, city, state, and zip code.
    *
@@ -39,35 +38,11 @@ public class Address {
    *
    * @return store's street.
    */
+  @ApiModelProperty(example = "123 Main St", required = true, value = "")
+  @NotNull
+  @Valid
   public String getStreet() {
     return street;
-  }
-
-  /**
-   * Get store's city.
-   *
-   * @return store's city.
-   */
-  public String getCity() {
-    return city;
-  }
-
-  /**
-   * Get store's state.
-   *
-   * @return store's state.
-   */
-  public String getState() {
-    return state;
-  }
-
-  /**
-   * Get store's zip code.
-   *
-   * @return store's zip code.
-   */
-  public String getZipCode() {
-    return zipCode;
   }
 
   /**
@@ -80,6 +55,18 @@ public class Address {
   }
 
   /**
+   * Get store's city.
+   *
+   * @return store's city.
+   */
+  @ApiModelProperty(example = "Coastal", required = true, value = "")
+  @NotNull
+  @Valid
+  public String getCity() {
+    return city;
+  }
+
+  /**
    * Set store's city.
    *
    * @param city store's city.
@@ -89,12 +76,36 @@ public class Address {
   }
 
   /**
+   * Get store's state.
+   *
+   * @return store's state.
+   */
+  @ApiModelProperty(example = "State", required = true, value = "")
+  @NotNull
+  @Valid
+  public String getState() {
+    return state;
+  }
+
+  /**
    * Set store's state.
    *
    * @param state store's state.
    */
   public void setState(String state) {
     this.state = state;
+  }
+
+  /**
+   * Get store's zip code.
+   *
+   * @return store's zip code.
+   */
+  @ApiModelProperty(example = "77777", required = true, value = "")
+  @NotNull
+  @Valid
+  public String getZipCode() {
+    return zipCode;
   }
 
   /**
