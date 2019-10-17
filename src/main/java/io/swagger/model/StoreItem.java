@@ -44,11 +44,11 @@ public class StoreItem {
   /**
    * Construct a StoreItem with the given address, hour open, minute open, hour open, and hour closed.
    *
-   * @param address store's address, in the form: street city state zip code.
-   * @param hourOpen hour value of the store's open time, between 00 and 23.
-   * @param minuteOpen minute value of the store's open time, between 00 and 59.
-   * @param hourClosed hour value of the store's close time, between 00 and 23.
-   * @param minuteClosed minute value of the store's close time, between 00 and 59.
+   * @param address store's address, in the form: street city state zip code
+   * @param hourOpen hour value of the store's open time, between 00 and 23
+   * @param minuteOpen minute value of the store's open time, between 00 and 59
+   * @param hourClosed hour value of the store's close time, between 00 and 23
+   * @param minuteClosed minute value of the store's close time, between 00 and 59
    */
   public StoreItem(Address address, String hourOpen, String minuteOpen, String hourClosed, String minuteClosed) {
     super()
@@ -77,7 +77,7 @@ public class StoreItem {
   /**
    * Helper to generate a random UUID (universally unique identifier).
    *
-   * @return random UUID String
+   * @return random UUID String.
    */
   private generateUUID() {
     UUID id = UUID.randomUUID();
@@ -88,7 +88,7 @@ public class StoreItem {
   /**
    * Set store's id.
    *
-   * @param id store's id.
+   * @param id store's id
    */
   public void setId(UUID id) {
     this.id = id;
@@ -109,7 +109,7 @@ public class StoreItem {
   /**
    * Set store's address.
    *
-   * @param address
+   * @param address store's address
    */
   public void setAddress(Address address) {
     this.address = address;
@@ -130,7 +130,7 @@ public class StoreItem {
   /**
    * Set store's hour open.
    *
-   * @param hourOpen
+   * @param hourOpen hour value for the store's open time
    */
   public String setHourOpen() {
     this.hourOpen = hourOpen;
@@ -151,7 +151,7 @@ public class StoreItem {
   /**
    * Set store's minute open.
    *
-   * @param minuteOpen
+   * @param minuteOpen minute value for store's open time
    */
   public String setMinuteOpen() {
     this.minuteOpen = minuteOpen;
@@ -201,7 +201,7 @@ public class StoreItem {
   /**
    * Set store's hour closed.
    *
-   * @param hourClosed
+   * @param hourClosed hour value for the store's close time
    */
   public String setHourClosed() {
     this.hourClosed = hourClosed;
@@ -222,7 +222,7 @@ public class StoreItem {
   /**
    * Set store's minute closed.
    *
-   * @param minuteClosed
+   * @param minuteClosed minute value for the store's close time
    */
   public String setMinuteOpen() {
     this.minuteOpen = minuteOpen;
@@ -231,7 +231,7 @@ public class StoreItem {
   /**
    * Helper that generates the store's time closed using provided hour closed and minute closed.
    *
-   * @return store's time open.
+   * @return store's time closed.
    */
   private String generateTimeClosed() {
     return hourClosed + ":" + minuteClosed;
