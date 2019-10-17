@@ -3,12 +3,25 @@ package io.swagger.model;
 import java.util.Objects;
 import javax.validation.constraints.*;
 
-/** Address represents information for a store's location. */
+/** Address represents location information for a store. */
+@ApiModel
+@RequestMapping("/stores")
 public class Address {
-  private String street;
-  private String city;
-  private String state;
-  private String zipCode;
+  @JsonProperty("street")
+  private String street = null;
+
+  @JsonProperty("city")
+  private String city = null;
+
+  @JsonProperty("state")
+  private String state = null;
+
+  @JsonProperty("zipCode")
+  private String zipCode = null;
+
+  @JsonProperty("fullAddress")
+  private String fullAddress = null;
+
 
   /**
    * Construct an Address object with the given street, city, state, and zip code.
@@ -23,6 +36,7 @@ public class Address {
     this.city = city;
     this.state = state;
     this.zipCode = zipCode;
+    this.fullAddress = generateFullAddress();
   }
 
   /**
@@ -59,6 +73,25 @@ public class Address {
    */
   public String getZipCode() {
     return zipCode;
+  }
+
+  /**
+   * Helper to combine all address elements into a full address.
+   *
+   * @return store's full address in the form street, city, state, zip code.
+   */
+  private String generateFullAddress() {
+    String fullAddress = getStreet() + ", " + getCity() + ", " + getState() + ", " + getZipCode();
+    return fullAddress;
+  }
+
+  /**
+   * Get store's full address.
+   *
+   * @return store's full address in the form street, city, state, zip code.
+   */
+  public String getFullAdress() {
+    return fullAddress;
   }
 
   /**
