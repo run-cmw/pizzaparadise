@@ -2,7 +2,6 @@ package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import java.time.LocalTime;
 import java.util.Objects;
 import java.util.UUID;
 import javax.validation.Valid;
@@ -14,6 +13,9 @@ import org.springframework.validation.annotation.Validated;
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
     date = "2019-09-26T03:54:46.062Z[GMT]")
+
+@ApiModel
+@RequestMapping("/stores")
 public class StoreItem {
   @JsonProperty("id")
   private UUID id = null;
@@ -21,33 +23,66 @@ public class StoreItem {
   @JsonProperty("address")
   private Address address = null;
 
+  @JsonProperty("hourOpen")
+  private String hourOpen = null;
+
+  @JsonProperty("minuteOpen")
+  private String minuteOpen = null;
+
   @JsonProperty("timeOpen")
-  private LocalTime timeOpen = null;
+  private String timeOpen = null;
+
+  @JsonProperty("hourClosed")
+  private String hourClosed = null;
+
+  @JsonProperty("minuteClosed")
+  private String minuteClosed = null;
 
   @JsonProperty("timeClosed")
-  private LocalTime timeClosed = null;
+  private String timeClosed = null;
 
   /**
-   * Construct a StoreItem id with the given id.
+   * Construct a StoreItem with the given address, hour open, minute open, hour open, and hour closed.
    *
-   * @param id store's id.
-   * @return
+   * @param address store's address, in the form: street city state zip code.
+   * @param hourOpen hour value of the store's open time, between 00 and 23.
+   * @param minuteOpen minute value of the store's open time, between 00 and 59.
+   * @param hourClosed hour value of the store's close time, between 00 and 23.
+   * @param minuteClosed minute value of the store's close time, between 00 and 59.
    */
-  public StoreItem id(UUID id) {
-    this.id = id;
-    return this;
+  public StoreItem(Address address, String hourOpen, String minuteOpen, String hourClosed, String minuteClosed) {
+    super()
+    this.id = generateUUID();
+    this.address = address;
+    this.hourOpen = hourOpen;
+    this.minuteOpen = minuteOpen;
+    this.timeOpen = generateTimeOpen();
+    this.hourClosed = hourClosed;
+    this.minuteClosed = minuteClosed;
+    this.timeClosed = generateTimeClosed();
   }
 
   /**
-   * Get store's id.
+   * Get store's unversally unique id.
    *
-   * @return store's id.
+   * @return store's unversally unique id.
    */
   @ApiModelProperty(example = "d290f1ee-6c54-4b01-90e6-d701748f0851", required = true, value = "")
   @NotNull
-  @Valid
+  @GetMapping("/{storeId}")
   public UUID getId() {
     return id;
+  }
+
+  /**
+   * Helper to generate a random UUID (universally unique identifier).
+   *
+   * @return random UUID String
+   */
+  private generateUUID() {
+    UUID id = UUID.randomUUID();
+    randomUUIDString = id.toString;
+    return randomUUIDString;
   }
 
   /**
@@ -60,25 +95,14 @@ public class StoreItem {
   }
 
   /**
-   * Construct a StoreItem address with the given address information.
-   *
-   * @param name
-   * @return
-   */
-  public StoreItem address(Address address) {
-    this.address = address;
-    return this;
-  }
-
-  /**
    * Get store's address.
    *
    * @return store's address.
    */
-  @ApiModelProperty(example = "123 Main St Coastal State 77777", required = true, value = "")
+  @ApiModelProperty(example = "123 Main St, Coastal, State, 77777", required = true, value = "")
   @NotNull
   public Address getAddress() {
-    return address;
+    return address.getStreet() + ", " + address.getCity() + ", " + address.getState() + ", " + address.getZipCode();
   }
 
   /**
@@ -91,14 +115,54 @@ public class StoreItem {
   }
 
   /**
-   * Construct a StoreItem timeOpen with the given opening time information.
+   * Get store's hour open.
    *
-   * @param timeOpen
-   * @return
+   * @return store's hour open.
    */
-  public StoreItem timeOpen(LocalTime timeOpen) {
-    this.timeOpen = timeOpen;
-    return this;
+  @ApiModelProperty(example = "09", required = true, value = "")
+  @NotNull
+  @Valid
+  public String getHourOpen() {
+    return hourOpen;
+  }
+
+  /**
+   * Set store's hour open.
+   *
+   * @param hourOpen
+   */
+  public String setHourOpen() {
+    this.hourOpen = hourOpen;
+  }
+
+  /**
+   * Get store's minute open.
+   *
+   * @return store's minute open.
+   */
+  @ApiModelProperty(example = "12", required = true, value = "")
+  @NotNull
+  @Valid
+  public String getMinuteOpen() {
+    return minuteOpen;
+  }
+
+  /**
+   * Set store's minute open.
+   *
+   * @param minuteOpen
+   */
+  public String setMinuteOpen() {
+    this.minuteOpen = minuteOpen;
+  }
+
+  /**
+   * Helper that generates the store's time open using the provided hour open and minute open.
+   *
+   * @return store's time open.
+   */
+  private String generateTimeOpen() {
+    return hourOpen + ":" + minuteOpen;
   }
 
   /**
@@ -106,31 +170,70 @@ public class StoreItem {
    *
    * @return store's time open.
    */
-  @ApiModelProperty(example = "09:12:33", required = true, value = "")
+  @ApiModelProperty(example = "09:12", required = true, value = "")
   @NotNull
   @Valid
-  public LocalTime getTimeOpen() {
+  public String getTimeOpen() {
     return timeOpen;
   }
 
   /**
-   * Set store's time open.
+   * Set store's time open using the provided hour open and minute open.
    *
-   * @param timeOpen
    */
-  public void setTimeOpen(LocalTime timeOpen) {
-    this.timeOpen = timeOpen;
+  public void setTimeOpen() {
+    this.timeOpen = generateTimeOpen();
   }
 
   /**
-   * Construct a StoreItem timeClosed with the given closing time information.
+   * Get store's hour closed.
    *
-   * @param timeClosed
-   * @return
+   * @return store's hour closed.
    */
-  public StoreItem timeClosed(LocalTime timeClosed) {
-    this.timeClosed = timeClosed;
-    return this;
+  @ApiModelProperty(example = "09", required = true, value = "")
+  @NotNull
+  @Valid
+  public String getTimeClosed() {
+    return timeClosed;
+  }
+
+  /**
+   * Set store's hour closed.
+   *
+   * @param hourClosed
+   */
+  public String setHourClosed() {
+    this.hourClosed = hourClosed;
+  }
+
+  /**
+   * Get store's minute closed.
+   *
+   * @return store's minute closed.
+   */
+  @ApiModelProperty(example = "12", required = true, value = "")
+  @NotNull
+  @Valid
+  public String getMinuteClosed() {
+    return minuteClosed;
+  }
+
+  /**
+   * Set store's minute closed.
+   *
+   * @param minuteClosed
+   */
+  public String setMinuteOpen() {
+    this.minuteOpen = minuteOpen;
+  }
+
+  /**
+   * Helper that generates the store's time closed using provided hour closed and minute closed.
+   *
+   * @return store's time open.
+   */
+  private String generateTimeClosed() {
+    return hourClosed + ":" + minuteClosed;
   }
 
   /**
@@ -138,32 +241,19 @@ public class StoreItem {
    *
    * @return store's time closed.
    */
-  @ApiModelProperty(example = "09:12:33", required = true, value = "")
+  @ApiModelProperty(example = "09:12", required = true, value = "")
   @NotNull
   @Valid
-  public LocalTime getTimeClosed() {
+  public String getTimeClosed() {
     return timeClosed;
   }
 
   /**
    * Set store's time closed.
    *
-   * @param timeClosed
    */
-  public void setTimeClosed(LocalTime timeClosed) {
-    this.timeClosed = timeClosed;
-  }
-
-  /**
-   * Helper to check if store is currently open.
-   *
-   * @return {@true} if store is open and {@false} otherwise.
-   */
-  public boolean isOpenCheck() {
-    // What if the user is in a different time zone?
-    // What if the server is in a different time zone?
-    LocalTime currentTime = LocalTime.now();
-    return (currentTime.isAfter(timeOpen) && currentTime.isBefore(timeClosed));
+  public void setTimeClosed() {
+    this.timeClosed = generateTimeClosed();
   }
 
   @Override
