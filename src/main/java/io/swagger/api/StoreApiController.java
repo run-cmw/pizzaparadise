@@ -1,9 +1,8 @@
 package io.swagger.api;
 
 import io.swagger.annotations.*;
-import io.swagger.model.SpecialItem;
-import io.swagger.repository.SpecialItemRepository;
-import io.swagger.service.SpecialItemService;
+import io.swagger.model.StoreItem;
+import io.swagger.service.StoreItemService;
 
 import java.util.List;
 
