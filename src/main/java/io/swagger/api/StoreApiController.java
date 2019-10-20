@@ -24,9 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
     date = "2019-09-26T03:54:46.062Z[GMT]")
 @Controller
 public class StoreApiController implements StoreApi {
-  @Autowired
-  private StoreItemService storeItemService;
-
   @GetMapping("/stores")
   @ApiOperation(
       value = "Get all stores",
@@ -34,7 +31,7 @@ public class StoreApiController implements StoreApi {
           "store",
       })
   public ResponseEntity<List<StoreItem>> getAllStores() {
-    return new ResponseEntity<List<StoreItem>>(storeItemService.getAllStores(), HttpStatus.OK);
+    return new ResponseEntity<List<StoreItem>>(storeItems, HttpStatus.OK);
   }
 
   @GetMapping("/stores/{id}")
@@ -44,10 +41,12 @@ public class StoreApiController implements StoreApi {
           "store",
       })
   public ResponseEntity<StoreItem> getStoreById(@PathVariable String id) {
-    if(storeItemService.getStoreById(id) == null) {
-      return new ResponseEntity<StoreItem>(HttpStatus.NOT_FOUND);
+    for (StoreItem item : storeItems) {
+      if (item.getId().equals(id)) {
+        return new ResponseEntity<StoreItem>(item, HttpStatus.OK);
+      }
     }
-    return new ResponseEntity<StoreItem>(storeItemService.getStoreById(id), HttpStatus.FOUND);
+    return new ResponseEntity<StoreItem>(HttpStatus.NOT_FOUND);
   }
 
   @PostMapping("/stores/add")
@@ -58,8 +57,9 @@ public class StoreApiController implements StoreApi {
       })
   public ResponseEntity<StoreItem> addStore(
       @ApiParam(value = "StoreItem to add") @Valid @RequestBody StorelItem newStore) {
+    storeItems.add(newStore);
 
-    return new ResponseEntity<StoreItem>(storeItemService.addStore(newStore), HttpStatus.CREATED);
+    return new ResponseEntity<StoreItem>(newStore, HttpStatus.CREATED);
   }
 
   @DeleteMapping("/stores/delete/{id}")
@@ -69,11 +69,12 @@ public class StoreApiController implements StoreApi {
           "store",
       })
   public ResponseEntity<String> deleteStore(@PathVariable String id) {
-
-    if (storeItemService.getStoreById(id) == null) {
-      return new ResponseEntity<String>("id does not exist: " + id, HttpStatus.NOT_FOUND);
+    for (StoreItem item : storeItems) {
+      if (item.getId().equals(id)) {
+        return new ResponseEntity<StoreItem>(HttpStatus.OK);
+      }
     }
-    return new ResponseEntity<String>(storeItemService.deleteStore(id), HttpStatus.OK);
+    return new ResponseEntity<String>("id does not exist: " + id, HttpStatus.NOT_FOUND);
 
   }
 }
