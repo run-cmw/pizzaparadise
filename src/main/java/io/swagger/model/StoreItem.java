@@ -84,7 +84,7 @@ public class StoreItem {
    */
   private String generateUUID() {
     UUID id = UUID.randomUUID();
-    randomUUIDString = id.toString;
+    String randomUUIDString = id.toString;
     return randomUUIDString;
   }
 
