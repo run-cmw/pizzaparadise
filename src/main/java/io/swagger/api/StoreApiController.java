@@ -60,7 +60,7 @@ public class StoreApiController implements StoreApi {
           "store",
       })
   public void addStore(
-      @ApiParam(value = "StoreItem to add") @Valid @RequestBody Address address String hourOpen String minuteOpen String hourClosed String minuteClosed {
+      @ApiParam(value = "StoreItem to add") @Valid @RequestBody (Address address String hourOpen String minuteOpen String hourClosed String minuteClosed) {
     storeService.addStoreItem(new StoreItem(address, hourOpen, minuteOpen, hourClosed, minuteClosed));
   }
 
