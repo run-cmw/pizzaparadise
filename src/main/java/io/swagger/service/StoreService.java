@@ -21,8 +21,7 @@ public class StoreService {
             null,
             "23",
             "00",
-            null);
-
+            null));
   }
   public List<StoreItem> getAllStoreItems() {
     return listOfStores;
