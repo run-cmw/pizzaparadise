@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import java.util.UUID;
+import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/stores")
 public class StoreItem {
   @JsonProperty("id")
-  private String id = null;
+  private UUID id = null;
 
   @JsonProperty("address")
   private Address address = null;
@@ -73,7 +74,7 @@ public class StoreItem {
   @ApiModelProperty(example = "d290f1ee-6c54-4b01-90e6-d701748f0851", required = true, value = "")
   @NotNull
   @GetMapping("/{storeId}")
-  public String getId() {
+  public UUID getId() {
     return id;
   }
 
@@ -82,10 +83,8 @@ public class StoreItem {
    *
    * @return random UUID String.
    */
-  private String generateUUID() {
-    UUID id = UUID.randomUUID();
-    String randomUUIDString = id.toString;
-    return randomUUIDString;
+  private UUID generateUUID() {
+    return UUID.randomUUID();
   }
 
   /**
@@ -105,7 +104,7 @@ public class StoreItem {
   @ApiModelProperty(example = "123 Main St, Coastal, State 77777", required = true, value = "")
   @NotNull
   @Valid
-  public Address getAddress() {
+  public String getAddress() {
     return address.getStreet() + ", " + address.getCity() + ", " + address.getState() + " " + address.getZipCode();
   }
 
