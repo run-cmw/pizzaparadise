@@ -73,7 +73,7 @@ public class StoreItem {
   @ApiModelProperty(example = "d290f1ee-6c54-4b01-90e6-d701748f0851", required = true, value = "")
   @NotNull
   @GetMapping("/{storeId}")
-  public UUID getId() {
+  public String getId() {
     return id;
   }
 
@@ -197,8 +197,8 @@ public class StoreItem {
   @ApiModelProperty(example = "09", required = true, value = "")
   @NotNull
   @Valid
-  public String getTimeClosed() {
-    return timeClosed;
+  public String getHourClosed() {
+    return hourClosed;
   }
 
   /**
