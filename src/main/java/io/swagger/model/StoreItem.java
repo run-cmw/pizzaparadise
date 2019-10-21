@@ -134,7 +134,7 @@ public class StoreItem {
    *
    * @param hourOpen hour value for the store's open time
    */
-  public String setHourOpen() {
+  public void setHourOpen() {
     this.hourOpen = hourOpen;
   }
 
@@ -155,7 +155,7 @@ public class StoreItem {
    *
    * @param minuteOpen minute value for store's open time
    */
-  public String setMinuteOpen() {
+  public void setMinuteOpen() {
     this.minuteOpen = minuteOpen;
   }
 
@@ -205,7 +205,7 @@ public class StoreItem {
    *
    * @param hourClosed hour value for the store's close time
    */
-  public String setHourClosed() {
+  public void setHourClosed() {
     this.hourClosed = hourClosed;
   }
 
@@ -226,7 +226,7 @@ public class StoreItem {
    *
    * @param minuteClosed minute value for the store's close time
    */
-  public String setMinuteClosed() {
+  public void setMinuteClosed() {
     this.minuteOpen = minuteOpen;
   }
 
