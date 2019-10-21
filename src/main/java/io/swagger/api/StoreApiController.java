@@ -50,7 +50,7 @@ public class StoreApiController implements StoreApi {
     if (store == null) {
       return new ResponseEntity<StoreItem>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<StoreItem>(item, HttpStatus.OK);
+    return new ResponseEntity<StoreItem>(storeService.item, HttpStatus.OK);
   }
 
   @PostMapping("/stores/add")
