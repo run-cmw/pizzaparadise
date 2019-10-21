@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/stores")
 public class StoreItem {
   @JsonProperty("id")
-  private uuid id = null;
+  private UUID id = null;
 
   @JsonProperty("street")
   private String streetNumAndName = null;
@@ -58,7 +58,7 @@ public class StoreItem {
    *
    * @return store's id.
    */
-  @ApiModelProperty(example = "1", required = true, value = "")
+  @ApiModelProperty(example = "d290f1ee-6c54-4b01-90e6-d701748f0851", required = true, value = "")
   @NotNull
   @GetMapping("/{storeId}")
   public UUID getId() {
@@ -121,8 +121,8 @@ public class StoreItem {
    *
    * @param city city for the store's address
    */
-  public void setHourOpen() {
-    this.hourOpen = hourOpen;
+  public void setCity(String city) {
+    this.city = city;
   }
 
   /**
@@ -142,7 +142,7 @@ public class StoreItem {
    *
    * @param state state for the store's address
    */
-  public void setState() {
+  public void setState(String state) {
     this.state = state;
   }
 
@@ -163,7 +163,7 @@ public class StoreItem {
    *
    * @param zipCode zip code for the store's address
    */
-  public void setZipCode() {
+  public void setZipCode(String zipCode) {
     this.zipCode = zipCode;
   }
 

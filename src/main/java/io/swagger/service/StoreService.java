@@ -15,7 +15,7 @@ public class StoreService {
     this.storeItems = new ArrayList<>();
     storeItems.add(
         new StoreItem(
-            1,
+            "d290f1ee-6c54-4b01-90e6-d701748f0851",
             "4003 Stone Way N",
             "Seattle",
             "Washington",

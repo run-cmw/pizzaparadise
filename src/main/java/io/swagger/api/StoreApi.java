@@ -23,7 +23,7 @@ public interface StoreApi {
   ResponseEntity<StoreItem> getStoreById(@PathVariable UUID id);
 
   // Add a StoreItem
-  ResponseEntity<StoreItem> addStore(
+  void addStore(
       @ApiParam(value = "StoreItem to add") @Valid @RequestBody StoreItem newStore);
 
 //  // Delete a StoreItem by id
