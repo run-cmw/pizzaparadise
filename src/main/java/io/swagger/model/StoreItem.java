@@ -1,5 +1,4 @@
 package io.swagger.model;
-import io.swagger.model.Address;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -22,56 +21,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/stores")
 public class StoreItem {
   @JsonProperty("id")
-  private UUID id = null;
+  private uuid id = null;
 
-  @JsonProperty("address")
-  private Address address = null;
+  @JsonProperty("street")
+  private String streetNumAndName = null;
 
-  @JsonProperty("hourOpen")
-  private String hourOpen = null;
+  @JsonProperty("city")
+  private String city = null;
 
-  @JsonProperty("minuteOpen")
-  private String minuteOpen = null;
+  @JsonProperty("state")
+  private String state = null;
 
-  @JsonProperty("timeOpen")
-  private String timeOpen = null;
-
-  @JsonProperty("hourClosed")
-  private String hourClosed = null;
-
-  @JsonProperty("minuteClosed")
-  private String minuteClosed = null;
-
-  @JsonProperty("timeClosed")
-  private String timeClosed = null;
+  @JsonProperty("zipCode")
+  private String zipCode = null;
 
   /**
-   * Construct a StoreItem with the given address, hour open, minute open, hour open, and hour closed.
+   * Construct a StoreItem with the given street, city, state, and zip code.
    *
-   * @param address store's address, in the form: street city state zip code
-   * @param hourOpen hour value of the store's open time, between 00 and 23
-   * @param minuteOpen minute value of the store's open time, between 00 and 59
-   * @param hourClosed hour value of the store's close time, between 00 and 23
-   * @param minuteClosed minute value of the store's close time, between 00 and 59
+//   * @param id store's identification number
+   * @param streetNumAndName street portion of store's address
+   * @param city city portion of store's address
+   * @param state state portion of store's address
+   * @param zip code zip code portion of store's address
    */
-  public StoreItem(Address address, String hourOpen, String minuteOpen, String hourClosed, String minuteClosed) {
+  public StoreItem(String streetNumAndName, String city, String state, String zipCode) {
     super();
     this.id = generateUUID();
-    this.address = address;
-    this.hourOpen = hourOpen;
-    this.minuteOpen = minuteOpen;
-    this.timeOpen = generateTimeOpen();
-    this.hourClosed = hourClosed;
-    this.minuteClosed = minuteClosed;
-    this.timeClosed = generateTimeClosed();
+    this.streetNumAndName = streetNumAndName;
+    this.city = city;
+    this.state = state;
+    this.zipCode = zipCode;
   }
 
   /**
-   * Get store's unversally unique id.
+   * Get store's id.
    *
-   * @return store's unversally unique id.
+   * @return store's id.
    */
-  @ApiModelProperty(example = "d290f1ee-6c54-4b01-90e6-d701748f0851", required = true, value = "")
+  @ApiModelProperty(example = "1", required = true, value = "")
   @NotNull
   @GetMapping("/{storeId}")
   public UUID getId() {
@@ -97,166 +84,87 @@ public class StoreItem {
   }
 
   /**
-   * Get store's address.
+   * Get store's street number and name.
    *
-   * @return store's address.
+   * @return store's street number and name.
    */
-  @ApiModelProperty(example = "123 Main St, Coastal, State 77777", required = true, value = "")
+  @ApiModelProperty(example = "123 Main St", required = true, value = "")
   @NotNull
   @Valid
-  public String getAddress() {
-    return address.getStreet() + ", " + address.getCity() + ", " + address.getState() + " " + address.getZipCode();
+  public String getStreetNumAndName() {
+    return streetNumAndName;
   }
 
   /**
-   * Set store's address.
+   * Set store's street number and name.
    *
-   * @param address store's address
+   * @param streetNumAndName store's street number and name
    */
-  public void setAddress(Address address) {
-    this.address = address;
+  public void setStreetNumAndName(String streetNumAndName) {
+    this.streetNumAndName = streetNumAndName;
   }
 
   /**
-   * Get store's hour open.
+   * Get store's city.
    *
-   * @return store's hour open.
+   * @return store's city.
    */
-  @ApiModelProperty(example = "09", required = true, value = "")
+  @ApiModelProperty(example = "Oakland", required = true, value = "")
   @NotNull
   @Valid
-  public String getHourOpen() {
-    return hourOpen;
+  public String getCity() {
+    return city;
   }
 
   /**
-   * Set store's hour open.
+   * Set store's city.
    *
-   * @param hourOpen hour value for the store's open time
+   * @param city city for the store's address
    */
   public void setHourOpen() {
     this.hourOpen = hourOpen;
   }
 
   /**
-   * Get store's minute open.
+   * Get store's state.
    *
-   * @return store's minute open.
+   * @return store's state.
    */
-  @ApiModelProperty(example = "12", required = true, value = "")
+  @ApiModelProperty(example = "California", required = true, value = "")
   @NotNull
   @Valid
-  public String getMinuteOpen() {
-    return minuteOpen;
+  public String getState() {
+    return state;
   }
 
   /**
-   * Set store's minute open.
+   * Set store's state.
    *
-   * @param minuteOpen minute value for store's open time
+   * @param state state for the store's address
    */
-  public void setMinuteOpen() {
-    this.minuteOpen = minuteOpen;
+  public void setState() {
+    this.state = state;
   }
 
   /**
-   * Helper that generates the store's time open using the provided hour open and minute open.
+   * Get store's zip code.
    *
-   * @return store's time open.
+   * @return store's zip code.
    */
-  private String generateTimeOpen() {
-    return hourOpen + ":" + minuteOpen;
-  }
-
-  /**
-   * Get store's time open.
-   *
-   * @return store's time open.
-   */
-  @ApiModelProperty(example = "09:12", required = true, value = "")
+  @ApiModelProperty(example = "94608", required = true, value = "")
   @NotNull
   @Valid
-  public String getTimeOpen() {
-    return timeOpen;
+  public String getZipCode() {
+    return zipCode;
   }
 
   /**
-   * Set store's time open using the provided hour open and minute open.
+   * Set store's zip code.
    *
+   * @param zipCode zip code for the store's address
    */
-  public void setTimeOpen() {
-    this.timeOpen = generateTimeOpen();
-  }
-
-  /**
-   * Get store's hour closed.
-   *
-   * @return store's hour closed.
-   */
-  @ApiModelProperty(example = "09", required = true, value = "")
-  @NotNull
-  @Valid
-  public String getHourClosed() {
-    return hourClosed;
-  }
-
-  /**
-   * Set store's hour closed.
-   *
-   * @param hourClosed hour value for the store's close time
-   */
-  public void setHourClosed() {
-    this.hourClosed = hourClosed;
-  }
-
-  /**
-   * Get store's minute closed.
-   *
-   * @return store's minute closed.
-   */
-  @ApiModelProperty(example = "12", required = true, value = "")
-  @NotNull
-  @Valid
-  public String getMinuteClosed() {
-    return minuteClosed;
-  }
-
-  /**
-   * Set store's minute closed.
-   *
-   * @param minuteClosed minute value for the store's close time
-   */
-  public void setMinuteClosed() {
-    this.minuteOpen = minuteOpen;
-  }
-
-  /**
-   * Helper that generates the store's time closed using provided hour closed and minute closed.
-   *
-   * @return store's time closed.
-   */
-  private String generateTimeClosed() {
-    return hourClosed + ":" + minuteClosed;
-  }
-
-  /**
-   * Get store's time closed.
-   *
-   * @return store's time closed.
-   */
-  @ApiModelProperty(example = "09:12", required = true, value = "")
-  @NotNull
-  @Valid
-  public String getTimeClosed() {
-    return timeClosed;
-  }
-
-  /**
-   * Set store's time closed.
-   *
-   */
-  public void setTimeClosed() {
-    this.timeClosed = generateTimeClosed();
+  public void setZipCode() {
+    this.zipCode = zipCode;
   }
 
   @Override
@@ -269,14 +177,15 @@ public class StoreItem {
     }
     StoreItem storeItem = (StoreItem) o;
     return Objects.equals(this.id, storeItem.id)
-        && Objects.equals(this.address, storeItem.address)
-        && Objects.equals(this.timeOpen, storeItem.timeOpen)
-        && Objects.equals(this.timeClosed, storeItem.timeClosed);
+        && Objects.equals(this.streetNumAndName, storeItem.streetNumAndName)
+        && Objects.equals(this.city, storeItem.city)
+        && Objects.equals(this.state, storeItem.state)
+        && Objects.equals(this.zipCode, storeItem.zipCode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, address, timeOpen, timeClosed);
+    return Objects.hash(id, streetNumAndName, city, state, zipCode);
   }
 
   @Override
@@ -285,9 +194,10 @@ public class StoreItem {
     sb.append("class StoreItem {\n");
 
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    address: ").append(toIndentedString(address)).append("\n");
-    sb.append("    timeOpen: ").append(toIndentedString(timeOpen)).append("\n");
-    sb.append("    timeClosed: ").append(toIndentedString(timeClosed)).append("\n");
+    sb.append("    streetNumAndName: ").append(toIndentedString(streetNumAndName)).append("\n");
+    sb.append("    city: ").append(toIndentedString(city)).append("\n");
+    sb.append("    state: ").append(toIndentedString(state)).append("\n");
+    sb.append("    zipCode: ").append(toIndentedString(zipCode)).append("\n");
     sb.append("}");
     return sb.toString();
   }

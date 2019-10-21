@@ -3,6 +3,7 @@ package io.swagger.service;
 import io.swagger.model.StoreItem;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,14 +15,11 @@ public class StoreService {
     this.storeItems = new ArrayList<>();
     storeItems.add(
         new StoreItem(
-            "9bbfc16f-d318-42f2-82f1-bf7365d4ee93",
-            "(4003 Stone Way N, Seattle, Washington 98103)",
-            "11",
-            "00",
-            "11:00",
-            "23",
-            "00",
-            "23:00"));
+            1,
+            "4003 Stone Way N",
+            "Seattle",
+            "Washington",
+            "98103"));
   }
   public List<StoreItem> getAllStoreItems() {
     return storeItems;

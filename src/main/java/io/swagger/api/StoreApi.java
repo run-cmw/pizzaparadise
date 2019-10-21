@@ -3,6 +3,7 @@ package io.swagger.api;
 import io.swagger.annotations.*;
 import io.swagger.model.StoreItem;
 import java.util.List;
+import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,12 @@ public interface StoreApi {
   ResponseEntity<List<StoreItem>> getAllStores();
 
   // Get a specific StoreItem by id
-  ResponseEntity<StoreItem> getStoreById(@PathVariable String id);
+  ResponseEntity<StoreItem> getStoreById(@PathVariable UUID id);
 
-//  // Add a StoreItem
-//  ResponseEntity<StoreItem> addStore(
-//      @ApiParam(value = "StoreItem to add") @Valid @RequestBody StoreItem newStore);
-//
+  // Add a StoreItem
+  ResponseEntity<StoreItem> addStore(
+      @ApiParam(value = "StoreItem to add") @Valid @RequestBody StoreItem newStore);
+
 //  // Delete a StoreItem by id
 //  ResponseEntity<String> deleteStore(@PathVariable String id);
 }
