@@ -3,7 +3,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
-import java.util.UUID;
 import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/stores")
 public class StoreItem {
   @JsonProperty("id")
-  private UUID id = null;
+  private String id = null;
 
   @JsonProperty("street")
   private String streetNumAndName = null;
@@ -36,7 +35,7 @@ public class StoreItem {
   private String zipCode = null;
 
   /**
-   * Construct a StoreItem with the given street, city, state, and zip code.
+   * Construct a StoreItem with the given id, street, city, state, and zip code.
    *
    * @param id store's identification number
    * @param streetNumAndName street portion of store's address
@@ -44,7 +43,7 @@ public class StoreItem {
    * @param state state portion of store's address
    * @param zip code zip code portion of store's address
    */
-  public StoreItem(UUID id, String streetNumAndName, String city, String state, String zipCode) {
+  public StoreItem(String id, String streetNumAndName, String city, String state, String zipCode) {
     super();
     this.id = id;
     this.streetNumAndName = streetNumAndName;
@@ -58,20 +57,11 @@ public class StoreItem {
    *
    * @return store's id.
    */
-  @ApiModelProperty(example = "d290f1ee-6c54-4b01-90e6-d701748f0851", required = true, value = "")
+  @ApiModelProperty(example = "1", required = true, value = "")
   @NotNull
   @GetMapping("/{storeId}")
-  public UUID getId() {
+  public String getId() {
     return id;
-  }
-
-  /**
-   * Helper to generate a random UUID (universally unique identifier).
-   *
-   * @return random UUID String.
-   */
-  private UUID generateUUID() {
-    return UUID.randomUUID();
   }
 
   /**
@@ -79,7 +69,7 @@ public class StoreItem {
    *
    * @param id store's id
    */
-  public void setId(UUID id) {
+  public void setId(String id) {
     this.id = id;
   }
 

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import io.swagger.model.StoreItem;
 import io.swagger.service.StoreService;
-import java.util.UUID;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -44,7 +43,7 @@ public class StoreApiController implements StoreApi {
       tags = {
           "store",
       })
-  public ResponseEntity<StoreItem> getStoreById(@PathVariable UUID id) {
+  public ResponseEntity<StoreItem> getStoreById(@PathVariable String id) {
     StoreItem store = storeService.getStoreById(id);
 
     if (store == null) {
