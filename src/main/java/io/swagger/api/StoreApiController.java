@@ -50,32 +50,31 @@ public class StoreApiController implements StoreApi {
     return new ResponseEntity<StoreItem>(HttpStatus.NOT_FOUND);
   }
 
-  @PostMapping("/stores/add")
-  @ApiOperation(
-      value = "Add a StoreItem",
-      tags = {
-          "store",
-      })
-  public ResponseEntity<StoreItem> addStore(
-      @ApiParam(value = "StoreItem to add") @Valid @RequestBody StorelItem newStore) {
-    storeItems.add(newStore);
+//  @PostMapping("/stores/add")
+//  @ApiOperation(
+//      value = "Add a StoreItem",
+//      tags = {
+//          "store",
+//      })
+//  public ResponseEntity<StoreItem> addStore(
+//      @ApiParam(value = "StoreItem to add") @Valid @RequestBody StorelItem newStore) {
+//    storeItems.add(newStore);
+//
+//    return new ResponseEntity<StoreItem>(newStore, HttpStatus.CREATED);
+//  }
 
-    return new ResponseEntity<StoreItem>(newStore, HttpStatus.CREATED);
-  }
-
-  @DeleteMapping("/stores/delete/{id}")
-  @ApiOperation(
-      value = "Delete a StoreItem by id",
-      tags = {
-          "store",
-      })
-  public ResponseEntity<String> deleteStore(@PathVariable String id) {
-    for (StoreItem item : storeItems) {
-      if (item.getId().equals(id)) {
-        return new ResponseEntity<StoreItem>(HttpStatus.OK);
-      }
-    }
-    return new ResponseEntity<String>("id does not exist: " + id, HttpStatus.NOT_FOUND);
-
-  }
+//  @DeleteMapping("/stores/delete/{id}")
+//  @ApiOperation(
+//      value = "Delete a StoreItem by id",
+//      tags = {
+//          "store",
+//      })
+//  public ResponseEntity<String> deleteStore(@PathVariable String id) {
+//    for (StoreItem item : storeItems) {
+//      if (item.getId().equals(id)) {
+//        return new ResponseEntity<StoreItem>(HttpStatus.OK);
+//      }
+//    }
+//    return new ResponseEntity<String>("id does not exist: " + id, HttpStatus.NOT_FOUND);
+//  }
 }
