@@ -17,10 +17,10 @@ public class StoreService {
             "9bbfc16f-d318-42f2-82f1-bf7365d4ee93",
             "4003 Stone Way N, Seattle, Washington 98103",
             "11",
-            "00"
+            "00",
             null,
             "23",
-            "00"
+            "00",
             null);
 
   }
