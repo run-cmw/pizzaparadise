@@ -1,81 +1,81 @@
 package io.swagger.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import io.swagger.model.SpecialItem;
-import io.swagger.service.SpecialService;
+import io.swagger.repository.SpecialItemRepository;
+
+import io.swagger.service.SpecialItemService;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
+
 import javax.validation.Valid;
-import javax.validation.constraints.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
     date = "2019-09-26T03:54:46.062Z[GMT]")
-@Controller
+@RestController
 public class SpecialApiController implements SpecialApi {
 
-  @Autowired private SpecialService specialService;
+  @Autowired
+  private SpecialItemService specialItemService;
 
   @GetMapping("/special")
   @ApiOperation(
-      value = "Get all Specials",
+      value = "Get all SpecialItems",
       tags = {
         "special",
       })
   public ResponseEntity<List<SpecialItem>> getAllSpecials() {
-    return new ResponseEntity<List<SpecialItem>>(specialService.getAllSpecialItems(), HttpStatus.OK);
+    return new ResponseEntity<List<SpecialItem>>(specialItemService.getAllSpecials(), HttpStatus.OK);
   }
 
   @GetMapping("/special/{id}")
   @ApiOperation(
-      value = "Get the special with specific id",
+      value = "Get SpecialItem with specific id",
       tags = {
         "special",
       })
-  public ResponseEntity<SpecialItem> getSpecialById(@PathVariable("id") String id) {
-    SpecialItem special = specialService.getSpecialById(id);
-    if (special == null) {
+  public ResponseEntity<SpecialItem> getSpecialById(@PathVariable String id) {
+    if(specialItemService.getSpecialById(id) == null) {
       return new ResponseEntity<SpecialItem>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<SpecialItem>(special, HttpStatus.OK);
-  }
-
-  private static final Logger log = LoggerFactory.getLogger(SpecialApiController.class);
-
-  private final ObjectMapper objectMapper;
-
-  private final HttpServletRequest request;
-
-  @org.springframework.beans.factory.annotation.Autowired
-  public SpecialApiController(ObjectMapper objectMapper, HttpServletRequest request) {
-    this.objectMapper = objectMapper;
-    this.request = request;
+    return new ResponseEntity<SpecialItem>(specialItemService.getSpecialById(id), HttpStatus.FOUND);
   }
 
   @PostMapping("/special/add")
-  @ResponseStatus(HttpStatus.CREATED)
   @ApiOperation(
-      value = "adds a Special item",
-      nickname = "addSpecial",
-      notes = "Adds a Special to the system",
+      value = "add a SpecialItem",
       tags = {
-        "special",
+          "special",
       })
-  public void addSpecial(
+  public ResponseEntity<SpecialItem> addSpecial(
       @ApiParam(value = "Special item to add") @Valid @RequestBody SpecialItem newSpecial) {
-    specialService.addSpecialItem(newSpecial);
+
+    return new ResponseEntity<SpecialItem>(specialItemService.addSpecial(newSpecial), HttpStatus.CREATED);
   }
+
+  @DeleteMapping("/special/delete/{id}")
+  @ApiOperation(
+      value = "delete a SpecialItem with id",
+      tags = {
+          "special",
+      })
+  public ResponseEntity<String> deleteSpecial(@PathVariable String id) {
+
+    if (specialItemService.getSpecialById(id) == null) {
+      return new ResponseEntity<String>("id does not exist: " + id, HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<String>(specialItemService.deleteSpecial(id), HttpStatus.OK);
+
+  }
+
 }
