@@ -21,10 +21,10 @@ public interface StoreApi {
   // Get a specific StoreItem by id
   ResponseEntity<StoreItem> getStoreById(@PathVariable String id);
 
-  // Add a StoreItem
-  ResponseEntity<StoreItem> addStore(
-      @ApiParam(value = "StoreItem to add") @Valid @RequestBody StoreItem newStore);
-
-  // Delete a StoreItem by id
-  ResponseEntity<String> deleteStore(@PathVariable String id);
+//  // Add a StoreItem
+//  ResponseEntity<StoreItem> addStore(
+//      @ApiParam(value = "StoreItem to add") @Valid @RequestBody StoreItem newStore);
+//
+//  // Delete a StoreItem by id
+//  ResponseEntity<String> deleteStore(@PathVariable String id);
 }
