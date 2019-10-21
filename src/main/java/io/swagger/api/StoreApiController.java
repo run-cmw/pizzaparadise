@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
     date = "2019-09-26T03:54:46.062Z[GMT]")
 @Controller
 public class StoreApiController implements StoreApi {
+  @Autowired private StoreService storeService = new StoreService();
+
   @GetMapping("/stores")
   @ApiOperation(
       value = "Get all stores",
@@ -31,7 +34,7 @@ public class StoreApiController implements StoreApi {
           "store",
       })
   public ResponseEntity<List<StoreItem>> getAllStores() {
-    return new ResponseEntity<List<StoreItem>>(storeItems, HttpStatus.OK);
+    return new ResponseEntity<List<StoreItem>>(storeService.getAllStoreItems(), HttpStatus.OK);
   }
 
   @GetMapping("/stores/{id}")
@@ -41,26 +44,25 @@ public class StoreApiController implements StoreApi {
           "store",
       })
   public ResponseEntity<StoreItem> getStoreById(@PathVariable String id) {
-    for (StoreItem item : storeItems) {
-      if (item.getId().equals(id)) {
-        return new ResponseEntity<StoreItem>(item, HttpStatus.OK);
-      }
+    StoreItem store = storeService.getStoreById(id);
+
+    if (store = null) {
+      return new ResponseEntity<StoreItem>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<StoreItem>(HttpStatus.NOT_FOUND);
+    return new ResponseEntity<StoreItem>(item, HttpStatus.OK);
   }
 
-//  @PostMapping("/stores/add")
-//  @ApiOperation(
-//      value = "Add a StoreItem",
-//      tags = {
-//          "store",
-//      })
-//  public ResponseEntity<StoreItem> addStore(
-//      @ApiParam(value = "StoreItem to add") @Valid @RequestBody StorelItem newStore) {
-//    storeItems.add(newStore);
-//
-//    return new ResponseEntity<StoreItem>(newStore, HttpStatus.CREATED);
-//  }
+  @PostMapping("/stores/add")
+  @ResponseStatus(HttpStatus.CREATED)
+  @ApiOperation(
+      value = "Add a StoreItem",
+      tags = {
+          "store",
+      })
+  public void addStore(
+      @ApiParam(value = "StoreItem to add") @Valid @RequestBody Address address String hourOpen String minuteOpen String hourClosed String minuteClosed) {
+    storeService.addStoreItem(new StoreItem(address, hourOpen, minuteOpen, hourClosed, minuteClosed));
+  }
 
 //  @DeleteMapping("/stores/delete/{id}")
 //  @ApiOperation(

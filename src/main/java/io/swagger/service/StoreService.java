@@ -27,7 +27,7 @@ public class StoreService {
     return storeItems;
   }
 
-  public StoreItem getStoreById(String id) {
+  public StoreItem getStoreById(UUID id) {
     for (StoreItem item : storeItems) {
       if (item.getId().equals(id)) {
         return item;
