@@ -38,15 +38,15 @@ public class StoreItem {
   /**
    * Construct a StoreItem with the given street, city, state, and zip code.
    *
-//   * @param id store's identification number
+   * @param id store's identification number
    * @param streetNumAndName street portion of store's address
    * @param city city portion of store's address
    * @param state state portion of store's address
    * @param zip code zip code portion of store's address
    */
-  public StoreItem(String streetNumAndName, String city, String state, String zipCode) {
+  public StoreItem(UUID id, String streetNumAndName, String city, String state, String zipCode) {
     super();
-    this.id = generateUUID();
+    this.id = id;
     this.streetNumAndName = streetNumAndName;
     this.city = city;
     this.state = state;

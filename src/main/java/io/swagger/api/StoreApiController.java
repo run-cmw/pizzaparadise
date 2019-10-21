@@ -47,7 +47,6 @@ public class StoreApiController implements StoreApi {
   public ResponseEntity<StoreItem> getStoreById(@PathVariable UUID id) {
     StoreItem store = storeService.getStoreById(id);
 
-
     if (store == null) {
       return new ResponseEntity<StoreItem>(HttpStatus.NOT_FOUND);
     }
