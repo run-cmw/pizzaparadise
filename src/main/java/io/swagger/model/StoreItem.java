@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/stores")
 public class StoreItem {
   @JsonProperty("id")
-  private UUID id = null;
+  private String id = null;
 
   @JsonProperty("address")
   private Address address = null;
