@@ -1,7 +1,13 @@
 package io.swagger.model;
 
 import java.util.Objects;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /** Address represents location information for a store. */
 @ApiModel
