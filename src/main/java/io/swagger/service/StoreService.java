@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class StoreService {
 
-  public List<StoreItem> listOfStores;
+  public List<StoreItem> storeItems;
 
   public StoreService() {
-    this.listOfStores = new ArrayList<>();
-    listOfStores.add(
+    this.storeItems = new ArrayList<>();
+    storeItems.add(
         new StoreItem(
             "9bbfc16f-d318-42f2-82f1-bf7365d4ee93",
             "4003 Stone Way N, Seattle, Washington 98103",
@@ -24,11 +24,11 @@ public class StoreService {
             null));
   }
   public List<StoreItem> getAllStoreItems() {
-    return listOfStores;
+    return storeItems;
   }
 
   public StoreItem getStoreById(String id) {
-    for (StoreItem item : listOfStores) {
+    for (StoreItem item : storeItems) {
       if (item.getId().equals(id)) {
         return item;
       }
@@ -37,6 +37,6 @@ public class StoreService {
   }
 
   public void addStoreItem(StoreItem newStore) {
-    listOfStores.add(newStore);
+    storeItems.add(newStore);
   }
 }
