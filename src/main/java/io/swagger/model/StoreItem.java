@@ -227,7 +227,7 @@ public class StoreItem {
    *
    * @param minuteClosed minute value for the store's close time
    */
-  public String setMinuteOpen() {
+  public String setMinuteClosed() {
     this.minuteOpen = minuteOpen;
   }
 
