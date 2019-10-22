@@ -88,7 +88,7 @@ public class SideItem {
    * Get side's price.
    * @return side's price.
    */
-  @ApiModelProperty(example = 3.89, required = true, value = "")
+  @ApiModelProperty(example = "3.89", required = true, value = "")
   @NotNull
   @Valid
   public double getPrice() {
