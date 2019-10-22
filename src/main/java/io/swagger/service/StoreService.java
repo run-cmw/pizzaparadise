@@ -18,11 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class StoreService {
-
   @Autowired
   public StoreItemRepository storeItemRepository;
 
-  public List<SpecialItem> getAllStores() {
+  public List<StoreItem> getAllStores() {
     return storeItemRepository.findAll();
   }
 
@@ -43,7 +42,7 @@ public class StoreService {
   public String deleteStore(String id) {
     if(storeItemRepository.existsById(id) ) {
       storeItemRepository.deleteById(id);
-      return "deleted with id " + id;
+      return "deleted id: " + id;
     }
     return "id does not exist: " + id;
   }

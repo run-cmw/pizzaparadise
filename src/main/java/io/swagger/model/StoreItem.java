@@ -38,10 +38,9 @@ public class StoreItem {
 
   /**
    * Get store's id.
-   *
    * @return store's id.
    */
-  @ApiModelProperty(example = "1", required = true, value = "")
+  @ApiModelProperty(example = "5dae8e058980e20b64e28174", required = true, value = "")
   @NotNull
   @Valid
   public String getId() {
@@ -50,7 +49,6 @@ public class StoreItem {
 
   /**
    * Set store's id.
-   *
    * @param id store's id
    */
   public void setId(String id) {
@@ -59,7 +57,6 @@ public class StoreItem {
 
   /**
    * Get store's street number and name.
-   *
    * @return store's street number and name.
    */
   @ApiModelProperty(example = "123 Main St", required = true, value = "")
@@ -71,7 +68,6 @@ public class StoreItem {
 
   /**
    * Set store's street number and name.
-   *
    * @param streetNumAndName store's street number and name
    */
   public void setStreetNumAndName(String streetNumAndName) {
@@ -80,7 +76,6 @@ public class StoreItem {
 
   /**
    * Get store's city.
-   *
    * @return store's city.
    */
   @ApiModelProperty(example = "Oakland", required = true, value = "")
@@ -92,7 +87,6 @@ public class StoreItem {
 
   /**
    * Set store's city.
-   *
    * @param city city for the store's address
    */
   public void setCity(String city) {
@@ -101,7 +95,6 @@ public class StoreItem {
 
   /**
    * Get store's state.
-   *
    * @return store's state.
    */
   @ApiModelProperty(example = "California", required = true, value = "")
@@ -113,7 +106,6 @@ public class StoreItem {
 
   /**
    * Set store's state.
-   *
    * @param state state for the store's address
    */
   public void setState(String state) {
@@ -122,7 +114,6 @@ public class StoreItem {
 
   /**
    * Get store's zip code.
-   *
    * @return store's zip code.
    */
   @ApiModelProperty(example = "94608", required = true, value = "")
@@ -134,7 +125,6 @@ public class StoreItem {
 
   /**
    * Set store's zip code.
-   *
    * @param zipCode zip code for the store's address
    */
   public void setZipCode(String zipCode) {
