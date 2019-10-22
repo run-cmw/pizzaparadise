@@ -1,6 +1,8 @@
 package io.swagger.api;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.stream.Collectors;
@@ -28,51 +30,43 @@ public class StoreApiTest {
   private StoreItemRepository storeItemRepository;
   private StoreItem testStore;
   private StoreItem testStore2;
-  private StoreItem testStore3;
 
   @Before
   public void setUp() throws Exception {
-    testStore = new StoreItem("5dae8e058980e20b64e28175", "555 Sunshine Blvd", "Clam Gulch", "Alaska", "94608");
-    testStore2 = new StoreItem("5dae8e058980e20b64e28179", "999 Moonglow Ave", "Emeryville", "California", "70802");
-    testStore3 = new StoreItem("5dae8e058980e20b64e28177", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105");
+    testStore = new StoreItem("5dae8e058980e20b64e28179", "999 Moonglow Ave", "Emeryville", "California", "70802");
+    testStore2 = new StoreItem("5dae8e058980e20b64e28177", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105");
   }
 
   @Test
   public void getAllStoresTest() {
     when(storeItemRepository.findAll()).thenReturn(Stream.of(
-        new StoreItem("5dae8e058980e20b64e28175", "555 Sunshine Blvd", "Clam Gulch", "Alaska", "94608"),
         new StoreItem("5dae8e058980e20b64e28179", "999 Moonglow Ave", "Emeryville", "California", "70802"),
         new StoreItem("5dae8e058980e20b64e28177", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105")
     ).collect(Collectors.toList()));
 
-    // Test size of list
-    assertEquals(3, storeService.getAllStores().size());
+    // Test size of list of stores
+    assertEquals(2, storeService.getAllStores().size());
   }
 
   @Test
   public void getStoreByIdTest() {
-    // Test id String values
-    assertEquals(storeService.getStoreById("5dae8e058980e20b64e28175").toString(), testStore.toString());
-    assertEquals(storeService.getStoreById("5dae8e058980e20b64e28179").toString(), testStore2.toString());
-    assertEquals(storeService.getStoreById("5dae8e058980e20b64e28177").toString(), testStore3.toString());
+    final String TEST_STORE_ID = "5dae8e058980e20b64e28179";
 
-    // Test id attribute
-    assertTrue(storeService.getStoreById("5dae8e058980e20b64e28175").equals(testStore));
+    assertTrue((storeService.getStoreById(TEST_STORE_ID)).equals(testStore));
+    assertEquals(storeService.getStoreById(TEST_STORE_ID).toString(), testStore.toString());
   }
 
   @Test
   public void getStoreByIncorrectIdTest() {
     final String NONEXISTENT_ID = "666";
-    final String ERROR_MSG = "id does not exist: " + NONEXISTENT_ID;
 
-    // Test nonexistent id
-    assertEquals(storeService.getStoreById(NONEXISTENT_ID), ERROR_MSG);
+    assertEquals(storeService.getStoreById(NONEXISTENT_ID), null);
   }
 
   @Test
   public void equalityTest() {
-    // Test incorrect equalities
-    assertFalse(testStore.equals(null));
+    assertTrue(testStore.equals(testStore));
     assertFalse(testStore.equals(testStore2));
+    assertFalse(testStore.equals(null));
   }
 }
