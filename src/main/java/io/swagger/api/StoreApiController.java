@@ -2,7 +2,6 @@ package io.swagger.api;
 
 import io.swagger.annotations.*;
 import io.swagger.model.StoreItem;
-import io.swagger.repository.StoreItemRepository;
 import io.swagger.service.StoreService;
 
 import java.util.List;
