@@ -13,18 +13,35 @@ import org.springframework.web.bind.annotation.RequestBody;
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
     date = "2019-09-26T03:54:46.062Z[GMT]")
 @Api(value = "stores", description = "the store API")
-public interface StoreApi {
 
-  // Get all stores
+/**
+ * Interface for the Store API
+ */
+public interface StoreApi {
+  /**
+   * Get all stores.
+   * @return a list of StoreItems
+   */
   ResponseEntity<List<StoreItem>> getAllStores();
 
-  // Get a specific StoreItem by id
+  /**
+   * Get a specific StoreItem by id
+   * @param id id of requested StoreItem
+   * @return specified StoreItem
+   */
   ResponseEntity<StoreItem> getStoreById(@PathVariable String id);
 
-  // Add a StoreItem
-  void addStore(
+  /**
+   * Add a StoreItem
+   * @param newStore new StoreItem to add
+   */
+  ResponseEntity<StoreItem> addStore(
       @ApiParam(value = "StoreItem to add") @Valid @RequestBody StoreItem newStore);
 
-//  // Delete a StoreItem by id
-//  ResponseEntity<String> deleteStore(@PathVariable String id);
+  /**
+   * Delete a StoreItem by id
+   * @param id id of StoreItem to delete
+   * @return Confirmation that the specified id was deleted
+   */
+  ResponseEntity<String> deleteStore(@PathVariable String id);
 }
