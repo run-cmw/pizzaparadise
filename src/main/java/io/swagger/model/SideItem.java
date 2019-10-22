@@ -72,7 +72,7 @@ public class SideItem {
   @ApiModelProperty(example = "Hot wings", required = true, value = "")
   @NotNull
   @Valid
-  public String geName() {
+  public String getName() {
     return name;
   }
 
