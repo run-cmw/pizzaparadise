@@ -40,7 +40,6 @@ public class StoreService {
     return newStore;
   }
 
-
   public String deleteStore(String id) {
     if(storeItemRepository.existsById(id) ) {
       storeItemRepository.deleteById(id);
