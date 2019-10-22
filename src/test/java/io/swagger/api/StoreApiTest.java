@@ -77,7 +77,7 @@ public class StoreApiTest {
     final String ERROR_MSG = "id does not exist: " + NONEXISTENT_ID;
 
     // Test nonexistent id
-    assertEquals(storeService.getStoreById(NONEXISTENT_ID, ERROR_MSG));
+    assertEquals(storeService.getStoreById(NONEXISTENT_ID), ERROR_MSG);
   }
 
   @Test
