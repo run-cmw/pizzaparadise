@@ -1,36 +1,22 @@
 package io.swagger.api;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import io.swagger.PizzaParadiseApplication;
-import io.swagger.model.StoreItem;
-import io.swagger.repository.StoreItemRepository;
-import io.swagger.service.StoreService;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import io.swagger.model.StoreItem;
+import io.swagger.repository.StoreItemRepository;
+import io.swagger.service.StoreService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -40,12 +26,15 @@ public class StoreApiTest {
 
   @MockBean
   private StoreItemRepository storeItemRepository;
+  private StoreItem testStore;
+  private StoreItem testStore2;
+  private StoreItem testStore3;
 
   @Before
   public void setUp() throws Exception {
-    StoreItem testStore = new StoreItem("5dae8e058980e20b64e28175", "555 Sunshine Blvd", "Clam Gulch", "Alaska", "94608");
-    StoreItem testStore2 = new StoreItem("5dae8e058980e20b64e28179", "999 Moonglow Ave", "Emeryville", "California", "70802");
-    StoreItem testStore3 = new StoreItem("5dae8e058980e20b64e28177", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105");
+    testStore = new StoreItem("5dae8e058980e20b64e28175", "555 Sunshine Blvd", "Clam Gulch", "Alaska", "94608");
+    testStore2 = new StoreItem("5dae8e058980e20b64e28179", "999 Moonglow Ave", "Emeryville", "California", "70802");
+    testStore3 = new StoreItem("5dae8e058980e20b64e28177", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105");
   }
 
   @Test
