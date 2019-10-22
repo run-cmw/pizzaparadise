@@ -4,7 +4,6 @@ import io.swagger.annotations.*;
 import io.swagger.model.StoreItem;
 import java.util.List;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,7 +40,7 @@ public interface StoreApi {
   /**
    * Delete a StoreItem by id
    * @param id id of StoreItem to delete
-   * @return Confirmation that the specified id was deleted
+   * @return String confirming deletion of StoreItem with specified id
    */
   ResponseEntity<String> deleteStore(@PathVariable String id);
 }
