@@ -1,19 +1,18 @@
 package io.swagger.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import io.swagger.model.StoreItem;
+import io.swagger.repository.StoreItemRepository;
 import io.swagger.service.StoreService;
+
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,11 +22,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
     date = "2019-09-26T03:54:46.062Z[GMT]")
-@Controller
+@RestController
 public class StoreApiController implements StoreApi {
-  @Autowired private StoreService storeService = new StoreService();
+  @Autowired
+  private StoreService storeService;
 
-  @GetMapping("/stores")
+  @GetMapping("/store")
   @ApiOperation(
       value = "Get all stores",
       tags = {
@@ -37,45 +37,41 @@ public class StoreApiController implements StoreApi {
     return new ResponseEntity<List<StoreItem>>(storeService.getAllStoreItems(), HttpStatus.OK);
   }
 
-  @GetMapping("/stores/{id}")
+  @GetMapping("/store/{id}")
   @ApiOperation(
       value = "Get a specific StoreItem by id",
       tags = {
           "store",
       })
   public ResponseEntity<StoreItem> getStoreById(@PathVariable String id) {
-    StoreItem store = storeService.getStoreById(id);
-
-    if (store == null) {
+    if(storeService.getStoreById(id) == null) {
       return new ResponseEntity<StoreItem>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<StoreItem>(store, HttpStatus.OK);
+    return new ResponseEntity<StoreItem><storeService.getStoreById(id), HttpStatus.FOUND);
   }
 
-  @PostMapping("/stores/add")
-  @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping("/store/add")
   @ApiOperation(
       value = "Add a StoreItem",
       tags = {
           "store",
       })
-  public void addStore(
+  public ResponseEntity<StoreItem> addStore(
       @ApiParam(value = "StoreItem to add") @Valid @RequestBody StoreItem newStore) {
-    storeService.addStoreItem(newStore);
+
+    return new ResponseEnttity<StoreItem>(storeService.addStore(newStore), HttpStatus.CREATED);
   }
 
-//  @DeleteMapping("/stores/delete/{id}")
-//  @ApiOperation(
-//      value = "Delete a StoreItem by id",
-//      tags = {
-//          "store",
-//      })
-//  public ResponseEntity<String> deleteStore(@PathVariable  id) {
-//    for (StoreItem item : storeItems) {
-//      if (item.getId().equals(id)) {
-//        return new ResponseEntity<StoreItem>(HttpStatus.OK);
-//      }
-//    }
-//    return new ResponseEntity<String>("id does not exist: " + id, HttpStatus.NOT_FOUND);
-//  }
+  @DeleteMapping("/store/delete/{id}")
+  @ApiOperation(
+      value = "Delete a StoreItem by id",
+      tags = {
+          "store",
+      })
+  public ResponseEntity<String> deleteStore(@PathVariable String id) {
+    if (storeService.getStoreById(id) == null) {
+      return new ResponseEntity<String>("id does not exist: " + id, HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<String>(storeService.deleteStore(id), HttpStatus.OK);
+  }
 }

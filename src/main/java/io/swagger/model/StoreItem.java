@@ -3,9 +3,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,40 +18,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
     date = "2019-09-26T03:54:46.062Z[GMT]")
 
 @ApiModel
-@RequestMapping("/stores")
+@Document(collection = "StoreItem")
 public class StoreItem {
   @JsonProperty("id")
-  private String id = null;
+  @Id
+  private String id;
 
-  @JsonProperty("street")
-  private String streetNumAndName = null;
+  @JsonProperty("streetNumAndName")
+  private String streetNumAndName;
 
   @JsonProperty("city")
-  private String city = null;
+  private String city;
 
   @JsonProperty("state")
-  private String state = null;
+  private String state;
 
   @JsonProperty("zipCode")
-  private String zipCode = null;
-
-  /**
-   * Construct a StoreItem with the given id, street, city, state, and zip code.
-   *
-   * @param id store's identification number
-   * @param streetNumAndName street portion of store's address
-   * @param city city portion of store's address
-   * @param state state portion of store's address
-   * @param zip code zip code portion of store's address
-   */
-  public StoreItem(String id, String streetNumAndName, String city, String state, String zipCode) {
-    super();
-    this.id = id;
-    this.streetNumAndName = streetNumAndName;
-    this.city = city;
-    this.state = state;
-    this.zipCode = zipCode;
-  }
+  private String zipCode;
 
   /**
    * Get store's id.
@@ -59,7 +43,7 @@ public class StoreItem {
    */
   @ApiModelProperty(example = "1", required = true, value = "")
   @NotNull
-  @GetMapping("/{storeId}")
+  @Valid
   public String getId() {
     return id;
   }
@@ -190,15 +174,5 @@ public class StoreItem {
     sb.append("    zipCode: ").append(toIndentedString(zipCode)).append("\n");
     sb.append("}");
     return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
   }
 }
