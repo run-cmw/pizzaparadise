@@ -36,7 +36,7 @@ public class StoreService {
 
   public StoreItem addStore(StoreItem newStore) {
     storeItemRepository.save(newStore);
-    return newStore
+    return newStore;
   }
 
   public String deleteStore(String id) {
