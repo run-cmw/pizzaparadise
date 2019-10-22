@@ -1,15 +1,17 @@
 package io.swagger.model;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
+
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /** StoreItem */
 @Validated
@@ -35,6 +37,24 @@ public class StoreItem {
 
   @JsonProperty("zipCode")
   private String zipCode;
+
+  /**
+   * Construct a StoreItem with the given id, street, city, state, and zip code.
+   *
+   * @param id store's identification number
+   * @param streetNumAndName street portion of store's address
+   * @param city city portion of store's address
+   * @param state state portion of store's address
+   * @param zip code zip code portion of store's address
+   */
+  public StoreItem(String id, String streetNumAndName, String city, String state, String zipCode) {
+    super();
+    this.id = id;
+    this.streetNumAndName = streetNumAndName;
+    this.city = city;
+    this.state = state;
+    this.zipCode = zipCode;
+  }
 
   /**
    * Get store's id.
@@ -152,27 +172,20 @@ public class StoreItem {
     return Objects.hash(id, streetNumAndName, city, state, zipCode);
   }
 
+  /**
+   * String representation of StoreItem.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class StoreItem {\n");
 
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    streetNumAndName: ").append(toIndentedString(streetNumAndName)).append("\n");
-    sb.append("    city: ").append(toIndentedString(city)).append("\n");
-    sb.append("    state: ").append(toIndentedString(state)).append("\n");
-    sb.append("    zipCode: ").append(toIndentedString(zipCode)).append("\n");
+    sb.append("    id: ").append(id).append("\n");
+    sb.append("    streetNumAndName: ").append(streetNumAndName).append("\n");
+    sb.append("    city: ").append(city).append("\n");
+    sb.append("    state: ").append(state).append("\n");
+    sb.append("    zipCode: ").append(zipCode).append("\n");
     sb.append("}");
     return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
   }
 }

@@ -1,69 +1,88 @@
 package io.swagger.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
-import io.swagger.model.StoreItem;
-import java.util.*;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-//@RunWith(SpringRunner.class)
 @SpringBootTest
 public class StoreItemTest {
   StoreItem storeItem;
-//  String id;
-//  String streetNameAndNum;
-//  String city;
-//  String state;
-//  String zipCode;
+  StoreItem same;
+  StoreItem different;
 
   @Before
   public void setUp() throws Exception {
-    storeItem.id = "5dae8e058980e20b64e28179";
-    storeItem.streetNumAndName = "555 Sunshine Blvd";
-    storeItem.city = "Clam Gulch";
-    storeItem.state = "Alaska";
-    storeItem.zipCode = "94608";
+    storeItem = new StoreItem("5dae8e058980e20b64e28175", "555 Sunshine Ave", "Seattle", "California", "70806");
+    same = new StoreItem("5dae8e058980e20b64e28179", "555 Sunshine Blvd", "Clam Gulch", "Alaska", "94608");
+    different = new StoreItem("5dae8e058980e20b64e28199", "555 Sunshine Blvd", "Clam Gulch", "Alaska", "94608");
+    
+    // Test setters within setup method
+    storeItem.setId("5dae8e058980e20b64e28179");
+    storeItem.setStreetNumAndName("555 Sunshine Blvd");
+    storeItem.setCity("Clam Gulch");
+    storeItem.setState("Alaska");
+    storeItem.setZipCode("94608");
   }
 
   @Test
   public void getIdTest() {
-    storeItem.setId("7dae8e058980e20b64e28179");
-    assertEquals("7dae8e058980e20b64e28179", storeItem.getId());
-    assertFalse("5dae8e058980e20b64e28179", storeItem.getId());
+    assertEquals("5dae8e058980e20b64e28179", storeItem.getId());
   }
 
   @Test
-  public void getStreetNumAndNameest() {
-    storeItem.setStreetNumAndName("777 Sunshine Rd");
-    assertEquals("777 Sunshine Rd", storeItem.getZipCode());
-    assertFalse("555 Sunshine Blvd", storeItem.getZipCode());
+  public void getStreetNumAndNameTest() {
+    assertEquals("555 Sunshine Blvd", storeItem.getStreetNumAndName());
   }
 
   @Test
   public void getCityTest() {
-    storeItem.setCity("Berkeley");
-    assertTrue("Berkeley", storeItem.getCity());
-    assertFalse("Clam Gulch", storeItem.getCity());
+    assertEquals("Clam Gulch", storeItem.getCity());
   }
 
   @Test
   public void getStateTest() {
-    storeItem.setState("Louisiana");
-    assertTrue("Louisiana", storeItem.getState());
-    assertFalse("Alaska", storeItem.getState());
+    assertEquals("Alaska", storeItem.getState());
   }
 
   @Test
   public void getZipCodeTest() {
-    storeItem.zipCode = "98105";
-    assertTrue("98105", storeItem.getZipCode());
-    assertFalse("94608", storeItem.getZipCode());
+    assertEquals("94608", storeItem.getZipCode());
+  }
+
+  @Test
+  public void equalsTest() {
+    assertTrue(same.equals(storeItem));
+    assertTrue(same.equals(same));
+    assertFalse(different.equals(storeItem));
+    assertFalse(same.equals(2));
+    assertFalse(same.equals(null));
+  }
+
+  @Test
+  public void hashCodeTest() {
+    assertEquals(same.hashCode(), storeItem.hashCode());
+    assertNotEquals(different.hashCode(), storeItem.hashCode());
+  }
+
+  @Test
+  public void toStringTest() {
+    final String STORE_ITEM_AS_STRING =
+      "class StoreItem {\n"
+      + "    id: " + storeItem.getId() + "\n"
+      + "    streetNumAndName: " + storeItem.getStreetNumAndName() + "\n"
+      + "    city: " + storeItem.getCity() + "\n" 
+      + "    state: " + storeItem.getState() + "\n"
+      + "    zipCode: " + storeItem.getZipCode() + "\n"
+      + "}";
+
+    assertEquals(STORE_ITEM_AS_STRING, storeItem.toString());
   }
 }

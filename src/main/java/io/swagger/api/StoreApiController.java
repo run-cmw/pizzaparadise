@@ -2,7 +2,6 @@ package io.swagger.api;
 
 import io.swagger.annotations.*;
 import io.swagger.model.StoreItem;
-import io.swagger.repository.StoreItemRepository;
 import io.swagger.service.StoreService;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class StoreApiController implements StoreApi {
   @ApiOperation(
       value = "Get all StoreItems",
       tags = {
-          "store", "location"
+          "store",
       })
   public ResponseEntity<List<StoreItem>> getAllStores() {
     return new ResponseEntity<List<StoreItem>>(storeService.getAllStores(), HttpStatus.OK);
@@ -39,7 +38,7 @@ public class StoreApiController implements StoreApi {
   @ApiOperation(
       value = "Get a specific StoreItem using id",
       tags = {
-          "store", "location"
+          "store",
       })
   public ResponseEntity<StoreItem> getStoreById(@PathVariable String id) {
     if(storeService.getStoreById(id) == null) {
@@ -52,7 +51,7 @@ public class StoreApiController implements StoreApi {
   @ApiOperation(
       value = "Add a StoreItem",
       tags = {
-          "store", "location"
+          "store",
       })
   public ResponseEntity<StoreItem> addStore(
       @ApiParam(value = "StoreItem to add") @Valid @RequestBody StoreItem newStore) {
@@ -63,7 +62,7 @@ public class StoreApiController implements StoreApi {
   @ApiOperation(
       value = "Delete a StoreItem using id",
       tags = {
-          "store", "location"
+          "store",
       })
   public ResponseEntity<String> deleteStore(@PathVariable String id) {
       if (storeService.getStoreById(id) == null) {
