@@ -57,7 +57,7 @@ public class StoreApiTest {
     ).collect(Collectors.toList()));
 
     // Test size of list
-    Assert.assertEquals(3, storeService.getAllStores().size());
+    assertEquals(3, storeService.getAllStores().size());
   }
 
   @Test
@@ -77,7 +77,7 @@ public class StoreApiTest {
     final String ERROR_MSG = "id does not exist: " + NONEXISTENT_ID;
 
     // Test nonexistent id
-    assertEquals(storeService.getStoreById(NONEXISTENT_ID), ERROR_MSG);
+    assertEquals(storeService.getStoreById(NONEXISTENT_ID, ERROR_MSG);
   }
 
   @Test
