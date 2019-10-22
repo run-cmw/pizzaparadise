@@ -11,7 +11,7 @@ import io.swagger.repository.StoreItemRepository;
 import io.swagger.service.StoreService;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.junit.Assert;
+import org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,12 +63,12 @@ public class StoreApiTest {
   @Test
   public void getStoreByIdTest() {
     // Test id String values
-    Assert.assertEquals(storeService.getStoreById("5dae8e058980e20b64e28175").toString(), testStore.toString());
-    Assert.assertEquals(storeService.getStoreById("5dae8e058980e20b64e28179").toString(), testStore2.toString());
-    Assert.assertEquals(storeService.getStoreById("5dae8e058980e20b64e28177").toString(), testStore3.toString());
+    assertEquals(storeService.getStoreById("5dae8e058980e20b64e28175").toString(), testStore.toString());
+    assertEquals(storeService.getStoreById("5dae8e058980e20b64e28179").toString(), testStore2.toString());
+    assertEquals(storeService.getStoreById("5dae8e058980e20b64e28177").toString(), testStore3.toString());
 
     // Test id attribute
-    Assert.assertTrue(storeService.getStoreById("5dae8e058980e20b64e28175").equals(testStore));
+    assertTrue(storeService.getStoreById("5dae8e058980e20b64e28175").equals(testStore));
   }
 
   @Test
@@ -77,13 +77,13 @@ public class StoreApiTest {
     final String ERROR_MSG = "id does not exist: " + NONEXISTENT_ID;
 
     // Test nonexistent id
-    Assert.assertEquals(storeService.getStoreById(NONEXISTENT_ID), ERROR_MSG);
+    assertEquals(storeService.getStoreById(NONEXISTENT_ID), ERROR_MSG);
   }
 
   @Test
   public void equalityTest() {
     // Test incorrect equalities
-    Assert.assertFalse(testStore.equals(null));
-    Assert.assertFalse(testStore.equals(testStore2));
+    assertFalse(testStore.equals(null));
+    assertFalse(testStore.equals(testStore2));
   }
 }
