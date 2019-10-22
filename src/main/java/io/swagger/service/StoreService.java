@@ -25,7 +25,7 @@ public class StoreService {
     return storeItemRepository.findAll();
   }
 
-  public StoreItem getStoreById(String id) {
+  public StorelItem getStoreById(String id) {
     for (StoreItem item : storeItemRepository.findAll()) {
       if (item.getId().equals(id)) {
         return item;

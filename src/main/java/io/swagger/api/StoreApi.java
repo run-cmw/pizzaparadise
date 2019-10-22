@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface StoreApi {
   /**
    * Get all stores.
-   * @return a list of StoreItems
+   * @return a list of all StoreItems.
    */
   ResponseEntity<List<StoreItem>> getAllStores();
 
@@ -31,16 +31,17 @@ public interface StoreApi {
   ResponseEntity<StoreItem> getStoreById(@PathVariable String id);
 
   /**
-   * Add a StoreItem
+   * Add a StoreItem.
    * @param newStore new StoreItem to add
+   * @return StoreItem added to database.
    */
   ResponseEntity<StoreItem> addStore(
       @ApiParam(value = "StoreItem to add") @Valid @RequestBody StoreItem newStore);
 
   /**
-   * Delete a StoreItem by id
+   * Delete a StoreItem by id.
    * @param id id of StoreItem to delete
-   * @return String confirming deletion of StoreItem with specified id
+   * @return String confirming deletion of StoreItem with specified id.
    */
   ResponseEntity<String> deleteStore(@PathVariable String id);
 }

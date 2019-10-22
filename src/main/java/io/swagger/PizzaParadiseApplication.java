@@ -13,9 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ComponentScan(basePackages = {"io.swagger", "io.swagger.api", "io.swagger.configuration"})
 public class PizzaParadiseApplication {
 
-
   public static void main(String[] args) {
     SpringApplication.run(PizzaParadiseApplication.class, args);
   }
-
 }
