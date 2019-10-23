@@ -54,6 +54,12 @@ public class SideApiTest {
 
   @Test
   public void getSideByIdTest() {
+    when(sideItemRepository.findAll()).thenReturn(Stream.of(
+        new SideItem("3dae8e058980e20b64e28179", "Cheesesticks", 7.99),
+        new SideItem("3dae8e058980e20b64e28177", "Chocolate chip cookie", 1.99),
+        new SideItem("1dae8e058980e20b64e28177", "Brownie", 2.49)
+    ).collect(Collectors.toList()));
+
     final String TEST_SIDE_ID = "3dae8e058980e20b64e28179";
 
     assertEquals(sideService.getSideById(TEST_SIDE_ID), testSide);

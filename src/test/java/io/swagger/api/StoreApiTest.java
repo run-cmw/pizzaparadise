@@ -51,6 +51,11 @@ public class StoreApiTest {
 
   @Test
   public void getStoreByIdTest() {
+    when(storeItemRepository.findAll()).thenReturn(Stream.of(
+        new StoreItem("5dae8e058980e20b64e28179", "999 Moonglow Ave", "Emeryville", "California", "70802"),
+        new StoreItem("5dae8e058980e20b64e28177", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105")
+    ).collect(Collectors.toList()));
+
     final String TEST_STORE_ID = "5dae8e058980e20b64e28179";
 
     assertEquals((storeService.getStoreById(TEST_STORE_ID)), testStore);
