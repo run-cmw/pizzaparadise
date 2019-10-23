@@ -1,9 +1,7 @@
 package io.swagger.model;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,12 +12,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class StoreItemTest {
-  StoreItem storeItem;
-  StoreItem same;
-  StoreItem different;
+  private StoreItem storeItem;
+  private StoreItem same;
+  private StoreItem different;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     storeItem = new StoreItem("5dae8e058980e20b64e28175", "555 Sunshine Ave", "Seattle", "California", "70806");
     same = new StoreItem("5dae8e058980e20b64e28179", "555 Sunshine Blvd", "Clam Gulch", "Alaska", "94608");
     different = new StoreItem("5dae8e058980e20b64e28199", "555 Sunshine Blvd", "Clam Gulch", "Alaska", "94608");
@@ -59,11 +57,11 @@ public class StoreItemTest {
 
   @Test
   public void equalsTest() {
-    assertTrue(same.equals(storeItem));
-    assertTrue(same.equals(same));
-    assertFalse(different.equals(storeItem));
-    assertFalse(same.equals(2));
-    assertFalse(same.equals(null));
+    assertEquals(same, storeItem);
+    assertEquals(same, same);
+    assertNotEquals(different, storeItem);
+    assertNotEquals(same, 2);
+    assertNotEquals(same, null);
   }
 
   @Test

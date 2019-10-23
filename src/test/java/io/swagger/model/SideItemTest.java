@@ -1,9 +1,7 @@
 package io.swagger.model;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,12 +12,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class SideItemTest {
-  SideItem sideItem;
-  SideItem same;
-  SideItem different;
+  private SideItem sideItem;
+  private SideItem same;
+  private SideItem different;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     sideItem = new SideItem("2dae8e058980e20b64e28174", "Cheesesticks", 6.99);
     same = new SideItem("5dae8e058980e20b64e28170", "Hot wings", 7.99);
     different = new SideItem("2eae8e058980e20b64e28175", "2 liter Peach Crush", 2.99);
@@ -48,11 +46,11 @@ public class SideItemTest {
 
   @Test
   public void equalsTest() {
-    assertTrue(same.equals(sideItem));
-    assertTrue(same.equals(same));
-    assertFalse(different.equals(sideItem));
-    assertFalse(same.equals(2));
-    assertFalse(same.equals(null));
+    assertEquals(same, sideItem);
+    assertEquals(same, same);
+    assertNotEquals(different, sideItem);
+    assertNotEquals(same, 2);
+    assertNotEquals(same, null);
   }
 
   @Test

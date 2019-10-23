@@ -1,8 +1,9 @@
 package io.swagger.api;
 
+import static com.jayway.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 import java.util.stream.Collectors;
@@ -32,7 +33,7 @@ public class StoreApiTest {
   private StoreItem testStore2;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     testStore = new StoreItem("5dae8e058980e20b64e28179", "999 Moonglow Ave", "Emeryville", "California", "70802");
     testStore2 = new StoreItem("5dae8e058980e20b64e28177", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105");
   }
@@ -52,30 +53,30 @@ public class StoreApiTest {
   public void getStoreByIdTest() {
     final String TEST_STORE_ID = "5dae8e058980e20b64e28179";
 
-    assertTrue((storeService.getStoreById(TEST_STORE_ID)).equals(testStore));
-    assertEquals(storeService.getStoreById(TEST_STORE_ID).toString(), testStore.toString());
+    assertEquals((storeService.getStoreById(TEST_STORE_ID)), testStore);
+    assertEquals((storeService.getStoreById(TEST_STORE_ID).toString()), testStore.toString());
   }
 
   @Test
   public void getStoreByIncorrectIdTest() {
     final String NONEXISTENT_ID = "666";
 
-    assertEquals(storeService.getStoreById(NONEXISTENT_ID), null);
+    assertNull(storeService.getStoreById(NONEXISTENT_ID));
   }
 
   @Test
   public void equalityTest() {
-    assertTrue(testStore.equals(testStore));
-    assertFalse(testStore.equals(testStore2));
-    assertFalse(testStore.equals(null));
+    assertEquals(testStore, testStore);
+    assertNotEquals(testStore, testStore2);
+    assertNotEquals(testStore, null);
   }
 
   @Test
   public void statusCodeTest() {
-    int statusCode = given().get("https://pizza-paradise.herokuapp.com/store").statusCode();
-    int statusCode2 = given().get("https://pizza-paradise.herokuapp.com/stores").statusCode();
+    int statusCodeOk = given().get("https://fierce-hamlet-19207.herokuapp.com/store").statusCode();
+    int statusCodeNotFound = given().get("https://fierce-hamlet-19207.herokuapp.com/stores").statusCode();
 
-    assertEquals(statusCode, 200);
-    assertEquals(statusCode2, 404);
+    assertEquals(statusCodeOk, 200);
+    assertEquals(statusCodeNotFound, 404);
   }
 }
