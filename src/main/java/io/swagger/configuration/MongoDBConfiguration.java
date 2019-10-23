@@ -17,4 +17,5 @@ public class MongoDBConfiguration implements CommandLineRunner {
   public void run(String... strings) throws Exception {
     System.out.println(specialItemRepository.findAll());
   }
+
 }

@@ -1,129 +1,173 @@
 package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
-import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
-import org.threeten.bp.OffsetDateTime;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /** ToppingItem */
 @Validated
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
     date = "2019-09-26T03:54:46.062Z[GMT]")
+@ApiModel
+@Document(collection = "ToppingItem")
 public class ToppingItem {
+
+  @Id
   @JsonProperty("id")
-  private UUID id = null;
+  private String id ;
 
-  @JsonProperty("name")
-  private String name = null;
+  @JsonProperty("toppingName")
+  private String toppingName;
 
-  @JsonProperty("releaseDate")
-  private OffsetDateTime releaseDate = null;
+  @JsonProperty("toppingType")
+  private String toppingType;
 
-  public ToppingItem id(UUID id) {
-    this.id = id;
-    return this;
-  }
+  @JsonProperty("toppingSmallPrice")
+  private Double toppingSmallPrice;
+
+  @JsonProperty("toppingMediumPrice")
+  private Double toppingMediumPrice;
+
+  @JsonProperty("toppingLargePrice")
+  private Double toppingLargePrice;
+
+  @JsonProperty("toppingGluten")
+  private String toppingGluten;
 
   /**
    * Get id
-   *
    * @return id
    */
-  @ApiModelProperty(example = "d290f1ee-6c54-4b01-90e6-d701748f0851", required = true, value = "")
+  @ApiModelProperty(example = "1", required = true, value = "")
   @NotNull
   @Valid
-  public UUID getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(UUID id) {
+  /**
+   * Set id
+   */
+  public void setId(String id) {
     this.id = id;
   }
 
-  public ToppingItem name(String name) {
-    this.name = name;
-    return this;
-  }
-
   /**
-   * Get name
-   *
-   * @return name
-   */
-  @ApiModelProperty(example = "Widget Adapter", required = true, value = "")
+   * Get toppingName
+   * @return toppingName
+   **/
+  @ApiModelProperty(example = "Sausage", value = "")
   @NotNull
-  public String getName() {
-    return name;
-  }
+  @GetMapping("/{toppingName}")
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public ToppingItem releaseDate(OffsetDateTime releaseDate) {
-    this.releaseDate = releaseDate;
-    return this;
-  }
+  public String getToppingName() { return toppingName;}
 
   /**
-   * Get releaseDate
-   *
-   * @return releaseDate
+   * Set toppingName
    */
-  @ApiModelProperty(example = "2016-08-29T09:12:33.001Z", required = true, value = "")
+  public void setToppingName(String toppingName) { this.toppingName = toppingName;}
+
+
+  /**
+   * Get toppingType
+   * @return toppingType
+   **/
+  @ApiModelProperty(example = "meat", value = "")
   @NotNull
   @Valid
-  public OffsetDateTime getReleaseDate() {
-    return releaseDate;
-  }
 
-  public void setReleaseDate(OffsetDateTime releaseDate) {
-    this.releaseDate = releaseDate;
-  }
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ToppingItem toppingItem = (ToppingItem) o;
-    return Objects.equals(this.id, toppingItem.id)
-        && Objects.equals(this.name, toppingItem.name)
-        && Objects.equals(this.releaseDate, toppingItem.releaseDate);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name, releaseDate);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class ToppingItem {\n");
-
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    releaseDate: ").append(toIndentedString(releaseDate)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+  public String getToppingType() {return toppingType;}
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces (except the first line).
+   * Set topping type
    */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  public void setToppingType(String toppingType) {this.toppingType = toppingType;}
+
+
+  /**
+   * Get toppingSmallPrice
+   * @return toppingSmallPrice
+   **/
+  @ApiModelProperty(example = "2.5", value = "")
+  @NotNull
+  @Valid
+
+  public Double getToppingSmallPrice() {return toppingSmallPrice;}
+
+  /**
+   * Set topping small price
+   */
+  public void setToppingSmallPrice(Double toppingSmallPrice) {this.toppingSmallPrice = toppingSmallPrice; }
+
+  /**
+   * Get toppingMediumPrice
+   * @return toppingMediumPrice
+   **/
+  @ApiModelProperty(example = "2.75", value = "")
+  @NotNull
+  @Valid
+
+  public Double getToppingMediumPrice() {return toppingMediumPrice; }
+
+  /**
+   * Set topping medium price
+   */
+  public void setToppingMediumPrice(Double toppingMediumPrice) {this.toppingMediumPrice = toppingMediumPrice; }
+
+  /**
+   * Get toppingLargePrice
+   * @return toppingLargePrice
+   **/
+  @ApiModelProperty(example = "3.0", value = "")
+  @NotNull
+  @Valid
+
+  public Double getToppingLargePrice() {return toppingLargePrice; }
+
+  /**
+   * Set topping large price
+   */
+  public void setToppingLargePrice(Double toppingLargePrice) {this.toppingLargePrice = toppingLargePrice; }
+
+  /**
+   * Get toppingGluten
+   * @return toppingGluten
+   **/
+  @ApiModelProperty(example = "gluten", value = "")
+  @NotNull
+  @Valid
+
+  public String getToppingGluten() {return toppingGluten;}
+
+  /**
+   * Set topping gluten or nongluten
+   */
+  public void setToppingGluten(String toppingGluten) {this.toppingGluten = toppingGluten; }
+
+  /*
+   * Spring representation of a Topping Item
+   */
+  @Override
+  public String toString() {
+    return "ToppingItem{" +
+        "id='" + id + '\'' +
+        ", topping name='" + toppingName + '\'' +
+        ", topping type='" + toppingType + '\'' +
+        ", topping small price='" + toppingSmallPrice + '\'' +
+        ", topping medium price='" + toppingMediumPrice + '\'' +
+        ", topping large price='" + toppingLargePrice + '\'' +
+        ", topping gluten='" + toppingGluten + '\'' +
+        '}';
   }
+
+
 }
