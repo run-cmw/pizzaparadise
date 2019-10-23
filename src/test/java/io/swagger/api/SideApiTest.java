@@ -72,4 +72,13 @@ public class SideApiTest {
     assertFalse(testSide.equals(testSide2));
     assertFalse(testSide.equals(null));
   }
+
+  @Test
+  public void statusCodeTest() {
+    int statusCode = given().get("https://pizza-paradise.herokuapp.com/side").statusCode();
+    int statusCode2 = given().get("https://pizza-paradise.herokuapp.com/sides").statusCode();
+
+    assertEquals(statusCode, 200);
+    assertEquals(statusCode2, 404);
+  }
 }

@@ -69,4 +69,13 @@ public class StoreApiTest {
     assertFalse(testStore.equals(testStore2));
     assertFalse(testStore.equals(null));
   }
+
+  @Test
+  public void statusCodeTest() {
+    int statusCode = given().get("https://pizza-paradise.herokuapp.com/store").statusCode();
+    int statusCode2 = given().get("https://pizza-paradise.herokuapp.com/stores").statusCode();
+
+    assertEquals(statusCode, 200);
+    assertEquals(statusCode2, 404);
+  }
 }
