@@ -30,7 +30,7 @@ public class SideItem {
   private String name;
 
   @JsonProperty("price")
-  private double price;
+  private Double price;
 
   /**
    * Construct a SideItem with the given id, name, and price.
@@ -39,7 +39,7 @@ public class SideItem {
    * @param name name of side item
    * @param price price of side item 
    */
-  public SideItem(String id, String name, double price) {
+  public SideItem(String id, String name, Double price) {
     super();
     this.id = id;
     this.name = name;
@@ -91,7 +91,7 @@ public class SideItem {
   @ApiModelProperty(example = "3.89", required = true, value = "")
   @NotNull
   @Valid
-  public double getPrice() {
+  public Double getPrice() {
     return price;
   }
 
@@ -99,7 +99,7 @@ public class SideItem {
    * Set side's price.
    * @param price side's price
    */
-  public void setPrice(double price) {
+  public void setPrice(Double price) {
     this.price = price;
   }
 
