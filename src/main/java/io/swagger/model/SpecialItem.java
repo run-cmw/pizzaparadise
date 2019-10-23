@@ -33,6 +33,13 @@ public class SpecialItem {
   private String description;
 
 
+  public SpecialItem(String id, String name, String description) {
+    this.id = id;
+    this.name = name;
+    this.description = description;
+  }
+
+
 
   /**
    * Get id
@@ -101,6 +108,15 @@ public class SpecialItem {
         ", name='" + name + '\'' +
         ", description='" + description +
         '}';
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if(obj == null) { return false; }
+    SpecialItem specialItem = (SpecialItem) obj;
+    return specialItem.getId().equals(this.id) &&
+        specialItem.getName().equals(this.name) &&
+        specialItem.getDescription().equals(this.description);
   }
 
 
