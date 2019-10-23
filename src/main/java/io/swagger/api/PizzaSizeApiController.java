@@ -3,7 +3,7 @@ package io.swagger.api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.model.PizzaSize;
 
-import io.swagger.repository.PizzaSizeRepository;
+
 import io.swagger.service.PizzaSizeService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
