@@ -72,10 +72,12 @@ public class ToppingApiTests {
 
   @Test
   public void statusCodeTest() {
-    int statusCodeOk = given().get("https://hidden-beyond-92673.herokuapp.com/topping").statusCode();
+    int statusCodeOk = given().get("https://hidden-beyond-92673.herokuapp.com/topping")
+        .statusCode();
     Assert.assertEquals(statusCodeOk, 200);
 
-    int statusCodeNotFound = given().get("https://hidden-beyond-92673.herokuapp.com/toppings").statusCode();
+    int statusCodeNotFound = given().get("https://hidden-beyond-92673.herokuapp.com/toppings")
+        .statusCode();
     Assert.assertEquals(statusCodeNotFound, 404);
 
 

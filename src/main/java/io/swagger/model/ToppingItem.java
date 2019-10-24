@@ -12,7 +12,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-/** ToppingItem */
+/**
+ * ToppingItem
+ */
 @Validated
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
@@ -23,7 +25,7 @@ public class ToppingItem {
 
   @Id
   @JsonProperty("id")
-  private String id ;
+  private String id;
 
   @JsonProperty("toppingName")
   private String toppingName;
@@ -57,6 +59,7 @@ public class ToppingItem {
 
   /**
    * Get id
+   *
    * @return id
    */
   @ApiModelProperty(example = "1", required = true, value = "")
@@ -75,95 +78,125 @@ public class ToppingItem {
 
   /**
    * Get toppingName
+   *
    * @return toppingName
    **/
   @ApiModelProperty(example = "Sausage", value = "")
   @NotNull
   @GetMapping("/{toppingName}")
 
-  public String getToppingName() { return toppingName;}
+  public String getToppingName() {
+    return toppingName;
+  }
 
   /**
    * Set toppingName
    */
-  public void setToppingName(String toppingName) { this.toppingName = toppingName;}
+  public void setToppingName(String toppingName) {
+    this.toppingName = toppingName;
+  }
 
 
   /**
    * Get toppingType
+   *
    * @return toppingType
    **/
   @ApiModelProperty(example = "meat", value = "")
   @NotNull
   @Valid
 
-  public String getToppingType() {return toppingType;}
+  public String getToppingType() {
+    return toppingType;
+  }
 
   /**
    * Set topping type
    */
-  public void setToppingType(String toppingType) {this.toppingType = toppingType;}
+  public void setToppingType(String toppingType) {
+    this.toppingType = toppingType;
+  }
 
 
   /**
    * Get toppingSmallPrice
+   *
    * @return toppingSmallPrice
    **/
   @ApiModelProperty(example = "2.5", value = "")
   @NotNull
   @Valid
 
-  public Double getToppingSmallPrice() {return toppingSmallPrice;}
+  public Double getToppingSmallPrice() {
+    return toppingSmallPrice;
+  }
 
   /**
    * Set topping small price
    */
-  public void setToppingSmallPrice(Double toppingSmallPrice) {this.toppingSmallPrice = toppingSmallPrice; }
+  public void setToppingSmallPrice(Double toppingSmallPrice) {
+    this.toppingSmallPrice = toppingSmallPrice;
+  }
 
   /**
    * Get toppingMediumPrice
+   *
    * @return toppingMediumPrice
    **/
   @ApiModelProperty(example = "2.75", value = "")
   @NotNull
   @Valid
 
-  public Double getToppingMediumPrice() {return toppingMediumPrice; }
+  public Double getToppingMediumPrice() {
+    return toppingMediumPrice;
+  }
 
   /**
    * Set topping medium price
    */
-  public void setToppingMediumPrice(Double toppingMediumPrice) {this.toppingMediumPrice = toppingMediumPrice; }
+  public void setToppingMediumPrice(Double toppingMediumPrice) {
+    this.toppingMediumPrice = toppingMediumPrice;
+  }
 
   /**
    * Get toppingLargePrice
+   *
    * @return toppingLargePrice
    **/
   @ApiModelProperty(example = "3.0", value = "")
   @NotNull
   @Valid
 
-  public Double getToppingLargePrice() {return toppingLargePrice; }
+  public Double getToppingLargePrice() {
+    return toppingLargePrice;
+  }
 
   /**
    * Set topping large price
    */
-  public void setToppingLargePrice(Double toppingLargePrice) {this.toppingLargePrice = toppingLargePrice; }
+  public void setToppingLargePrice(Double toppingLargePrice) {
+    this.toppingLargePrice = toppingLargePrice;
+  }
 
   /**
    * Get toppingGluten
+   *
    * @return toppingGluten
    **/
   @ApiModelProperty(example = "gluten", value = "")
   @NotNull
   @Valid
 
-  public String getToppingGluten() {return toppingGluten;}
+  public String getToppingGluten() {
+    return toppingGluten;
+  }
 
   /**
    * Set topping gluten or non-gluten
    */
-  public void setToppingGluten(String toppingGluten) {this.toppingGluten = toppingGluten; }
+  public void setToppingGluten(String toppingGluten) {
+    this.toppingGluten = toppingGluten;
+  }
 
   /*
    * Spring representation of a Topping Item
