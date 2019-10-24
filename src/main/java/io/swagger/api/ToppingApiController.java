@@ -45,7 +45,7 @@ public class ToppingApiController implements ToppingApi {
           "topping",
       })
   public ResponseEntity<ToppingItem> getToppingById(@PathVariable String id) {
-    if(toppingItemService.getToppingById(id) == null) {
+    if (toppingItemService.getToppingById(id) == null) {
       return new ResponseEntity<ToppingItem>(HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<ToppingItem>(toppingItemService.getToppingById(id), HttpStatus.FOUND);
@@ -60,7 +60,8 @@ public class ToppingApiController implements ToppingApi {
   public ResponseEntity<ToppingItem> addTopping(
       @ApiParam(value = "Topping item to add") @Valid @RequestBody ToppingItem newTopping) {
 
-    return new ResponseEntity<ToppingItem>(toppingItemService.addTopping(newTopping), HttpStatus.CREATED);
+    return new ResponseEntity<ToppingItem>(toppingItemService.addTopping(newTopping),
+        HttpStatus.CREATED);
   }
 
   @DeleteMapping("/topping/delete/{id}")

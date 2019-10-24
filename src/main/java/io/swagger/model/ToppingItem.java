@@ -43,6 +43,18 @@ public class ToppingItem {
   @JsonProperty("toppingGluten")
   private String toppingGluten;
 
+  public ToppingItem(String id, String toppingName, String toppingType,
+      Double toppingSmallPrice, Double toppingMediumPrice, Double toppingLargePrice,
+      String toppingGluten) {
+    this.id = id;
+    this.toppingName = toppingName;
+    this.toppingType = toppingType;
+    this.toppingSmallPrice = toppingSmallPrice;
+    this.toppingMediumPrice = toppingMediumPrice;
+    this.toppingLargePrice = toppingLargePrice;
+    this.toppingGluten = toppingGluten;
+  }
+
   /**
    * Get id
    * @return id
@@ -149,7 +161,7 @@ public class ToppingItem {
   public String getToppingGluten() {return toppingGluten;}
 
   /**
-   * Set topping gluten or nongluten
+   * Set topping gluten or non-gluten
    */
   public void setToppingGluten(String toppingGluten) {this.toppingGluten = toppingGluten; }
 

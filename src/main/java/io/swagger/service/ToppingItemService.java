@@ -44,7 +44,7 @@ public class ToppingItemService {
 
 
   public String deleteTopping(String id) {
-    if(toppingItemRepository.existsById(id) ) {
+    if (toppingItemRepository.existsById(id)) {
       toppingItemRepository.deleteById(id);
       return "deleted with id " + id;
     }
