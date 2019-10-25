@@ -2,8 +2,6 @@ package io.swagger.api;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.model.PizzaSize;
-
-
 import io.swagger.service.PizzaSizeService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * PizzaSizeApiController
+ */
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
     date = "2019-09-26T03:54:46.062Z[GMT]")

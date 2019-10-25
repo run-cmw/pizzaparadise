@@ -2,13 +2,9 @@ package io.swagger.api;
 
 import io.swagger.annotations.*;
 import io.swagger.model.SpecialItem;
-import io.swagger.repository.SpecialItemRepository;
-
 import io.swagger.service.SpecialItemService;
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

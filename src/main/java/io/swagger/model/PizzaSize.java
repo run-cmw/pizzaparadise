@@ -2,13 +2,15 @@ package io.swagger.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.ObjectOutputStream;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 
+/**
+ * PizzaSize
+ */
 @Validated
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
@@ -23,6 +25,13 @@ public class PizzaSize {
   private String sizeInch;
   private Double price;
 
+  /**
+   * Creating new PizzaSize
+   * @param id id given to this PizzaSize
+   * @param sizeName sizeName given to this PizzaSize
+   * @param sizeInch sizeInch given to this PizzaSize
+   * @param price price given to this PizzaSize
+   */
   public PizzaSize(String id, String sizeName, String sizeInch, Double price) {
     this.id = id;
     this.sizeName = sizeName;
@@ -30,10 +39,18 @@ public class PizzaSize {
     this.price = price;
   }
 
+  /**
+   * Get this id.
+   * @return id.
+   */
   public String getId() {
     return this.id;
   }
 
+  /**
+   * Set id.
+   * @param id new id given to this PizzaSize.
+   */
   @ApiModelProperty(example = "1", required = true, value = "")
   @NotNull
   @Valid
@@ -41,30 +58,55 @@ public class PizzaSize {
     this.id = id;
   }
 
+  /**
+   * Get this sizeName.
+   * @return sizeName.
+   */
   public String getSizeName() {
     return this.sizeName;
   }
 
+  /**
+   * Set sizeName for this PizzaSize.
+   * @param sizeName new sizeName given to this PizzaSize.
+   */
   @ApiModelProperty(example = "Small", required = true, value = "")
   @NotNull
+  @Valid
   public void setSizeName(String sizeName) {
     this.sizeName = sizeName;
   }
 
+  /**
+   * Get this sizeInch.
+   * @return sizeInch.
+   */
   public String getSizeInch() {
     return this.sizeInch;
   }
 
+  /**
+   * Set sizeInch for this PizzaSize.
+   * @param sizeInch new sizeInch given to this PizzaSize.
+   */
   @ApiModelProperty(example = "11", required = true, value = "")
   @NotNull
   public void setSizeInch(String sizeInch) {
     this.sizeInch = sizeInch;
   }
 
+  /**
+   * Get this price.
+   * @return price.
+   */
   public Double getPrice() {
     return this.price;
   }
 
+  /**
+   * Set price for this PizzaSize.
+   * @param price new price given to this PizzaSize.
+   */
   @ApiModelProperty(example = "13.99", required = true, value = "")
   @NotNull
   public void setPrice(Double price) {
@@ -72,7 +114,7 @@ public class PizzaSize {
   }
 
   /*
-   * Spring representation of Pizza Size
+   * Spring representation of PizzaSize
    */
   @Override
   public String toString() {
@@ -84,8 +126,14 @@ public class PizzaSize {
         '}';
   }
 
+  /**
+   * Check if two objects are equal.
+   * @param obj obj given to compare
+   * @return true if two objects are equal, false otherwise.
+   */
   @Override
   public boolean equals(Object obj) {
+    if(this == obj) return true;
     if(obj == null) { return false; }
     PizzaSize size = (PizzaSize) obj;
     return size.getId().equals(this.id) &&

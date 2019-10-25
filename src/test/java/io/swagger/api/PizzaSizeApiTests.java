@@ -2,7 +2,6 @@ package io.swagger.api;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.mockito.ArgumentMatchers.matches;
 import static org.mockito.Mockito.when;
 
 import io.swagger.model.PizzaSize;
@@ -39,7 +38,10 @@ public class PizzaSizeApiTests {
     ).collect(Collectors.toList()));
 
     Assert.assertEquals(3, sizeService.getAllPizzaSizes().size());
+  }
 
+  @Test
+  public void getPizzaSizeByIdTest() {
     PizzaSize size1 = new PizzaSize("5da6d903b7437ea5e054fe37", "Small",
         "11", 13.99);
 
@@ -67,17 +69,22 @@ public class PizzaSizeApiTests {
     Assert.assertEquals(
         sizeService.getPizzaSizeById("5d"), null);
 
-
-
   }
 
   @Test
-  public void basicPingTest() {
+  public void httpStatusTest() {
     int statusCode = given().get("https://pizza-paradise.herokuapp.com/size").statusCode();
     Assert.assertEquals(statusCode, 200);
 
     int statusCode1 = given().get("https://pizza-paradise.herokuapp.com/sizes").statusCode();
     Assert.assertEquals(statusCode1, 404);
+
+    int statusCode2 = given().get("https://pizza-paradise.herokuapp.com/size/5da6d903b7437ea5e054fe37").statusCode();
+    Assert.assertEquals(statusCode2, 302);
+
+    int statusCode3 = given().get("https://pizza-paradise.herokuapp.com/size/5da4fe37").statusCode();
+    Assert.assertEquals(statusCode3, 404);
+
 
 
   }
