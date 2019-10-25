@@ -1,169 +1,154 @@
 package io.swagger.model;
+import java.util.Objects;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModelProperty;
-import java.time.LocalTime;
-import java.util.Objects;
-import java.util.UUID;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /** StoreItem */
 @Validated
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
     date = "2019-09-26T03:54:46.062Z[GMT]")
+
+@ApiModel
+@Document(collection = "StoreItem")
 public class StoreItem {
   @JsonProperty("id")
-  private UUID id = null;
+  @Id
+  private String id;
 
-  @JsonProperty("address")
-  private Address address = null;
+  @JsonProperty("streetNumAndName")
+  private String streetNumAndName;
 
-  @JsonProperty("timeOpen")
-  private LocalTime timeOpen = null;
+  @JsonProperty("city")
+  private String city;
 
-  @JsonProperty("timeClosed")
-  private LocalTime timeClosed = null;
+  @JsonProperty("state")
+  private String state;
+
+  @JsonProperty("zipCode")
+  private String zipCode;
 
   /**
-   * Construct a StoreItem id with the given id.
+   * Construct a StoreItem with the given id, street, city, state, and zip code.
    *
-   * @param id store's id.
-   * @return
+   * @param id store's identification number
+   * @param streetNumAndName street portion of store's address
+   * @param city city portion of store's address
+   * @param state state portion of store's address
+   * @param zip code zip code portion of store's address
    */
-  public StoreItem id(UUID id) {
+  public StoreItem(String id, String streetNumAndName, String city, String state, String zipCode) {
+    super();
     this.id = id;
-    return this;
+    this.streetNumAndName = streetNumAndName;
+    this.city = city;
+    this.state = state;
+    this.zipCode = zipCode;
   }
 
   /**
    * Get store's id.
-   *
    * @return store's id.
    */
-  @ApiModelProperty(example = "d290f1ee-6c54-4b01-90e6-d701748f0851", required = true, value = "")
+  @ApiModelProperty(example = "5dae8e058980e20b64e28174", required = true, value = "")
   @NotNull
   @Valid
-  public UUID getId() {
+  public String getId() {
     return id;
   }
 
   /**
    * Set store's id.
-   *
-   * @param id store's id.
+   * @param id store's id
    */
-  public void setId(UUID id) {
+  public void setId(String id) {
     this.id = id;
   }
 
   /**
-   * Construct a StoreItem address with the given address information.
-   *
-   * @param name
-   * @return
+   * Get store's street number and name.
+   * @return store's street number and name.
    */
-  public StoreItem address(Address address) {
-    this.address = address;
-    return this;
-  }
-
-  /**
-   * Get store's address.
-   *
-   * @return store's address.
-   */
-  @ApiModelProperty(example = "123 Main St Coastal State 77777", required = true, value = "")
-  @NotNull
-  public Address getAddress() {
-    return address;
-  }
-
-  /**
-   * Set store's address.
-   *
-   * @param address
-   */
-  public void setAddress(Address address) {
-    this.address = address;
-  }
-
-  /**
-   * Construct a StoreItem timeOpen with the given opening time information.
-   *
-   * @param timeOpen
-   * @return
-   */
-  public StoreItem timeOpen(LocalTime timeOpen) {
-    this.timeOpen = timeOpen;
-    return this;
-  }
-
-  /**
-   * Get store's time open.
-   *
-   * @return store's time open.
-   */
-  @ApiModelProperty(example = "09:12:33", required = true, value = "")
+  @ApiModelProperty(example = "123 Main St", required = true, value = "")
   @NotNull
   @Valid
-  public LocalTime getTimeOpen() {
-    return timeOpen;
+  public String getStreetNumAndName() {
+    return streetNumAndName;
   }
 
   /**
-   * Set store's time open.
-   *
-   * @param timeOpen
+   * Set store's street number and name.
+   * @param streetNumAndName store's street number and name
    */
-  public void setTimeOpen(LocalTime timeOpen) {
-    this.timeOpen = timeOpen;
+  public void setStreetNumAndName(String streetNumAndName) {
+    this.streetNumAndName = streetNumAndName;
   }
 
   /**
-   * Construct a StoreItem timeClosed with the given closing time information.
-   *
-   * @param timeClosed
-   * @return
+   * Get store's city.
+   * @return store's city.
    */
-  public StoreItem timeClosed(LocalTime timeClosed) {
-    this.timeClosed = timeClosed;
-    return this;
-  }
-
-  /**
-   * Get store's time closed.
-   *
-   * @return store's time closed.
-   */
-  @ApiModelProperty(example = "09:12:33", required = true, value = "")
+  @ApiModelProperty(example = "Oakland", required = true, value = "")
   @NotNull
   @Valid
-  public LocalTime getTimeClosed() {
-    return timeClosed;
+  public String getCity() {
+    return city;
   }
 
   /**
-   * Set store's time closed.
-   *
-   * @param timeClosed
+   * Set store's city.
+   * @param city city for the store's address
    */
-  public void setTimeClosed(LocalTime timeClosed) {
-    this.timeClosed = timeClosed;
+  public void setCity(String city) {
+    this.city = city;
   }
 
   /**
-   * Helper to check if store is currently open.
-   *
-   * @return {@true} if store is open and {@false} otherwise.
+   * Get store's state.
+   * @return store's state.
    */
-  public boolean isOpenCheck() {
-    // What if the user is in a different time zone?
-    // What if the server is in a different time zone?
-    LocalTime currentTime = LocalTime.now();
-    return (currentTime.isAfter(timeOpen) && currentTime.isBefore(timeClosed));
+  @ApiModelProperty(example = "California", required = true, value = "")
+  @NotNull
+  @Valid
+  public String getState() {
+    return state;
+  }
+
+  /**
+   * Set store's state.
+   * @param state state for the store's address
+   */
+  public void setState(String state) {
+    this.state = state;
+  }
+
+  /**
+   * Get store's zip code.
+   * @return store's zip code.
+   */
+  @ApiModelProperty(example = "94608", required = true, value = "")
+  @NotNull
+  @Valid
+  public String getZipCode() {
+    return zipCode;
+  }
+
+  /**
+   * Set store's zip code.
+   * @param zipCode zip code for the store's address
+   */
+  public void setZipCode(String zipCode) {
+    this.zipCode = zipCode;
   }
 
   @Override
@@ -176,36 +161,31 @@ public class StoreItem {
     }
     StoreItem storeItem = (StoreItem) o;
     return Objects.equals(this.id, storeItem.id)
-        && Objects.equals(this.address, storeItem.address)
-        && Objects.equals(this.timeOpen, storeItem.timeOpen)
-        && Objects.equals(this.timeClosed, storeItem.timeClosed);
+        && Objects.equals(this.streetNumAndName, storeItem.streetNumAndName)
+        && Objects.equals(this.city, storeItem.city)
+        && Objects.equals(this.state, storeItem.state)
+        && Objects.equals(this.zipCode, storeItem.zipCode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, address, timeOpen, timeClosed);
+    return Objects.hash(id, streetNumAndName, city, state, zipCode);
   }
 
+  /**
+   * String representation of StoreItem.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class StoreItem {\n");
 
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    address: ").append(toIndentedString(address)).append("\n");
-    sb.append("    timeOpen: ").append(toIndentedString(timeOpen)).append("\n");
-    sb.append("    timeClosed: ").append(toIndentedString(timeClosed)).append("\n");
+    sb.append("    id: ").append(id).append("\n");
+    sb.append("    streetNumAndName: ").append(streetNumAndName).append("\n");
+    sb.append("    city: ").append(city).append("\n");
+    sb.append("    state: ").append(state).append("\n");
+    sb.append("    zipCode: ").append(zipCode).append("\n");
     sb.append("}");
     return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
   }
 }
