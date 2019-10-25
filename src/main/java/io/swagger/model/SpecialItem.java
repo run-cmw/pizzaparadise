@@ -3,14 +3,11 @@ package io.swagger.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 /** SpecialItem */
 @Validated
@@ -33,28 +30,33 @@ public class SpecialItem {
   private String description;
 
 
+  /**
+   * Create new SpecialItem
+   * @param id id given to this SpecialItem
+   * @param name name given to this SpecialItem
+   * @param description description given to this SpecialItem
+   */
   public SpecialItem(String id, String name, String description) {
     this.id = id;
     this.name = name;
     this.description = description;
   }
 
-
-
   /**
    * Get id
    * @return id
    */
-  @ApiModelProperty(example = "1", required = true, value = "")
-  @NotNull
-  @Valid
   public String getId() {
     return id;
   }
 
   /**
    * Set id
+   * @param id new id given for this item
    */
+  @ApiModelProperty(example = "1", required = true, value = "")
+  @NotNull
+  @Valid
   public void setId(String id) {
     this.id = id;
   }
@@ -63,15 +65,17 @@ public class SpecialItem {
    * Get name
    * @return name
    */
-  @ApiModelProperty(example = "Buy1Get1Free", required = true, value = "")
-  @NotNull
   public String getName() {
     return name;
   }
 
   /**
    * Set name
+   * @param name new name given for this special item
    */
+  @ApiModelProperty(example = "Buy1Get1Free", required = true, value = "")
+  @NotNull
+  @Valid
   public void setName(String name) {
     this.name = name;
   }
@@ -80,6 +84,14 @@ public class SpecialItem {
    * Get description
    * @return description
    */
+  public String getDescription() {
+    return description;
+  }
+
+  /**
+   * Set description
+   * @param description - new description for Special item
+   */
   @ApiModelProperty(
       example =
           "Only one special at a time. If you buy 1 pizza, you get 1 free pizza that is equal or less value.",
@@ -87,13 +99,6 @@ public class SpecialItem {
       value = "")
   @NotNull
   @Valid
-  public String getDescription() {
-    return description;
-  }
-
-  /**
-   * Set description
-   */
   public void setDescription(String description) {
     this.description = description;
   }
@@ -110,8 +115,14 @@ public class SpecialItem {
         '}';
   }
 
+  /**
+   * Check if two objects are equal
+   * @param obj object given to compare
+   * @return true if two objects are equal, false otherwise
+   */
   @Override
   public boolean equals(Object obj) {
+    if(this == obj) return true;
     if(obj == null) { return false; }
     SpecialItem specialItem = (SpecialItem) obj;
     return specialItem.getId().equals(this.id) &&

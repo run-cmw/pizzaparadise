@@ -3,8 +3,6 @@ package io.swagger.api;
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.when;
-
-
 import io.swagger.model.SpecialItem;
 import io.swagger.repository.SpecialItemRepository;
 import io.swagger.service.SpecialItemService;
@@ -20,7 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class SpecialItemTests {
+public class SpecialApiTests {
 
   @Autowired
   private SpecialItemService specialService;
@@ -39,6 +37,10 @@ public class SpecialItemTests {
 
     Assert.assertEquals(3, specialService.getAllSpecials().size());
 
+  }
+
+  @Test
+  public void getSpecialByIdTest() {
     SpecialItem special1 = new SpecialItem("5da6b2e86d9aec817c99d5d9", "Buy1Get1Free", "Only one special at a time. If you buy 1 pizza, you get 1 free pizza that is equal or less value.");
 
     Assert.assertEquals(
@@ -70,13 +72,18 @@ public class SpecialItemTests {
   }
 
   @Test
-  public void basicPingTest() {
+  public void httpStatusCodeTest() {
     int statusCode = given().get("https://pizza-paradise.herokuapp.com/special").statusCode();
     Assert.assertEquals(statusCode, 200);
 
     int statusCode1 = given().get("https://pizza-paradise.herokuapp.com/specials").statusCode();
     Assert.assertEquals(statusCode1, 404);
 
+    int statusCode2 = given().get("https://pizza-paradise.herokuapp.com/special/2").statusCode();
+    Assert.assertEquals(statusCode2, 302);
+
+    int statusCode3 = given().get("https://pizza-paradise.herokuapp.com/special/456787654").statusCode();
+    Assert.assertEquals(statusCode3, 404);
 
   }
 
