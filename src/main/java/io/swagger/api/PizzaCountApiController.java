@@ -4,6 +4,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@javax.annotation.Generated(
+    value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
+    date = "2019-09-26T03:54:46.062Z[GMT]")
 @RestController
 public class PizzaCountApiController {
   private final int SMALL_PIZZA_CAL = 1601;
@@ -20,7 +23,7 @@ public class PizzaCountApiController {
       tags = {
           "pizza count",
       })
-  public String getPizzaSizeById(int adult, int kid) {
+  public String getNumOfPizzaByInput(int adult, int kid) {
     if(adult == 0 && kid == 0) {return ""; }
     int totalCal = adult * ADULT_CAL + kid * KID_CAL;
     return totalPizzaNeed(totalCal);
