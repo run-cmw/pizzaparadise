@@ -50,7 +50,7 @@ public class SideItem {
    * Get side's id.
    * @return side's id.
    */
-  @ApiModelProperty(example = "5dae8e058980e20b64e28174", required = true, value = "")
+  @ApiModelProperty(example = "hotWings", required = true, value = "")
   @NotNull
   @Valid
   public String getId() {
