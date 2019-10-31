@@ -195,7 +195,6 @@ public class StoreItem {
 
   /**
    * Returns a hash code value for a StoreItem.
-   *
    * @return hash code value for a StoreItem.
    */
   @Override
@@ -204,7 +203,7 @@ public class StoreItem {
   }
 
   /**
-   * Returns a string representation of a Store.
+   * Returns a string representation of a StoreItem.
    * Format - class StoreItem {
    *              id: storeItemId
    *              streetNumAndName: storeItemStreetNumAndName
@@ -214,7 +213,7 @@ public class StoreItem {
    *              offersGlutenFree: trueOrFalse
    *          }
    *
-   * @return string representation of the object.
+   * @return string representation of a StoreItem.
    */
   @Override
   public String toString() {

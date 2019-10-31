@@ -1,15 +1,11 @@
 package io.swagger.model;
-import java.util.Objects;
 
+import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -23,7 +19,6 @@ import io.swagger.annotations.ApiModelProperty;
 @Document(collection = "SideItem")
 public class SideItem {
   @JsonProperty("id")
-  @Id
   private String id;
 
   @JsonProperty("name")
@@ -32,18 +27,23 @@ public class SideItem {
   @JsonProperty("price")
   private Double price;
 
+  @JsonProperty("type")
+  private String type;
+
   /**
-   * Construct a SideItem with the given id, name, and price.
+   * Construct a SideItem with the given id, name, price, and type.
    *
    * @param id side's identification number
    * @param name name of side item
-   * @param price price of side item 
+   * @param price price of side item
+   * @param type the type of side item: drink, condiment, or appetizer
    */
-  public SideItem(String id, String name, Double price) {
+  public SideItem(String id, String name, Double price, String type) {
     super();
     this.id = id;
     this.name = name;
     this.price = price;
+    this.type = type;
   }
 
   /**
@@ -103,6 +103,31 @@ public class SideItem {
     this.price = price;
   }
 
+  /**
+   * Get side's type.
+   * @return side's type.
+   */
+  @ApiModelProperty(example = "condiment", required = true, value = "")
+  @NotNull
+  @Valid
+  public String getType() {
+    return type;
+  }
+
+  /**
+   * Set side's type.
+   * @param type side's type
+   */
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  /**
+   * Indicates whether some other object is "equal to" this one.
+   *
+   * @param obj - the reference object with which to compare
+   * @return {@code true} if this object is the same as the obj argument and {@code false} otherwise.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -114,20 +139,37 @@ public class SideItem {
     SideItem sideItem = (SideItem) o;
     return Objects.equals(this.id, sideItem.id)
         && Objects.equals(this.name, sideItem.name)
-        && Objects.equals(this.price, sideItem.price);
+        && Objects.equals(this.price, sideItem.price)
+        && Objects.equals(this.type, sideItem.type);
   }
 
+  /**
+   * Returns a hash code value for a SideItem.
+   * @return hash code value for a SideItem.
+   */
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, price);
+    return Objects.hash(id, name, price, type);
   }
 
+  /**
+   * Returns a string representation of a SideItem.
+   * Format - class SideItem {
+   *              id: sideItemId
+   *              name: sideItemName
+   *              price: sideItemPrice
+   *              type: sideItemPrice
+   *          }
+   *
+   * @return string representation of a SideItem.
+   */
   @Override
   public String toString() {
     return "SideItem{"
       + "id='" + id + '\''
       + ", name='" + name + '\''
-      + ", price='" + price
+      + ", price='" + price + '\''
+      + ", type='" + type + '\''
       + '}';
   }
 }

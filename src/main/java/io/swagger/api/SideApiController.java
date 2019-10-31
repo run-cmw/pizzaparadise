@@ -3,7 +3,6 @@ package io.swagger.api;
 import io.swagger.annotations.*;
 import io.swagger.model.SideItem;
 import io.swagger.service.SideService;
-
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
