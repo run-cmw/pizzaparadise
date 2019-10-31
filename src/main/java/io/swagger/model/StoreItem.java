@@ -60,7 +60,7 @@ public class StoreItem {
    * Get store's id.
    * @return store's id.
    */
-  @ApiModelProperty(example = "Pike", required = true, value = "")
+  @ApiModelProperty(example = "pike", required = true, value = "")
   @NotNull
   @Valid
   public String getId() {
