@@ -9,6 +9,7 @@ import io.swagger.service.SpecialItemService;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,43 +27,46 @@ public class SpecialApiTests {
   @MockBean
   private SpecialItemRepository specialRepository;
 
+  @Before
+  public void Setup() {
+    when(specialRepository.findAll()).thenReturn(Stream.of(
+        new SpecialItem("buy1get1free", "Buy1Get1Free", "Only one special at a time. If you buy 1 pizza, you get 1 free pizza that is equal or less value."),
+        new SpecialItem("buy1PizzaGetSodaFree", "Buy1PizzaGetSodaFree", "If you purchase 1 pizza then you get 1 soda for free"),
+        new SpecialItem("buy2LargePizzaNoTopping", "Buy2LargePizzaNoTopping30%OFF", "if you buy 2 large pizza that has no toppings, then get 30% off")
+    ).collect(Collectors.toList()));
+  }
+
 
   @Test
   public void getAllSpecialTest() {
-    when(specialRepository.findAll()).thenReturn(Stream.of(
-        new SpecialItem("5da6b2e86d9aec817c99d5d9", "Buy1Get1Free", "Only one special at a time. If you buy 1 pizza, you get 1 free pizza that is equal or less value."),
-        new SpecialItem("2", "Buy1PizzaGetSodaFree", "If you purchase 1 pizza then you get 1 soda for free"),
-        new SpecialItem("3", "Buy2LargePizzaNoTopping30%OFF", "if you buy 2 large pizza that has no toppings, then get 30% off")
-    ).collect(Collectors.toList()));
-
     Assert.assertEquals(3, specialService.getAllSpecials().size());
-
+    Assert.assertNotEquals(specialService.getAllSpecials(), null);
   }
 
   @Test
   public void getSpecialByIdTest() {
-    SpecialItem special1 = new SpecialItem("5da6b2e86d9aec817c99d5d9", "Buy1Get1Free", "Only one special at a time. If you buy 1 pizza, you get 1 free pizza that is equal or less value.");
+    SpecialItem special1 = new SpecialItem("buy1get1free", "Buy1Get1Free", "Only one special at a time. If you buy 1 pizza, you get 1 free pizza that is equal or less value.");
 
     Assert.assertEquals(
-        specialService.getSpecialById("5da6b2e86d9aec817c99d5d9").toString(), special1.toString());
+        specialService.getSpecialById("buy1get1free").toString(), special1.toString());
 
-    Assert.assertTrue(specialService.getSpecialById("5da6b2e86d9aec817c99d5d9").equals(special1));
+    Assert.assertTrue(specialService.getSpecialById("buy1get1free").equals(special1));
 
-    SpecialItem special2 = new SpecialItem("2", "Buy1PizzaGetSodaFree", "If you purchase 1 pizza then you get 1 soda for free");
+    SpecialItem special2 = new SpecialItem("buy1PizzaGetSodaFree", "Buy1PizzaGetSodaFree", "If you purchase 1 pizza then you get 1 soda for free");
 
 
     Assert.assertEquals(
-        specialService.getSpecialById("2").toString(), special2.toString()
+        specialService.getSpecialById("buy1PizzaGetSodaFree").toString(), special2.toString()
     );
 
 
-    SpecialItem special3 = new SpecialItem("3", "Buy2LargePizzaNoTopping30%OFF", "if you buy 2 large pizza that has no toppings, then get 30% off");
+    SpecialItem special3 = new SpecialItem("buy2LargePizzaNoTopping", "Buy2LargePizzaNoTopping30%OFF", "if you buy 2 large pizza that has no toppings, then get 30% off");
 
     Assert.assertEquals(
-        specialService.getSpecialById("3"), special3);
+        specialService.getSpecialById("buy2LargePizzaNoTopping"), special3);
 
 
-    Assert.assertTrue(specialService.getSpecialById("3").equals(special3));
+    Assert.assertTrue(specialService.getSpecialById("buy2LargePizzaNoTopping").equals(special3));
 
     Assert.assertFalse(special3.equals(null));
 
@@ -79,7 +83,7 @@ public class SpecialApiTests {
     int statusCode1 = given().get("https://pizza-paradise.herokuapp.com/specials").statusCode();
     Assert.assertEquals(statusCode1, 404);
 
-    int statusCode2 = given().get("https://pizza-paradise.herokuapp.com/special/2").statusCode();
+    int statusCode2 = given().get("https://pizza-paradise.herokuapp.com/special/buy2LargePizzaNoTopping").statusCode();
     Assert.assertEquals(statusCode2, 302);
 
     int statusCode3 = given().get("https://pizza-paradise.herokuapp.com/special/456787654").statusCode();

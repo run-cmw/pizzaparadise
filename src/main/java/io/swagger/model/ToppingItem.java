@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Document(collection = "ToppingItem")
 public class ToppingItem {
 
-  @Id
   @JsonProperty("id")
   private String id;
 

@@ -20,7 +20,6 @@ public class SpecialItem {
 
 
   @JsonProperty("id")
-  @Id
   private String id;
 
   @JsonProperty("name")
