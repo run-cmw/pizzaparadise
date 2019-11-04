@@ -3,6 +3,9 @@ package io.swagger.model;
 import io.swagger.annotations.ApiModel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 
@@ -16,7 +19,8 @@ import org.springframework.validation.annotation.Validated;
 @ApiModel
 @Document(collection = "Cart")
 public class Cart {
-  private String id;
+  @Id
+  private ObjectId id;
   private List<Pizza> pizzas;
   private List<String> sides;
   private String storeID;
@@ -26,7 +30,8 @@ public class Cart {
    * Create new Cart
    * @param id cartID given to this new Cart
    */
-  public Cart(String id) {
+  public Cart(String storeID, ObjectId id) {
+    this.storeID = storeID;
     this.id = id;
     this.totalAmount = 0.0;
     this.pizzas = new ArrayList<>();
@@ -38,14 +43,14 @@ public class Cart {
    * @return cartID
    */
   public String getId() {
-    return this.id;
+    return this.id.toHexString();
   }
 
   /**
    * Set cartID
    * @param id new cartID given to this Cart
    */
-  public void setId(String id) {
+  public void setId(ObjectId id) {
     this.id = id;
   }
 
@@ -65,7 +70,7 @@ public class Cart {
    * Get the totalAmount in this Cart
    * @return totalAmount in this Cart
    */
-  public double getTotalAmount() {
+  public Double getTotalAmount() {
     return this.totalAmount;
   }
 
@@ -106,6 +111,16 @@ public class Cart {
         + ", list of side= " + sides.toString() + '\''
         + ", total price= " + totalAmount
         + '}';
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if(this == obj) return true;
+    if(obj == null) { return false; }
+    Cart cart = (Cart) obj;
+    return cart.getSides().equals(this.sides) && cart.getStoreID().equals(this.storeID)
+        && cart.getPizzas().equals(this.pizzas) && cart.getId().equals(this.id)
+        && cart.getTotalAmount().equals(this.totalAmount);
   }
 
 }

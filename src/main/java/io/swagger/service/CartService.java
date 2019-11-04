@@ -1,5 +1,6 @@
 package io.swagger.service;
 
+import com.mongodb.Mongo;
 import io.swagger.model.Cart;
 import io.swagger.model.Pizza;
 import io.swagger.model.PizzaSize;
@@ -11,6 +12,8 @@ import io.swagger.repository.SideItemRepository;
 import io.swagger.repository.ToppingItemRepository;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,18 +33,24 @@ public class CartService {
   @Autowired
   private PizzaSizeRepository sizeRepository;
 
-  public Cart getCartItemsById(String id) {
+  public Cart getCartItemsById(String storeId, String id) {
     for (Cart cart: cartRepository.findAll()) {
-      if (cart.getId().equals(id)) {
+      if (cart.getId().equals(id) && cart.getStoreID().equals(storeId)) {
+          cart.setTotalAmount(getTotalAmountInCart(storeId, id));
         return cart;
       }
     }
     return null;
   }
 
-  public Cart addPizzaToCart(String id, String sizeId, boolean gluten, String topping1,
+  public Cart addPizzaToCart(String storeId, String id, String sizeId, boolean gluten, String topping1,
       String topping2, String topping3, String topping4) {
-    Cart cart = cartRepository.findById(id).orElse(new Cart(id));
+    Cart cart = getCartItemsById(storeId, id);
+    if(cart == null) {
+      cart = new Cart(storeId, new ObjectId());
+    }
+
+
     Optional<PizzaSize> size = sizeRepository.findById(sizeId);
     Pizza newPizza;
     if (size.isPresent()) {
@@ -70,8 +79,11 @@ public class CartService {
     }
   }
 
-  public Cart addSideToCart(String id, String sideID) {
-    Cart cart = cartRepository.findById(id).orElse(new Cart(id));
+  public Cart addSideToCart(String storeId, String id, String sideID) {
+    Cart cart = getCartItemsById(storeId, id);
+    if(cart == null) {
+      cart = new Cart(storeId, new ObjectId());
+    }
     Optional<SideItem> sideItem = sideRepository.findById(sideID);
     if (sideItem.isPresent()) {
       cart.getSides().add(sideID);
@@ -89,9 +101,12 @@ public class CartService {
     return "id does not exist: " + id;
   }
 
-  public Double getTotalAmountInCart(String id) {
-    Double price = 0.0;
+  public Double getTotalAmountInCart(String storeId, String id) {
+    Double price = 0.00;
     Cart cart = cartRepository.findById(id).get();
+    if(!cart.getStoreID().equals(storeId)) {
+      return null;
+    }
     price += getSidePrice(cart);
     price += getPizzaPrice(cart);
 
@@ -101,7 +116,7 @@ public class CartService {
   }
 
   public Double getSidePrice(Cart cart) {
-    double price = 0.00;
+    Double price = 0.00;
     List<String> sides = cart.getSides();
     for (String sideId : sides) {
       Optional<SideItem> sideItem = sideRepository.findById(sideId);
@@ -111,7 +126,7 @@ public class CartService {
   }
 
   public Double getPizzaPrice(Cart cart) {
-    double price = 0.00;
+    Double price = 0.00;
     List<Pizza> pizzas = cart.getPizzas();
     for (Pizza pizza : pizzas) {
       String sizeID = pizza.getSizeID();
@@ -125,7 +140,7 @@ public class CartService {
   }
 
   public Double getPizzaToppingPrice(String sizeID, List<String> toppings) {
-    double price = 0.00;
+    Double price = 0.00;
     for (String toppingID : toppings) {
       Optional<ToppingItem> topping = toppingRepository.findById(toppingID);
       if (sizeID.equals("small")) {
@@ -137,6 +152,35 @@ public class CartService {
       }
     }
     return price;
+  }
+
+  public String deleteSideFromCart(String storeId, String id, String sideId) {
+    Cart cart = cartRepository.findById(id).get();
+    if(!cart.getStoreID().equals(storeId)) {
+      return "this cart does not exist in the store.";
+    }
+    if(cart.getSides().contains(sideId)) {
+      cart.getSides().remove(sideId);
+      cartRepository.save(cart);
+      return "Successfully removed " + sideId + " from " + id;
+    } else {
+      return sideId + " does not exist in "  + id;
+    }
+
+  }
+
+  public String deletePizzaFromCart(String storeId, String id, Integer pizzaIndex) {
+    Cart cart = cartRepository.findById(id).get();
+    if(!cart.getStoreID().equals(storeId)) {
+      return "this cart does not exist in the store.";
+    }
+    if(cart.getPizzas().size() > pizzaIndex) {
+      Pizza pizza = cart.getPizzas().get(pizzaIndex);
+      cart.getPizzas().remove(pizza);
+      cartRepository.save(cart);
+      return "Successfully removed " + pizzaIndex + " pizza from the cart.";
+    }
+    return "This pizzaIndex does not exist.";
   }
 
 }

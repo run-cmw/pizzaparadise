@@ -13,15 +13,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Api(value = "cart", description = "Cart API")
 public interface CartApi {
 
-  // get all items from specific Cart found by cartID
-  ResponseEntity<Cart> getCartItemsById(@ApiParam(value = "CartID") @PathVariable String id);
+  // get all items from specific Cart from a store by using storeID, cartID
+  ResponseEntity<Cart> getCartItemsById(
+      @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
+      @ApiParam(value = "CartID") @PathVariable("cartId") String cartId);
 
-  // get total amount of specific Cart found by cartID
-  ResponseEntity<Double> getPriceOfCartById(@ApiParam(value = "CartID") @PathVariable String id);
+  // get total amount of specific Cart from a store by using storeID, cartID
+  ResponseEntity<Double> getPriceOfCartById(
+      @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
+      @ApiParam(value = "CartID") @PathVariable("cartId") String cartId);
 
-  // add pizza to specific Cart found by cartID, with pizzaSizeID, gluten, toppingIDs
+  // add pizza to specific Cart to store by using storeID, cartID, with pizzaSizeID, gluten, toppingIDs
   ResponseEntity<Cart> addPizzaToCart(
-      @ApiParam(value = "CartID") @PathVariable String id,
+      @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
+      @ApiParam(value = "CartID") @PathVariable("cartId") String cartId,
       @ApiParam(value = "PizzaSizeID") @RequestParam(required = true) String sizeId,
       @ApiParam(value = "Gluten") @RequestParam(required = true) boolean gluten,
       @ApiParam(value = "ToppingID") @RequestParam(required = false) String topping1,
@@ -29,11 +34,28 @@ public interface CartApi {
       @ApiParam(value = "ToppingID") @RequestParam(required = false) String topping3,
       @ApiParam(value = "ToppingID") @RequestParam(required = false) String topping4);
 
-  // add side to specific Cart found by cartID, with sideID
+  // add side to specific Cart found from store by using storeID, cartID, with sideID
   ResponseEntity<Cart> addSideToCart(
-      @ApiParam(value = "CartID") @PathVariable String id,
+      @ApiParam(value = "StoreID")@PathVariable("storeId") String storeId,
+      @ApiParam(value = "CartID") @PathVariable("cartId") String cartId,
       @ApiParam(value = "SideID") @RequestParam(required = true) String sideID);
 
-  ResponseEntity<String> deleteCart(@ApiParam(value = "CartID") @PathVariable String id);
+  // delete a cart from a store by using by using storeID, cartID
+  ResponseEntity<String> deleteCart(
+      @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
+      @ApiParam(value = "CartID") @PathVariable("cartId") String cartId);
+
+  // delete a side item in cart by using by using storeID, cartID, sideID
+  ResponseEntity<String> deleteSideFromCart(
+      @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
+      @ApiParam(value = "CartID") @PathVariable("cartId") String cartId,
+      @ApiParam(value = "SideID") @RequestParam(required = true) String sideId);
+
+  // delete a pizza in cart by using by using storeID, cartID, an index from pizza array
+  ResponseEntity<String> deletePizzaFromCart(
+      @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
+      @ApiParam(value = "CartID") @PathVariable("cartId") String cartId,
+      @ApiParam(value = "index of Pizza Array") @RequestParam(required = true) Integer pizzaIndex);
+
 
 }
