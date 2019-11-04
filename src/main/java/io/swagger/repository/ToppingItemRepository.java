@@ -3,7 +3,9 @@ package io.swagger.repository;
 import io.swagger.model.ToppingItem;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-// Special item Repository interface
+/**
+ * ToppingRepository
+ */
 public interface ToppingItemRepository extends MongoRepository<ToppingItem, String> {
 
 }

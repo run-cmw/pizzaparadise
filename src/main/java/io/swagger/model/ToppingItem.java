@@ -45,6 +45,17 @@ public class ToppingItem {
   @JsonProperty("toppingGluten")
   private String toppingGluten;
 
+  /**
+   * Creating new ToppingItem
+   * @param id given to this ToppingItem
+   * @param toppingName given to this ToppingItem
+   * @param toppingType given to this ToppingItem
+   * @param toppingSmallPrice given to this ToppingItem
+   * @param toppingMediumPrice given to this ToppingItem
+   * @param toppingLargePrice given to this ToppingItem
+   * @param toppingGluten given to this ToppingItem
+   */
+
   public ToppingItem(String id, String toppingName, String toppingType,
       Double toppingSmallPrice, Double toppingMediumPrice, Double toppingLargePrice,
       String toppingGluten) {
@@ -59,7 +70,6 @@ public class ToppingItem {
 
   /**
    * Get id
-   *
    * @return id
    */
   @ApiModelProperty(example = "1", required = true, value = "")
@@ -78,7 +88,6 @@ public class ToppingItem {
 
   /**
    * Get toppingName
-   *
    * @return toppingName
    **/
   @ApiModelProperty(example = "Sausage", value = "")
@@ -99,7 +108,6 @@ public class ToppingItem {
 
   /**
    * Get toppingType
-   *
    * @return toppingType
    **/
   @ApiModelProperty(example = "meat", value = "")
@@ -120,7 +128,6 @@ public class ToppingItem {
 
   /**
    * Get toppingSmallPrice
-   *
    * @return toppingSmallPrice
    **/
   @ApiModelProperty(example = "2.5", value = "")
@@ -140,7 +147,6 @@ public class ToppingItem {
 
   /**
    * Get toppingMediumPrice
-   *
    * @return toppingMediumPrice
    **/
   @ApiModelProperty(example = "2.75", value = "")
@@ -160,7 +166,6 @@ public class ToppingItem {
 
   /**
    * Get toppingLargePrice
-   *
    * @return toppingLargePrice
    **/
   @ApiModelProperty(example = "3.0", value = "")
@@ -180,7 +185,6 @@ public class ToppingItem {
 
   /**
    * Get toppingGluten
-   *
    * @return toppingGluten
    **/
   @ApiModelProperty(example = "gluten", value = "")
