@@ -19,6 +19,7 @@ public class Pizza {
   @JsonProperty("toppingIDs")
   private List<String> toppingIDs;
   private int MAX_TOPPING = 4;
+  private Double price;
 
   /**
    * Create new Pizza
@@ -29,6 +30,7 @@ public class Pizza {
     this.sizeID = sizeID;
     this.toppingIDs = new ArrayList<>();
     this.gluten = gluten;
+    price = 0.00;
   }
 
   /**
@@ -69,6 +71,14 @@ public class Pizza {
    */
   public List<String> getToppingIDs() {
     return this.toppingIDs;
+  }
+
+  public Double getPrice() {
+    return this.price;
+  }
+
+  public void setPrice(Double price) {
+    this.price = price;
   }
 
 }

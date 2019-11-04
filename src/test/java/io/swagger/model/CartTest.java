@@ -75,4 +75,19 @@ public class CartTest {
 
 
   }
+
+  @Test
+  public void SettingNewCartTest() {
+    ObjectId id2 = new ObjectId();
+    Cart test2 = new Cart("eastlake", id2);
+    test2.setStoreID("brooklyn");
+    test2.setTotalAmount(5.00);
+    ObjectId id3 = new ObjectId();
+    test2.setId(id3);
+    Assert.assertEquals(test2.getTotalAmount(), (Double) 5.00);
+
+    Assert.assertEquals(test2.getId(), id3.toHexString());
+
+
+  }
 }

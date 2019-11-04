@@ -62,6 +62,7 @@ public class CartService {
     addToppingToPizza(newPizza, topping2);
     addToppingToPizza(newPizza, topping3);
     addToppingToPizza(newPizza, topping4);
+    newPizza = getPizzaPrice(newPizza);
     cart.getPizzas().add(newPizza);
     cartRepository.save(cart);
     return cart;
@@ -108,7 +109,7 @@ public class CartService {
       return null;
     }
     price += getSidePrice(cart);
-    price += getPizzaPrice(cart);
+    price += getPizzasPrice(cart);
 
     cart.setTotalAmount(price);
     cartRepository.save(cart);
@@ -125,18 +126,26 @@ public class CartService {
     return price;
   }
 
-  public Double getPizzaPrice(Cart cart) {
+  public Double getPizzasPrice(Cart cart) {
     Double price = 0.00;
     List<Pizza> pizzas = cart.getPizzas();
     for (Pizza pizza : pizzas) {
-      String sizeID = pizza.getSizeID();
-      Optional<PizzaSize> pizzaSize = sizeRepository.findById(sizeID);
-      List<String> toppings = pizza.getToppingIDs();
-      price += pizzaSize.get().getPrice();
-      price += getPizzaToppingPrice(sizeID, toppings);
-
+      price += pizza.getPrice();
     }
     return price;
+  }
+
+  public Pizza getPizzaPrice(Pizza pizza) {
+    Double price = 0.00;
+    String sizeID = pizza.getSizeID();
+    Optional<PizzaSize> pizzaSize = sizeRepository.findById(sizeID);
+    List<String> toppings = pizza.getToppingIDs();
+    price += pizzaSize.get().getPrice();
+    price += getPizzaToppingPrice(sizeID, toppings);
+    pizza.setPrice(price);
+
+    return pizza;
+
   }
 
   public Double getPizzaToppingPrice(String sizeID, List<String> toppings) {
