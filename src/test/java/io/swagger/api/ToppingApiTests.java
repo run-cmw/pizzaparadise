@@ -32,41 +32,41 @@ public class ToppingApiTests {
   @Test
   public void getAllToppingTest() {
     when(toppingRepository.findAll()).thenReturn(Stream.of(
-        new ToppingItem("5dae91de1c9d440000bf15d3", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten"),
-        new ToppingItem("5dae92951c9d440000bf15d5", "sausage", "meat", 2.5, 2.75, 3.0, "gluten"),
-        new ToppingItem("5dae92b21c9d440000bf15d6", "onion", "vegetable", 2.0, 2.25, 2.5,
+        new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten"),
+        new ToppingItem("sausage1", "sausage", "meat", 2.5, 2.75, 3.0, "gluten"),
+        new ToppingItem("onion1", "onion", "vegetable", 2.0, 2.25, 2.5,
             "non-gluten"),
-        new ToppingItem("5dae92ef1c9d440000bf15d7", "green peppers", "vegetable", 2.0, 2.25, 2.5,
+        new ToppingItem("greenPeppers1", "green peppers", "vegetable", 2.0, 2.25, 2.5,
             "non-gluten"),
-        new ToppingItem("5dae93221c9d440000bf15d9", "mushroom", "vegetable", 2.0, 2.25, 2.5,
+        new ToppingItem("mushroom1", "mushroom", "vegetable", 2.0, 2.25, 2.5,
             "non-gluten"),
-        new ToppingItem("5dae935e1c9d440000bf15da", "black olives", "vegetable", 2.0, 2.25, 2.5,
+        new ToppingItem("blackOlives1", "black olives", "vegetable", 2.0, 2.25, 2.5,
             "non-gluten")
     ).collect(Collectors.toList()));
 
     Assert.assertEquals(6, toppingService.getAllTopping().size());
 
-    ToppingItem topping1 = new ToppingItem("5dae91de1c9d440000bf15d3", "pepperoni", "meat", 2.5,
+    ToppingItem topping1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5,
         2.75, 3.0, "gluten");
 
-    Assert.assertEquals(toppingService.getToppingById("5dae91de1c9d440000bf15d3").toString(),
+    Assert.assertEquals(toppingService.getToppingById("pepperoni1").toString(),
         topping1.toString());
 
-    ToppingItem topping2 = new ToppingItem("5dae92b21c9d440000bf15d6", "onion", "vegetable", 2.0,
+    ToppingItem topping2 = new ToppingItem("onion1", "onion", "vegetable", 2.0,
         2.25, 2.5, "non-gluten");
 
-    Assert.assertEquals(toppingService.getToppingById("5dae92b21c9d440000bf15d6").toString(),
+    Assert.assertEquals(toppingService.getToppingById("onion1").toString(),
         topping2.toString());
 
-    ToppingItem topping3 = new ToppingItem("5dae93221c9d440000bf15d9", "mushroom", "vegetable", 2.0,
+    ToppingItem topping3 = new ToppingItem("mushroom1", "mushroom", "vegetable", 2.0,
         2.25, 2.5, "non-gluten");
 
-    Assert.assertEquals(toppingService.getToppingById("5dae93221c9d440000bf15d9").toString(),
+    Assert.assertEquals(toppingService.getToppingById("mushroom1").toString(),
         topping3.toString());
 
     Assert.assertFalse(topping3.equals(null));
 
-    Assert.assertEquals(toppingService.getToppingById("5d"), null);
+    Assert.assertEquals(toppingService.getToppingById("errorId"), null);
 
   }
 
