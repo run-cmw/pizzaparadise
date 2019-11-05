@@ -2,7 +2,6 @@ package io.swagger.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,19 +17,20 @@ public class SideItemTest {
 
   @Before
   public void setUp() {
-    sideItem = new SideItem("2dae8e058980e20b64e28174", "Cheesesticks", 6.99);
-    same = new SideItem("5dae8e058980e20b64e28170", "Hot wings", 7.99);
-    different = new SideItem("2eae8e058980e20b64e28175", "2 liter Peach Crush", 2.99);
+    sideItem = new SideItem("cheeseSticks", "Cheesesticks", 6.99, "appetizer");
+    same = new SideItem("hotWings", "Hot wings", 7.99, "appetizer");
+    different = new SideItem("2LiterPeachCrush", "2 liter Peach Crush", 2.99, "drink");
     
     // Test setters within setup method
-    sideItem.setId("5dae8e058980e20b64e28170");
+    sideItem.setId("hotWings");
     sideItem.setName("Hot wings");
     sideItem.setPrice(7.99);
+    sideItem.setType("appetizer");
   }
 
   @Test
   public void getIdTest() {
-    assertEquals("5dae8e058980e20b64e28170", sideItem.getId());
+    assertEquals("hotWings", sideItem.getId());
   }
 
   @Test
@@ -65,7 +65,8 @@ public class SideItemTest {
       "SideItem{"
       + "id='" + sideItem.getId() + '\''
       + ", name='" + sideItem.getName()+ '\''
-      + ", price='" + sideItem.getPrice()
+      + ", price='" + sideItem.getPrice()+ '\''
+      + ", type='" + sideItem.getType()+ '\''
       + '}';
 
     assertEquals(SIDE_ITEM_AS_STRING, sideItem.toString());

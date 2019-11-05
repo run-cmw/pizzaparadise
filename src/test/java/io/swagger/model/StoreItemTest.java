@@ -2,7 +2,6 @@ package io.swagger.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,26 +17,27 @@ public class StoreItemTest {
 
   @Before
   public void setUp() {
-    storeItem = new StoreItem("5dae8e058980e20b64e28175", "555 Sunshine Ave", "Seattle", "California", "70806");
-    same = new StoreItem("5dae8e058980e20b64e28179", "555 Sunshine Blvd", "Clam Gulch", "Alaska", "94608");
-    different = new StoreItem("5dae8e058980e20b64e28199", "555 Sunshine Blvd", "Clam Gulch", "Alaska", "94608");
+    storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+    same = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska", "94608", false);
+    different = new StoreItem("louisiana", "555 Louisiana Blvd", "Clam Gulch", "Alaska", "94608", true);
     
     // Test setters within setup method
-    storeItem.setId("5dae8e058980e20b64e28179");
-    storeItem.setStreetNumAndName("555 Sunshine Blvd");
+    storeItem.setId("gulf");
+    storeItem.setStreetNumAndName("555 Gulf Blvd");
     storeItem.setCity("Clam Gulch");
     storeItem.setState("Alaska");
     storeItem.setZipCode("94608");
+    storeItem.setOffersGlutenFree(false);
   }
 
   @Test
   public void getIdTest() {
-    assertEquals("5dae8e058980e20b64e28179", storeItem.getId());
+    assertEquals("gulf", storeItem.getId());
   }
 
   @Test
   public void getStreetNumAndNameTest() {
-    assertEquals("555 Sunshine Blvd", storeItem.getStreetNumAndName());
+    assertEquals("555 Gulf Blvd", storeItem.getStreetNumAndName());
   }
 
   @Test
@@ -54,6 +54,9 @@ public class StoreItemTest {
   public void getZipCodeTest() {
     assertEquals("94608", storeItem.getZipCode());
   }
+
+  @Test
+  public void getOffersGlutenFree() {assertEquals(false, storeItem.getOffersGlutenFree()); }
 
   @Test
   public void equalsTest() {
@@ -79,6 +82,7 @@ public class StoreItemTest {
       + "    city: " + storeItem.getCity() + "\n" 
       + "    state: " + storeItem.getState() + "\n"
       + "    zipCode: " + storeItem.getZipCode() + "\n"
+      + "    offersGlutenFree: " + storeItem.getOffersGlutenFree() + "\n"
       + "}";
 
     assertEquals(STORE_ITEM_AS_STRING, storeItem.toString());

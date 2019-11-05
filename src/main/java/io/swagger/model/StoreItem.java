@@ -1,15 +1,11 @@
 package io.swagger.model;
-import java.util.Objects;
 
+import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -23,7 +19,6 @@ import io.swagger.annotations.ApiModelProperty;
 @Document(collection = "StoreItem")
 public class StoreItem {
   @JsonProperty("id")
-  @Id
   private String id;
 
   @JsonProperty("streetNumAndName")
@@ -38,6 +33,9 @@ public class StoreItem {
   @JsonProperty("zipCode")
   private String zipCode;
 
+  @JsonProperty("offersGlutenFree")
+  private boolean offersGlutenFree;
+
   /**
    * Construct a StoreItem with the given id, street, city, state, and zip code.
    *
@@ -46,21 +44,23 @@ public class StoreItem {
    * @param city city portion of store's address
    * @param state state portion of store's address
    * @param zip code zip code portion of store's address
+   * @param offersGlutenFree whether store offers gluten free pizza
    */
-  public StoreItem(String id, String streetNumAndName, String city, String state, String zipCode) {
+  public StoreItem(String id, String streetNumAndName, String city, String state, String zipCode, boolean offersGlutenFree) {
     super();
     this.id = id;
     this.streetNumAndName = streetNumAndName;
     this.city = city;
     this.state = state;
     this.zipCode = zipCode;
+    this.offersGlutenFree = offersGlutenFree;
   }
 
   /**
    * Get store's id.
    * @return store's id.
    */
-  @ApiModelProperty(example = "5dae8e058980e20b64e28174", required = true, value = "")
+  @ApiModelProperty(example = "pike", required = true, value = "")
   @NotNull
   @Valid
   public String getId() {
@@ -151,6 +151,31 @@ public class StoreItem {
     this.zipCode = zipCode;
   }
 
+  /**
+   * Get store's offersGlutenFree value.
+   * @return {@code true} if store offers gluten free pizza and {@code false} otherwwise.
+   */
+  @ApiModelProperty(example = "false", required = true, value = "")
+  @NotNull
+  @Valid
+  public boolean getOffersGlutenFree() {
+    return offersGlutenFree;
+  }
+
+  /**
+   * Set whether store offers gluten free pizza.
+   * @param offersGlutenFree store's value for offering gluten free pizza
+   */
+  public void setOffersGlutenFree(boolean offersGlutenFree) {
+    this.offersGlutenFree = offersGlutenFree;
+  }
+
+  /**
+   * Indicates whether some other object is "equal to" this one.
+   *
+   * @param obj - the reference object with which to compare
+   * @return {@code true} if this object is the same as the obj argument and {@code false} otherwise.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -164,27 +189,42 @@ public class StoreItem {
         && Objects.equals(this.streetNumAndName, storeItem.streetNumAndName)
         && Objects.equals(this.city, storeItem.city)
         && Objects.equals(this.state, storeItem.state)
-        && Objects.equals(this.zipCode, storeItem.zipCode);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, streetNumAndName, city, state, zipCode);
+        && Objects.equals(this.zipCode, storeItem.zipCode)
+        && Objects.equals(this.offersGlutenFree, storeItem.offersGlutenFree);
   }
 
   /**
-   * String representation of StoreItem.
+   * Returns a hash code value for a StoreItem.
+   * @return hash code value for a StoreItem.
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, streetNumAndName, city, state, zipCode, offersGlutenFree);
+  }
+
+  /**
+   * Returns a string representation of a StoreItem.
+   * Format - class StoreItem {
+   *              id: storeItemId
+   *              streetNumAndName: storeItemStreetNumAndName
+   *              city: storeItemCity
+   *              state: storeItemState
+   *              zipCode: storeItemZipCode
+   *              offersGlutenFree: trueOrFalse
+   *          }
+   *
+   * @return string representation of a StoreItem.
    */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class StoreItem {\n");
-
     sb.append("    id: ").append(id).append("\n");
     sb.append("    streetNumAndName: ").append(streetNumAndName).append("\n");
     sb.append("    city: ").append(city).append("\n");
     sb.append("    state: ").append(state).append("\n");
     sb.append("    zipCode: ").append(zipCode).append("\n");
+    sb.append("    offersGlutenFree: ").append(offersGlutenFree).append("\n");
     sb.append("}");
     return sb.toString();
   }
