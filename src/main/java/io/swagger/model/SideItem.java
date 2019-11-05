@@ -23,7 +23,6 @@ import io.swagger.annotations.ApiModelProperty;
 @Document(collection = "SideItem")
 public class SideItem {
   @JsonProperty("id")
-  @Id
   private String id;
 
   @JsonProperty("name")

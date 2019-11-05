@@ -1,4 +1,4 @@
-package io.swagger.api;
+package io.swagger.model;
 
 import io.swagger.model.PizzaSize;
 import org.junit.Assert;
@@ -6,9 +6,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
+@TestPropertySource("classpath:/application-test.properties")
 @SpringBootTest
 public class PizzaSizeTest {
 

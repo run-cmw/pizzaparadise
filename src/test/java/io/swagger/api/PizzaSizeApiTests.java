@@ -10,6 +10,7 @@ import io.swagger.service.PizzaSizeService;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,41 +29,43 @@ public class PizzaSizeApiTests {
   @MockBean
   private PizzaSizeRepository sizeRepository;
 
+  @Before
+  public void Setup() {
+    when(sizeRepository.findAll()).thenReturn(Stream.of(
+        new PizzaSize("large", "Large", "16", 20.99),
+        new PizzaSize("medium", "Medium", "13", 17.99),
+        new PizzaSize("small", "Small", "11", 13.99)
+    ).collect(Collectors.toList()));
+  }
 
   @Test
   public void getAllSizesTest() {
-    when(sizeRepository.findAll()).thenReturn(Stream.of(
-        new PizzaSize("5da6d984b7437ea5e054fe39", "Large", "16", 20.99),
-        new PizzaSize("5da6d946b7437ea5e054fe38", "Medium", "13", 17.99),
-        new PizzaSize("5da6d903b7437ea5e054fe37", "Small", "11", 13.99)
-    ).collect(Collectors.toList()));
-
     Assert.assertEquals(3, sizeService.getAllPizzaSizes().size());
+    Assert.assertNotEquals(sizeService.getAllPizzaSizes(), null);
   }
 
   @Test
   public void getPizzaSizeByIdTest() {
-    PizzaSize size1 = new PizzaSize("5da6d903b7437ea5e054fe37", "Small",
+    PizzaSize size1 = new PizzaSize("small", "Small",
         "11", 13.99);
 
     Assert.assertEquals(
-        sizeService.getPizzaSizeById("5da6d903b7437ea5e054fe37").toString(), size1.toString()
-    );
+        sizeService.getPizzaSizeById("small").toString(), size1.toString());
 
-    PizzaSize size2 = new PizzaSize("5da6d946b7437ea5e054fe38", "Medium",
+    PizzaSize size2 = new PizzaSize("medium", "Medium",
         "13", 17.99);
 
     Assert.assertEquals(
-        sizeService.getPizzaSizeById("5da6d946b7437ea5e054fe38").toString(), size2.toString()
+        sizeService.getPizzaSizeById("medium").toString(), size2.toString()
     );
 
-    PizzaSize size3 = new PizzaSize("5da6d984b7437ea5e054fe39", "Large",
+    PizzaSize size3 = new PizzaSize("large", "Large",
         "16", 20.99);
 
     Assert.assertEquals(
-        sizeService.getPizzaSizeById("5da6d984b7437ea5e054fe39"), size3);
+        sizeService.getPizzaSizeById("large"), size3);
 
-    Assert.assertTrue(sizeService.getPizzaSizeById("5da6d984b7437ea5e054fe39").equals(size3));
+    Assert.assertTrue(sizeService.getPizzaSizeById("large").equals(size3));
 
     Assert.assertFalse(size3.equals(null));
 
@@ -79,20 +82,20 @@ public class PizzaSizeApiTests {
     int statusCode1 = given().get("https://pizza-paradise.herokuapp.com/sizes").statusCode();
     Assert.assertEquals(statusCode1, 404);
 
-    int statusCode2 = given().get("https://pizza-paradise.herokuapp.com/size/5da6d903b7437ea5e054fe37").statusCode();
+    int statusCode2 = given().get("https://pizza-paradise.herokuapp.com/size/small").statusCode();
     Assert.assertEquals(statusCode2, 302);
 
     int statusCode3 = given().get("https://pizza-paradise.herokuapp.com/size/5da4fe37").statusCode();
     Assert.assertEquals(statusCode3, 404);
-
-
-
   }
 
   @Test
   public void verifySizeName() {
     given().when().get("https://pizza-paradise.herokuapp.com/size").then()
         .body(containsString("Medium"));
+
+     given().when().get("https://pizza-paradise.herokuapp.com/size/small").then()
+        .body(containsString("Small"));
   }
 
 
