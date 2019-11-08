@@ -75,9 +75,14 @@ public class CartApiController implements CartApi {
       return new ResponseEntity<Cart>( HttpStatus.NOT_FOUND);
     }
 
-    return new ResponseEntity<Cart>(
-        cartService.addPizzaToCart(storeId, cartId, sizeId, gluten, topping1, topping2,
-            topping3, topping4), HttpStatus.CREATED);
+    Cart cart = cartService.addPizzaToCart(storeId, cartId, sizeId, gluten, topping1, topping2,
+        topping3, topping4);
+    if(cart == null) {
+      return new ResponseEntity<Cart>(HttpStatus.BAD_REQUEST);
+    } else {
+      return new ResponseEntity<Cart>(cart, HttpStatus.CREATED);
+    }
+
   }
 
   @PutMapping("/store/{storeId}/cart/{cartId}/add/side")
@@ -104,15 +109,14 @@ public class CartApiController implements CartApi {
       tags = {
           "cart",
       })
-  public ResponseEntity<String> deleteCart(String storeId, String cartId) {
+  public ResponseEntity deleteCart(String storeId, String cartId) {
     if(storeService.getStoreById(storeId) == null) {
-      return new ResponseEntity<String>("Store not found.", HttpStatus.NOT_FOUND);
+      return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
     if (cartService.getCartItemsById(storeId, cartId) == null) {
-      return new ResponseEntity<String>("id does not exist: " + cartId, HttpStatus.NOT_FOUND);
+      return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<String>(cartService.deleteCart(cartId), HttpStatus.OK);
-
+    return new ResponseEntity(cartService.deleteCart(cartId), HttpStatus.NO_CONTENT);
   }
 
   @DeleteMapping("store/{storeId}/cart/{cartId}/delete/side")

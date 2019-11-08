@@ -1,20 +1,22 @@
 package io.swagger.service;
 
-import com.mongodb.Mongo;
 import io.swagger.model.Cart;
 import io.swagger.model.Pizza;
 import io.swagger.model.PizzaSize;
 import io.swagger.model.SideItem;
+import io.swagger.model.StoreItem;
 import io.swagger.model.ToppingItem;
 import io.swagger.repository.CartRepository;
 import io.swagger.repository.PizzaSizeRepository;
 import io.swagger.repository.SideItemRepository;
+import io.swagger.repository.StoreItemRepository;
 import io.swagger.repository.ToppingItemRepository;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -33,6 +35,9 @@ public class CartService {
   @Autowired
   private PizzaSizeRepository sizeRepository;
 
+  @Autowired
+  private StoreItemRepository storeRepository;
+
   public Cart getCartItemsById(String storeId, String id) {
     for (Cart cart: cartRepository.findAll()) {
       if (cart.getId().equals(id) && cart.getStoreID().equals(storeId)) {
@@ -45,6 +50,12 @@ public class CartService {
 
   public Cart addPizzaToCart(String storeId, String id, String sizeId, boolean gluten, String topping1,
       String topping2, String topping3, String topping4) {
+    Optional<StoreItem> store = storeRepository.findById(storeId);
+    if(store.isPresent()) {
+      if(!store.get().getOffersGlutenFree() && !gluten) {
+        return null;
+      }
+    }
     Cart cart = getCartItemsById(storeId, id);
     if(cart == null) {
       cart = new Cart(storeId, new ObjectId());
@@ -94,12 +105,12 @@ public class CartService {
     return null;
   }
 
-  public String deleteCart(String id) {
+  public ResponseEntity deleteCart(String id) {
     if (cartRepository.existsById(id)) {
       cartRepository.deleteById(id);
-      return "deleted with id " + id;
+      return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
-    return "id does not exist: " + id;
+    return new ResponseEntity(HttpStatus.BAD_REQUEST);
   }
 
   public Double getTotalAmountInCart(String storeId, String id) {

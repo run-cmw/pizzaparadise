@@ -41,7 +41,7 @@ public interface CartApi {
       @ApiParam(value = "SideID") @RequestParam(required = true) String sideID);
 
   // delete a cart from a store by using by using storeID, cartID
-  ResponseEntity<String> deleteCart(
+  ResponseEntity deleteCart(
       @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
       @ApiParam(value = "CartID") @PathVariable("cartId") String cartId);
 
