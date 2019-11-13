@@ -5,11 +5,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 
-/** SpecialItem */
+/**
+ * SpecialItem
+ */
 @Validated
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
@@ -31,6 +32,7 @@ public class SpecialItem {
 
   /**
    * Create new SpecialItem
+   *
    * @param id id given to this SpecialItem
    * @param name name given to this SpecialItem
    * @param description description given to this SpecialItem
@@ -53,9 +55,7 @@ public class SpecialItem {
    * Set id
    * @param id new id given for this item
    */
-  @ApiModelProperty(example = "1", required = true, value = "")
-  @NotNull
-  @Valid
+  @ApiModelProperty(example = "buy1Get1Free")
   public void setId(String id) {
     this.id = id;
   }
@@ -72,9 +72,7 @@ public class SpecialItem {
    * Set name
    * @param name new name given for this special item
    */
-  @ApiModelProperty(example = "Buy1Get1Free", required = true, value = "")
-  @NotNull
-  @Valid
+  @ApiModelProperty(example = "Buy1Get1Free")
   public void setName(String name) {
     this.name = name;
   }
@@ -89,21 +87,20 @@ public class SpecialItem {
 
   /**
    * Set description
-   * @param description - new description for Special item
+   * @param description new description for Special item
    */
   @ApiModelProperty(
       example =
-          "Only one special at a time. If you buy 1 pizza, you get 1 free pizza that is equal or less value.",
-      required = true,
-      value = "")
-  @NotNull
-  @Valid
+          "Only one special at a time. If you buy 1 pizza,"
+              + " you get 1 free pizza that is equal or less value.")
   public void setDescription(String description) {
     this.description = description;
   }
 
-  /*
+
+  /**
    * Spring representation of a Special Item
+   * @return string representation of a special item
    */
   @Override
   public String toString() {
@@ -121,8 +118,12 @@ public class SpecialItem {
    */
   @Override
   public boolean equals(Object obj) {
-    if(this == obj) return true;
-    if(obj == null) { return false; }
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
     SpecialItem specialItem = (SpecialItem) obj;
     return specialItem.getId().equals(this.id) &&
         specialItem.getName().equals(this.name) &&
