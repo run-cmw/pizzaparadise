@@ -16,9 +16,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Api(value = "pizzaSize", description = "Pizza Size API")
 public interface PizzaSizeApi {
 
-  // Get all pizza sizes
+  /**
+   * Get List of all pizza Sizes
+   * @return list of pizza Sizes from database
+   */
   ResponseEntity<List<PizzaSize>> getAllPizzaSizes();
 
-  // Get a specific pizza size with id
+
+  /**
+   * Get a specific pizza size with id
+   * @param id pizzaSizeId given to search
+   * @return PizzaSize found using id
+   */
   ResponseEntity<PizzaSize> getPizzaSizeById(@PathVariable String id);
 }
