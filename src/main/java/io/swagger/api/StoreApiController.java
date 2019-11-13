@@ -57,16 +57,25 @@ public class StoreApiController implements StoreApi {
     return new ResponseEntity<StoreItem>(storeService.addStore(newStore), HttpStatus.CREATED);
   }
 
+  /**
+   * {@inheritDoc}
+   * HttpStatus.NOT_FOUND - if id is not found in database.
+   * HttpStatus.NO_CONTENT - if store is successfully removed.
+   */
   @DeleteMapping("/store/delete/{id}")
   @ApiOperation(
       value = "Delete a StoreItem using id",
       tags = {
           "store",
       })
-  public ResponseEntity<String> deleteStore(@PathVariable String id) {
-      if (storeService.getStoreById(id) == null) {
-        return new ResponseEntity<String>("id does not exist: " + id, HttpStatus.NOT_FOUND);
-      }
-    return new ResponseEntity<String>(storeService.deleteStore(id), HttpStatus.OK);
+  @ApiResponses(value = {
+   @ApiResponse(code=204, message = "NO_CONTENT"),
+   @ApiResponse(code=404, message = "NOT_FOUND")})
+  public HttpStatus deleteStore(String id) {
+    if (storeService.getStoreById(id) == null) {
+      return HttpStatus.NOT_FOUND;
+    }
+    storeService.deleteStore(id);
+    return HttpStatus.NO_CONTENT;
   }
 }

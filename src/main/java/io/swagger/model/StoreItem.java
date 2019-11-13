@@ -1,13 +1,13 @@
 package io.swagger.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /** StoreItem */
 @Validated
@@ -39,7 +39,7 @@ public class StoreItem {
   /**
    * Construct a StoreItem with the given id, street, city, state, and zip code.
    *
-   * @param id store's identification number
+   * @param id store's unique identifier
    * @param streetNumAndName street portion of store's address
    * @param city city portion of store's address
    * @param state state portion of store's address
@@ -47,7 +47,6 @@ public class StoreItem {
    * @param offersGlutenFree whether store offers gluten free pizza
    */
   public StoreItem(String id, String streetNumAndName, String city, String state, String zipCode, boolean offersGlutenFree) {
-    super();
     this.id = id;
     this.streetNumAndName = streetNumAndName;
     this.city = city;
@@ -204,28 +203,21 @@ public class StoreItem {
 
   /**
    * Returns a string representation of a StoreItem.
-   * Format - class StoreItem {
-   *              id: storeItemId
-   *              streetNumAndName: storeItemStreetNumAndName
-   *              city: storeItemCity
-   *              state: storeItemState
-   *              zipCode: storeItemZipCode
-   *              offersGlutenFree: trueOrFalse
-   *          }
+   * Format - StoreItem{id='storeItemId', streetNumAndName='storeItemStreetNumAndName',
+   *              city='storeItemCity', state='toreItemState', zipCode='storeItemZipCode',
+   *              offersGlutenFree='trueOrFalse'}
    *
    * @return string representation of a StoreItem.
    */
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class StoreItem {\n");
-    sb.append("    id: ").append(id).append("\n");
-    sb.append("    streetNumAndName: ").append(streetNumAndName).append("\n");
-    sb.append("    city: ").append(city).append("\n");
-    sb.append("    state: ").append(state).append("\n");
-    sb.append("    zipCode: ").append(zipCode).append("\n");
-    sb.append("    offersGlutenFree: ").append(offersGlutenFree).append("\n");
-    sb.append("}");
-    return sb.toString();
+    return "StoreItem{"
+        + "id='" + id + '\''
+        + ", streetNumAndName='" + streetNumAndName + '\''
+        + ", city='" + city + '\''
+        + ", state='" + state + '\''
+        + ", zipCode='" + zipCode + '\''
+        + ", offersGlutenFree='" + offersGlutenFree + '\''
+        + '}';
   }
 }

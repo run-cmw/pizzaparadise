@@ -76,14 +76,14 @@ public class StoreItemTest {
   @Test
   public void toStringTest() {
     final String STORE_ITEM_AS_STRING =
-      "class StoreItem {\n"
-      + "    id: " + storeItem.getId() + "\n"
-      + "    streetNumAndName: " + storeItem.getStreetNumAndName() + "\n"
-      + "    city: " + storeItem.getCity() + "\n" 
-      + "    state: " + storeItem.getState() + "\n"
-      + "    zipCode: " + storeItem.getZipCode() + "\n"
-      + "    offersGlutenFree: " + storeItem.getOffersGlutenFree() + "\n"
-      + "}";
+        "StoreItem{"
+            + "id='" + storeItem.getId() + '\''
+            + ", streetNumAndName='" + storeItem.getStreetNumAndName() + '\''
+            + ", city='" + storeItem.getCity() + '\''
+            + ", state='" + storeItem.getState() + '\''
+            + ", zipCode='" + storeItem.getZipCode() + '\''
+            + ", offersGlutenFree='" + storeItem.getOffersGlutenFree() + '\''
+            + '}';
 
     assertEquals(STORE_ITEM_AS_STRING, storeItem.toString());
   }

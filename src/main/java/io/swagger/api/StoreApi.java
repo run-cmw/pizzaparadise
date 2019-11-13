@@ -41,7 +41,8 @@ public interface StoreApi {
   /**
    * Delete a StoreItem by id.
    * @param id id of StoreItem to delete
-   * @return String confirming deletion of StoreItem with specified id.
+   * @return {@code HttpStatus.NO_CONTENT} if store successfully removed and
+   * {@code HttpStatus.NOT_FOUND} if id wasn't found.
    */
-  ResponseEntity<String> deleteStore(@PathVariable String id);
+  HttpStatus deleteStore(@PathVariable String id);
 }

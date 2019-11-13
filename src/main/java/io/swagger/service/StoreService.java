@@ -49,13 +49,8 @@ public class StoreService {
   /**
    * Delete a StoreItem by id.
    * @param id id of StoreItem to delete
-   * @return String confirming deletion of StoreItem with specified id.
    */
-  public String deleteStore(String id) {
-    if(storeItemRepository.existsById(id) ) {
-      storeItemRepository.deleteById(id);
-      return "deleted id: " + id;
-    }
-    return "id does not exist: " + id;
+  public void deleteStore(String id) {
+    storeItemRepository.deleteById(id);
   }
 }
