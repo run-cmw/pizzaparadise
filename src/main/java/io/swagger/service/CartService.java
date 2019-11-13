@@ -1,8 +1,10 @@
 package io.swagger.service;
 
 import io.swagger.model.Cart;
+import io.swagger.model.CartAddResponse;
 import io.swagger.model.Pizza;
 import io.swagger.model.PizzaSize;
+import io.swagger.model.PriceResponse;
 import io.swagger.model.SideItem;
 import io.swagger.model.StoreItem;
 import io.swagger.model.ToppingItem;
@@ -11,12 +13,12 @@ import io.swagger.repository.PizzaSizeRepository;
 import io.swagger.repository.SideItemRepository;
 import io.swagger.repository.StoreItemRepository;
 import io.swagger.repository.ToppingItemRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -38,95 +40,150 @@ public class CartService {
   @Autowired
   private StoreItemRepository storeRepository;
 
-  public Cart getCartItemsById(String storeId, String id) {
-    for (Cart cart: cartRepository.findAll()) {
-      if (cart.getId().equals(id) && cart.getStoreID().equals(storeId)) {
-          cart.setTotalAmount(getTotalAmountInCart(storeId, id));
+  /**
+   * Get Cart information by StoreID and CartID.
+   * @param storeId storeId given to this function.
+   * @param cartId cartId given to this function.
+   * @return Cart if cartId was found from the store. Null if cartID and storeID are not connected.
+   */
+  public Cart getCartItemsById(String storeId, String cartId) {
+    for (Cart cart : cartRepository.findAll()) {
+      if (cart.getId().equals(cartId) && cart.getStoreID().equals(storeId)) {
+        cart.setTotalAmount(getTotalAmountInCart(cartId).getPrice());
         return cart;
       }
     }
     return null;
   }
 
-  public Cart addPizzaToCart(String storeId, String id, String sizeId, boolean gluten, String topping1,
-      String topping2, String topping3, String topping4) {
+
+  /**
+   * Create pizza by using sizeId, gluten and 4 toppings and add this pizza to Cart. If the store
+   * does not offer the glutenFree and input gluten is false, it will be returning CartAddResponse
+   * with "Success:false" with message. When adding toppings to pizza, it will only include existing
+   * toppings. If everything is successful, it will return CartAddResponse with "Success:True" and
+   * show other details.
+   *
+   * @param storeId storeId given for checking gluten preference.
+   * @param cartId cartId given for adding pizza.
+   * @param sizeId sizeId given for making pizza.
+   * @param gluten gluten(true = gluten / false = glutenFree) given for making pizza.
+   * @param topping1 toppingId given for making pizza.
+   * @param topping2 toppingId given for making pizza.
+   * @param topping3 toppingId given for making pizza.
+   * @param topping4 toppingId given for making pizza.
+   * @return If successful, it will return CartAddResponse with "Success:True" and show other
+   * details. If not successful, it will return CartAddResponse with "Success:false" with message.
+   */
+  public CartAddResponse addPizzaToCart(String storeId, String cartId, String sizeId,
+      boolean gluten, String topping1, String topping2, String topping3, String topping4) {
     Optional<StoreItem> store = storeRepository.findById(storeId);
-    if(store.isPresent()) {
-      if(!store.get().getOffersGlutenFree() && !gluten) {
-        return null;
-      }
-    }
-    Cart cart = getCartItemsById(storeId, id);
-    if(cart == null) {
-      cart = new Cart(storeId, new ObjectId());
+    if (!store.get().getOffersGlutenFree() && !gluten) {
+      String message = "This store cannot provide this gluten preference.";
+      return new CartAddResponse(false, null, null, null, message);
     }
 
-
-    Optional<PizzaSize> size = sizeRepository.findById(sizeId);
-    Pizza newPizza;
-    if (size.isPresent()) {
-      newPizza = new Pizza(sizeId, gluten);
-    } else {
-      return null;
+    Cart cart = getCartItemsById(storeId, cartId);
+    if (cart == null) {
+      ObjectId cartObjectID = new ObjectId();
+      cart = new Cart(storeId, cartObjectID);
+      cartId = cartObjectID.toHexString();
     }
-    addToppingToPizza(newPizza, topping1);
-    addToppingToPizza(newPizza, topping2);
-    addToppingToPizza(newPizza, topping3);
-    addToppingToPizza(newPizza, topping4);
+
+    List<String> items = new ArrayList<>();
+    Pizza newPizza = new Pizza(sizeId, gluten);
+    items.add(sizeId);
+
+    addToppingToPizza(newPizza, topping1, items);
+    addToppingToPizza(newPizza, topping2, items);
+    addToppingToPizza(newPizza, topping3, items);
+    addToppingToPizza(newPizza, topping4, items);
     newPizza = getPizzaPrice(newPizza);
     cart.getPizzas().add(newPizza);
     cartRepository.save(cart);
-    return cart;
+    String message = "items are successfully added.";
+    return new CartAddResponse(true, items, cartId, storeId, message);
 
   }
 
-  public void addToppingToPizza(Pizza pizza, String topping) {
+
+  /**
+   * SUB-Function of addPizzaToCart()
+   * This function add topping to pizza. Only adding toppings that exist in database.
+   * @param pizza base pizza given for adding toppings.
+   * @param topping toppingId given to add to pizza.
+   * @param items if topping does exist and can be added to pizza, we also add to item List.
+   */
+  public void addToppingToPizza(Pizza pizza, String topping, List<String> items) {
     if (topping != null) {
       Optional<ToppingItem> item = toppingRepository.findById(topping);
       if (item.isPresent()) {
         if (pizza.getToppingCount() <= pizza.getMAX_TOPPING()) {
           pizza.getToppingIDs().add(topping);
+          items.add(topping);
         }
       }
     }
   }
 
-  public Cart addSideToCart(String storeId, String id, String sideID) {
-    Cart cart = getCartItemsById(storeId, id);
-    if(cart == null) {
-      cart = new Cart(storeId, new ObjectId());
+  /**
+   * This function add side to Cart.
+   * If the cartId doesn't exist in the store, we create new Cart in the store and add side.
+   * Note that if input cartID doesn't exist, finalized cartID is newly made.
+   * @param storeId storeId given to this function to check if storeId has cartId.
+   * @param cartId cartId given to this function to check if storeId has cartId.
+   * @param sideID sideId given to add to the Cart.
+   * @return CartAddResponse that shows sideId, cartId, storeId, message if it is successful.
+   */
+  public CartAddResponse addSideToCart(String storeId, String cartId, String sideID) {
+    Cart cart = getCartItemsById(storeId, cartId);
+
+    if (cart == null) {
+      ObjectId cartObjectId = new ObjectId();
+      cartId = cartObjectId.toHexString();
+      cart = new Cart(storeId, cartObjectId);
     }
-    Optional<SideItem> sideItem = sideRepository.findById(sideID);
-    if (sideItem.isPresent()) {
-      cart.getSides().add(sideID);
-      cartRepository.save(cart);
-      return cart;
-    }
-    return null;
+    List<String> items = new ArrayList<>();
+    cart.getSides().add(sideID);
+    items.add(sideID);
+    cartRepository.save(cart);
+    String message = "Side item is successfully added";
+    return new CartAddResponse(true, items, cartId, storeId, message);
+
   }
 
-  public ResponseEntity deleteCart(String id) {
-    if (cartRepository.existsById(id)) {
-      cartRepository.deleteById(id);
-      return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
-    return new ResponseEntity(HttpStatus.BAD_REQUEST);
+  /**
+   * This function delete the Cart.
+   * @param cartId cartId given to delete.
+   * @return HttpStatus.NO_CONTENT if successfully deleted.
+   */
+  public HttpStatus deleteCart(String cartId) {
+    cartRepository.deleteById(cartId);
+    return HttpStatus.NO_CONTENT;
   }
 
-  public Double getTotalAmountInCart(String storeId, String id) {
+  /**
+   * Get the total price of items(pizzas + sides) in the Cart.
+   * @param cartId cartId given to get the total price of whole items.
+   * @return PriceResponse that shows "Success:True", price and currency.
+   */
+  public PriceResponse getTotalAmountInCart(String cartId) {
     Double price = 0.00;
-    Cart cart = cartRepository.findById(id).get();
-    if(!cart.getStoreID().equals(storeId)) {
-      return null;
-    }
+    Cart cart = cartRepository.findById(cartId).get();
     price += getSidePrice(cart);
     price += getPizzasPrice(cart);
-
+    price = Math.round(price * 100.0) / 100.0;
     cart.setTotalAmount(price);
     cartRepository.save(cart);
-    return price;
+    return new PriceResponse(true, price, "USD");
   }
 
+  /**
+   * SUB-Function of getTotalAmountInCart()
+   * Get the total price of all sideItems in the Cart.
+   * @param cart cart given to get the total price of side items.
+   * @return Double the price of all side items in the Cart.
+   */
   public Double getSidePrice(Cart cart) {
     Double price = 0.00;
     List<String> sides = cart.getSides();
@@ -137,6 +194,12 @@ public class CartService {
     return price;
   }
 
+  /**
+   * SUB-Function of getTotalAmountInCart()
+   * Get the total price of all Pizzas in the Cart.
+   * @param cart cart given to calculate the total price of all pizzas in this Cart.
+   * @return Double the price of all pizzas in the Cart.
+   */
   public Double getPizzasPrice(Cart cart) {
     Double price = 0.00;
     List<Pizza> pizzas = cart.getPizzas();
@@ -146,6 +209,12 @@ public class CartService {
     return price;
   }
 
+  /**
+   * SUB-Function of addPizzaToCart()
+   * Get the price of the given pizza.
+   * @param pizza pizza given to calculate the pizza price.
+   * @return Pizza that contains updated pizza price.
+   */
   public Pizza getPizzaPrice(Pizza pizza) {
     Double price = 0.00;
     String sizeID = pizza.getSizeID();
@@ -159,6 +228,14 @@ public class CartService {
 
   }
 
+  /**
+   * SUB-Function of addPizzaToCart() and getPizzaPrice()
+   * Calculate the price of all toppings based on the size of pizza.
+   * If size of pizza is small, then we calculate the small topping prices.
+   * @param sizeID sizeId given to provide the size of pizza
+   * @param toppings list of toppings given to calculate the price
+   * @return Double the price of all toppings in the pizza.
+   */
   public Double getPizzaToppingPrice(String sizeID, List<String> toppings) {
     Double price = 0.00;
     for (String toppingID : toppings) {
@@ -174,33 +251,42 @@ public class CartService {
     return price;
   }
 
-  public String deleteSideFromCart(String storeId, String id, String sideId) {
-    Cart cart = cartRepository.findById(id).get();
-    if(!cart.getStoreID().equals(storeId)) {
-      return "this cart does not exist in the store.";
-    }
-    if(cart.getSides().contains(sideId)) {
+  /**
+   * Delete a side from a Cart.
+   * @param cartId cartId given to delete side.
+   * @param sideId sideId given to delete.
+   * @return HttpStatus.NO_CONTENT if side was in the cart and successfully removed.
+   * HttpStatus.BAD_REQUEST, if sideId does not exist in the Cart.
+   */
+  public HttpStatus deleteSideFromCart(String cartId, String sideId) {
+    Cart cart = cartRepository.findById(cartId).get();
+    if (cart.getSides().contains(sideId)) {
       cart.getSides().remove(sideId);
       cartRepository.save(cart);
-      return "Successfully removed " + sideId + " from " + id;
+      return HttpStatus.NO_CONTENT;
     } else {
-      return sideId + " does not exist in "  + id;
+      return HttpStatus.BAD_REQUEST;
     }
-
   }
 
-  public String deletePizzaFromCart(String storeId, String id, Integer pizzaIndex) {
-    Cart cart = cartRepository.findById(id).get();
-    if(!cart.getStoreID().equals(storeId)) {
-      return "this cart does not exist in the store.";
-    }
-    if(cart.getPizzas().size() > pizzaIndex) {
+  /**
+   * Delete a pizza from a Cart.
+   * pizzaIndex can start from 0 to nth -1.
+   * @param cartId cartId given to delete a pizza.
+   * @param pizzaIndex pizzaIndex given to delete from list of pizza.
+   * @return HttpStatus.NO_CONTENT, if pizza was successfully removed from cart.
+   * HttpStatus.BAD_REQUEST, if pizzaIndex is less than 0 or greater than n-1.
+   * If there is only one pizza, and user give 1 for pizzaIndex, it will return BAD_REQUEST.
+   */
+  public HttpStatus deletePizzaFromCart(String cartId, Integer pizzaIndex) {
+    Cart cart = cartRepository.findById(cartId).get();
+    if (cart.getPizzas().size() > pizzaIndex) {
       Pizza pizza = cart.getPizzas().get(pizzaIndex);
       cart.getPizzas().remove(pizza);
       cartRepository.save(cart);
-      return "Successfully removed " + pizzaIndex + " pizza from the cart.";
+      return HttpStatus.NO_CONTENT;
     }
-    return "This pizzaIndex does not exist.";
+    return HttpStatus.BAD_REQUEST;
   }
 
 }
