@@ -7,11 +7,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class PriceResponse {
   @JsonProperty("Success")
-  public boolean success;
+  private boolean success;
   @JsonProperty("Price")
-  public Double price;
+  private Double price;
   @JsonProperty("Currency")
-  public String currency;
+  private String currency;
 
   /**
    * Construct a new PriceResponse

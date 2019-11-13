@@ -31,7 +31,7 @@ public class Cart {
   @JsonProperty("Total Price")
   private Double totalAmount;
   @JsonProperty("Special Applied")
-  boolean specialApplied;
+  private boolean specialApplied;
 
   /**
    * Create new Cart.
@@ -132,10 +132,12 @@ public class Cart {
   @Override
   public String toString() {
     return "Cart{"
-        + "id='" + id + '\''
+        + "cartId='" + id + '\''
+        + "storeId='" + storeID + '\''
         + ", list of pizza= " + pizzas.toString() + '\''
         + ", list of side= " + sides.toString() + '\''
-        + ", total price= " + totalAmount
+        + ", total price= " + totalAmount + '\''
+        + "special applied= " + specialApplied
         + '}';
   }
 
