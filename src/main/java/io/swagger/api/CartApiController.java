@@ -2,6 +2,8 @@ package io.swagger.api;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.model.Cart;
+import io.swagger.model.CartAddResponse;
+import io.swagger.model.PriceResponse;
 import io.swagger.service.CartService;
 import io.swagger.service.PizzaSizeService;
 import io.swagger.service.SideService;
@@ -12,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @javax.annotation.Generated(
@@ -21,22 +22,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CartApiController implements CartApi {
 
-
   @Autowired
   private CartService cartService;
-
   @Autowired
   private PizzaSizeService sizeService;
-
   @Autowired
   private SideService sideService;
-
   @Autowired
   private StoreService storeService;
 
+  /**
+   * {@inheritDoc}
+   * HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
+   * HttpStatus.OK - if Cart was successfully found.
+   */
   @GetMapping("store/{storeId}/cart/{cartId}")
   @ApiOperation(
-      value = "Get all items in the cart with specific id",
+      value = "Get all items in the cart with specific id.",
       tags = {
           "cart",
       })
@@ -44,111 +46,161 @@ public class CartApiController implements CartApi {
     if (cartService.getCartItemsById(storeId, cartId) == null) {
       return new ResponseEntity<Cart>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<Cart>(cartService.getCartItemsById(storeId, cartId), HttpStatus.FOUND);
+    return new ResponseEntity<Cart>(cartService.getCartItemsById(storeId, cartId), HttpStatus.OK);
   }
 
+  /**
+   * {@inheritDoc}
+   * HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
+   * HttpStatus.OK - if price of the Cart was successfully found.
+   */
   @GetMapping("/store/{storeId}/cart/{cartId}/price")
   @ApiOperation(
-      value = "Get price of all items in the cart with specific id",
+      value = "Get price of all items in the cart with specific id.",
       tags = {
           "cart",
       })
-  public ResponseEntity<Double> getPriceOfCartById(String storeId, String cartId) {
-    if(cartService.getCartItemsById(storeId, cartId) == null) {
-      return new ResponseEntity<Double>(HttpStatus.NOT_FOUND);
+  public ResponseEntity<PriceResponse> getPriceOfCartById(String storeId, String cartId) {
+    if (cartService.getCartItemsById(storeId, cartId) == null) {
+      PriceResponse response = new PriceResponse(false, null, null);
+      return new ResponseEntity<PriceResponse>(response, HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<Double>(cartService.getTotalAmountInCart(storeId, cartId), HttpStatus.OK);
+
+    return new ResponseEntity<PriceResponse>(cartService.getTotalAmountInCart(cartId),
+        HttpStatus.OK);
   }
 
+  /**
+   * {@inheritDoc}
+   * HttpStatus.NOT_FOUND - if the storeId is not found.
+   * HttpStatus.NOT_FOUND - if the pizzaSizeId is not found.
+   * HttpStatus.NOT_FOUND - if the store's gluten setting does not match with given gluten.
+   * HttpStatus.CREATED - if pizza was successfully added to Cart.
+   */
   @PostMapping("/store/{storeId}/cart/{cartId}/add/pizza")
   @ApiOperation(
-      value = "add pizza to the specific cart",
+      value = "add pizza to the specific cart.",
       tags = {
           "cart",
       })
-  public ResponseEntity<Cart> addPizzaToCart(String storeId, String cartId, String sizeId, boolean gluten,
+  public ResponseEntity<CartAddResponse> addPizzaToCart(String storeId, String cartId,
+      String sizeId, boolean gluten,
       String topping1, String topping2, String topping3, String topping4) {
-    if(storeService.getStoreById(storeId) == null) {
-      return new ResponseEntity<Cart>(HttpStatus.NOT_FOUND);
+    CartAddResponse response;
+    String message;
+    if (storeService.getStoreById(storeId) == null) {
+      message = "This storeID is not found.";
+      response = new CartAddResponse(false, null, null, null, message);
+      return new ResponseEntity<CartAddResponse>(response, HttpStatus.NOT_FOUND);
     }
     if (sizeService.getPizzaSizeById(sizeId) == null) {
-      return new ResponseEntity<Cart>( HttpStatus.NOT_FOUND);
+      message = "This pizza size is not found.";
+      response = new CartAddResponse(false, null, null, null, message);
+      return new ResponseEntity<CartAddResponse>(response, HttpStatus.NOT_FOUND);
     }
 
-    return new ResponseEntity<Cart>(
-        cartService.addPizzaToCart(storeId, cartId, sizeId, gluten, topping1, topping2,
-            topping3, topping4), HttpStatus.CREATED);
-  }
-
-  @PutMapping("/store/{storeId}/cart/{cartId}/add/side")
-  @ApiOperation(
-      value = "add side to the specific cart",
-      tags = {
-          "cart",
-      })
-  public ResponseEntity<Cart> addSideToCart(String storeId, String cartId, String sideID) {
-    if(storeService.getStoreById(storeId) == null) {
-      return new ResponseEntity<Cart>(HttpStatus.NOT_FOUND);
+    response = cartService.addPizzaToCart(storeId, cartId, sizeId, gluten, topping1, topping2,
+        topping3, topping4);
+    if (response.success == false) {
+      return new ResponseEntity<CartAddResponse>(response, HttpStatus.NOT_FOUND);
+    } else {
+      return new ResponseEntity<CartAddResponse>(response, HttpStatus.CREATED);
     }
-    if (sideService.getSideById(sideID) == null) {
-      return new ResponseEntity<Cart>(HttpStatus.NOT_FOUND);
-    }
-
-    return new ResponseEntity<Cart>(cartService.addSideToCart(storeId, cartId, sideID), HttpStatus.CREATED);
 
   }
 
-  @DeleteMapping("store/{storeId}/cart/{cartId}/delete")
+  /**
+   * {@inheritDoc}
+   * HttpStatus.NOT_FOUND - if the storeId is not found.
+   * HttpStatus.NOT_FOUND - if the sideId is not found.
+   * HttpStatus.CREATED - if side was successfully added to Cart.
+   */
+  @PostMapping("/store/{storeId}/cart/{cartId}/add/side")
   @ApiOperation(
-      value = "delete a Cart with id",
+      value = "add side to the specific cart.",
       tags = {
           "cart",
       })
-  public ResponseEntity<String> deleteCart(String storeId, String cartId) {
-    if(storeService.getStoreById(storeId) == null) {
-      return new ResponseEntity<String>("Store not found.", HttpStatus.NOT_FOUND);
-    }
-    if (cartService.getCartItemsById(storeId, cartId) == null) {
-      return new ResponseEntity<String>("id does not exist: " + cartId, HttpStatus.NOT_FOUND);
-    }
-    return new ResponseEntity<String>(cartService.deleteCart(cartId), HttpStatus.OK);
-
-  }
-
-  @DeleteMapping("store/{storeId}/cart/{cartId}/delete/side")
-  @ApiOperation(
-      value = "delete a sideItem from a Cart with id",
-      tags = {
-          "cart",
-      })
-  public ResponseEntity<String> deleteSideFromCart(String storeId, String cartId, String sideId) {
-    if(storeService.getStoreById(storeId) == null) {
-      return new ResponseEntity<String>("StoreID not found.", HttpStatus.NOT_FOUND);
-    }
-    if (cartService.getCartItemsById(storeId, cartId) == null) {
-      return new ResponseEntity<String>("CartID does not exist: " + cartId, HttpStatus.NOT_FOUND);
+  public ResponseEntity<CartAddResponse> addSideToCart(String storeId, String cartId,
+      String sideId) {
+    CartAddResponse response;
+    String message;
+    if (storeService.getStoreById(storeId) == null) {
+      message = "This storeID is not found.";
+      response = new CartAddResponse(false, null, null, null, message);
+      return new ResponseEntity<CartAddResponse>(response, HttpStatus.NOT_FOUND);
     }
     if (sideService.getSideById(sideId) == null) {
-      return new ResponseEntity<String>("SideID does not exist", HttpStatus.NOT_FOUND);
+      message = "This SideID is not found.";
+      response = new CartAddResponse(false, null, null, null, message);
+      return new ResponseEntity<CartAddResponse>(response, HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<String>(cartService.deleteSideFromCart(storeId, cartId, sideId), HttpStatus.OK);
+    response = cartService.addSideToCart(storeId, cartId, sideId);
+    return new ResponseEntity<CartAddResponse>(response, HttpStatus.CREATED);
 
   }
 
-  @DeleteMapping("store/{storeId}/cart/{cartId}/delete/pizza")
+  /**
+   * {@inheritDoc}
+   * HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
+   * HttpStatus.NO_CONTENT - if cartId is successfully removed.
+   */
+  @DeleteMapping("store/{storeId}/cart/{cartId}/delete")
   @ApiOperation(
-      value = "delete a pizza from a Cart with index number",
+      value = "Delete a Cart with id.",
       tags = {
           "cart",
       })
-  public ResponseEntity<String> deletePizzaFromCart(String storeId, String cartId, Integer pizzaIndex) {
-    if(storeService.getStoreById(storeId) == null) {
-      return new ResponseEntity<String>("StoreID not found.", HttpStatus.NOT_FOUND);
-    }
+  public HttpStatus deleteCart(String storeId, String cartId) {
     if (cartService.getCartItemsById(storeId, cartId) == null) {
-      return new ResponseEntity<String>("CartID does not exist: " + cartId, HttpStatus.NOT_FOUND);
+      return HttpStatus.NOT_FOUND;
     }
-    return new ResponseEntity<String>(cartService.deletePizzaFromCart(storeId, cartId, pizzaIndex), HttpStatus.OK);
+    return cartService.deleteCart(cartId);
+  }
+
+  /**
+   * {@inheritDoc}
+   * HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
+   * HttpStatus.NOT_FOUND - if the sideId is not found.
+   * HttpStatus.NO_CONTENT - if side is successfully removed from Cart.
+   */
+  @DeleteMapping("store/{storeId}/cart/{cartId}/delete/side")
+  @ApiOperation(
+      value = "Delete a sideItem from a Cart with id.",
+      tags = {
+          "cart",
+      })
+  public HttpStatus deleteSideFromCart(String storeId, String cartId, String sideId) {
+    if (cartService.getCartItemsById(storeId, cartId) == null) {
+      return HttpStatus.NOT_FOUND;
+    }
+    if (sideService.getSideById(sideId) == null) {
+      return HttpStatus.NOT_FOUND;
+    }
+    return cartService.deleteSideFromCart(cartId, sideId);
+
+  }
+
+  /**
+   * {@inheritDoc}
+   * HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
+   * HttpStatus.BAD_REQUEST - if given pizzaIndex is less than 0.
+   * HttpStatus.NO_CONTENT - if side is successfully removed from Cart.
+   */
+  @DeleteMapping("store/{storeId}/cart/{cartId}/delete/pizza")
+  @ApiOperation(
+      value = "Delete a pizza from a Cart with index number(starting zero).",
+      tags = {
+          "cart",
+      })
+  public HttpStatus deletePizzaFromCart(String storeId, String cartId, Integer pizzaIndex) {
+    if (cartService.getCartItemsById(storeId, cartId) == null) {
+      return HttpStatus.NOT_FOUND;
+    }
+    if (pizzaIndex < 0) {
+      return HttpStatus.BAD_REQUEST;
+    }
+    return cartService.deletePizzaFromCart(cartId, pizzaIndex);
   }
 
 }

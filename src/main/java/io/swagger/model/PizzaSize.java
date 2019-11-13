@@ -2,8 +2,6 @@ package io.swagger.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
@@ -51,9 +49,7 @@ public class PizzaSize {
    * Set id.
    * @param id new id given to this PizzaSize.
    */
-  @ApiModelProperty(example = "1", required = true, value = "")
-  @NotNull
-  @Valid
+  @ApiModelProperty(example = "small")
   public void setId(String id) {
     this.id = id;
   }
@@ -70,9 +66,7 @@ public class PizzaSize {
    * Set sizeName for this PizzaSize.
    * @param sizeName new sizeName given to this PizzaSize.
    */
-  @ApiModelProperty(example = "Small", required = true, value = "")
-  @NotNull
-  @Valid
+  @ApiModelProperty(example = "Small")
   public void setSizeName(String sizeName) {
     this.sizeName = sizeName;
   }
@@ -89,8 +83,7 @@ public class PizzaSize {
    * Set sizeInch for this PizzaSize.
    * @param sizeInch new sizeInch given to this PizzaSize.
    */
-  @ApiModelProperty(example = "11", required = true, value = "")
-  @NotNull
+  @ApiModelProperty(example = "11")
   public void setSizeInch(String sizeInch) {
     this.sizeInch = sizeInch;
   }
@@ -107,14 +100,14 @@ public class PizzaSize {
    * Set price for this PizzaSize.
    * @param price new price given to this PizzaSize.
    */
-  @ApiModelProperty(example = "13.99", required = true, value = "")
-  @NotNull
+  @ApiModelProperty(example = "13.99")
   public void setPrice(Double price) {
     this.price = price;
   }
 
-  /*
-   * Spring representation of PizzaSize
+  /**
+   * String representation of PizzaSize
+   * @return String representation of PizzaSize
    */
   @Override
   public String toString() {

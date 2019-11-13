@@ -1,9 +1,9 @@
 package io.swagger.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,15 +20,24 @@ import org.springframework.validation.annotation.Validated;
 @Document(collection = "Cart")
 public class Cart {
   @Id
+  @JsonProperty("CartID")
   private ObjectId id;
+  @JsonProperty("List of Pizzas")
   private List<Pizza> pizzas;
+  @JsonProperty("List of Sides")
   private List<String> sides;
+  @JsonProperty("StoreID")
   private String storeID;
+  @JsonProperty("Total Price")
   private Double totalAmount;
+  @JsonProperty("Special Applied")
+  boolean specialApplied;
 
   /**
-   * Create new Cart
+   * Create new Cart.
+   * By default, total price is 0.0, list of pizzas and sides are empty, and no specials are applied.
    * @param id cartID given to this new Cart
+   * @param storeID storeID given to connect this Cart.
    */
   public Cart(String storeID, ObjectId id) {
     this.storeID = storeID;
@@ -36,10 +45,11 @@ public class Cart {
     this.totalAmount = 0.0;
     this.pizzas = new ArrayList<>();
     this.sides = new ArrayList<>();
+    specialApplied = false;
   }
 
   /**
-   * Get cartID
+   * Get cartID of this Cart.
    * @return cartID
    */
   public String getId() {
@@ -47,7 +57,7 @@ public class Cart {
   }
 
   /**
-   * Set cartID
+   * Set cartID of this Cart.
    * @param id new cartID given to this Cart
    */
   public void setId(ObjectId id) {
@@ -55,19 +65,19 @@ public class Cart {
   }
 
   /**
-   * Get storeID
+   * Get storeID of this Cart.
    * @return storeID
    */
   public String getStoreID() { return this.storeID; }
 
   /**
-   * Set storeID
+   * Set storeID to this Cart.
    * @param id new storeID given to this Cart
    */
   public void setStoreID(String id) { this.storeID = storeID; }
 
   /**
-   * Get the totalAmount in this Cart
+   * Get the totalAmount in this Cart.
    * @return totalAmount in this Cart
    */
   public Double getTotalAmount() {
@@ -75,7 +85,7 @@ public class Cart {
   }
 
   /**
-   * Set the totalAmount in this Cart
+   * Set the totalAmount in this Cart.
    * @param p new totalAmount given to this Cart
    */
   public void setTotalAmount(Double totalAmount) {
@@ -83,7 +93,7 @@ public class Cart {
   }
 
   /**
-   * Get list of pizzas in this Cart
+   * Get list of pizzas in this Cart.
    * @return list of pizzas in this Cart
    */
   public List<Pizza> getPizzas() {
@@ -91,16 +101,32 @@ public class Cart {
   }
 
   /**
-   * Get list of sideID in this Cart
+   * Get list of sideID in this Cart.
    * @return list of sideID in this Cart
    */
   public List<String> getSides() {
     return this.sides;
   }
 
+  /**
+   * Check if special is already applied in this Cart.
+   * @return true if special is applied, false if there is no special in this cart
+   */
+  public boolean isSpecialApplied() {
+    return this.specialApplied;
+  }
 
   /**
-   * String representation of this Cart
+   * Set the specialApplied to this Cart.
+   * @param applied true if special is applied, false if special is not applied.
+   */
+  public void setSpecialApplied(boolean applied) {
+    this.specialApplied = applied;
+  }
+
+
+  /**
+   * String representation of this Cart.
    * @return a String representation of this Cart
    */
   @Override
@@ -113,6 +139,11 @@ public class Cart {
         + '}';
   }
 
+  /**
+   * Check if two objects are equal.
+   * @param obj object given for comparison
+   * @return true if two objects are equal, false otherwise.
+   */
   @Override
   public boolean equals(Object obj) {
     if(this == obj) return true;
