@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
 /**
  * Service for the Store API
  */
+@Service
 public class StoreService {
   @Autowired
   public StoreItemRepository storeItemRepository;

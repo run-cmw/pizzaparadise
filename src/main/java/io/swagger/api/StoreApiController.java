@@ -69,8 +69,8 @@ public class StoreApiController implements StoreApi {
           "store",
       })
   @ApiResponses(value = {
-   @ApiResponse(code=204, message = "NO_CONTENT"),
-   @ApiResponse(code=404, message = "NOT_FOUND")})
+      @ApiResponse(code=204, message = "NO_CONTENT"),
+      @ApiResponse(code=404, message = "NOT_FOUND")})
   public HttpStatus deleteStore(String id) {
     if (storeService.getStoreById(id) == null) {
       return HttpStatus.NOT_FOUND;

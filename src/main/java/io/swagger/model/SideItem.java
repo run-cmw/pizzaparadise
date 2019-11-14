@@ -33,13 +33,12 @@ public class SideItem {
   /**
    * Construct a SideItem with the given id, name, price, and type.
    *
-   * @param id side's identification number
+   * @param id side's unique identifier
    * @param name name of side item
    * @param price price of side item
    * @param type the type of side item: drink, condiment, or appetizer
    */
   public SideItem(String id, String name, Double price, String type) {
-    super();
     this.id = id;
     this.name = name;
     this.price = price;
@@ -154,12 +153,8 @@ public class SideItem {
 
   /**
    * Returns a string representation of a SideItem.
-   * Format - class SideItem {
-   *              id: sideItemId
-   *              name: sideItemName
-   *              price: sideItemPrice
-   *              type: sideItemPrice
-   *          }
+   * Format - SideItem{id='sideItemId', name='sideItemName', price='sideItemPrice',
+   *              type='sideItemPrice'}
    *
    * @return string representation of a SideItem.
    */

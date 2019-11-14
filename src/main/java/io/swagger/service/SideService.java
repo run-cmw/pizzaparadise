@@ -8,15 +8,27 @@ import org.springframework.stereotype.Service;
 import io.swagger.model.SideItem;
 import io.swagger.repository.SideItemRepository;
 
+/**
+ * Service for the Side API
+ */
 @Service
 public class SideService {
   @Autowired
   public SideItemRepository sideItemRepository;
 
+  /**
+   * Get all sides.
+   * @return a list of all SideItems.
+   */
   public List<SideItem> getAllSides() {
     return sideItemRepository.findAll();
   }
 
+  /**
+   * Get a specific SideItem by id
+   * @param id id of requested SideItem
+   * @return specified SideItem
+   */
   public SideItem getSideById(String id) {
     for (SideItem item : sideItemRepository.findAll()) {
       if (item.getId().equals(id)) {
@@ -26,16 +38,21 @@ public class SideService {
     return null;
   }
 
+  /**
+   * Add a SideItem.
+   * @param newSide new SideItem to add
+   * @return SideItem that was added.
+   */
   public SideItem addSide(SideItem newSide) {
     sideItemRepository.save(newSide);
     return newSide;
   }
 
-  public String deleteSide(String id) {
-    if(sideItemRepository.existsById(id) ) {
-      sideItemRepository.deleteById(id);
-      return "deleted id: " + id;
-    }
-    return "id does not exist: " + id;
+  /**
+   * Delete a SideItem by id.
+   * @param id id of SideItem to delete
+   */
+  public void deleteSide(String id) {
+    sideItemRepository.deleteById(id);
   }
 }

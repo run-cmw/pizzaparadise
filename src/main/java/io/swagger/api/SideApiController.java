@@ -57,16 +57,25 @@ public class SideApiController implements SideApi {
     return new ResponseEntity<SideItem>(sideService.addSide(newSide), HttpStatus.CREATED);
   }
 
+  /**
+   * {@inheritDoc}
+   * HttpStatus.NOT_FOUND - if id is not found in database.
+   * HttpStatus.NO_CONTENT - if store is successfully removed.
+   */
   @DeleteMapping("/side/delete/{id}")
   @ApiOperation(
       value = "Delete a SideItem using id",
       tags = {
           "side",
       })
-  public ResponseEntity<String> deleteSide(@PathVariable String id) {
+  @ApiResponses(value = {
+      @ApiResponse(code=204, message = "NO_CONTENT"),
+      @ApiResponse(code=404, message = "NOT_FOUND")})
+  public HttpStatus deleteSide(String id) {
     if (sideService.getSideById(id) == null) {
-      return new ResponseEntity<String>("id does not exist: " + id, HttpStatus.NOT_FOUND);
+      return HttpStatus.NOT_FOUND;
     }
-    return new ResponseEntity<String>(sideService.deleteSide(id), HttpStatus.OK);
+    sideService.deleteSide(id);
+    return HttpStatus.OK;
   }
 }

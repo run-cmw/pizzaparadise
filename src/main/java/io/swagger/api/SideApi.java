@@ -4,6 +4,7 @@ import io.swagger.annotations.*;
 import io.swagger.model.SideItem;
 import java.util.List;
 import javax.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,7 +42,8 @@ public interface SideApi {
   /**
    * Delete a SideItem by id.
    * @param id id of SideItem to delete
-   * @return String confirming deletion of SideItem with specified id.
+   * @return {@code HttpStatus.NO_CONTENT} if side successfully removed and
+   * {@code HttpStatus.NOT_FOUND} if id wasn't found.
    */
-  ResponseEntity<String> deleteSide(@PathVariable String id);
+  HttpStatus deleteSide(@PathVariable String id);
 }
