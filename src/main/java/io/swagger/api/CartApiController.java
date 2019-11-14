@@ -1,6 +1,8 @@
 package io.swagger.api;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import io.swagger.model.Cart;
 import io.swagger.model.CartAddResponse;
 import io.swagger.model.PriceResponse;
@@ -60,6 +62,8 @@ public class CartApiController implements CartApi {
       tags = {
           "cart",
       })
+  @ApiResponses(value = {
+      @ApiResponse(code=200, message = "OK"), @ApiResponse(code=404, message = "NOT_FOUND")})
   public ResponseEntity<PriceResponse> getPriceOfCartById(String storeId, String cartId) {
     if (cartService.getCartItemsById(storeId, cartId) == null) {
       PriceResponse response = new PriceResponse(false, null, null);
@@ -83,6 +87,8 @@ public class CartApiController implements CartApi {
       tags = {
           "cart",
       })
+  @ApiResponses(value = {
+      @ApiResponse(code=201, message = "CREATED"), @ApiResponse(code=404, message = "NOT_FOUND")})
   public ResponseEntity<CartAddResponse> addPizzaToCart(String storeId, String cartId,
       String sizeId, boolean gluten,
       String topping1, String topping2, String topping3, String topping4) {
@@ -101,7 +107,7 @@ public class CartApiController implements CartApi {
 
     response = cartService.addPizzaToCart(storeId, cartId, sizeId, gluten, topping1, topping2,
         topping3, topping4);
-    if (response.success == false) {
+    if (response.getSuccess() == false) {
       return new ResponseEntity<CartAddResponse>(response, HttpStatus.NOT_FOUND);
     } else {
       return new ResponseEntity<CartAddResponse>(response, HttpStatus.CREATED);
@@ -121,6 +127,8 @@ public class CartApiController implements CartApi {
       tags = {
           "cart",
       })
+  @ApiResponses(value = {
+      @ApiResponse(code=201, message = "CREATED"), @ApiResponse(code=404, message = "NOT_FOUND")})
   public ResponseEntity<CartAddResponse> addSideToCart(String storeId, String cartId,
       String sideId) {
     CartAddResponse response;
@@ -151,6 +159,9 @@ public class CartApiController implements CartApi {
       tags = {
           "cart",
       })
+  @ApiResponses(value = {
+      @ApiResponse(code=204, message = "NO_CONTENT"),
+      @ApiResponse(code=404, message = "NOT_FOUND")})
   public HttpStatus deleteCart(String storeId, String cartId) {
     if (cartService.getCartItemsById(storeId, cartId) == null) {
       return HttpStatus.NOT_FOUND;
@@ -170,6 +181,9 @@ public class CartApiController implements CartApi {
       tags = {
           "cart",
       })
+  @ApiResponses(value = {
+      @ApiResponse(code=204, message = "NO_CONTENT"),
+      @ApiResponse(code=404, message = "NOT_FOUND")})
   public HttpStatus deleteSideFromCart(String storeId, String cartId, String sideId) {
     if (cartService.getCartItemsById(storeId, cartId) == null) {
       return HttpStatus.NOT_FOUND;
@@ -193,6 +207,10 @@ public class CartApiController implements CartApi {
       tags = {
           "cart",
       })
+  @ApiResponses(value = {
+      @ApiResponse(code=204, message = "NO_CONTENT"),
+      @ApiResponse(code=400, message = "BAD_REQUEST"),
+      @ApiResponse(code=404, message = "NOT_FOUND")})
   public HttpStatus deletePizzaFromCart(String storeId, String cartId, Integer pizzaIndex) {
     if (cartService.getCartItemsById(storeId, cartId) == null) {
       return HttpStatus.NOT_FOUND;
