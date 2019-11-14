@@ -33,11 +33,17 @@ public interface SideApi {
 
   /**
    * Add a SideItem.
-   * @param newSide new SideItem to add
+   * @param id side's unique identifier
+   * @param name name of side item
+   * @param price price of side item
+   * @param type the type of side item: drink, condiment, or appetizer
    * @return SideItem added to database.
    */
   ResponseEntity<SideItem> addSide(
-      @ApiParam(value = "SideItem to add") @Valid @RequestBody SideItem newSide);
+      @ApiParam(value = "new side's id") @Valid @RequestBody String id,
+      @ApiParam(value = "new side's name") @Valid @RequestBody String name,
+      @ApiParam(value = "new side's price") @Valid @RequestBody Double price,
+      @ApiParam(value = "new side's type") @Valid @RequestBody String type);
 
   /**
    * Delete a SideItem by id.

@@ -40,10 +40,14 @@ public class SideService {
 
   /**
    * Add a SideItem.
-   * @param newSide new SideItem to add
+   * @param id side's unique identifier
+   * @param name name of side item
+   * @param price price of side item
+   * @param type the type of side item: drink, condiment, or appetizer
    * @return SideItem that was added.
    */
-  public SideItem addSide(SideItem newSide) {
+  public SideItem addSide(String id, String name, Double price, String type) {
+    SideItem newSide = new SideItem(id, name, price, type);
     sideItemRepository.save(newSide);
     return newSide;
   }

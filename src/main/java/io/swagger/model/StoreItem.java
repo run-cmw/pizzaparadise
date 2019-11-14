@@ -43,7 +43,7 @@ public class StoreItem {
    * @param streetNumAndName street portion of store's address
    * @param city city portion of store's address
    * @param state state portion of store's address
-   * @param zip code zip code portion of store's address
+   * @param zipCode zip code portion of store's address
    * @param offersGlutenFree whether store offers gluten free pizza
    */
   public StoreItem(String id, String streetNumAndName, String city, String state, String zipCode, boolean offersGlutenFree) {

@@ -34,11 +34,21 @@ public interface StoreApi {
 
   /**
    * Add a StoreItem.
-   * @param newStore new StoreItem to add
+   * @param id store's unique identifier
+   * @param streetNumAndName street portion of store's address
+   * @param city city portion of store's address
+   * @param state state portion of store's address
+   * @param zipCode zip code portion of store's address
+   * @param offersGlutenFree whether store offers gluten free pizza
    * @return StoreItem added to database.
    */
   ResponseEntity<StoreItem> addStore(
-      @ApiParam(value = "StoreItem to add") @Valid @RequestBody StoreItem newStore);
+      @ApiParam(value = "new store's id") @Valid @RequestBody String id,
+      @ApiParam(value = "new store's street name and number") @Valid @RequestBody String streeNameAndNum,
+      @ApiParam(value = "new store's city") @Valid @RequestBody String city,
+      @ApiParam(value = "new store's state") @Valid @RequestBody String state,
+      @ApiParam(value = "new store's zip code") @Valid @RequestBody String zipCode,
+      @ApiParam(value = "whether new store offers gluten free") @Valid @RequestBody boolean offersGlutenFree);
 
   /**
    * Delete a StoreItem by id.

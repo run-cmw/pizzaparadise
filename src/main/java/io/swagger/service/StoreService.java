@@ -38,10 +38,16 @@ public class StoreService {
 
   /**
    * Add a StoreItem.
-   * @param newStore new StoreItem to add
+   * @param id store's unique identifier
+   * @param streetNumAndName street portion of store's address
+   * @param city city portion of store's address
+   * @param state state portion of store's address
+   * @param zipCode zip code portion of store's address
+   * @param offersGlutenFree whether store offers gluten free pizza
    * @return StoreItem that was added.
    */
-  public StoreItem addStore(StoreItem newStore) {
+  public StoreItem addStore(String id, String streetNumAndName, String city, String state, String zipCode, boolean offersGlutenFree) {
+    StoreItem newStore = new StoreItem(id, streetNumAndName, city, state, zipCode, offersGlutenFree);
     storeItemRepository.save(newStore);
     return newStore;
   }
