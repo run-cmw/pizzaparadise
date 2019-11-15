@@ -1,16 +1,11 @@
 package io.swagger.model;
 
 
-import io.swagger.model.SpecialItem;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
+
 public class SpecialItemTest {
 
   private SpecialItem special1;
@@ -62,7 +57,9 @@ public class SpecialItemTest {
   @Test
   public void equalTest() {
     Assert.assertTrue(special1.equals(special2));
+    Assert.assertTrue(special1.equals(special1));
     Assert.assertFalse(special1.equals(special3));
+    Assert.assertFalse(special1.equals(null));
   }
 
   @Test

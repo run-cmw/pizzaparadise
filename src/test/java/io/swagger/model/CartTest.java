@@ -66,14 +66,25 @@ public class CartTest {
     ObjectId testId = new ObjectId();
     Cart test1 = new Cart("brooklyn", testId);
     Assert.assertTrue(test1.equals(test1));
+    test1.setTotalAmount(5.00);
+    Cart test2 = new Cart("brooklyn", testId);
+    test1.setTotalAmount(3.00);
+    Assert.assertFalse(test1.equals(test2));
   }
 
   @Test
   public void toStringTest() {
-    Assert.assertEquals(cart1.toString(), "Cart{id='" + id1 +
-        "', list of pizza= []'," + " list of side= []', total price= 0.0}");
+    String test = "Cart{cartId= " + id1 +", storeId= brooklyn, list of pizza= [], list of side= [], total price= 0.0, special applied= false}";
+    Assert.assertEquals(cart1.toString(), test);
 
 
+  }
+
+  @Test
+  public void isSpecialAppliedTest() {
+    Assert.assertEquals(cart1.isSpecialApplied(), false);
+    cart1.setSpecialApplied(true);
+    Assert.assertEquals(cart1.isSpecialApplied(), true);
   }
 
   @Test

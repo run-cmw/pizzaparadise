@@ -1,17 +1,10 @@
 package io.swagger.model;
 
-import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@TestPropertySource("classpath:/application-test.properties")
-@SpringBootTest
+
 public class PizzaTest {
 
   public Pizza pizza1;
@@ -67,6 +60,17 @@ public class PizzaTest {
     Assert.assertEquals(pizzaTest1.getToppingIDs().contains("onionsss"), false);
 
   }
+
+  @Test
+  public void getPriceTest() {
+    Pizza pizzaTest1 = new Pizza("large", false);
+    pizzaTest1.getToppingIDs().add("pepperoni");
+    Assert.assertEquals(pizzaTest1.getPrice(), (Double) 0.0);
+    pizzaTest1.setPrice(23.99);
+    Assert.assertEquals((Double) 23.99, pizzaTest1.getPrice());
+
+  }
+
 
 
 

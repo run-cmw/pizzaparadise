@@ -3,14 +3,10 @@ package io.swagger.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
 public class ToppingItemTest {
   private ToppingItem toppingItem1;
   private ToppingItem toppingItem2;
@@ -74,5 +70,39 @@ public class ToppingItemTest {
         + '}';
 
     assertEquals(TOPPING_ITEM_AS_STRING, toppingItem1.toString());
+  }
+
+
+  @Test
+  public void setToppingTypeTest() {
+    ToppingItem topping1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
+    Assert.assertEquals(topping1.getToppingType(), "meat");
+    topping1.setToppingType("vegetable");
+    Assert.assertEquals(topping1.getToppingType(), "vegetable");
+
+  }
+
+  @Test
+  public void setToppingMedPriceTest() {
+    ToppingItem topping1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
+    Assert.assertEquals(topping1.getToppingMediumPrice(), (Double) 2.75);
+    topping1.setToppingMediumPrice(3.00);
+    Assert.assertEquals(topping1.getToppingMediumPrice(), (Double) 3.00);
+  }
+
+  @Test
+  public void setToppingLargePriceTest() {
+    ToppingItem topping1 = new ToppingItem("onion1", "onion", "vegetable", 2.0, 2.25, 2.5, "non-gluten");
+    Assert.assertEquals(topping1.getToppingLargePrice(), (Double) 2.5);
+    topping1.setToppingLargePrice(3.00);
+    Assert.assertEquals(topping1.getToppingLargePrice(), (Double) 3.00);
+  }
+
+  @Test
+  public void setGlutenTest() {
+    ToppingItem topping1 = new ToppingItem("onion1", "onion", "vegetable", 2.0, 2.25, 2.5, "non-gluten");
+    Assert.assertEquals(topping1.getToppingGluten(), "non-gluten");
+    topping1.setToppingGluten("gluten");
+    Assert.assertEquals(topping1.getToppingGluten(), "gluten");
   }
 }

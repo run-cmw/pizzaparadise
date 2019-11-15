@@ -132,11 +132,11 @@ public class Cart {
   @Override
   public String toString() {
     return "Cart{"
-        + "cartId='" + id + '\''
-        + "storeId='" + storeID + '\''
-        + ", list of pizza= " + pizzas.toString() + '\''
-        + ", list of side= " + sides.toString() + '\''
-        + ", total price= " + totalAmount + '\''
+        + "cartId= " + id + ", "
+        + "storeId= " + storeID + ", "
+        + "list of pizza= " + pizzas.toString() + ", "
+        + "list of side= " + sides.toString() + ", "
+        + "total price= " + totalAmount + ", "
         + "special applied= " + specialApplied
         + '}';
   }
