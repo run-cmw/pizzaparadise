@@ -112,11 +112,11 @@ public class PizzaSize {
   @Override
   public String toString() {
     return "PizzaSize{" +
-        "id='" + id + '\'' +
-        ", sizeName='" + sizeName + '\'' +
-        ", sizeInch='" + sizeInch + '\'' +
-        ", price='" + price +
-        '}';
+        "id=" + id +
+        ", sizeName=" + sizeName +
+        ", sizeInch=" + sizeInch +
+        ", price=" + price +
+        "}";
   }
 
   /**
