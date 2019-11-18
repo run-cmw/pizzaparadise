@@ -4,10 +4,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import io.swagger.model.SideItem;
 import java.util.List;
+import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
@@ -29,21 +31,15 @@ public interface SideApi {
    * @param id id of requested SideItem
    * @return specified SideItem
    */
-  ResponseEntity<SideItem> getSideById(@PathVariable String id);
+  ResponseEntity<Optional<SideItem>> getSideById(@PathVariable String id);
 
   /**
    * Add a SideItem.
-   * @param id side's unique identifier
-   * @param name name of side item
-   * @param price price of side item
-   * @param type the type of side item: drink, condiment, or appetizer
+   * @param newSide new SideItem to add
    * @return SideItem added to database.
    */
   ResponseEntity<SideItem> addSide(
-      @ApiParam(value = "new side's id") @RequestParam(required=true) String id,
-      @ApiParam(value = "new side's name") @RequestParam(required=true) String name,
-      @ApiParam(value = "new side's price") @RequestParam(required=true) Double price,
-      @ApiParam(value = "new side's type") @RequestParam(required=true) String type);
+      @ApiParam(value = "SideItem to add") @Valid @RequestBody SideItem newSide);
 
   /**
    * Delete a SideItem by id.

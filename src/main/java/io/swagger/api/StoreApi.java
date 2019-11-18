@@ -4,10 +4,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import io.swagger.model.StoreItem;
 import java.util.List;
+import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
@@ -29,27 +31,15 @@ public interface StoreApi {
    * @param id id of requested StoreItem
    * @return specified StoreItem
    */
-  ResponseEntity<StoreItem> getStoreById(@PathVariable String id);
+  ResponseEntity<Optional<StoreItem>> getStoreById(@PathVariable String id);
 
   /**
    * Add a StoreItem.
-   * @param id store's unique identifier
-   * @param streetNumAndName street portion of store's address
-   * @param city city portion of store's address
-   * @param state state portion of store's address
-   * @param zipCode zip code portion of store's address
-   * @param offersGlutenFree whether store offers gluten free pizza
+   * @param newStore new StoreItem to add
    * @return StoreItem added to database.
    */
   ResponseEntity<StoreItem> addStore(
-      @ApiParam(value = "new store's id") @RequestParam(required=true) String id,
-      @ApiParam(value = "new store's street name and number") @RequestParam(required=true)
-          String streeNameAndNum,
-      @ApiParam(value = "new store's city") @RequestParam(required=true) String city,
-      @ApiParam(value = "new store's state") @RequestParam(required=true) String state,
-      @ApiParam(value = "new store's zip code") @RequestParam(required=true) String zipCode,
-      @ApiParam(value = "whether new store offers gluten free") @RequestParam(required=true)
-          boolean offersGlutenFree);
+      @ApiParam(value = "StoreItem to add") @Valid @RequestBody StoreItem newStore);
 
   /**
    * Delete a StoreItem by id.

@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.model.SideItem;
 import io.swagger.service.SideService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,11 +53,11 @@ public class SideApiController implements SideApi {
   @ApiResponses(value = {
       @ApiResponse(code=200, message = "OK"),
       @ApiResponse(code=404, message = "NOT_FOUND")})
-  public ResponseEntity<SideItem> getSideById(@PathVariable String id) {
+  public ResponseEntity<Optional<SideItem>> getSideById(@PathVariable String id) {
     if(sideService.getSideById(id) == null) {
-      return new ResponseEntity<SideItem>(HttpStatus.NOT_FOUND);
+      return new ResponseEntity<Optional<SideItem>>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<SideItem>(sideService.getSideById(id), HttpStatus.FOUND);
+    return new ResponseEntity<Optional<SideItem>>(sideService.getSideById(id), HttpStatus.FOUND);
   }
 
   /**
@@ -73,12 +74,12 @@ public class SideApiController implements SideApi {
   @ApiResponses(value = {
       @ApiResponse(code=201, message = "CREATED"),
       @ApiResponse(code=403, message = "FORBIDDEN")})
-  public ResponseEntity<SideItem> addSide(String id, String name, Double price, String type) {
-    if (sideService.getSideById(id) != null) {
+  public ResponseEntity<SideItem> addSide(SideItem newSide) {
+    if (sideService.getSideById(newSide.getId()) != null) {
       return new ResponseEntity<SideItem>(HttpStatus.FORBIDDEN);
     }
     return new ResponseEntity<SideItem>(
-        sideService.addSide(id, name, price, type), HttpStatus.CREATED);
+        sideService.addSide(newSide), HttpStatus.CREATED);
   }
 
   /**

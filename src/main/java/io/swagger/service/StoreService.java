@@ -3,6 +3,7 @@ package io.swagger.service;
 import io.swagger.model.StoreItem;
 import io.swagger.repository.StoreItemRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,27 +28,16 @@ public class StoreService {
    * @param id id of requested StoreItem
    * @return specified StoreItem
    */
-  public StoreItem getStoreById(String id) {
-    for (StoreItem item : storeItemRepository.findAll()) {
-      if (item.getId().equals(id)) {
-        return item;
-      }
-    }
-    return null;
+  public Optional<StoreItem> getStoreById(String id) {
+    return storeItemRepository.findById(id);
   }
 
   /**
    * Add a StoreItem.
-   * @param id store's unique identifier
-   * @param streetNumAndName street portion of store's address
-   * @param city city portion of store's address
-   * @param state state portion of store's address
-   * @param zipCode zip code portion of store's address
-   * @param offersGlutenFree whether store offers gluten free pizza
+   * @param newStore new StoreItem to add
    * @return StoreItem that was added.
    */
-  public StoreItem addStore(String id, String streetNumAndName, String city, String state, String zipCode, boolean offersGlutenFree) {
-    StoreItem newStore = new StoreItem(id, streetNumAndName, city, state, zipCode, offersGlutenFree);
+  public StoreItem addStore(StoreItem newStore) {
     storeItemRepository.save(newStore);
     return newStore;
   }

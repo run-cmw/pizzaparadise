@@ -1,12 +1,11 @@
 package io.swagger.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import io.swagger.model.SideItem;
 import io.swagger.repository.SideItemRepository;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Service for the Side API
@@ -29,25 +28,16 @@ public class SideService {
    * @param id id of requested SideItem
    * @return specified SideItem
    */
-  public SideItem getSideById(String id) {
-    for (SideItem item : sideItemRepository.findAll()) {
-      if (item.getId().equals(id)) {
-        return item;
-      }
-    }
-    return null;
+  public Optional<SideItem> getSideById(String id) {
+    return sideItemRepository.findById(id);
   }
 
   /**
    * Add a SideItem.
-   * @param id side's unique identifier
-   * @param name name of side item
-   * @param price price of side item
-   * @param type the type of side item: drink, condiment, or appetizer
+   * @param newSide new SideItem to add
    * @return SideItem that was added.
    */
-  public SideItem addSide(String id, String name, Double price, String type) {
-    SideItem newSide = new SideItem(id, name, price, type);
+  public SideItem addSide(SideItem newSide) {
     sideItemRepository.save(newSide);
     return newSide;
   }

@@ -37,7 +37,8 @@ public class StoreItem {
   private boolean offersGlutenFree;
 
   /**
-   * Construct a StoreItem with the given id, street, city, state, and zip code.
+   * Construct a StoreItem with the given id, street, city, state, zip code, and gluten free
+   * offering.
    *
    * @param id store's unique identifier
    * @param streetNumAndName street portion of store's address
