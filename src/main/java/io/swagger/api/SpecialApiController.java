@@ -1,9 +1,13 @@
 package io.swagger.api;
 
 import io.swagger.annotations.*;
+import io.swagger.model.PizzaSize;
+import io.swagger.model.SideItem;
 import io.swagger.model.SpecialItem;
+import io.swagger.service.PizzaSizeService;
 import io.swagger.service.SpecialItemService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,23 +62,22 @@ public class SpecialApiController implements SpecialApi {
 
   /**
    * {@inheritDoc}
-   * HttpStatus.CREATED - if special is created.
+   * HttpStatus.OK - if special is successfully created.
    * HttpStatus.FORBIDDEN - if there is already a specialId in database
    */
   @ApiResponses(value = {
-      @ApiResponse(code=201, message = "CREATED"), @ApiResponse(code=403, message = "FORBIDDEN")})
+      @ApiResponse(code=200, message = "OK"), @ApiResponse(code=403, message = "FORBIDDEN")})
   @PostMapping("/special/add")
   @ApiOperation(
       value = "add a SpecialItem",
       tags = {
           "special",
       })
-  public ResponseEntity<SpecialItem> addSpecial(String specialId, String name, String description) {
-    if (specialItemService.getSpecialById(specialId) != null) {
+  public ResponseEntity<SpecialItem> addSpecial(SpecialItem specialItem) {
+    if (specialItemService.getSpecialById(specialItem.getId()) != null) {
       return new ResponseEntity<SpecialItem>(HttpStatus.FORBIDDEN);
     }
-    return new ResponseEntity<SpecialItem>(
-        specialItemService.addSpecial(specialId, name, description), HttpStatus.CREATED);
+    return new ResponseEntity<SpecialItem>(specialItemService.addSpecial(specialItem), HttpStatus.OK);
   }
 
   /**

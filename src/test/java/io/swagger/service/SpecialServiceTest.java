@@ -1,11 +1,13 @@
 package io.swagger.service;
 
+import static org.assertj.core.api.Java6Assertions.fail;
 import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import io.swagger.model.SpecialItem;
 import io.swagger.repository.SpecialItemRepository;
 import java.util.List;
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,86 +27,62 @@ public class SpecialServiceTest {
   public SpecialItemRepository specialRepo;
 
 
+  @Before
+  public void setUp() {
+    specialRepo.deleteAll();
+  }
+
+  String BUY1GET1FREE = "buy1get1Free";
+  String FREE_SODA = "freeSoda";
+
+  private SpecialItem setupBuy1Get1FreeSpecial() {
+    SpecialItem special = new SpecialItem("buy1get1Free", "Buy1Get1", "description1");
+    specialRepo.insert(special);
+    return special;
+  }
+
+  private SpecialItem setupFreeSodaSpecial() {
+    SpecialItem special = new SpecialItem("freeSoda", "freeSoda", "description2");
+    specialRepo.insert(special);
+    return special;
+  }
+
   @Test
   public void getAllSizeTest() {
-    specialRepo.deleteAll();
-    SpecialItem special1 = new SpecialItem("buy1get1Free", "Buy1Get1", "description1");
-    SpecialItem special2 = new SpecialItem("freeSoda", "freeSoda", "description2");
-    SpecialItem special3 = new SpecialItem("freeTopping", "freeTopping", "description3");
-    SpecialItem special4 = new SpecialItem("deliveryfeeFree", "DeliveryfeeFree", "description1");
-
-    assertEquals(0, specialRepo.count());
-    specialRepo.insert(special1);
-    assertEquals(1, specialRepo.count());
-    specialRepo.insert(special2);
+    SpecialItem special1 = setupBuy1Get1FreeSpecial();
+    SpecialItem special2 = setupFreeSodaSpecial();
     assertEquals(2, specialRepo.count());
-    specialRepo.insert(special3);
-
-    List<SpecialItem> lst = specialService.getAllSpecials();
-    Assert.assertEquals(3, lst.size());
-    Assert.assertEquals(true, lst.contains(special1));
-    Assert.assertEquals(true, lst.contains(special2));
-    Assert.assertEquals(true, lst.contains(special3));
-    Assert.assertEquals(false, lst.contains(special4));
+    List<SpecialItem> allSpecials = specialService.getAllSpecials();
+    assertTrue(allSpecials.contains(special1));
+    assertTrue(allSpecials.contains(special2));
   }
 
   @Test
   public void getSpecialByIdTest() {
-    specialRepo.deleteAll();
-    SpecialItem special1 = new SpecialItem("deliveryfeeFree", "DeliveryfeeFree", "description1");
-    SpecialItem special2 = new SpecialItem("free16OzSoda", "Free16OzSoda", "description2");
-    SpecialItem special3 = new SpecialItem("free2LiterSoda", "Free2LiterSoda", "description3");
+    SpecialItem special = setupBuy1Get1FreeSpecial();
 
-    assertEquals(0, specialRepo.count());
-    specialRepo.insert(special1);
-    specialRepo.insert(special2);
-    specialRepo.insert(special3);
-
-    Assert.assertEquals(specialService.getSpecialById("deliveryfeeFree"), special1);
-    Assert.assertEquals(specialService.getSpecialById("deliveryFree"), null);
-
-    Assert.assertEquals(specialService.getSpecialById("free16OzSoda"), special2);
-
-    Assert.assertNotEquals(specialService.getSpecialById("free16OzSoda"), special3);
+    assertEquals(special, specialService.getSpecialById(BUY1GET1FREE));
+    assertNotNull(specialService.getSpecialById(BUY1GET1FREE));
   }
 
   @Test
   public void addSpecialTest() {
-    specialRepo.deleteAll();
-    SpecialItem special1 = new SpecialItem("deliveryfeeFree", "DeliveryfeeFree", "description1");
     SpecialItem special2 = new SpecialItem("free16OzSoda", "Free16OzSoda", "description2");
-    SpecialItem special3 = new SpecialItem("free2LiterSoda", "Free2LiterSoda", "description3");
 
-    SpecialItem special4 = new SpecialItem("freeSauce", "freeSauce", "description4");
-    assertEquals(0, specialRepo.count());
-    specialRepo.insert(special1);
-    specialRepo.insert(special2);
-    specialRepo.insert(special3);
-    assertEquals(3, specialRepo.count());
-    Assert.assertEquals(specialService.getSpecialById("freeSauce"), null);
-
-    SpecialItem special5 = specialService.addSpecial("freeSauce", "freeSauce", "description5");
-
-    Assert.assertNotEquals(special5, special4);
-    Assert.assertEquals(specialService.getSpecialById("freeSauce"), special5);
-    Assert.assertNotEquals(specialService.getSpecialById("freeSauce"), special4);
+    SpecialItem specialFromDB = specialService.addSpecial(special2);
+    assertEquals(special2, specialFromDB);
   }
 
   @Test
   public void deleteSpecialTest() {
-    specialRepo.deleteAll();
-    SpecialItem special1 = new SpecialItem("deliveryfeeFree", "DeliveryfeeFree", "description1");
-    SpecialItem special2 = new SpecialItem("free16OzSoda", "Free16OzSoda", "description2");
+    SpecialItem special = setupFreeSodaSpecial();
+    try {
+      specialService.deleteSpecial(FREE_SODA);
+      assertEquals(0, specialRepo.count());
+    } catch(Exception err) {
+      fail(err.getMessage());
+    }
 
-    assertEquals(0, specialRepo.count());
-    specialRepo.insert(special1);
-    specialRepo.insert(special2);
-    assertEquals(2, specialRepo.count());
-    Assert.assertEquals(specialService.getSpecialById("free16OzSoda"), special2);
-
-    specialService.deleteSpecial("free16OzSoda");
-    assertEquals(1, specialRepo.count());
-    Assert.assertEquals(specialService.getSpecialById("free16OzSoda"), null);
   }
 
 }

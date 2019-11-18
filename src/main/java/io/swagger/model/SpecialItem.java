@@ -103,10 +103,10 @@ public class SpecialItem {
   @Override
   public String toString() {
     return "SpecialItem{" +
-        "id='" + id + '\'' +
-        ", name='" + name + '\'' +
-        ", description='" + description +
-        '}';
+        "id=" + id +
+        ", name=" + name +
+        ", description=" + description +
+        "}";
   }
 
   /**
