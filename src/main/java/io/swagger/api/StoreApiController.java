@@ -1,11 +1,8 @@
 package io.swagger.api;
 
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.model.StoreItem;
 import io.swagger.service.StoreService;
-import io.swagger.repository.StoreItemRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +21,9 @@ public class StoreApiController implements StoreApi {
   @Autowired
   private StoreService storeService;
 
-  @Autowired
-  private StoreItemRepository storeItemRepository;
-
   /**
    * {@inheritDoc}
-   * HttpStatus.OK - if StoreItem is successfully found.
+   * HttpStatus.OK - if StoreItems are successfully found.
    */
   @GetMapping("/store")
   @ApiOperation(
@@ -37,7 +31,6 @@ public class StoreApiController implements StoreApi {
       tags = {
           "store",
       })
-  @ApiResponse(code=200, message = "OK")
   public ResponseEntity<List<StoreItem>> getAllStores() {
     return new ResponseEntity<List<StoreItem>>(storeService.getAllStores(), HttpStatus.OK);
   }
@@ -53,42 +46,32 @@ public class StoreApiController implements StoreApi {
       tags = {
           "store",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=200, message = "OK"),
-      @ApiResponse(code=404, message = "NOT_FOUND")})
   public ResponseEntity<Optional<StoreItem>> getStoreById(String id) {
     if(storeService.getStoreById(id) == null) {
       return new ResponseEntity<Optional<StoreItem>>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<Optional<StoreItem>>(storeService.getStoreById(id), HttpStatus.FOUND);
+    return new ResponseEntity<Optional<StoreItem>>(storeService.getStoreById(id), HttpStatus.OK);
   }
 
   /**
    * {@inheritDoc}
-   * HttpStatus.CREATED - if store is created.
-   * HttpStatus.FORBIDDEN - if id exists in database.
+   * HttpStatus.OK - if StoreItem is successfully added or updated.
    */
   @PostMapping("/store/add")
   @ApiOperation(
-      value = "Add a StoreItem",
+      value = "Add or update a StoreItem",
       tags = {
           "store",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=201, message = "CREATED"),
-      @ApiResponse(code=403, message = "FORBIDDEN")})
   public ResponseEntity<StoreItem> addStore(StoreItem newStore) {
-    if (storeService.getStoreById(newStore.getId()) != null) {
-      return new ResponseEntity<StoreItem>(HttpStatus.FORBIDDEN);
-    }
     return new ResponseEntity<StoreItem>(
-        storeService.addStore(newStore), HttpStatus.CREATED);
+        storeService.addStore(newStore), HttpStatus.OK);
   }
 
   /**
    * {@inheritDoc}
    * HttpStatus.NOT_FOUND - if id is not found in database.
-   * HttpStatus.NO_CONTENT - if store is successfully removed.
+   * HttpStatus.OK - if StoreItem is successfully removed.
    */
   @DeleteMapping("/store/delete/{id}")
   @ApiOperation(
@@ -96,14 +79,11 @@ public class StoreApiController implements StoreApi {
       tags = {
           "store",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=204, message = "NO_CONTENT"),
-      @ApiResponse(code=404, message = "NOT_FOUND")})
   public HttpStatus deleteStore(String id) {
     if (storeService.getStoreById(id) == null) {
       return HttpStatus.NOT_FOUND;
     }
     storeService.deleteStore(id);
-    return HttpStatus.NO_CONTENT;
+    return HttpStatus.OK;
   }
 }

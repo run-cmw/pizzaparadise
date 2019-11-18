@@ -1,8 +1,6 @@
 package io.swagger.api;
 
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.model.SideItem;
 import io.swagger.service.SideService;
 import java.util.List;
@@ -26,7 +24,7 @@ public class SideApiController implements SideApi {
 
   /**
    * {@inheritDoc}
-   * HttpStatus.OK - if SideItem is successfully found.
+   * HttpStatus.OK - if SideItems are successfully found.
    */
   @GetMapping("/side")
   @ApiOperation(
@@ -34,7 +32,6 @@ public class SideApiController implements SideApi {
       tags = {
           "side",
       })
-  @ApiResponse(code=200, message = "OK")
   public ResponseEntity<List<SideItem>> getAllSides() {
     return new ResponseEntity<List<SideItem>>(sideService.getAllSides(), HttpStatus.OK);
   }
@@ -50,42 +47,32 @@ public class SideApiController implements SideApi {
       tags = {
           "side",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=200, message = "OK"),
-      @ApiResponse(code=404, message = "NOT_FOUND")})
   public ResponseEntity<Optional<SideItem>> getSideById(@PathVariable String id) {
     if(sideService.getSideById(id) == null) {
       return new ResponseEntity<Optional<SideItem>>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<Optional<SideItem>>(sideService.getSideById(id), HttpStatus.FOUND);
+    return new ResponseEntity<Optional<SideItem>>(sideService.getSideById(id), HttpStatus.OK);
   }
 
   /**
    * {@inheritDoc}
-   * HttpStatus.CREATED - if side is created.
-   * HttpStatus.FORBIDDEN - if id exists in database.
+   * HttpStatus.OK- if SideItem is successfully added or updated.
    */
   @PostMapping("/side/add")
   @ApiOperation(
-      value = "Add a SideItem",
+      value = "Add or update a SideItem",
       tags = {
           "side",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=201, message = "CREATED"),
-      @ApiResponse(code=403, message = "FORBIDDEN")})
   public ResponseEntity<SideItem> addSide(SideItem newSide) {
-    if (sideService.getSideById(newSide.getId()) != null) {
-      return new ResponseEntity<SideItem>(HttpStatus.FORBIDDEN);
-    }
     return new ResponseEntity<SideItem>(
-        sideService.addSide(newSide), HttpStatus.CREATED);
+        sideService.addSide(newSide), HttpStatus.OK);
   }
 
   /**
    * {@inheritDoc}
    * HttpStatus.NOT_FOUND - if id is not found in database.
-   * HttpStatus.NO_CONTENT - if store is successfully removed.
+   * HttpStatus.OK - if SideItem is successfully deleted.
    */
   @DeleteMapping("/side/delete/{id}")
   @ApiOperation(
@@ -93,9 +80,6 @@ public class SideApiController implements SideApi {
       tags = {
           "side",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=204, message = "NO_CONTENT"),
-      @ApiResponse(code=404, message = "NOT_FOUND")})
   public HttpStatus deleteSide(String id) {
     if (sideService.getSideById(id) == null) {
       return HttpStatus.NOT_FOUND;

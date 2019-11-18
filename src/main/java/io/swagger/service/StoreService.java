@@ -49,4 +49,22 @@ public class StoreService {
   public void deleteStore(String id) {
     storeItemRepository.deleteById(id);
   }
+
+  /**
+   * Return whether the store with the given id offers gluten free.
+   * @param id id of the store
+   * @return {@code true} if the store offers gluten free and {@code false} otherwise
+   */
+  public boolean storeOffersGlutenFree(String id) {
+    return storeOffersGlutenFree(storeItemRepository.findById(id).get());
+  }
+
+  /**
+   * Return whether the given store offers gluten free.
+   * @param storeItem the store
+   * @return {@code true} if the store offers gluten free and {@code false} otherwise
+   */
+  public boolean storeOffersGlutenFree(StoreItem storeItem) {
+    return storeItem.getOffersGlutenFree();
+  }
 }

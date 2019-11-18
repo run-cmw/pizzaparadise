@@ -12,55 +12,78 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest
 public class SideItemTest {
   private SideItem sideItem;
-  private SideItem same;
-  private SideItem different;
+  private SideItem sameObject;
+  private SideItem differentObject;
 
   @Before
   public void setUp() {
-    sideItem = new SideItem("cheeseSticks", "Cheesesticks", 6.99, "appetizer");
-    same = new SideItem("hotWings", "Hot wings", 7.99, "appetizer");
-    different = new SideItem("2LiterPeachCrush", "2 liter Peach Crush", 2.99, "drink");
-    
-    // Test setters within setup method
-    sideItem.setId("hotWings");
-    sideItem.setName("Hot wings");
-    sideItem.setPrice(7.99);
-    sideItem.setType("appetizer");
+    sideItem = new SideItem("hotWings", "Hot wings", 7.99, "appetizer");
+    sameObject = new SideItem("hotWings", "Hot wings", 7.99, "appetizer");
+    differentObject = new SideItem("2LiterPeachCrush", "2 liter Peach Crush", 2.99, "drink");
   }
 
   @Test
-  public void getIdTest() {
+  public void testGetId() {
     assertEquals("hotWings", sideItem.getId());
   }
 
   @Test
-  public void getNameTest() {
-    assertEquals("Hot wings", sideItem.getName());
+  public void testSetId() {
+    sideItem.setId("cheeseSticks");
+    assertEquals("cheeseSticks", sideItem.getId());
   }
 
   @Test
-  public void getPriceTest() {
+  public void testGetName() {
+    assertEquals("Hot wings", sideItem.getName());
+  }
+  
+  @Test
+  public void testSetName() {
+    sideItem.setName("Cheese sticks");
+    assertEquals("Cheese sticks", sideItem.getName());
+  }
+
+  @Test
+  public void testGetPrice() {
     Double price = 7.99;
+    assertEquals(price, sideItem.getPrice());
+  }
+  
+  @Test
+  public void testSetPrice() {
+    Double price = 6.99;
+    sideItem.setPrice(price);
     assertEquals(price, sideItem.getPrice());
   }
 
   @Test
-  public void equalsTest() {
-    assertEquals(same, sideItem);
-    assertEquals(same, same);
-    assertNotEquals(different, sideItem);
-    assertNotEquals(same, 2);
-    assertNotEquals(same, null);
+  public void testGetType() {
+    assertEquals("appetizer", sideItem.getType());
   }
 
   @Test
-  public void hashCodeTest() {
-    assertEquals(same.hashCode(), sideItem.hashCode());
-    assertNotEquals(different.hashCode(), sideItem.hashCode());
+  public void testSetType() {
+    sideItem.setType("dessert");
+    assertEquals("dessert", sideItem.getType());
   }
 
   @Test
-  public void toStringTest() {
+  public void testEquals() {
+    assertEquals(sameObject, sideItem);
+    assertNotEquals(differentObject, sideItem);
+    assertNotEquals(2, sideItem);
+    assertNotEquals(null, sideItem);
+  }
+
+  @Test
+  public void testHashCode() {
+    assertEquals(sameObject.hashCode(), sideItem.hashCode());
+    assertNotEquals(differentObject.hashCode(), sideItem.hashCode());
+  }
+
+  @Test
+  public void testToString() {
     final String SIDE_ITEM_AS_STRING =
       "SideItem{"
       + "id='" + sideItem.getId() + '\''

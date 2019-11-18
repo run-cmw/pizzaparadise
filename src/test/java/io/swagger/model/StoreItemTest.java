@@ -12,65 +12,94 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest
 public class StoreItemTest {
   private StoreItem storeItem;
-  private StoreItem same;
-  private StoreItem different;
+  private StoreItem sameObject;
+  private StoreItem differentObject;
 
   @Before
   public void setUp() {
-    storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
-    same = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska", "94608", false);
-    different = new StoreItem("louisiana", "555 Louisiana Blvd", "Clam Gulch", "Alaska", "94608", true);
-    
-    // Test setters within setup method
-    storeItem.setId("gulf");
-    storeItem.setStreetNumAndName("555 Gulf Blvd");
-    storeItem.setCity("Clam Gulch");
-    storeItem.setState("Alaska");
-    storeItem.setZipCode("94608");
-    storeItem.setOffersGlutenFree(false);
+    storeItem = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska", "94608", false);
+    sameObject = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska", "94608", false);
+    differentObject = new StoreItem("louisiana", "555 Louisiana Blvd", "Clam Gulch", "Alaska", "94608", true);
   }
 
   @Test
-  public void getIdTest() {
+  public void testGetId() {
     assertEquals("gulf", storeItem.getId());
   }
 
   @Test
-  public void getStreetNumAndNameTest() {
+  public void testSetId() {
+    storeItem.setId("sunshine");
+    assertEquals("sunshine", storeItem.getId());
+  }
+
+  @Test
+  public void testGetStreetNumAndName() {
     assertEquals("555 Gulf Blvd", storeItem.getStreetNumAndName());
   }
 
   @Test
-  public void getCityTest() {
+  public void testSetStreetNumAndName() {
+    storeItem.setStreetNumAndName("555 Sunshine Ave");
+    assertEquals("555 Sunshine Ave", storeItem.getStreetNumAndName());
+  }
+
+  @Test
+  public void testGetCity() {
     assertEquals("Clam Gulch", storeItem.getCity());
   }
 
   @Test
-  public void getStateTest() {
+  public void testSetCity() {
+    storeItem.setCity("Seattle");
+    assertEquals("Seattle", storeItem.getCity());
+  }
+
+  @Test
+  public void testGetState() {
     assertEquals("Alaska", storeItem.getState());
   }
 
   @Test
-  public void getZipCodeTest() {
+  public void testSetState() {
+    storeItem.setState("California");
+    assertEquals("California", storeItem.getState());
+  }
+
+  @Test
+  public void testGetZipCode() {
     assertEquals("94608", storeItem.getZipCode());
   }
 
   @Test
-  public void getOffersGlutenFree() {assertEquals(false, storeItem.getOffersGlutenFree()); }
+  public void testSetZipCode() {
+    storeItem.setZipCode("70806");
+    assertEquals("70806", storeItem.getZipCode());
+  }
+
+  @Test
+  public void testGetOffersGlutenFree() {
+    assertEquals(false, storeItem.getOffersGlutenFree());
+  }
+
+  @Test
+  public void testSetOffersGlutenFree() {
+    storeItem.setOffersGlutenFree(true);
+    assertEquals(true, storeItem.getOffersGlutenFree());
+  }
 
   @Test
   public void equalsTest() {
-    assertEquals(same, storeItem);
-    assertEquals(same, same);
-    assertNotEquals(different, storeItem);
-    assertNotEquals(same, 2);
-    assertNotEquals(same, null);
+    assertEquals(sameObject, storeItem);
+    assertNotEquals(differentObject, storeItem);
+    assertNotEquals(2, storeItem);
+    assertNotEquals(null, storeItem);
   }
 
   @Test
   public void hashCodeTest() {
-    assertEquals(same.hashCode(), storeItem.hashCode());
-    assertNotEquals(different.hashCode(), storeItem.hashCode());
+    assertEquals(sameObject.hashCode(), storeItem.hashCode());
+    assertNotEquals(differentObject.hashCode(), storeItem.hashCode());
   }
 
   @Test

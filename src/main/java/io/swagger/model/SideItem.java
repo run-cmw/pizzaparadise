@@ -18,6 +18,11 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel
 @Document(collection = "SideItem")
 public class SideItem {
+  public static final String TYPE_APPETIZER = "appetizer";
+  public static final String TYPE_CONDIMENT = "condiment";
+  public static final String TYPE_DESSERT = "condiment";
+  public static final String TYPE_DRINK = "drink";
+
   @JsonProperty("id")
   private String id;
 
