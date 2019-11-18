@@ -27,10 +27,26 @@ public class PizzaSizeService {
    * @return a pizza size found by id
    */
   public PizzaSize getPizzaSizeById(String id) {
-    if(!pizzaSizeRepository.existsById(id)) {
-      return null;
-    }
     PizzaSize size = pizzaSizeRepository.findById(id).get();
     return size;
+  }
+
+  /**
+   * Add PizzaSize to the database
+   * @param pizzaSize pizzaSize given to add
+   * @return the PizzaSize that is added
+   */
+  public PizzaSize addPizzaSize(PizzaSize pizzaSize) {
+    pizzaSizeRepository.save(pizzaSize);
+    return pizzaSize;
+  }
+
+
+  /**
+   * Delete PizzaSize by id from database
+   * @param id id given to delete
+   */
+  public void deletePizzaSize(String id) {
+    pizzaSizeRepository.deleteById(id);
   }
 }
