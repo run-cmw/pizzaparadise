@@ -27,25 +27,17 @@ public class SpecialItemService {
    * @return the specialItem that matches with id.
    */
   public SpecialItem getSpecialById(String id) {
-    for (SpecialItem item : specialItemRepository.findAll()) {
-      if (item.getId().equals(id)) {
-        return item;
-      }
-    }
-    return null;
+    SpecialItem special = specialItemRepository.findById(id).get();
+    return special;
   }
 
   /**
    * Add special to the database
-   * @param specialId new SpecialId given to add
-   * @param name name of the specialItem
-   * @param description description of specialItem
    * @return the specialItem that is added
    */
-  public SpecialItem addSpecial(String specialId, String name, String description) {
-    SpecialItem newSpecial = new SpecialItem(specialId, name, description);
-    specialItemRepository.save(newSpecial);
-    return newSpecial;
+  public SpecialItem addSpecial(SpecialItem specialItem) {
+    specialItemRepository.save(specialItem);
+    return specialItem;
   }
 
 
