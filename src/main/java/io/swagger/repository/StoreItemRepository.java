@@ -6,6 +6,4 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 /**
  * StoreItem Repository interface
  */
-public interface StoreItemRepository extends MongoRepository<StoreItem, String> {
-
-}
+public interface StoreItemRepository extends MongoRepository<StoreItem, String> {}
