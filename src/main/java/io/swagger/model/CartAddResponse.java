@@ -1,7 +1,6 @@
 package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
 
 /**
  * Cart Add Response
@@ -10,8 +9,10 @@ public class CartAddResponse {
 
   @JsonProperty("Success")
   private boolean success;
-  @JsonProperty("Items")
-  private List<String> items;
+  @JsonProperty("Pizza")
+  private Pizza pizza;
+  @JsonProperty("Side")
+  private SideItem side;
   @JsonProperty("CartID")
   private String cartID;
   @JsonProperty("StoreID")
@@ -20,28 +21,45 @@ public class CartAddResponse {
   private String message;
 
   /**
-   * Construct a new CartAddResponse.
+   * Construct a new CartAddResponse for pizza.
    *
-   * @param items list of items that are added to Cart.
+   * @param pizza pizza added to Cart.
    * @param cartID cartId to show where it was saved.
    * @param storeID storeId to show where it was saved.
    */
-  public CartAddResponse(List<String> items, String cartID, String storeID) {
+  public CartAddResponse(Pizza pizza, String cartID, String storeID) {
     this.success = true;
-    this.items = items;
     this.cartID = cartID;
     this.storeID = storeID;
+    this.pizza = pizza;
+    this.side = null;
+    this.message = null;
+  }
+
+  /**
+   * Construct a new CartAddResponse for side.
+   *
+   * @param side side added to Cart.
+   * @param cartID cartId to show where it was saved.
+   * @param storeID storeId to show where it was saved.
+   */
+  public CartAddResponse(SideItem side, String cartID, String storeID) {
+    this.success = true;
+    this.cartID = cartID;
+    this.storeID = storeID;
+    this.pizza = null;
+    this.side = side;
     this.message = null;
   }
 
   /**
    * Construct a failed CartAddResponse.
-   * 
    * @param message the error message to show the user
    */
   public CartAddResponse(String message) {
     this.success = false;
-    this.items = null;
+    this.pizza = null;
+    this.side = null;
     this.cartID = null;
     this.storeID = null;
     this.message = message;
@@ -56,11 +74,19 @@ public class CartAddResponse {
   }
 
   /**
-   * Get list of items added to cart.
-   * @return list of items that are added by this query.
+   * Get pizza of this CartAddResponse.
+   * @return pizza of this CartAddResponse.
    */
-  public List<String> getItems() {
-    return this.items;
+  public Pizza getPizza() {
+    return this.pizza;
+  }
+
+  /**
+   * Get side of this CartAddResponse.
+   * @return side of this CartAddResponse.
+   */
+  public SideItem getSide() {
+    return this.side;
   }
 
   /**
@@ -95,7 +121,8 @@ public class CartAddResponse {
   public String toString() {
     return "CartAddResponse{" +"success=" + this.success +
         ", cartId=" + this.cartID + ", storeID=" + this.storeID +
-        ", items=" + this.items +
+        ", pizza=" + this.pizza +
+        ", side=" + this.side +
         ", message=" + this.message + "}";
   }
 
@@ -111,7 +138,8 @@ public class CartAddResponse {
     CartAddResponse object = (CartAddResponse) obj;
     return this.success == object.getSuccess() &&
       ((this.cartID == null && object.getCartID() == null) || this.cartID.equals(object.getCartID())) &&
-      ((this.items == null && object.getItems() == null) || this.items.equals(object.getItems())) &&
+      ((this.pizza == null && object.getPizza() == null) || this.pizza.equals(object.getPizza())) &&
+        ((this.side == null && object.getSide() == null) || this.side.equals(object.getSide())) &&
       ((this.storeID == null && object.getStoreID() == null) || this.storeID.equals(object.getStoreID())) &&
       ((this.message == null && object.getMessage() == null) || this.message.equals(object.getMessage()));
   }
