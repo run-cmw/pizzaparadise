@@ -1,11 +1,14 @@
 package io.swagger.service;
 
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 import io.swagger.model.StoreItem;
 import io.swagger.repository.StoreItemRepository;
 import java.util.List;
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,99 +26,73 @@ public class StoreServiceTest {
   @Autowired
   public StoreItemRepository storeRepo;
 
+  @Before
+  public void setUp() {
+    storeRepo.deleteAll();
+  }
+
+  String BROOKLYN = "brooklyn";
+  String EASTLAKE = "eastlake";
+
+  private StoreItem setUpBrooklynStore() {
+    StoreItem store = new StoreItem("brooklyn", "4060 9th ave", "Seattle", "Washington", "98105", false);
+    storeRepo.insert(store);
+    return store;
+  }
+
+  private StoreItem setUpEastLakeStore() {
+    StoreItem store = new StoreItem("eastlake", "4115 Roosevelt way NE", "Seattle", "Washington", "98105", true);
+    storeRepo.insert(store);
+    return store;
+  }
 
   @Test
   public void getAllSizeTest() {
-    storeRepo.deleteAll();
-    StoreItem store1 = new StoreItem("moonglow", "999 Moonglow Ave", "Emeryville", "California", "70802", true);
-    StoreItem store2 = new StoreItem("plank", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105", false);
-    StoreItem store3 = new StoreItem("house", "4060 9th ave", "Seattle", "Washington", "98105", false);
-    StoreItem store4 = new StoreItem("second", "4115 Roosevelt way NE", "Seattle", "Washington", "98105", true);
+    StoreItem store1 = setUpBrooklynStore();
+    StoreItem store2 = setUpEastLakeStore();
 
-    assertEquals(0, storeRepo.count());
-    storeRepo.insert(store1);
-    assertEquals(1, storeRepo.count());
-    storeRepo.insert(store2);
     assertEquals(2, storeRepo.count());
-    storeRepo.insert(store3);
 
     List<StoreItem> list =storeService.getAllStores();
-    assertEquals(3, storeRepo.count());
-    Assert.assertEquals(3, list.size());
-    Assert.assertEquals(true, list.contains(store1));
-    Assert.assertEquals(true, list.contains(store2));
-    Assert.assertEquals(true, list.contains(store3));
-    Assert.assertEquals(false, list.contains(store4));
+    assertTrue(list.contains(store1));
+    assertTrue(list.contains(store2));
   }
 
   @Test
   public void getSpecialByIdTest() {
-    storeRepo.deleteAll();
-    StoreItem store1 = new StoreItem("moonglow", "999 Moonglow Ave", "Emeryville", "California", "70802", true);
-    StoreItem store2 = new StoreItem("plank", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105", false);
-    StoreItem store3 = new StoreItem("house", "4060 9th ave", "Seattle", "Washington", "98105", false);
-
-    assertEquals(0, storeRepo.count());
-    storeRepo.insert(store1);
-
-    Assert.assertEquals(storeService.getStoreById("moonglow"), store1);
-
-    Assert.assertEquals(storeService.getStoreById("house"), null);
-    storeRepo.insert(store2);
-    storeRepo.insert(store3);
-    Assert.assertEquals(storeService.getStoreById("plank"), store2);
-    Assert.assertEquals(storeService.getStoreById("plank").getId(), "plank");
-    Assert.assertEquals(storeService.getStoreById("plank").getOffersGlutenFree(), false);
-    Assert.assertEquals(storeService.getStoreById("plank").getStreetNumAndName(), "777 Plank Rd");
-    Assert.assertEquals(storeService.getStoreById("plank").getCity(), "Baton Rouge");
-    Assert.assertEquals(storeService.getStoreById("plank").getZipCode(), "98105");
-    Assert.assertEquals(storeService.getStoreById("plank").getState(), "Louisiana");
-
-    Assert.assertNotEquals(storeService.getStoreById("moonglow"), store2);
-    Assert.assertEquals(storeService.getStoreById("moonglow").getId(), "moonglow");
-    Assert.assertEquals(storeService.getStoreById("moonglow").getOffersGlutenFree(), true);
-    Assert.assertEquals(storeService.getStoreById("moonglow").getStreetNumAndName(), "999 Moonglow Ave");
-    Assert.assertEquals(storeService.getStoreById("moonglow").getCity(), "Emeryville");
-    Assert.assertEquals(storeService.getStoreById("moonglow").getZipCode(), "70802");
-    Assert.assertEquals(storeService.getStoreById("moonglow").getState(), "California");
-
-    Assert.assertEquals(storeService.getStoreById("house"), store3);
-    Assert.assertEquals(storeService.getStoreById("house").getId(), "house");
-    Assert.assertEquals(storeService.getStoreById("house").getOffersGlutenFree(), false);
-    Assert.assertEquals(storeService.getStoreById("house").getStreetNumAndName(), "4060 9th ave");
-    Assert.assertEquals(storeService.getStoreById("house").getCity(), "Seattle");
-    Assert.assertEquals(storeService.getStoreById("house").getZipCode(), "98105");
-    Assert.assertEquals(storeService.getStoreById("house").getState(), "Washington");
+    StoreItem store = setUpBrooklynStore();
+    assertEquals(store, storeService.getStoreById(BROOKLYN));
   }
 
   @Test
   public void addSpecialTest() {
-
+    StoreItem store = new StoreItem("stoneWay", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105", false);
+    storeService.addStore(store);
+    assertEquals(1, storeRepo.count());
+    assertEquals(store, storeService.getStoreById("stoneWay"));
   }
 
   @Test
   public void deleteSpecialTest() {
-    storeRepo.deleteAll();
-    StoreItem store1 = new StoreItem("plank", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105", false);
-    StoreItem store2 = new StoreItem("house", "4060 9th ave", "Seattle", "Washington", "98105", false);
-    StoreItem store3 = new StoreItem("second", "4115 Roosevelt way NE", "Seattle", "Washington", "98105", true);
+    setUpEastLakeStore();
+    try {
+      storeService.deleteStore(EASTLAKE);
+      assertEquals(0, storeRepo.count());
+    } catch (Exception err) {
+      fail(err.getMessage());
+    }
+  }
 
-    assertEquals(0, storeRepo.count());
-    storeRepo.insert(store1);
-    storeRepo.insert(store2);
-    assertEquals(2, storeRepo.count());
-    Assert.assertEquals(storeService.getStoreById("house"), store2);
+  @Test
+  public void TestStoreCanServeGlutenFree() {
+    StoreItem store = setUpBrooklynStore();
+    assertFalse(storeService.storeCanServeGlutenFree(store.getId()));
+  }
 
-    storeService.deleteStore("house");
-    assertEquals(1, storeRepo.count());
-    Assert.assertEquals(storeService.getStoreById("house"), null);
-    Assert.assertEquals(storeService.getStoreById("plank"), store1);
-    Assert.assertEquals(storeService.getStoreById("second"), null);
-    storeRepo.insert(store3);
-    assertEquals(2, storeRepo.count());
-    storeService.deleteStore("second");
-    Assert.assertEquals(storeService.getStoreById("second"), null);
-    assertEquals(1, storeRepo.count());
+  @Test
+  public void TestStoreItemCanServeGlutenFree() {
+    StoreItem store = new StoreItem("stoneWay", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105", true);
+    assertTrue(storeService.storeCanServeGlutenFree(store));
   }
 
 }
