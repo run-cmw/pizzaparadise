@@ -82,10 +82,10 @@ public class Pizza {
    */
   @Override
   public String toString() {
-    return "Pizza{" + "sizeID= " + this.sizeID
-        + ", gluten= " + this.gluten
-        + ", toppingIDs= " + this.toppingIDs
-        + ", price= " + this.price + "}";
+    return "Pizza{" + "sizeID=" + this.sizeID
+        + ", gluten=" + this.gluten
+        + ", toppingIDs=" + this.toppingIDs
+        + ", price=" + this.price + "}";
   }
 
   /**
