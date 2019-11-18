@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -45,7 +46,7 @@ public class Cart {
     this.totalAmount = 0.0;
     this.pizzas = new ArrayList<>();
     this.sides = new ArrayList<>();
-    specialApplied = false;
+    this.specialApplied = false;
   }
 
   /**
@@ -132,13 +133,13 @@ public class Cart {
   @Override
   public String toString() {
     return "Cart{"
-        + "cartId= " + id + ", "
+        + "cartId= " + id.toString() + ", "
         + "storeId= " + storeID + ", "
-        + "list of pizza= " + pizzas.toString() + ", "
-        + "list of side= " + sides.toString() + ", "
-        + "total price= " + totalAmount + ", "
-        + "special applied= " + specialApplied
-        + '}';
+        + "listOfPizza= " + pizzas.toString() + ", "
+        + "listOfSide= " + sides.toString() + ", "
+        + "totalPrice= " + totalAmount.toString() + ", "
+        + "specialApplied= " + specialApplied
+        + "}";
   }
 
   /**
@@ -149,11 +150,14 @@ public class Cart {
   @Override
   public boolean equals(Object obj) {
     if(this == obj) return true;
-    if(obj == null) { return false; }
+    if(obj == null || getClass() != obj.getClass()) { return false; }
     Cart cart = (Cart) obj;
-    return cart.getSides().equals(this.sides) && cart.getStoreID().equals(this.storeID)
-        && cart.getPizzas().equals(this.pizzas) && cart.getId().equals(this.id)
-        && cart.getTotalAmount().equals(this.totalAmount);
+    return cart.getSides().equals(this.sides) &&
+        cart.getPizzas().equals(this.pizzas) &&
+        cart.getId().equals(this.id.toString()) &&
+        cart.getStoreID().equals(this.storeID) &&
+        Double.compare(cart.getTotalAmount(), this.totalAmount) == 0 &&
+        cart.isSpecialApplied() == this.specialApplied;
   }
 
 }

@@ -93,6 +93,11 @@ public class CartService {
     List<String> items = new ArrayList<>();
     Pizza newPizza = new Pizza(sizeId, gluten);
     items.add(sizeId);
+    if(gluten) {
+      items.add("gluten");
+    } else {
+      items.add("glutenFree");
+    }
 
     addToppingToPizza(newPizza, topping1, items);
     addToppingToPizza(newPizza, topping2, items);
@@ -191,7 +196,7 @@ public class CartService {
       Optional<SideItem> sideItem = sideRepository.findById(sideId);
       price += sideItem.get().getPrice();
     }
-    return price;
+    return Math.round(price * 100.0) / 100.0;
   }
 
   /**
@@ -206,7 +211,7 @@ public class CartService {
     for (Pizza pizza : pizzas) {
       price += pizza.getPrice();
     }
-    return price;
+    return Math.round(price * 100.0) / 100.0;
   }
 
   /**
@@ -248,7 +253,7 @@ public class CartService {
         price += topping.get().getToppingLargePrice();
       }
     }
-    return price;
+    return Math.round(price * 100.0) / 100.0;
   }
 
   /**

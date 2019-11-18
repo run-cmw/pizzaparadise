@@ -81,4 +81,33 @@ public class Pizza {
     this.price = price;
   }
 
+  /**
+   * String representation of this Pizza.
+   * @return a String representation of this Pizza
+   */
+  @Override
+  public String toString() {
+    return "Pizza{" + "sizeID= " + this.sizeID
+        + ", gluten= " + this.gluten
+        + ", toppingIDs= " + this.toppingIDs
+        + ", price= " + this.price + "}";
+  }
+
+  /**
+   * Check if two objects are equal.
+   * @param obj object given for comparison
+   * @return true if two objects are equal, false otherwise.
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if(obj == this) { return true; }
+    if(obj == null || getClass() != obj.getClass()) { return false; }
+    Pizza pizza = (Pizza) obj;
+    return this.sizeID.equals(pizza.getSizeID()) &&
+        this.gluten == pizza.gluten &&
+        this.toppingIDs.equals(pizza.getToppingIDs()) &&
+        Double.compare(pizza.getPrice(), this.price) == 0 &&
+        this.getToppingCount() == pizza.getToppingCount();
+  }
+
 }

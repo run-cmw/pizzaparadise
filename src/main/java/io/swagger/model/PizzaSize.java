@@ -127,7 +127,7 @@ public class PizzaSize {
   @Override
   public boolean equals(Object obj) {
     if(this == obj) return true;
-    if(obj == null) { return false; }
+    if(obj == null || getClass() != obj.getClass()) { return false; }
     PizzaSize size = (PizzaSize) obj;
     return size.getId().equals(this.id) &&
         size.getPrice().equals(this.price) &&

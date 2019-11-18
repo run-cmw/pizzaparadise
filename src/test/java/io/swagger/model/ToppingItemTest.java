@@ -4,45 +4,61 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class ToppingItemTest {
-  private ToppingItem toppingItem1;
-  private ToppingItem toppingItem2;
-  private ToppingItem toppingItem3;
-
-  @Before
-  public void setUp() {
-    toppingItem1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
-    toppingItem2 = new ToppingItem("sausage1", "sausage", "meat", 2.5, 2.75, 3.0, "gluten");
-    toppingItem3 = new ToppingItem("onion1", "onion", "vegetable", 2.0, 2.25, 2.5, "non-gluten");
-
-    // Test setters within setup method
-    toppingItem1.setId("pepperoni1");
-    toppingItem1.setToppingName("pepperoni");
-    toppingItem1.setToppingSmallPrice(2.5);
-  }
 
   @Test
   public void getIdTest() {
-    assertEquals("pepperoni1", toppingItem1.getId());
+    ToppingItem toppingItem1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
+
+    Assert.assertEquals("pepperoni1", toppingItem1.getId());
+  }
+
+  @Test
+  public void setIdTest() {
+    ToppingItem toppingItem1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
+
+    toppingItem1.setId("pepperoni");
+    Assert.assertEquals("pepperoni", toppingItem1.getId());
   }
 
   @Test
   public void getNameTest() {
-    assertEquals("pepperoni", toppingItem1.getToppingName());
+    ToppingItem toppingItem1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
+    Assert.assertEquals("pepperoni", toppingItem1.getToppingName());
+  }
+
+  @Test
+  public void setNameTest() {
+    ToppingItem toppingItem1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
+    toppingItem1.setToppingName("pepperoni name");
+    Assert.assertEquals("pepperoni name", toppingItem1.getToppingName());
   }
 
   @Test
   public void getPriceTest() {
+    ToppingItem toppingItem1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
+
     Double price;
     price = 2.5;
-    assertEquals(price, toppingItem1.getToppingSmallPrice());
+    Assert.assertEquals(price, toppingItem1.getToppingSmallPrice());
+  }
+
+  @Test
+  public void setPriceTest() {
+    ToppingItem toppingItem1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
+
+    toppingItem1.setToppingMediumPrice(3.00);
+    Assert.assertEquals((Double) 3.00, toppingItem1.getToppingMediumPrice());
   }
 
   @Test
   public void equalsTest() {
+    ToppingItem toppingItem1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
+    ToppingItem toppingItem2 = new ToppingItem("sausage1", "sausage", "meat", 2.5, 2.75, 3.0, "gluten");
+    ToppingItem toppingItem3 = new ToppingItem("onion1", "onion", "vegetable", 2.0, 2.25, 2.5, "non-gluten");
+
     assertNotEquals(toppingItem2, toppingItem1);
     assertEquals(toppingItem2, toppingItem2);
     assertNotEquals(toppingItem3, toppingItem1);
@@ -52,12 +68,17 @@ public class ToppingItemTest {
 
   @Test
   public void hashCodeTest() {
+    ToppingItem toppingItem1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
+    ToppingItem toppingItem3 = new ToppingItem("onion1", "onion", "vegetable", 2.0, 2.25, 2.5, "non-gluten");
+
     assertEquals(toppingItem1.hashCode(), toppingItem1.hashCode());
     assertNotEquals(toppingItem3.hashCode(), toppingItem1.hashCode());
   }
 
   @Test
   public void toStringTest() {
+    ToppingItem toppingItem1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
+
     final String TOPPING_ITEM_AS_STRING =
         "ToppingItem{"
             + "id='" + toppingItem1.getId() + '\''

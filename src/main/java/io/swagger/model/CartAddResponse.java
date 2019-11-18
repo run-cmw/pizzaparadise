@@ -78,4 +78,33 @@ public class CartAddResponse {
     return this.message;
   }
 
+  /**
+   * String representation of this CartAddResponse.
+   * @return a String representation of this CartAddResponse
+   */
+  @Override
+  public String toString() {
+    return "CartAddResponse{" +"success= " + this.success +
+        ",cartId= " + this.cartID + ", storeID= " + this.storeID +
+        ", items= " + this.items +
+        ", message= " + this.message + "}";
+  }
+
+  /**
+   * Check if two objects are equal.
+   * @param obj object given for comparison
+   * @return true if two objects are equal, false otherwise.
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if(this == obj) { return true;}
+    if(obj == null || getClass() != obj.getClass()) { return false; }
+    CartAddResponse object = (CartAddResponse) obj;
+    return this.success == object.getSuccess() &&
+        this.cartID.equals(object.getCartID()) &&
+        this.items.equals(object.getItems()) &&
+        this.storeID.equals(object.getStoreID()) &&
+        this.message.equals(object.getMessage());
+  }
+
 }

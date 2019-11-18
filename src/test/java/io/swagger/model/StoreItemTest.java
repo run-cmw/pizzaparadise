@@ -10,55 +10,93 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 public class StoreItemTest {
-  private StoreItem storeItem;
-  private StoreItem same;
-  private StoreItem different;
-
-  @Before
-  public void setUp() {
-    storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
-    same = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska", "94608", false);
-    different = new StoreItem("louisiana", "555 Louisiana Blvd", "Clam Gulch", "Alaska", "94608", true);
-    
-    // Test setters within setup method
-    storeItem.setId("gulf");
-    storeItem.setStreetNumAndName("555 Gulf Blvd");
-    storeItem.setCity("Clam Gulch");
-    storeItem.setState("Alaska");
-    storeItem.setZipCode("94608");
-    storeItem.setOffersGlutenFree(false);
-  }
 
   @Test
-  public void getIdTest() {
+  public void setIdTest() {
+    StoreItem storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+
+    storeItem.setId("gulf");
     assertEquals("gulf", storeItem.getId());
   }
 
   @Test
+  public void getIdTest() {
+    StoreItem storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+    assertEquals("sunshine", storeItem.getId());
+  }
+
+  @Test
   public void getStreetNumAndNameTest() {
+    StoreItem storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+
+    assertEquals("555 Sunshine Ave", storeItem.getStreetNumAndName());
+  }
+
+  @Test
+  public void setStreetNumAndNameTest() {
+    StoreItem storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+    storeItem.setStreetNumAndName("555 Gulf Blvd");
     assertEquals("555 Gulf Blvd", storeItem.getStreetNumAndName());
   }
 
   @Test
   public void getCityTest() {
+    StoreItem storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+    assertEquals("Seattle", storeItem.getCity());
+  }
+
+  @Test
+  public void setCityTest() {
+    StoreItem storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+    storeItem.setCity("Clam Gulch");
     assertEquals("Clam Gulch", storeItem.getCity());
   }
 
   @Test
   public void getStateTest() {
+    StoreItem storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+    assertEquals("California", storeItem.getState());
+  }
+
+  @Test
+  public void setStateTest() {
+    StoreItem storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+
+    storeItem.setState("Alaska");
     assertEquals("Alaska", storeItem.getState());
   }
 
   @Test
   public void getZipCodeTest() {
+    StoreItem storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+
+    assertEquals("70806", storeItem.getZipCode());
+  }
+
+  @Test
+  public void setZipCodeTest() {
+    StoreItem storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+    storeItem.setZipCode("94608");
     assertEquals("94608", storeItem.getZipCode());
   }
 
   @Test
-  public void getOffersGlutenFree() {assertEquals(false, storeItem.getOffersGlutenFree()); }
+  public void getOffersGlutenFree() {
+    StoreItem storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+    assertEquals(true, storeItem.getOffersGlutenFree()); }
+
+  @Test
+  public void setOffersGlutenFree() {
+    StoreItem storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+    storeItem.setOffersGlutenFree(false);
+    assertEquals(false, storeItem.getOffersGlutenFree()); }
 
   @Test
   public void equalsTest() {
+    StoreItem storeItem = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska", "94608", false);
+    StoreItem same = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska", "94608", false);
+    StoreItem different = new StoreItem("louisiana", "555 Louisiana Blvd", "Clam Gulch", "Alaska", "94608", true);
+
     assertEquals(same, storeItem);
     assertEquals(same, same);
     assertNotEquals(different, storeItem);
@@ -68,12 +106,18 @@ public class StoreItemTest {
 
   @Test
   public void hashCodeTest() {
+    StoreItem storeItem = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska", "94608", false);
+    StoreItem same = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska", "94608", false);
+    StoreItem different = new StoreItem("louisiana", "555 Louisiana Blvd", "Clam Gulch", "Alaska", "94608", true);
+
     assertEquals(same.hashCode(), storeItem.hashCode());
     assertNotEquals(different.hashCode(), storeItem.hashCode());
   }
 
   @Test
   public void toStringTest() {
+    StoreItem storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+
     final String STORE_ITEM_AS_STRING =
       "class StoreItem {\n"
       + "    id: " + storeItem.getId() + "\n"

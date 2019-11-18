@@ -42,7 +42,7 @@ public class SpecialItemService {
    * @param description description of specialItem
    * @return the specialItem that is added
    */
-  public SpecialItem addSpecial(String  specialId, String name, String description) {
+  public SpecialItem addSpecial(String specialId, String name, String description) {
     SpecialItem newSpecial = new SpecialItem(specialId, name, description);
     specialItemRepository.save(newSpecial);
     return newSpecial;

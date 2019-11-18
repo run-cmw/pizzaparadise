@@ -121,7 +121,7 @@ public class SpecialItem {
     if (this == obj) {
       return true;
     }
-    if (obj == null) {
+    if (obj == null || getClass() != obj.getClass()) {
       return false;
     }
     SpecialItem specialItem = (SpecialItem) obj;

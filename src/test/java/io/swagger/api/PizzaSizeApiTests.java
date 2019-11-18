@@ -1,51 +1,64 @@
 package io.swagger.api;
 
 import static com.jayway.restassured.RestAssured.given;
+import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import io.swagger.model.PizzaSize;
 import io.swagger.repository.PizzaSizeRepository;
 import io.swagger.service.PizzaSizeService;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.JsonPathResultMatchers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
+@WebMvcTest(PizzaSizeApiController.class)
 @TestPropertySource(locations = "classpath:/application-test.properties")
 public class PizzaSizeApiTests {
 
   @Autowired
-  private PizzaSizeService sizeService;
+  private MockMvc mvc;
 
   @MockBean
+  private PizzaSizeApiController sizeController;
+  @MockBean
+  private PizzaSizeService sizeService;
+
+
   private PizzaSizeRepository sizeRepository;
 
-  @Before
-  public void Setup() {
-    when(sizeRepository.findAll()).thenReturn(Stream.of(
-        new PizzaSize("large", "Large", "16", 20.99),
-        new PizzaSize("medium", "Medium", "13", 17.99),
-        new PizzaSize("small", "Small", "11", 13.99)
-    ).collect(Collectors.toList()));
-  }
 
   @Test
-  public void getAllSizesTest() {
-    Assert.assertEquals(3, sizeService.getAllPizzaSizes().size());
-    Assert.assertNotEquals(sizeService.getAllPizzaSizes(), null);
+  public void getAllSizesTest() throws Exception {
+
+    PizzaSize size1 = new PizzaSize("large", "Large", "16", 20.99);
+    mvc.perform( MockMvcRequestBuilders
+        .get("/size")
+        .contentType(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$[0]").value(size1.toString()));
+
   }
 
   @Test
