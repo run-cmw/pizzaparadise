@@ -22,20 +22,29 @@ public class CartAddResponse {
   /**
    * Construct a new CartAddResponse.
    *
-   * @param success true if adding was successful, false otherwise.
    * @param items list of items that are added to Cart.
    * @param cartID cartId to show where it was saved.
    * @param storeID storeId to show where it was saved.
-   * @param message message to show the if it was success or fail.
    */
-  public CartAddResponse(boolean success, List<String> items, String cartID, String storeID,
-      String message) {
-    this.success = success;
+  public CartAddResponse(List<String> items, String cartID, String storeID) {
+    this.success = true;
     this.items = items;
     this.cartID = cartID;
     this.storeID = storeID;
-    this.message = message;
+    this.message = null;
+  }
 
+  /**
+   * Construct a failed CartAddResponse.
+   * 
+   * @param message the error message to show the user
+   */
+  public CartAddResponse(String message) {
+    this.success = false;
+    this.items = null;
+    this.cartID = null;
+    this.storeID = null;
+    this.message = message;
   }
 
   /**
@@ -84,10 +93,10 @@ public class CartAddResponse {
    */
   @Override
   public String toString() {
-    return "CartAddResponse{" +"success= " + this.success +
-        ",cartId= " + this.cartID + ", storeID= " + this.storeID +
-        ", items= " + this.items +
-        ", message= " + this.message + "}";
+    return "CartAddResponse{" +"success=" + this.success +
+        ", cartId=" + this.cartID + ", storeID=" + this.storeID +
+        ", items=" + this.items +
+        ", message=" + this.message + "}";
   }
 
   /**
@@ -101,10 +110,10 @@ public class CartAddResponse {
     if(obj == null || getClass() != obj.getClass()) { return false; }
     CartAddResponse object = (CartAddResponse) obj;
     return this.success == object.getSuccess() &&
-        this.cartID.equals(object.getCartID()) &&
-        this.items.equals(object.getItems()) &&
-        this.storeID.equals(object.getStoreID()) &&
-        this.message.equals(object.getMessage());
+      ((this.cartID == null && object.getCartID() == null) || this.cartID.equals(object.getCartID())) &&
+      ((this.items == null && object.getItems() == null) || this.items.equals(object.getItems())) &&
+      ((this.storeID == null && object.getStoreID() == null) || this.storeID.equals(object.getStoreID())) &&
+      ((this.message == null && object.getMessage() == null) || this.message.equals(object.getMessage()));
   }
 
 }

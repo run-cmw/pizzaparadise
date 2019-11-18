@@ -6,7 +6,6 @@ import io.swagger.model.Pizza;
 import io.swagger.model.PizzaSize;
 import io.swagger.model.PriceResponse;
 import io.swagger.model.SideItem;
-import io.swagger.model.StoreItem;
 import io.swagger.model.ToppingItem;
 import io.swagger.repository.CartRepository;
 import io.swagger.repository.PizzaSizeRepository;
@@ -37,9 +36,6 @@ public class CartService {
   @Autowired
   private PizzaSizeRepository sizeRepository;
 
-  @Autowired
-  private StoreItemRepository storeRepository;
-
   /**
    * Get Cart information by StoreID and CartID.
    * @param storeId storeId given to this function.
@@ -56,15 +52,50 @@ public class CartService {
     return null;
   }
 
+  /**
+   * Get Cart information by StoreID and CartID.
+   * @param storeId storeId given to this function.
+   * @param cartId cartId given to this function.
+   * @return Cart if cartId was found from the store. Null if cartID and storeID are not connected.
+   */
+  public Cart getCartItemsById(String storeId, ObjectId cartId) {
+    return getCartItemsById(storeId, cartId.toString());
+  }
 
   /**
+   * TODO: document
+   * @param storeId
+   * @param cartId
+   * @return
+   */
+  public Cart getOrCreateCart(String storeId, ObjectId cartId) {
+    Cart cart = getCartItemsById(storeId, cartId);
+    if (cart == null) {
+      cart = new Cart(storeId, cartId);
+      cartRepository.insert(cart);
+    }
+
+    return cart;
+  }
+
+  /**
+   * TODO: document
+   */
+  public Cart getOrCreateCart(String storeId, String cartId) {
+    return getOrCreateCart(storeId, new ObjectId(cartId));
+  }
+
+  /**
+   * TODO: fix this documentation
    * Create pizza by using sizeId, gluten and 4 toppings and add this pizza to Cart. If the store
    * does not offer the glutenFree and input gluten is false, it will be returning CartAddResponse
    * with "Success:false" with message. When adding toppings to pizza, it will only include existing
    * toppings. If everything is successful, it will return CartAddResponse with "Success:True" and
    * show other details.
+   * 
+   * TODO: document that the cart will be created if it does not exist
    *
-   * @param storeId storeId given for checking gluten preference.
+   * @param storeId storeId holding the cart.
    * @param cartId cartId given for adding pizza.
    * @param sizeId sizeId given for making pizza.
    * @param gluten gluten(true = gluten / false = glutenFree) given for making pizza.
@@ -75,40 +106,21 @@ public class CartService {
    * @return If successful, it will return CartAddResponse with "Success:True" and show other
    * details. If not successful, it will return CartAddResponse with "Success:false" with message.
    */
-  public CartAddResponse addPizzaToCart(String storeId, String cartId, String sizeId,
-      boolean gluten, String topping1, String topping2, String topping3, String topping4) {
-    Optional<StoreItem> store = storeRepository.findById(storeId);
-    if (!store.get().getOffersGlutenFree() && !gluten) {
-      String message = "This store cannot provide this gluten preference.";
-      return new CartAddResponse(false, null, null, null, message);
+  public Pizza addPizzaToCart(String storeId, String cartId, String sizeId,
+      boolean gluten, String [] toppings) {
+    Cart cart = getOrCreateCart(storeId, cartId);
+ 
+    Pizza pizza = new Pizza(sizeId, gluten);
+
+    for (String toppingId : toppings) {
+      addToppingToPizza(pizza, toppingId);
     }
 
-    Cart cart = getCartItemsById(storeId, cartId);
-    if (cart == null) {
-      ObjectId cartObjectID = new ObjectId();
-      cart = new Cart(storeId, cartObjectID);
-      cartId = cartObjectID.toHexString();
-    }
-
-    List<String> items = new ArrayList<>();
-    Pizza newPizza = new Pizza(sizeId, gluten);
-    items.add(sizeId);
-    if(gluten) {
-      items.add("gluten");
-    } else {
-      items.add("glutenFree");
-    }
-
-    addToppingToPizza(newPizza, topping1, items);
-    addToppingToPizza(newPizza, topping2, items);
-    addToppingToPizza(newPizza, topping3, items);
-    addToppingToPizza(newPizza, topping4, items);
-    newPizza = getPizzaPrice(newPizza);
-    cart.getPizzas().add(newPizza);
+    // This is a weird data flow
+    pizza = getPizzaPrice(pizza);
+    cart.getPizzas().add(pizza);
     cartRepository.save(cart);
-    String message = "items are successfully added.";
-    return new CartAddResponse(true, items, cartId, storeId, message);
-
+    return pizza;
   }
 
 
@@ -119,15 +131,19 @@ public class CartService {
    * @param topping toppingId given to add to pizza.
    * @param items if topping does exist and can be added to pizza, we also add to item List.
    */
-  public void addToppingToPizza(Pizza pizza, String topping, List<String> items) {
+  public void addToppingToPizza(Pizza pizza, String topping) {
     if (topping != null) {
       Optional<ToppingItem> item = toppingRepository.findById(topping);
-      if (item.isPresent()) {
-        if (pizza.getToppingCount() <= pizza.getMAX_TOPPING()) {
-          pizza.getToppingIDs().add(topping);
-          items.add(topping);
-        }
+      if (!item.isPresent()) {
+        // TODO: make this a checked exception!
+        throw new RuntimeException("TOPPING_NOT_FOUND");
       }
+      if (pizza.getToppingCount() >= Pizza.MAXIMUM_TOPPING_COUNT) {
+        // TODO: make this a checked exception!
+        // Note that this string is the same as we're using elsewhere...factor it out
+        throw new RuntimeException("TOO_MANY_TOPPINGS");
+      }
+      pizza.getToppingIDs().add(topping);
     }
   }
 
@@ -141,30 +157,21 @@ public class CartService {
    * @return CartAddResponse that shows sideId, cartId, storeId, message if it is successful.
    */
   public CartAddResponse addSideToCart(String storeId, String cartId, String sideID) {
-    Cart cart = getCartItemsById(storeId, cartId);
+    Cart cart = getOrCreateCart(storeId, cartId);
 
-    if (cart == null) {
-      ObjectId cartObjectId = new ObjectId();
-      cartId = cartObjectId.toHexString();
-      cart = new Cart(storeId, cartObjectId);
-    }
     List<String> items = new ArrayList<>();
     cart.getSides().add(sideID);
     items.add(sideID);
     cartRepository.save(cart);
-    String message = "Side item is successfully added";
-    return new CartAddResponse(true, items, cartId, storeId, message);
-
+    return new CartAddResponse(items, cartId, storeId);
   }
 
   /**
    * This function delete the Cart.
    * @param cartId cartId given to delete.
-   * @return HttpStatus.NO_CONTENT if successfully deleted.
    */
-  public HttpStatus deleteCart(String cartId) {
+  public void deleteCart(String cartId) {
     cartRepository.deleteById(cartId);
-    return HttpStatus.NO_CONTENT;
   }
 
   /**

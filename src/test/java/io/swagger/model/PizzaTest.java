@@ -38,8 +38,8 @@ public class PizzaTest {
     pizzaTest1.getToppingIDs().add("onion");
 
     Assert.assertEquals(pizzaTest1.getToppingCount(), 3);
-    Assert.assertEquals(pizzaTest1.getMAX_TOPPING(), 4);
-    Assert.assertEquals(pizzaTest1.getToppingCount() <pizzaTest1.getMAX_TOPPING(), true);
+    Assert.assertEquals(Pizza.MAXIMUM_TOPPING_COUNT, 4);
+    Assert.assertEquals(pizzaTest1.getToppingCount() < Pizza.MAXIMUM_TOPPING_COUNT, true);
   }
 
   @Test

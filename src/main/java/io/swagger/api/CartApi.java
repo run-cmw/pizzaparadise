@@ -4,10 +4,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import io.swagger.model.Cart;
 import io.swagger.model.CartAddResponse;
+import io.swagger.model.Pizza;
 import io.swagger.model.PriceResponse;
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @javax.annotation.Generated(
@@ -52,12 +55,12 @@ public interface CartApi {
   ResponseEntity<CartAddResponse> addPizzaToCart(
       @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
       @ApiParam(value = "CartID") @PathVariable("cartId") String cartId,
+      // TODO: This should be the only parameter, ideally
+      // @ApiParam(value = "Pizza to add") @Valid @RequestBody Pizza pizza
       @ApiParam(value = "PizzaSizeID") @RequestParam(required = true) String sizeId,
       @ApiParam(value = "Gluten") @RequestParam(required = true) boolean gluten,
-      @ApiParam(value = "ToppingID") @RequestParam(required = false) String topping1,
-      @ApiParam(value = "ToppingID") @RequestParam(required = false) String topping2,
-      @ApiParam(value = "ToppingID") @RequestParam(required = false) String topping3,
-      @ApiParam(value = "ToppingID") @RequestParam(required = false) String topping4);
+      @ApiParam(value = "ToppingID") @RequestParam(required = false) String [] toppings
+      );
 
 
   /**

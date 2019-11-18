@@ -1,5 +1,10 @@
 package io.swagger.model;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
@@ -12,7 +17,7 @@ public class CartAddResponseTest {
     List<String> item1 = new ArrayList<>();
     item1.add("medium");
     item1.add("onion");
-    CartAddResponse response1 = new CartAddResponse(true, item1, "cart1","brooklyn", "successful");
+    CartAddResponse response1 = new CartAddResponse(item1, "cart1", "brooklyn");
     List<String> itemTest1 = new ArrayList<>();
     itemTest1.add("medium");
     itemTest1.add("onion");
@@ -29,8 +34,8 @@ public class CartAddResponseTest {
     List<String> item1 = new ArrayList<>();
     item1.add("medium");
     item1.add("gluten");
-    CartAddResponse response1 = new CartAddResponse(true, item1, "cart1","brooklyn", "successful");
-    CartAddResponse response2 = new CartAddResponse(false, item1, "cart1","brooklyn", "successful");
+    CartAddResponse response1 = new CartAddResponse(item1, "cart1","brooklyn");
+    CartAddResponse response2 = new CartAddResponse("failed");
     Assert.assertEquals(response1.getSuccess(), true);
     Assert.assertEquals(response2.getSuccess(), false);
   }
@@ -40,8 +45,8 @@ public class CartAddResponseTest {
     List<String> item1 = new ArrayList<>();
     item1.add("medium");
     item1.add("onion");
-    CartAddResponse response1 = new CartAddResponse(true, item1, "cart1","brooklyn", "successful");
-    CartAddResponse response3 = new CartAddResponse(true, item1, "cart2","eastlake", "successful");
+    CartAddResponse response1 = new CartAddResponse(item1, "cart1","brooklyn");
+    CartAddResponse response3 = new CartAddResponse(item1, "cart2","eastlake");
 
     Assert.assertEquals(response1.getCartID(), "cart1");
     Assert.assertNotEquals(response1.getCartID(), "cart2");
@@ -53,11 +58,10 @@ public class CartAddResponseTest {
     List<String> item1 = new ArrayList<>();
     item1.add("medium");
     item1.add("onion");
-    CartAddResponse response1 = new CartAddResponse(true, item1, "cart1","brooklyn", "successful");
-    CartAddResponse response3 = new CartAddResponse(true, item1, "cart2","eastlake", "successful");
+    CartAddResponse response1 = new CartAddResponse(item1, "cart1","brooklyn");
+    CartAddResponse response3 = new CartAddResponse(item1, "cart2","eastlake");
 
-    Assert.assertEquals(response1.getStoreID(), "brooklyn");
-    Assert.assertNotEquals(response1.getStoreID(), "eastlake");
+    Assert.assertEquals("brooklyn", response1.getStoreID());
     Assert.assertEquals(response3.getStoreID(), "eastlake");
   }
 
@@ -66,15 +70,13 @@ public class CartAddResponseTest {
     List<String> item1 = new ArrayList<>();
     item1.add("small");
     item1.add("gluten");
-    CartAddResponse response1 = new CartAddResponse(true, item1, "cart1","brooklyn", "successful");
-    CartAddResponse response3 = new CartAddResponse(true, item1, "cart2","eastlake", "successful");
-    CartAddResponse response4 = new CartAddResponse(true, item1, "cart2","eastlake", "not successful");
+    CartAddResponse response1 = new CartAddResponse("This response failed");
+    CartAddResponse response3 = new CartAddResponse(item1, "cart2", "eastlake");
 
-    Assert.assertEquals(response1.getMessage(), "successful");
-    Assert.assertNotEquals(response1.getMessage(), "not successful");
-    Assert.assertEquals(response3.getMessage(), "successful");
-    Assert.assertEquals(response4.getMessage(), "not successful");
-    Assert.assertNotEquals(response4.getMessage(), "nott successful");
+    assertEquals(response1.getMessage(), "This response failed");
+
+    // Successful responses have a null error message
+    assertNull(response3.getMessage());
   }
 
   @Test
@@ -82,9 +84,8 @@ public class CartAddResponseTest {
     List<String> item1 = new ArrayList<>();
     item1.add("small");
     item1.add("gluten");
-    CartAddResponse response1 = new CartAddResponse(true, item1, "cart1","brooklyn", "successful");
-    Assert.assertEquals(response1.toString(), "CartAddResponse{success= true,cartId= cart1, storeID= brooklyn, items= [small, gluten], message= successful}");
-
+    CartAddResponse response1 = new CartAddResponse(item1, "cart1","brooklyn");
+    Assert.assertEquals("CartAddResponse{success=true, cartId=cart1, storeID=brooklyn, items=[small, gluten], message=null}", response1.toString());
   }
 
   @Test
@@ -93,21 +94,15 @@ public class CartAddResponseTest {
     item1.add("small");
     item1.add("gluten");
     item1.add("pepperoni");
-    CartAddResponse response1 = new CartAddResponse(true, item1, "cart1","brooklyn", "successful");
-    CartAddResponse sameAsResponse1 = new CartAddResponse(true, item1, "cart1","brooklyn", "successful");
+    CartAddResponse response1 = new CartAddResponse(item1, "cart1", "brooklyn");
+    CartAddResponse sameAsResponse1 = new CartAddResponse(item1, "cart1", "brooklyn");
 
-    CartAddResponse response2 = new CartAddResponse(false, item1, "cart1","brooklyn", "successful");
-    CartAddResponse response3 = new CartAddResponse(true, item1, "cart2","eastlake", "successful");
-    CartAddResponse response4 = new CartAddResponse(true, item1, "cart1","brooklyn", "not successful");
+    CartAddResponse response2 = new CartAddResponse(item1, "cart1", "eastside");
 
-    Assert.assertTrue(response1.equals(response1));
-    Assert.assertTrue(response1.equals(sameAsResponse1));
-
-    Assert.assertFalse(response1.equals(response2));
-    Assert.assertFalse(response1.equals(response3));
-    Assert.assertFalse(response1.equals(null));
-    Assert.assertFalse(response1.equals(response4));
-
+    assertEquals(response1, response1);
+    assertEquals(response1, sameAsResponse1);
+    assertNotEquals(response1, response2);
+    assertNotNull(response1);
   }
 
 }

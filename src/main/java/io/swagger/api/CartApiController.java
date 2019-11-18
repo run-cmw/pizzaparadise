@@ -5,7 +5,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.model.Cart;
 import io.swagger.model.CartAddResponse;
+import io.swagger.model.Pizza;
 import io.swagger.model.PriceResponse;
+import io.swagger.model.StoreItem;
 import io.swagger.service.CartService;
 import io.swagger.service.PizzaSizeService;
 import io.swagger.service.SideService;
@@ -91,28 +93,39 @@ public class CartApiController implements CartApi {
       @ApiResponse(code=201, message = "CREATED"), @ApiResponse(code=404, message = "NOT_FOUND")})
   public ResponseEntity<CartAddResponse> addPizzaToCart(String storeId, String cartId,
       String sizeId, boolean gluten,
-      String topping1, String topping2, String topping3, String topping4) {
-    CartAddResponse response;
-    String message;
+      String [] toppings) {
+    final CartAddResponse response;
+    final String message;
+    if (toppings.length > Pizza.MAXIMUM_TOPPING_COUNT) {
+      message = "TOO_MANY_PIZZA_TOPPINGS";
+      return new ResponseEntity<CartAddResponse>(new CartAddResponse(message), HttpStatus.BAD_REQUEST);
+    }
     if (storeService.getStoreById(storeId) == null) {
-      message = "This storeID is not found.";
-      response = new CartAddResponse(false, null, null, null, message);
-      return new ResponseEntity<CartAddResponse>(response, HttpStatus.NOT_FOUND);
+      message = "STORE_NOT_FOUND";
+      return new ResponseEntity<CartAddResponse>(new CartAddResponse(message), HttpStatus.NOT_FOUND);
     }
     if (sizeService.getPizzaSizeById(sizeId) == null) {
-      message = "This pizza size is not found.";
-      response = new CartAddResponse(false, null, null, null, message);
-      return new ResponseEntity<CartAddResponse>(response, HttpStatus.NOT_FOUND);
+      message = "PIZZA_SIZE_NOT_FOUND";
+      return new ResponseEntity<CartAddResponse>(new CartAddResponse(message), HttpStatus.NOT_FOUND);
+    }
+    if (!gluten && !storeService.storeCanServeGlutenFree(storeId)) {
+      message = "STORE_CANNOT_SERVE_GLUTEN_FREE";
+      return new ResponseEntity<CartAddResponse>(new CartAddResponse(message), HttpStatus.BAD_REQUEST);
     }
 
-    response = cartService.addPizzaToCart(storeId, cartId, sizeId, gluten, topping1, topping2,
-        topping3, topping4);
-    if (response.getSuccess() == false) {
-      return new ResponseEntity<CartAddResponse>(response, HttpStatus.NOT_FOUND);
-    } else {
+    // I would expect this to be...
+    // Cart cart = cartService.getOrCreateCart(storeId, cartId);
+    // Pizza pizza = pizzaService.createPizza(sizeId, gluten, toppings);
+    // cartService.addPizzaToCart(cart, pizza);
+    try {
+      Pizza pizza = cartService.addPizzaToCart(storeId, cartId, sizeId, gluten, toppings);
+      // TODO: I would expect CartAddResponse to take a pizza/side as the first parameter
+      response = new CartAddResponse(pizza.getToppingIDs(), cartId, storeId);
       return new ResponseEntity<CartAddResponse>(response, HttpStatus.CREATED);
+    } catch (RuntimeException exception) {
+      // TODO: THIS MUST BE A CHECKED EXCEPTION TYPE NOT RUNTIMEEXCEPTION :)
+      return new ResponseEntity<CartAddResponse>(new CartAddResponse(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
-
   }
 
   /**
@@ -131,16 +144,16 @@ public class CartApiController implements CartApi {
       @ApiResponse(code=201, message = "CREATED"), @ApiResponse(code=404, message = "NOT_FOUND")})
   public ResponseEntity<CartAddResponse> addSideToCart(String storeId, String cartId,
       String sideId) {
-    CartAddResponse response;
-    String message;
+    final CartAddResponse response;
+    final String message;
     if (storeService.getStoreById(storeId) == null) {
       message = "This storeID is not found.";
-      response = new CartAddResponse(false, null, null, null, message);
+      response = new CartAddResponse(message);
       return new ResponseEntity<CartAddResponse>(response, HttpStatus.NOT_FOUND);
     }
     if (sideService.getSideById(sideId) == null) {
       message = "This SideID is not found.";
-      response = new CartAddResponse(false, null, null, null, message);
+      response = new CartAddResponse(message);
       return new ResponseEntity<CartAddResponse>(response, HttpStatus.NOT_FOUND);
     }
     response = cartService.addSideToCart(storeId, cartId, sideId);
@@ -166,7 +179,8 @@ public class CartApiController implements CartApi {
     if (cartService.getCartItemsById(storeId, cartId) == null) {
       return HttpStatus.NOT_FOUND;
     }
-    return cartService.deleteCart(cartId);
+    cartService.deleteCart(cartId);
+    return HttpStatus.NO_CONTENT;
   }
 
   /**
