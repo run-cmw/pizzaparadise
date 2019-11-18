@@ -12,13 +12,16 @@ import org.springframework.validation.annotation.Validated;
  */
 public class Pizza {
 
+  // Pizzas may have up to this many toppings
+  public static final int MAXIMUM_TOPPING_COUNT = 4;
+
   @JsonProperty("PizzaSizeID")
   private String sizeID;
   @JsonProperty("gluten")
   private boolean gluten;
   @JsonProperty("toppingIDs")
   private List<String> toppingIDs;
-  private int MAX_TOPPING = 4;
+  @JsonProperty("price")
   private Double price;
 
   /**
@@ -39,14 +42,6 @@ public class Pizza {
    */
   public String getSizeID() {
     return this.sizeID;
-  }
-
-  /**
-   * Get the maximum number of topping for this Pizza
-   * @return the maximum number of topping for this Pizza
-   */
-  public int getMAX_TOPPING() {
-    return this.MAX_TOPPING;
   }
 
   /**

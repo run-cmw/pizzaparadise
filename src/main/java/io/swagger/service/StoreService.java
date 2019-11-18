@@ -36,4 +36,12 @@ public class StoreService {
     }
     return "id does not exist: " + id;
   }
+
+  public boolean storeCanServeGlutenFree(String id) {
+    return storeCanServeGlutenFree(storeItemRepository.findById(id).get());
+  }
+
+  public boolean storeCanServeGlutenFree(StoreItem storeItem) {
+    return storeItem.getOffersGlutenFree();
+  }
 }
