@@ -75,7 +75,7 @@ public class Cart {
    * Set storeID to this Cart.
    * @param id new storeID given to this Cart
    */
-  public void setStoreID(String id) { this.storeID = storeID; }
+  public void setStoreID(String id) { this.storeID = id; }
 
   /**
    * Get the totalAmount in this Cart.

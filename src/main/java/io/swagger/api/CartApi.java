@@ -44,31 +44,21 @@ public interface CartApi {
    * add pizza to specific Cart to store by using storeID, cartID, with pizzaSizeID, gluten, toppingIDs
    * @param storeId storeId given to this API.
    * @param cartId cartId given to this API.
-   * @param sizeId sizeId given to this API.
-   * @param gluten gluten given to this API.(true = gluten / false = gluten free);
-   * @param topping1 ToppingId given to this API.
-   * @param topping2 ToppingId given to this API.
-   * @param topping3 ToppingId given to this API.
-   * @param topping4 ToppingId given to this API.
-   * @return CartAddResponse contains all information about pizza that is added.
+   * @param pizza pizza given to add to Cart.
+   * @return CartAddResponse contains information about pizza that is added.
    */
   ResponseEntity<CartAddResponse> addPizzaToCart(
       @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
       @ApiParam(value = "CartID") @PathVariable("cartId") String cartId,
-      // TODO: This should be the only parameter, ideally
-      // @ApiParam(value = "Pizza to add") @Valid @RequestBody Pizza pizza
-      @ApiParam(value = "PizzaSizeID") @RequestParam(required = true) String sizeId,
-      @ApiParam(value = "Gluten") @RequestParam(required = true) boolean gluten,
-      @ApiParam(value = "ToppingID") @RequestParam(required = false) String [] toppings
-      );
+      @ApiParam(value = "Pizza to add") @Valid @RequestBody Pizza pizza);
 
 
   /**
    * add side to specific Cart found from store by using storeID, cartID, with sideID.
    * @param storeId storeId given to this API.
    * @param cartId cartId given to this API.
-   * @param sideId sideId given to this API.
-   * @return CartAddResponse contains all information about side that is added.
+   * @param sideId sideId given to add to Cart.
+   * @return CartAddResponse contains information about side that is added.
    */
   ResponseEntity<CartAddResponse> addSideToCart(
       @ApiParam(value = "StoreID")@PathVariable("storeId") String storeId,
@@ -78,7 +68,7 @@ public interface CartApi {
   /**
    * delete a cart from a store by using by using storeID, cartID.
    * @param storeId storeId given to this API.
-   * @param cartId cartId given to this API.
+   * @param cartId cartId given delete.
    * @return HttpStatus correspond to this action.
    */
   HttpStatus deleteCart(
@@ -89,7 +79,7 @@ public interface CartApi {
    * delete a side item in cart by using by using storeID, cartID, sideID.
    * @param storeId storeId given to this API.
    * @param cartId cartId given to this API.
-   * @param sideId  sideId given to this API.
+   * @param sideId  sideId given to delete from cart.
    * @return HttpStatus correspond to this action.
    */
   HttpStatus deleteSideFromCart(
@@ -101,13 +91,13 @@ public interface CartApi {
    * delete a pizza in cart by using by using storeID, cartID, an index from pizza List.
    * @param storeId storeId given to this API.
    * @param cartId cartId given to this API.
-   * @param pizzaIndex  pizzaIndex given to this API.
+   * @param pizza  pizza given to delete from Cart.
    * @return HttpStatus correspond to this action.
    */
   HttpStatus deletePizzaFromCart(
       @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
       @ApiParam(value = "CartID") @PathVariable("cartId") String cartId,
-      @ApiParam(value = "index of Pizza Array") @RequestParam(required = true) Integer pizzaIndex);
+      @ApiParam(value = "Pizza to delete") @Valid @RequestBody Pizza pizza) throws Exception;
 
 
 }
