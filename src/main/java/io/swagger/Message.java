@@ -8,6 +8,4 @@ public class Message {
   public static final String SIDE_NOT_FOUND = "SIDE_NOT_FOUND";
   public static final String TOPPING_NOT_FOUND = "TOPPING_NOT_FOUND";
   public static final String CART_NOT_FOUND = "CART_NOT_FOUND";
-  public static final String USD_CURRENCY = "USD_CURRENCY";
-
 }
