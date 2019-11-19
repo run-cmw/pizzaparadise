@@ -119,7 +119,7 @@ public class CartApiController implements CartApi {
       response = new CartAddResponse(Message.PIZZA_SIZE_NOT_FOUND);
       return new ResponseEntity<CartAddResponse>(response, HttpStatus.NOT_FOUND);
     }
-    if (!pizza.isGluten() && !storeService.storeCanServeGlutenFree(storeId)) {
+    if (!pizza.isGluten() && !storeService.storeOffersGlutenFree(storeId)) {
       response = new CartAddResponse(Message.STORE_CANNOT_SERVE_GLUTEN_FREE);
       return new ResponseEntity<CartAddResponse>(response, HttpStatus.BAD_REQUEST);
     }
@@ -208,7 +208,7 @@ public class CartApiController implements CartApi {
     if (cart == null) {
       return HttpStatus.NOT_FOUND;
     }
-    SideItem side = sideService.getSideById(sideId);
+    SideItem side = sideService.getSideById(sideId).get();
     if (side == null) {
       return HttpStatus.NOT_FOUND;
     }

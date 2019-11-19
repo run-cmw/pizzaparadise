@@ -47,29 +47,28 @@ public class StoreServiceTest {
   }
 
   @Test
-  public void getAllSizeTest() {
+  public void getAllStoresTest() {
     StoreItem store1 = setUpBrooklynStore();
     StoreItem store2 = setUpEastLakeStore();
 
     assertEquals(2, storeRepo.count());
-
     List<StoreItem> list =storeService.getAllStores();
     assertTrue(list.contains(store1));
     assertTrue(list.contains(store2));
   }
 
   @Test
-  public void getSpecialByIdTest() {
+  public void getStoreByIdTest() {
     StoreItem store = setUpBrooklynStore();
-    assertEquals(store, storeService.getStoreById(BROOKLYN));
+    assertEquals(store, storeService.getStoreById(BROOKLYN).get());
   }
 
   @Test
-  public void addSpecialTest() {
+  public void addStoreTest() {
     StoreItem store = new StoreItem("stoneWay", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105", false);
     storeService.addStore(store);
     assertEquals(1, storeRepo.count());
-    assertEquals(store, storeService.getStoreById("stoneWay"));
+    assertEquals(store, storeService.getStoreById("stoneWay").get());
   }
 
   @Test
@@ -86,13 +85,13 @@ public class StoreServiceTest {
   @Test
   public void TestStoreCanServeGlutenFree() {
     StoreItem store = setUpBrooklynStore();
-    assertFalse(storeService.storeCanServeGlutenFree(store.getId()));
+    assertFalse(storeService.storeOffersGlutenFree(store.getId()));
   }
 
   @Test
   public void TestStoreItemCanServeGlutenFree() {
     StoreItem store = new StoreItem("stoneWay", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105", true);
-    assertTrue(storeService.storeCanServeGlutenFree(store));
+    assertTrue(storeService.storeOffersGlutenFree(store));
   }
 
 }
