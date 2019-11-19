@@ -65,7 +65,7 @@ public class CartAddResponseTest {
   @Test
   public void TestToString() {
     assertEquals("CartAddResponse{success=true, cartId=cart1, storeID=brooklyn, "
-        + "pizza=Pizza{sizeID=small, gluten=true, toppingIDs=[], price=0.0},"
+        + "pizza=Pizza{sizeID=small, gluten=true, toppingIDs=[]},"
         + " side=null, message=null}", response1.toString());
   }
 

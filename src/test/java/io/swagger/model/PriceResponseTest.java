@@ -19,25 +19,25 @@ public class PriceResponseTest {
   }
 
   @Test
-  public void TestIsSuccess() {
+  public void isSuccessTest() {
     assertTrue(response1.isSuccess());
     assertFalse(response2.isSuccess());
   }
 
   @Test
-  public void TestGetPrice() {
+  public void getPriceTest() {
     assertEquals((Double) 5.00, response1.getPrice());
     assertNull(response2.getPrice());
   }
 
   @Test
-  public void TestGetCurrency() {
+  public void getCurrencyTest() {
     assertEquals("USD", response1.getCurrency());
     assertNull(response2.getCurrency());
   }
 
   @Test
-  public void TestGetMessage() {
+  public void getMessageTest() {
     assertEquals("CART_NOT_FOUND", response2.getMessage());
     assertNull(response1.getMessage());
   }
