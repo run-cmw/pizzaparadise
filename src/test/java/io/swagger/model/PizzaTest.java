@@ -18,7 +18,6 @@ public class PizzaTest {
     pizza2 = new Pizza("medium", false);
   }
 
-
   @Test
   public void getSizeIdTest() {
     assertEquals("small", pizza1.getSizeID());
@@ -27,11 +26,6 @@ public class PizzaTest {
   @Test
   public void getGlutenTest() {
     assertTrue(pizza1.isGluten());
-  }
-
-  @Test
-  public void getToppingCountTest() {
-   assertEquals(0, pizza1.getToppingCount());
   }
 
   @Test
@@ -44,17 +38,6 @@ public class PizzaTest {
   }
 
   @Test
-  public void getPriceTest() {
-    assertEquals((Double) 0.00, pizza1.getPrice());
-  }
-
-  @Test
-  public void setPriceTest() {
-    pizza1.setPrice(5.00);
-    assertEquals((Double) 5.00, pizza1.getPrice());
-  }
-
-  @Test
   public void equalTest() {
     Pizza sameAsPizza1 = new Pizza("small", true);
     assertEquals(pizza1, sameAsPizza1);
@@ -64,6 +47,6 @@ public class PizzaTest {
 
   @Test
   public void toStringTest() {
-    assertEquals("Pizza{sizeID=small, gluten=true, toppingIDs=[], price=0.0}", pizza1.toString());
+    assertEquals("Pizza{sizeID=small, gluten=true, toppingIDs=[]}", pizza1.toString());
   }
 }

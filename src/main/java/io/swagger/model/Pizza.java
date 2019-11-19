@@ -1,11 +1,8 @@
 package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.validation.annotation.Validated;
 
 /**
  *  Pizza class
@@ -21,8 +18,6 @@ public class Pizza {
   private boolean gluten;
   @JsonProperty("toppingIDs")
   private List<String> toppingIDs;
-  @JsonProperty("price")
-  private Double price;
 
   /**
    * Create new Pizza
@@ -33,7 +28,6 @@ public class Pizza {
     this.sizeID = sizeID;
     this.toppingIDs = new ArrayList<>();
     this.gluten = gluten;
-    price = 0.00;
   }
 
   /**
@@ -42,14 +36,6 @@ public class Pizza {
    */
   public String getSizeID() {
     return this.sizeID;
-  }
-
-  /**
-   * Get the current number of toppings in this Pizza
-   * @return the current number of toppings in this Pizza
-   */
-  public int getToppingCount() {
-    return this.toppingIDs.size();
   }
 
   /**
@@ -68,14 +54,6 @@ public class Pizza {
     return this.toppingIDs;
   }
 
-  public Double getPrice() {
-    return this.price;
-  }
-
-  public void setPrice(Double price) {
-    this.price = price;
-  }
-
   /**
    * String representation of this Pizza.
    * @return a String representation of this Pizza
@@ -84,8 +62,7 @@ public class Pizza {
   public String toString() {
     return "Pizza{" + "sizeID=" + this.sizeID
         + ", gluten=" + this.gluten
-        + ", toppingIDs=" + this.toppingIDs
-        + ", price=" + this.price + "}";
+        + ", toppingIDs=" + this.toppingIDs + "}";
   }
 
   /**
@@ -100,9 +77,7 @@ public class Pizza {
     Pizza pizza = (Pizza) obj;
     return this.sizeID.equals(pizza.getSizeID()) &&
         this.gluten == pizza.gluten &&
-        this.toppingIDs.equals(pizza.getToppingIDs()) &&
-        Double.compare(pizza.getPrice(), this.price) == 0 &&
-        this.getToppingCount() == pizza.getToppingCount();
+        this.toppingIDs.equals(pizza.getToppingIDs());
   }
 
 }

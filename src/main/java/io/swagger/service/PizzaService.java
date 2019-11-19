@@ -38,7 +38,8 @@ public class PizzaService {
     List<String> toppings = pizza.getToppingIDs();
     price += pizzaSize.getPrice();
     price += getPizzaToppingPrice(sizeID, toppings);
-    return Math.round(price * 100.0) / 100.0;
+    price = Math.round(price * 100.0) / 100.0;
+    return price;
   }
 
   /**
@@ -55,7 +56,6 @@ public class PizzaService {
     for (String toppingID : toppings) {
       Optional<ToppingItem> topping = toppingRepository.findById(toppingID);
       if (!topping.isPresent()) {
-        // TODO: make this a checked exception!
         throw new IOException(Message.TOPPING_NOT_FOUND);
       }
       if (sizeID.equals(SIZE_SMALL)) {
