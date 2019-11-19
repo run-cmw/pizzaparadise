@@ -48,7 +48,7 @@ public class SpecialServiceTest {
   }
 
   @Test
-  public void getAllSizeTest() {
+  public void getAllSpecialsTest() {
     SpecialItem special1 = setupBuy1Get1FreeSpecial();
     SpecialItem special2 = setupFreeSodaSpecial();
     assertEquals(2, specialRepo.count());

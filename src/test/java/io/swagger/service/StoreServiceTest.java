@@ -72,7 +72,7 @@ public class StoreServiceTest {
   }
 
   @Test
-  public void deleteSpecialTest() {
+  public void deleteStoreTest() {
     setUpEastLakeStore();
     try {
       storeService.deleteStore(EASTLAKE);
