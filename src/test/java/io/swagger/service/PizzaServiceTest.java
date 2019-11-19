@@ -4,9 +4,7 @@ package io.swagger.service;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
 import io.swagger.model.Pizza;
 import io.swagger.model.PizzaSize;
 import io.swagger.model.ToppingItem;
@@ -46,8 +44,8 @@ public class PizzaServiceTest {
 
   String SMALL_SIZE = "small";
   String MEDIUM_SIZE = "medium";
+  String LARGE_SIZE = "large";
   String TOPPING_NOT_FOUND = "TOPPING_NOT_FOUND";
-  String TOO_MANY_PIZZA_TOPPINGS = "TOO_MANY_PIZZA_TOPPINGS";
 
   String BACON = "bacon1";
   String BROCCOLI = "broccoli1";
@@ -80,6 +78,11 @@ public class PizzaServiceTest {
     sizeRepo.insert(pizzaSize);
     return pizzaSize;
   }
+  private PizzaSize setUpLargeSize() {
+    PizzaSize pizzaSize = new PizzaSize("large", "Large", "11",14.99);
+    sizeRepo.insert(pizzaSize);
+    return pizzaSize;
+  }
 
   @Test
   public void TestGetPizzaPrice() throws Exception {
@@ -97,14 +100,17 @@ public class PizzaServiceTest {
   @Test
   public void TestGetPizzaToppingPrice() throws Exception {
     setUpMediumSize();
+    setUpLargeSize();
     ToppingItem bacon = setupBacon();
     ToppingItem broccoli = setupBroccoli();
     List<String> toppingIDs1 = new ArrayList<>();
     toppingIDs1.add(bacon.getId());
     toppingIDs1.add(broccoli.getId());
 
-    Double price = pizzaService.getPizzaToppingPrice(MEDIUM_SIZE, toppingIDs1);
-    assertEquals((Double) 5.00, price);
+    Double price1 = pizzaService.getPizzaToppingPrice(MEDIUM_SIZE, toppingIDs1);
+    assertEquals((Double) 5.00, price1);
+    Double price2 = pizzaService.getPizzaToppingPrice(LARGE_SIZE, toppingIDs1);
+    assertEquals((Double) 5.50, price2);
 
     List<String> toppingIDs2 = new ArrayList<>();
     toppingIDs2.add("noTopping");
@@ -113,7 +119,6 @@ public class PizzaServiceTest {
       fail();
     } catch (IOException err) {
       assertThat(err.getMessage(), is(TOPPING_NOT_FOUND));
-
     }
   }
 
