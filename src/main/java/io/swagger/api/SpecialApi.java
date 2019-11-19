@@ -27,10 +27,10 @@ public interface SpecialApi {
 
   /**
    * Get a specific specialItem by specialId
-   * @param id
+   * @param id speialID given to find a SpecialItem
    * @return specialItem found by Id
    */
-  ResponseEntity<SpecialItem> getSpecialById(@PathVariable String id);
+  ResponseEntity<SpecialItem> getSpecialById(@ApiParam(value = "SpecialID") @PathVariable String id);
 
 
   /**
@@ -46,5 +46,5 @@ public interface SpecialApi {
    * @param id id given for search
    * @return HttpStatus.NO_CONTENT if successfully removed, HttpStatus.NOT_FOUND if id wasn't found.
    */
-  HttpStatus deleteSpecial(@PathVariable String id);
+  HttpStatus deleteSpecial(@ApiParam(value = "SpecialID") @PathVariable String id);
 }

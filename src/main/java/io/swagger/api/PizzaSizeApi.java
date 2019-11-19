@@ -32,8 +32,8 @@ public interface PizzaSizeApi {
    * @param id pizzaSizeId given to search
    * @return PizzaSize found using id
    */
-  ResponseEntity<PizzaSize> getPizzaSizeById(@PathVariable String id);
-
+  ResponseEntity<PizzaSize> getPizzaSizeById(
+      @ApiParam(value = "PizzaSizeID") @PathVariable String id);
   /**
    * Add PizzaSize to database
    * @param pizzaSize pizzaSize given to add
@@ -47,5 +47,6 @@ public interface PizzaSizeApi {
    * @param id id given for search
    * @return HttpStatus.NO_CONTENT if successfully removed, HttpStatus.NOT_FOUND if id wasn't found.
    */
-  HttpStatus deletePizzaSize(@PathVariable String id);
+  HttpStatus deletePizzaSize(
+      @ApiParam(value = "PizzaSizeID") @PathVariable String id);
 }
