@@ -1,10 +1,10 @@
 package io.swagger.api;
 
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.model.SideItem;
 import io.swagger.service.SideService;
 import java.util.List;
-import javax.validation.Valid;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @javax.annotation.Generated(
@@ -23,6 +22,10 @@ public class SideApiController implements SideApi {
   @Autowired
   private SideService sideService;
 
+  /**
+   * {@inheritDoc}
+   * HttpStatus.OK - if SideItems are successfully found.
+   */
   @GetMapping("/side")
   @ApiOperation(
       value = "Get all SideItems",
@@ -33,40 +36,55 @@ public class SideApiController implements SideApi {
     return new ResponseEntity<List<SideItem>>(sideService.getAllSides(), HttpStatus.OK);
   }
 
+  /**
+   * {@inheritDoc}
+   * HttpStatus.NOT_FOUND - if id is not found in database.
+   * HttpStatus.OK - if SideItem is successfully found.
+   */
   @GetMapping("/side/{id}")
   @ApiOperation(
       value = "Get a specific SideItem using id",
       tags = {
           "side",
       })
-  public ResponseEntity<SideItem> getSideById(@PathVariable String id) {
+  public ResponseEntity<Optional<SideItem>> getSideById(@PathVariable String id) {
     if(sideService.getSideById(id) == null) {
-      return new ResponseEntity<SideItem>(HttpStatus.NOT_FOUND);
+      return new ResponseEntity<Optional<SideItem>>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<SideItem>(sideService.getSideById(id), HttpStatus.FOUND);
+    return new ResponseEntity<Optional<SideItem>>(sideService.getSideById(id), HttpStatus.OK);
   }
 
+  /**
+   * {@inheritDoc}
+   * HttpStatus.OK- if SideItem is successfully added or updated.
+   */
   @PostMapping("/side/add")
   @ApiOperation(
-      value = "Add a SideItem",
+      value = "Add or update a SideItem",
       tags = {
           "side",
       })
-  public ResponseEntity<SideItem> addSide(
-      @ApiParam(value = "SideItem to add") @Valid @RequestBody SideItem newSide) {
-    return new ResponseEntity<SideItem>(sideService.addSide(newSide), HttpStatus.CREATED);
+  public ResponseEntity<SideItem> addSide(SideItem newSide) {
+    return new ResponseEntity<SideItem>(
+        sideService.addSide(newSide), HttpStatus.OK);
   }
 
+  /**
+   * {@inheritDoc}
+   * HttpStatus.NOT_FOUND - if id is not found in database.
+   * HttpStatus.OK - if SideItem is successfully deleted.
+   */
   @DeleteMapping("/side/delete/{id}")
   @ApiOperation(
       value = "Delete a SideItem using id",
       tags = {
           "side",
       })
-  public ResponseEntity<String> deleteSide(@PathVariable String id) {
+  public HttpStatus deleteSide(String id) {
     if (sideService.getSideById(id) == null) {
-      return new ResponseEntity<String>("id does not exist: " + id, HttpStatus.NOT_FOUND);
+      return HttpStatus.NOT_FOUND;
     }
-    return new ResponseEntity<String>(sideService.deleteSide(id), HttpStatus.OK);
+    sideService.deleteSide(id);
+    return HttpStatus.OK;
   }
 }
