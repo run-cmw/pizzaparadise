@@ -3,6 +3,7 @@ package io.swagger.service;
 import static org.assertj.core.api.Java6Assertions.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import io.swagger.model.SpecialItem;
 import io.swagger.repository.SpecialItemRepository;
@@ -63,6 +64,7 @@ public class SpecialServiceTest {
 
     assertEquals(special, specialService.getSpecialById(BUY1GET1FREE));
     assertNotNull(specialService.getSpecialById(BUY1GET1FREE));
+    assertNull(specialService.getSpecialById("noSpecial"));
   }
 
   @Test

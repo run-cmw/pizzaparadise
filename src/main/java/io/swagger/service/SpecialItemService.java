@@ -3,6 +3,7 @@ package io.swagger.service;
 import io.swagger.model.SpecialItem;
 import io.swagger.repository.SpecialItemRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +28,11 @@ public class SpecialItemService {
    * @return the specialItem that matches with id.
    */
   public SpecialItem getSpecialById(String id) {
-    SpecialItem special = specialItemRepository.findById(id).get();
-    return special;
+    Optional<SpecialItem> special = specialItemRepository.findById(id);
+    if(!special.isPresent()) {
+      return null;
+    }
+    return special.get();
   }
 
   /**

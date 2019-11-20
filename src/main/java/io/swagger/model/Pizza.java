@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class Pizza {
    * Get pizzaSizeID
    * @return PizzaSizeID
    */
+  @ApiModelProperty(example = "small")
   public String getSizeID() {
     return this.sizeID;
   }
@@ -42,6 +44,7 @@ public class Pizza {
    * Check if this pizza is gluten
    * @return true if it is gluten, false if it is a gluten free pizza
    */
+  @ApiModelProperty(example = "true")
   public boolean isGluten() {
     return this.gluten;
   }
@@ -50,6 +53,7 @@ public class Pizza {
    * Get all the toppingIDs in this Pizza
    * @return list of ToppingIDs in this Pizza
    */
+  @ApiModelProperty(example = "[\"pepperoni\", \"mushroom\"]")
   public List<String> getToppingIDs() {
     return this.toppingIDs;
   }

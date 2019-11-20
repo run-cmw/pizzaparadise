@@ -95,7 +95,7 @@ public class CartApiController implements CartApi {
    */
   @PostMapping("/store/{storeId}/cart/{cartId}/add/pizza")
   @ApiOperation(
-      value = "add pizza to the specific cart.",
+      value = "add pizza to the specific cart or by creating new cart.",
       tags = {
           "cart",
       })
@@ -141,7 +141,7 @@ public class CartApiController implements CartApi {
    */
   @PostMapping("/store/{storeId}/cart/{cartId}/add/side")
   @ApiOperation(
-      value = "add side to the specific cart.",
+      value = "add side to the specific cart or by creating new cart.",
       tags = {
           "cart",
       })

@@ -3,6 +3,7 @@ package io.swagger.service;
 import io.swagger.model.PizzaSize;
 import io.swagger.repository.PizzaSizeRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +28,11 @@ public class PizzaSizeService {
    * @return a pizza size found by id
    */
   public PizzaSize getPizzaSizeById(String id) {
-    PizzaSize size = pizzaSizeRepository.findById(id).get();
-    return size;
+    Optional<PizzaSize> size = pizzaSizeRepository.findById(id);
+    if(!size.isPresent()) {
+      return null;
+    }
+    return size.get();
   }
 
   /**

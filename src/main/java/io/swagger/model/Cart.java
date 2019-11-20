@@ -2,9 +2,9 @@ package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -53,6 +53,7 @@ public class Cart {
    * Get cartID of this Cart.
    * @return cartID
    */
+  @ApiModelProperty(example = "5dd325ad5793784ecfe1b74c")
   public String getId() {
     return this.id.toHexString();
   }
@@ -69,6 +70,7 @@ public class Cart {
    * Get storeID of this Cart.
    * @return storeID
    */
+  @ApiModelProperty(example = "brooklyn")
   public String getStoreID() { return this.storeID; }
 
   /**
@@ -81,6 +83,7 @@ public class Cart {
    * Get the totalAmount in this Cart.
    * @return totalAmount in this Cart
    */
+  @ApiModelProperty(example = "10.00")
   public Double getTotalAmount() {
     return this.totalAmount;
   }
@@ -105,6 +108,7 @@ public class Cart {
    * Get list of sideID in this Cart.
    * @return list of sideID in this Cart
    */
+  @ApiModelProperty(example = "[\"16OzCoke\", \"2LiterCoke\"]")
   public List<String> getSides() {
     return this.sides;
   }
@@ -113,6 +117,7 @@ public class Cart {
    * Check if special is already applied in this Cart.
    * @return true if special is applied, false if there is no special in this cart
    */
+  @ApiModelProperty(example = "false")
   public boolean isSpecialApplied() {
     return this.specialApplied;
   }

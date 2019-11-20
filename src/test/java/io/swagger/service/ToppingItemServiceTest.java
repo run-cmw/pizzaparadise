@@ -2,6 +2,8 @@ package io.swagger.service;
 
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import io.swagger.model.ToppingItem;
 import io.swagger.repository.ToppingItemRepository;
 import java.util.List;
@@ -58,6 +60,7 @@ public class ToppingItemServiceTest {
   public void getToppingByIdTest() {
     ToppingItem topping = setupBacon();
     ToppingItem toppingFromDB = toppingService.getToppingById(BACON);
+    assertNull(toppingService.getToppingById("noTopping"));
     //assertEquals(topping, toppingFromDB);
   }
 

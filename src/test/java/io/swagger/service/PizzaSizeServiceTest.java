@@ -3,6 +3,8 @@ package io.swagger.service;
 import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Java6Assertions.fail;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import io.swagger.model.PizzaSize;
 import io.swagger.repository.PizzaSizeRepository;
 import java.util.List;
@@ -67,6 +69,8 @@ public class PizzaSizeServiceTest {
 
     PizzaSize sizeFromDB = sizeService.getPizzaSizeById(SMALL_SIZE);
     assertEquals(pizzaSize1, sizeFromDB);
+
+    assertNull(sizeService.getPizzaSizeById("noSmall"));
   }
 
   @Test
