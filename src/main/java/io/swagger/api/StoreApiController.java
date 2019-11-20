@@ -59,7 +59,7 @@ public class StoreApiController implements StoreApi {
    */
   @PostMapping("/store/add")
   @ApiOperation(
-      value = "Add or update a StoreItem",
+      value = "Add a StoreItem",
       tags = {
           "store",
       })

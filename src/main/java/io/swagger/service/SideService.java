@@ -29,7 +29,11 @@ public class SideService {
    * @return specified SideItem
    */
   public Optional<SideItem> getSideById(String id) {
-    return sideItemRepository.findById(id);
+    Optional<SideItem> side = sideItemRepository.findById(id);
+    if(!side.isPresent()) {
+      return null;
+    }
+    return side;
   }
 
   /**
@@ -38,8 +42,12 @@ public class SideService {
    * @return SideItem that was added.
    */
   public SideItem addSide(SideItem newSide) {
-    sideItemRepository.save(newSide);
-    return newSide;
+    if(sideItemRepository.findById(newSide.getId()).isPresent()) {
+      return null;
+    } else {
+      sideItemRepository.save(newSide);
+      return newSide;
+    }
   }
 
   /**

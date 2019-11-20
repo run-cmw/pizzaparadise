@@ -60,7 +60,7 @@ public class SideApiController implements SideApi {
    */
   @PostMapping("/side/add")
   @ApiOperation(
-      value = "Add or update a SideItem",
+      value = "Add a SideItem",
       tags = {
           "side",
       })
