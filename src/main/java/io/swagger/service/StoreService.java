@@ -29,7 +29,11 @@ public class StoreService {
    * @return specified StoreItem
    */
   public Optional<StoreItem> getStoreById(String id) {
-    return storeItemRepository.findById(id);
+    Optional<StoreItem> store = storeItemRepository.findById(id);
+    if(!store.isPresent()) {
+      return null;
+    }
+    return store;
   }
 
   /**

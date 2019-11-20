@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Cart Add Response
@@ -69,6 +70,7 @@ public class CartAddResponse {
    * Check if the CartAddResponse was successful.
    * @return true if it was successful, false otherwise.
    */
+  @ApiModelProperty(example = "true")
   public boolean getSuccess() {
     return this.success;
   }
@@ -101,6 +103,7 @@ public class CartAddResponse {
    * Get StoreId of this CartAddResponse.
    * @return storeId the destination where items are saved.
    */
+  @ApiModelProperty(example = "eastlake")
   public String getStoreID() {
     return this.storeID;
   }

@@ -108,7 +108,7 @@ public class Cart {
    * Get list of sideID in this Cart.
    * @return list of sideID in this Cart
    */
-  @ApiModelProperty(example = "[\"16OzCoke\", \"2LiterCoke\"]")
+  @ApiModelProperty(allowableValues = "16OzCoke, 2LiterCoke")
   public List<String> getSides() {
     return this.sides;
   }

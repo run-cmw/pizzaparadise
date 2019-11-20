@@ -53,7 +53,7 @@ public class Pizza {
    * Get all the toppingIDs in this Pizza
    * @return list of ToppingIDs in this Pizza
    */
-  @ApiModelProperty(example = "[\"pepperoni\", \"mushroom\"]")
+  @ApiModelProperty(allowableValues = "pepperoni")
   public List<String> getToppingIDs() {
     return this.toppingIDs;
   }

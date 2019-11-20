@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Price Response
@@ -45,6 +46,7 @@ public class PriceResponse {
    * Get the price.
    * @return Double price.
    */
+  @ApiModelProperty(example = "10.00")
   public Double getPrice() {
     return price;
   }
@@ -53,6 +55,7 @@ public class PriceResponse {
    * Get the currency unit of this price.
    * @return String if it is in US dollar, return "USD"
    */
+  @ApiModelProperty(example = "USD")
   public String getCurrency() {
     return currency;
   }
@@ -61,6 +64,7 @@ public class PriceResponse {
    * Check if the PriceResponse was successful.
    * @return true if price was found, false otherwise.
    */
+  @ApiModelProperty(example = "true")
   public boolean isSuccess() {
     return success;
   }
