@@ -95,6 +95,7 @@ public class CartAddResponse {
    * Get CartId of this CartAddResponse.
    * @return CartId the destination where items are saved.
    */
+  @ApiModelProperty(example = "5dd325ad5793784ecfe1b74c")
   public String getCartID() {
     return this.cartID;
   }
