@@ -29,7 +29,11 @@ public class StoreService {
    * @return specified StoreItem
    */
   public Optional<StoreItem> getStoreById(String id) {
-    return storeItemRepository.findById(id);
+    Optional<StoreItem> store = storeItemRepository.findById(id);
+    if(!store.isPresent()) {
+      return null;
+    }
+    return store;
   }
 
   /**
@@ -38,8 +42,12 @@ public class StoreService {
    * @return StoreItem that was added.
    */
   public StoreItem addStore(StoreItem newStore) {
-    storeItemRepository.save(newStore);
-    return newStore;
+    if(storeItemRepository.findById(newStore.getId()).isPresent()) {
+      return null;
+    } else {
+      storeItemRepository.save(newStore);
+      return newStore;
+    }
   }
 
   /**
