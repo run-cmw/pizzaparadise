@@ -8,9 +8,9 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
+
 public class StoreItemTest {
+
   private StoreItem storeItem;
   private StoreItem sameObject;
   private StoreItem differentObject;
@@ -104,6 +104,8 @@ public class StoreItemTest {
 
   @Test
   public void toStringTest() {
+    StoreItem storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+
     final String STORE_ITEM_AS_STRING =
         "StoreItem{"
             + "id='" + storeItem.getId() + '\''

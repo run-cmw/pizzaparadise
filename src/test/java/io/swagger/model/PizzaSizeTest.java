@@ -1,89 +1,83 @@
 package io.swagger.model;
 
-import io.swagger.model.PizzaSize;
-import org.junit.Assert;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@TestPropertySource("classpath:/application-test.properties")
-@SpringBootTest
+
 public class PizzaSizeTest {
 
-  private PizzaSize size1;
-  private PizzaSize size2;
-  private PizzaSize size3;
-  private PizzaSize test;
+  public PizzaSize size1;
+  public PizzaSize size2;
 
   @Before
   public void setUp() {
-    size1 = new PizzaSize("1", "small", "11", 13.00);
-    size2 = new PizzaSize("1", "small", "11", 13.00);
-    size3 = new PizzaSize("2", "medium", "13", 15.00);
-    test = new PizzaSize("2", "medium", "13", 15.00);
+    size1 = new PizzaSize("small", "small", "11", 13.00);
+    size2 = new PizzaSize("medium", "medium", "13", 15.00);
   }
+
 
   @Test
   public void getIdTest() {
-    Assert.assertEquals(size1.getId(), "1");
+    assertEquals("small", size1.getId());
   }
 
   @Test
   public void getSizeNameTest() {
-    Assert.assertEquals(size1.getSizeName(), "small");
+    assertEquals("small", size1.getSizeName());
   }
 
   @Test
   public void getSizeInchTest() {
-    Assert.assertEquals(size1.getSizeInch(), "11");
+    assertEquals("11", size1.getSizeInch());
   }
 
   @Test
   public void getPriceTest() {
-    Assert.assertEquals(size1.getPrice(), (Double) 13.00);
+    assertEquals((Double) 13.00, size1.getPrice());
   }
 
   @Test
   public void setIdTest() {
-    test.setId("4");
-    Assert.assertEquals(test.getId(), "4");
+    size2.setId("large");
+    assertEquals("large", size2.getId());
   }
 
   @Test
   public void setSizeNameTest() {
-    test.setSizeName("extra large");
-    Assert.assertNotEquals(test.getSizeName(), "large");
+    size2.setSizeName("large");
+    assertEquals("large", size2.getSizeName());
   }
 
   @Test
   public void setSizeInchTest() {
-    test.setSizeInch("18");
-    Assert.assertEquals(test.getSizeInch(), "18");
+    size2.setSizeInch("18");
+    assertEquals("18", size2.getSizeInch());
   }
 
   @Test
   public void setPriceTest() {
-    test.setPrice(25.00);
-    Assert.assertEquals(test.getPrice(), (Double) 25.00);
+    size2.setPrice(25.00);
+    assertEquals((Double) 25.00, size2.getPrice());
   }
 
   @Test
   public void equalTest() {
-    Assert.assertTrue(size1.equals(size2));
-    Assert.assertFalse(size1.equals(size3));
-    Assert.assertFalse(size1.equals(null));
+    PizzaSize sameAsSize1 = new PizzaSize("small", "small", "11", 13.00);
+
+    assertTrue(size1.equals(sameAsSize1));
+    assertTrue(size1.equals(size1));
+    assertFalse(size1.equals(size2));
+    assertFalse(size1.equals(null));
   }
 
   @Test
   public void toStringTest() {
-    Assert.assertEquals(size1.toString(),
-        "PizzaSize{id='1', sizeName='small', sizeInch='11', price='13.0}");
-
+    assertEquals(size1.toString(),
+        "PizzaSize{id=small, sizeName=small, sizeInch=11, price=13.0}");
   }
 }
 

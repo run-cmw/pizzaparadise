@@ -3,8 +3,6 @@ package io.swagger.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 
@@ -105,10 +103,10 @@ public class SpecialItem {
   @Override
   public String toString() {
     return "SpecialItem{" +
-        "id='" + id + '\'' +
-        ", name='" + name + '\'' +
-        ", description='" + description +
-        '}';
+        "id=" + id +
+        ", name=" + name +
+        ", description=" + description +
+        "}";
   }
 
   /**
@@ -121,7 +119,7 @@ public class SpecialItem {
     if (this == obj) {
       return true;
     }
-    if (obj == null) {
+    if (obj == null || getClass() != obj.getClass()) {
       return false;
     }
     SpecialItem specialItem = (SpecialItem) obj;

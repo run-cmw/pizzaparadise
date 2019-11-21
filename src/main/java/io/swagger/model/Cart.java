@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.bson.types.ObjectId;
@@ -45,13 +46,14 @@ public class Cart {
     this.totalAmount = 0.0;
     this.pizzas = new ArrayList<>();
     this.sides = new ArrayList<>();
-    specialApplied = false;
+    this.specialApplied = false;
   }
 
   /**
    * Get cartID of this Cart.
    * @return cartID
    */
+  @ApiModelProperty(example = "5dd325ad5793784ecfe1b74c")
   public String getId() {
     return this.id.toHexString();
   }
@@ -68,18 +70,20 @@ public class Cart {
    * Get storeID of this Cart.
    * @return storeID
    */
+  @ApiModelProperty(example = "brooklyn")
   public String getStoreID() { return this.storeID; }
 
   /**
    * Set storeID to this Cart.
    * @param id new storeID given to this Cart
    */
-  public void setStoreID(String id) { this.storeID = storeID; }
+  public void setStoreID(String id) { this.storeID = id; }
 
   /**
    * Get the totalAmount in this Cart.
    * @return totalAmount in this Cart
    */
+  @ApiModelProperty(example = "10.00")
   public Double getTotalAmount() {
     return this.totalAmount;
   }
@@ -104,6 +108,7 @@ public class Cart {
    * Get list of sideID in this Cart.
    * @return list of sideID in this Cart
    */
+  @ApiModelProperty(allowableValues = "16OzCoke, 2LiterCoke")
   public List<String> getSides() {
     return this.sides;
   }
@@ -112,6 +117,7 @@ public class Cart {
    * Check if special is already applied in this Cart.
    * @return true if special is applied, false if there is no special in this cart
    */
+  @ApiModelProperty(example = "false")
   public boolean isSpecialApplied() {
     return this.specialApplied;
   }
@@ -132,13 +138,13 @@ public class Cart {
   @Override
   public String toString() {
     return "Cart{"
-        + "cartId='" + id + '\''
-        + "storeId='" + storeID + '\''
-        + ", list of pizza= " + pizzas.toString() + '\''
-        + ", list of side= " + sides.toString() + '\''
-        + ", total price= " + totalAmount + '\''
-        + "special applied= " + specialApplied
-        + '}';
+        + "cartId= " + id.toString() + ", "
+        + "storeId= " + storeID + ", "
+        + "listOfPizza= " + pizzas.toString() + ", "
+        + "listOfSide= " + sides.toString() + ", "
+        + "totalPrice= " + totalAmount.toString() + ", "
+        + "specialApplied= " + specialApplied
+        + "}";
   }
 
   /**
@@ -149,11 +155,14 @@ public class Cart {
   @Override
   public boolean equals(Object obj) {
     if(this == obj) return true;
-    if(obj == null) { return false; }
+    if(obj == null || getClass() != obj.getClass()) { return false; }
     Cart cart = (Cart) obj;
-    return cart.getSides().equals(this.sides) && cart.getStoreID().equals(this.storeID)
-        && cart.getPizzas().equals(this.pizzas) && cart.getId().equals(this.id)
-        && cart.getTotalAmount().equals(this.totalAmount);
+    return cart.getSides().equals(this.sides) &&
+        cart.getPizzas().equals(this.pizzas) &&
+        cart.getId().equals(this.id.toString()) &&
+        cart.getStoreID().equals(this.storeID) &&
+        Double.compare(cart.getTotalAmount(), this.totalAmount) == 0 &&
+        cart.isSpecialApplied() == this.specialApplied;
   }
 
 }

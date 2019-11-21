@@ -1,73 +1,68 @@
 package io.swagger.model;
 
-
-import io.swagger.model.SpecialItem;
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
+
 public class SpecialItemTest {
 
-  private SpecialItem special1;
-  private SpecialItem special2;
-  private SpecialItem special3;
-  private SpecialItem test;
+  public SpecialItem special1;
+  public SpecialItem special2;
 
   @Before
   public void setUp() {
     special1 = new SpecialItem("1", "Buy1Get1Free", "BuyOneGetOne description");
-    special2 = new SpecialItem("1", "Buy1Get1Free", "BuyOneGetOne description");
-    special3 = new SpecialItem("3", "Bye1Get1Free", "ByeOneGetOne description");
-    test = new SpecialItem("2", "1SodaFree", "you get 1 soda description");
+    special2 = new SpecialItem("2", "1SodaFree", "you get 1 soda description");
   }
+
 
   @Test
   public void getIdTest() {
-    Assert.assertEquals(special1.getId(), "1");
+    assertEquals("1", special1.getId());
   }
 
   @Test
   public void getNameTest() {
-    Assert.assertEquals(special1.getName(), "Buy1Get1Free");
+    assertEquals("Buy1Get1Free", special1.getName());
   }
 
   @Test
   public void getDescriptionTest() {
-    Assert.assertEquals(special1.getDescription(), "BuyOneGetOne description");
+    assertEquals("BuyOneGetOne description", special1.getDescription());
   }
 
   @Test
   public void setIdTest() {
-    test.setId("4");
-    Assert.assertEquals(test.getId(), "4");
+    special2.setId("2SodaFree");
+    assertEquals("2SodaFree", special2.getId());
   }
 
   @Test
   public void setNameTest() {
-    test.setName("2SodaFree");
-    Assert.assertNotEquals(test.getName(), "1SodaFree");
+    special2.setName("2SodaFree");
+    assertEquals("2SodaFree", special2.getName());
   }
 
   @Test
   public void setDescriptionTest() {
-    test.setDescription("you get 2 soda description");
-    Assert.assertEquals(test.getDescription(), "you get 2 soda description");
+    special2.setDescription("you get 2 soda description");
+    assertEquals("you get 2 soda description", special2.getDescription());
   }
 
   @Test
   public void equalTest() {
-    Assert.assertTrue(special1.equals(special2));
-    Assert.assertFalse(special1.equals(special3));
+    SpecialItem sameAsSpecial1 = new SpecialItem("1", "Buy1Get1Free", "BuyOneGetOne description");
+    assertEquals(special1, sameAsSpecial1);
+    assertEquals(special1, special1);
+    assertNotEquals(special1, special2);
+    assertNotEquals(special1, null);
   }
 
   @Test
   public void toStringTest() {
-    Assert.assertEquals(special1.toString(), "SpecialItem{id='1', name='Buy1Get1Free', description='BuyOneGetOne description}");
+    assertEquals(special1.toString(), "SpecialItem{id=1, name=Buy1Get1Free, description=BuyOneGetOne description}");
 
   }
 

@@ -41,6 +41,7 @@ public class PizzaSize {
    * Get this id.
    * @return id.
    */
+  @ApiModelProperty(example = "small")
   public String getId() {
     return this.id;
   }
@@ -49,7 +50,6 @@ public class PizzaSize {
    * Set id.
    * @param id new id given to this PizzaSize.
    */
-  @ApiModelProperty(example = "small")
   public void setId(String id) {
     this.id = id;
   }
@@ -58,6 +58,7 @@ public class PizzaSize {
    * Get this sizeName.
    * @return sizeName.
    */
+  @ApiModelProperty(example = "Small")
   public String getSizeName() {
     return this.sizeName;
   }
@@ -66,7 +67,6 @@ public class PizzaSize {
    * Set sizeName for this PizzaSize.
    * @param sizeName new sizeName given to this PizzaSize.
    */
-  @ApiModelProperty(example = "Small")
   public void setSizeName(String sizeName) {
     this.sizeName = sizeName;
   }
@@ -75,6 +75,7 @@ public class PizzaSize {
    * Get this sizeInch.
    * @return sizeInch.
    */
+  @ApiModelProperty(example = "11")
   public String getSizeInch() {
     return this.sizeInch;
   }
@@ -83,7 +84,6 @@ public class PizzaSize {
    * Set sizeInch for this PizzaSize.
    * @param sizeInch new sizeInch given to this PizzaSize.
    */
-  @ApiModelProperty(example = "11")
   public void setSizeInch(String sizeInch) {
     this.sizeInch = sizeInch;
   }
@@ -92,6 +92,7 @@ public class PizzaSize {
    * Get this price.
    * @return price.
    */
+  @ApiModelProperty(example = "13.99")
   public Double getPrice() {
     return this.price;
   }
@@ -100,7 +101,6 @@ public class PizzaSize {
    * Set price for this PizzaSize.
    * @param price new price given to this PizzaSize.
    */
-  @ApiModelProperty(example = "13.99")
   public void setPrice(Double price) {
     this.price = price;
   }
@@ -112,11 +112,11 @@ public class PizzaSize {
   @Override
   public String toString() {
     return "PizzaSize{" +
-        "id='" + id + '\'' +
-        ", sizeName='" + sizeName + '\'' +
-        ", sizeInch='" + sizeInch + '\'' +
-        ", price='" + price +
-        '}';
+        "id=" + id +
+        ", sizeName=" + sizeName +
+        ", sizeInch=" + sizeInch +
+        ", price=" + price +
+        "}";
   }
 
   /**
@@ -127,7 +127,7 @@ public class PizzaSize {
   @Override
   public boolean equals(Object obj) {
     if(this == obj) return true;
-    if(obj == null) { return false; }
+    if(obj == null || getClass() != obj.getClass()) { return false; }
     PizzaSize size = (PizzaSize) obj;
     return size.getId().equals(this.id) &&
         size.getPrice().equals(this.price) &&
