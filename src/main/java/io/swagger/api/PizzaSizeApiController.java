@@ -27,8 +27,9 @@ public class PizzaSizeApiController implements PizzaSizeApi {
 
   /**
    * Get all pizza sizes from database
-   * @return list of pizza sizes from database
-   * HttpStatus.OK - successfully found all pizzaSizes from database
+   *
+   * @return list of pizza sizes from database HttpStatus.OK - successfully found all pizzaSizes
+   * from database
    */
   @GetMapping("/size")
   @ApiOperation(
@@ -36,16 +37,16 @@ public class PizzaSizeApiController implements PizzaSizeApi {
       tags = {
           "pizza size",
       })
-  @ApiResponse(code=200, message = "OK")
+  @ApiResponse(code = 200, message = "OK")
   public ResponseEntity<List<PizzaSize>> getAllPizzaSizes() {
     return new ResponseEntity<List<PizzaSize>>(sizeService.getAllPizzaSizes(), HttpStatus.OK);
   }
 
   /**
    * Get a pizzaSize by using id
+   *
    * @param id pizzaSizeId given to search
-   * @return PizzaSize found by id
-   * HttpStatus.OK - successfully found PizzaSize by id
+   * @return PizzaSize found by id HttpStatus.OK - successfully found PizzaSize by id
    * HttpStatus.NOT_FOUND - not able to find PizzaSize by id
    */
   @GetMapping("/size/{id}")
@@ -55,9 +56,9 @@ public class PizzaSizeApiController implements PizzaSizeApi {
           "pizza size",
       })
   @ApiResponses(value = {
-      @ApiResponse(code=200, message = "OK"), @ApiResponse(code=404, message = "NOT_FOUND")})
+      @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 404, message = "NOT_FOUND")})
   public ResponseEntity<PizzaSize> getPizzaSizeById(@PathVariable String id) {
-    if(sizeService.getPizzaSizeById(id) == null) {
+    if (sizeService.getPizzaSizeById(id) == null) {
       return new ResponseEntity<PizzaSize>(HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<PizzaSize>(sizeService.getPizzaSizeById(id), HttpStatus.OK);

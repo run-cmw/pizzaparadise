@@ -42,6 +42,7 @@ public class CartService {
 
   /**
    * Get Cart information by StoreID and CartID.
+   *
    * @param storeId storeId given to this function.
    * @param cartId cartId given to this function.
    * @return Cart if cartId was found from the store. Null if cartID and storeID are not connected.
@@ -108,8 +109,9 @@ public class CartService {
 
 
   /**
-   * SUB-Function of addPizzaToCart()
-   * This function add topping to pizza. Only adding toppings that exist in database.
+   * SUB-Function of addPizzaToCart() This function add topping to pizza. Only adding toppings that
+   * exist in database.
+   *
    * @param pizza base pizza given for adding toppings.
    * @param topping toppingId given to add to pizza.
    * @param items if topping does exist and can be added to pizza, we also add to item List.
@@ -127,9 +129,10 @@ public class CartService {
   }
 
   /**
-   * This function add side to Cart.
-   * If the cartId doesn't exist in the store, we create new Cart in the store and add side.
-   * Note that if input cartID doesn't exist, finalized cartID is newly made.
+   * This function add side to Cart. If the cartId doesn't exist in the store, we create new Cart in
+   * the store and add side. Note that if input cartID doesn't exist, finalized cartID is newly
+   * made.
+   *
    * @param storeId storeId given to this function to check if storeId has cartId.
    * @param cartId cartId given to this function to check if storeId has cartId.
    * @param sideID sideId given to add to the Cart.
@@ -154,6 +157,7 @@ public class CartService {
 
   /**
    * This function delete the Cart.
+   *
    * @param cartId cartId given to delete.
    * @return HttpStatus.NO_CONTENT if successfully deleted.
    */
@@ -164,6 +168,7 @@ public class CartService {
 
   /**
    * Get the total price of items(pizzas + sides) in the Cart.
+   *
    * @param cartId cartId given to get the total price of whole items.
    * @return PriceResponse that shows "Success:True", price and currency.
    */
@@ -179,8 +184,8 @@ public class CartService {
   }
 
   /**
-   * SUB-Function of getTotalAmountInCart()
-   * Get the total price of all sideItems in the Cart.
+   * SUB-Function of getTotalAmountInCart() Get the total price of all sideItems in the Cart.
+   *
    * @param cart cart given to get the total price of side items.
    * @return Double the price of all side items in the Cart.
    */
@@ -195,8 +200,8 @@ public class CartService {
   }
 
   /**
-   * SUB-Function of getTotalAmountInCart()
-   * Get the total price of all Pizzas in the Cart.
+   * SUB-Function of getTotalAmountInCart() Get the total price of all Pizzas in the Cart.
+   *
    * @param cart cart given to calculate the total price of all pizzas in this Cart.
    * @return Double the price of all pizzas in the Cart.
    */
@@ -210,8 +215,8 @@ public class CartService {
   }
 
   /**
-   * SUB-Function of addPizzaToCart()
-   * Get the price of the given pizza.
+   * SUB-Function of addPizzaToCart() Get the price of the given pizza.
+   *
    * @param pizza pizza given to calculate the pizza price.
    * @return Pizza that contains updated pizza price.
    */
@@ -229,9 +234,9 @@ public class CartService {
   }
 
   /**
-   * SUB-Function of addPizzaToCart() and getPizzaPrice()
-   * Calculate the price of all toppings based on the size of pizza.
-   * If size of pizza is small, then we calculate the small topping prices.
+   * SUB-Function of addPizzaToCart() and getPizzaPrice() Calculate the price of all toppings based
+   * on the size of pizza. If size of pizza is small, then we calculate the small topping prices.
+   *
    * @param sizeID sizeId given to provide the size of pizza
    * @param toppings list of toppings given to calculate the price
    * @return Double the price of all toppings in the pizza.
@@ -253,6 +258,7 @@ public class CartService {
 
   /**
    * Delete a side from a Cart.
+   *
    * @param cartId cartId given to delete side.
    * @param sideId sideId given to delete.
    * @return HttpStatus.NO_CONTENT if side was in the cart and successfully removed.
@@ -270,13 +276,13 @@ public class CartService {
   }
 
   /**
-   * Delete a pizza from a Cart.
-   * pizzaIndex can start from 0 to nth -1.
+   * Delete a pizza from a Cart. pizzaIndex can start from 0 to nth -1.
+   *
    * @param cartId cartId given to delete a pizza.
    * @param pizzaIndex pizzaIndex given to delete from list of pizza.
    * @return HttpStatus.NO_CONTENT, if pizza was successfully removed from cart.
-   * HttpStatus.BAD_REQUEST, if pizzaIndex is less than 0 or greater than n-1.
-   * If there is only one pizza, and user give 1 for pizzaIndex, it will return BAD_REQUEST.
+   * HttpStatus.BAD_REQUEST, if pizzaIndex is less than 0 or greater than n-1. If there is only one
+   * pizza, and user give 1 for pizzaIndex, it will return BAD_REQUEST.
    */
   public HttpStatus deletePizzaFromCart(String cartId, Integer pizzaIndex) {
     Cart cart = cartRepository.findById(cartId).get();

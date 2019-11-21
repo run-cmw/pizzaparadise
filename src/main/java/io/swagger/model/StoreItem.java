@@ -9,7 +9,9 @@ import javax.validation.constraints.NotNull;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 
-/** StoreItem */
+/**
+ * StoreItem
+ */
 @Validated
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
@@ -18,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 @ApiModel
 @Document(collection = "StoreItem")
 public class StoreItem {
+
   @JsonProperty("id")
   private String id;
 
@@ -47,7 +50,9 @@ public class StoreItem {
    * @param zipCode zip code portion of store's address
    * @param offersGlutenFree whether store offers gluten free pizza
    */
-  public StoreItem(String id, String streetNumAndName, String city, String state, String zipCode, boolean offersGlutenFree) {
+  public StoreItem(String id, String streetNumAndName, String city, String state, String zipCode,
+      boolean offersGlutenFree) {
+    super();
     this.id = id;
     this.streetNumAndName = streetNumAndName;
     this.city = city;
@@ -58,6 +63,7 @@ public class StoreItem {
 
   /**
    * Get store's id.
+   *
    * @return store's id.
    */
   @ApiModelProperty(example = "pike", required = true, value = "")
@@ -69,6 +75,7 @@ public class StoreItem {
 
   /**
    * Set store's id.
+   *
    * @param id store's id
    */
   public void setId(String id) {
@@ -77,6 +84,7 @@ public class StoreItem {
 
   /**
    * Get store's street number and name.
+   *
    * @return store's street number and name.
    */
   @ApiModelProperty(example = "123 Main St", required = true, value = "")
@@ -88,6 +96,7 @@ public class StoreItem {
 
   /**
    * Set store's street number and name.
+   *
    * @param streetNumAndName store's street number and name
    */
   public void setStreetNumAndName(String streetNumAndName) {
@@ -96,6 +105,7 @@ public class StoreItem {
 
   /**
    * Get store's city.
+   *
    * @return store's city.
    */
   @ApiModelProperty(example = "Oakland", required = true, value = "")
@@ -107,6 +117,7 @@ public class StoreItem {
 
   /**
    * Set store's city.
+   *
    * @param city city for the store's address
    */
   public void setCity(String city) {
@@ -115,6 +126,7 @@ public class StoreItem {
 
   /**
    * Get store's state.
+   *
    * @return store's state.
    */
   @ApiModelProperty(example = "California", required = true, value = "")
@@ -126,6 +138,7 @@ public class StoreItem {
 
   /**
    * Set store's state.
+   *
    * @param state state for the store's address
    */
   public void setState(String state) {
@@ -134,6 +147,7 @@ public class StoreItem {
 
   /**
    * Get store's zip code.
+   *
    * @return store's zip code.
    */
   @ApiModelProperty(example = "94608", required = true, value = "")
@@ -145,6 +159,7 @@ public class StoreItem {
 
   /**
    * Set store's zip code.
+   *
    * @param zipCode zip code for the store's address
    */
   public void setZipCode(String zipCode) {
@@ -153,6 +168,7 @@ public class StoreItem {
 
   /**
    * Get store's offersGlutenFree value.
+   *
    * @return {@code true} if store offers gluten free pizza and {@code false} otherwwise.
    */
   @ApiModelProperty(example = "false", required = true, value = "")
@@ -164,6 +180,7 @@ public class StoreItem {
 
   /**
    * Set whether store offers gluten free pizza.
+   *
    * @param offersGlutenFree store's value for offering gluten free pizza
    */
   public void setOffersGlutenFree(boolean offersGlutenFree) {
@@ -174,7 +191,8 @@ public class StoreItem {
    * Indicates whether some other object is "equal to" this one.
    *
    * @param obj - the reference object with which to compare
-   * @return {@code true} if this object is the same as the obj argument and {@code false} otherwise.
+   * @return {@code true} if this object is the same as the obj argument and {@code false}
+   * otherwise.
    */
   @Override
   public boolean equals(java.lang.Object o) {
@@ -195,6 +213,7 @@ public class StoreItem {
 
   /**
    * Returns a hash code value for a StoreItem.
+   *
    * @return hash code value for a StoreItem.
    */
   @Override
@@ -205,7 +224,7 @@ public class StoreItem {
   /**
    * Returns a string representation of a StoreItem.
    * Format - StoreItem{id='storeItemId', streetNumAndName='storeItemStreetNumAndName',
-   *              city='storeItemCity', state='toreItemState', zipCode='storeItemZipCode',
+   *              city='storeItemCity', state='storeItemState', zipCode='storeItemZipCode',
    *              offersGlutenFree='trueOrFalse'}
    *
    * @return string representation of a StoreItem.

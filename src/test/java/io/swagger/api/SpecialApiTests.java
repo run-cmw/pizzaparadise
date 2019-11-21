@@ -78,16 +78,16 @@ public class SpecialApiTests {
   @Test
   public void httpStatusCodeTest() {
     int statusCode = given().get("https://pizza-paradise.herokuapp.com/special").statusCode();
-    Assert.assertEquals(statusCode, 200);
+    assertEquals(statusCode, 200);
 
     int statusCode1 = given().get("https://pizza-paradise.herokuapp.com/specials").statusCode();
-    Assert.assertEquals(statusCode1, 404);
+    assertEquals(statusCode1, 404);
 
     int statusCode2 = given().get("https://pizza-paradise.herokuapp.com/special/buy2LargePizzaNoTopping").statusCode();
     Assert.assertEquals(statusCode2, 302);
 
     int statusCode3 = given().get("https://pizza-paradise.herokuapp.com/special/456787654").statusCode();
-    Assert.assertEquals(statusCode3, 404);
+    assertEquals(statusCode3, 404);
 
   }
 

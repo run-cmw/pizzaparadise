@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SideService {
+
   @Autowired
   public SideItemRepository sideItemRepository;
 

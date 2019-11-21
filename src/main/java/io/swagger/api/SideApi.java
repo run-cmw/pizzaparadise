@@ -20,14 +20,17 @@ import org.springframework.web.bind.annotation.RequestBody;
  * Interface for the Side API
  */
 public interface SideApi {
+
   /**
    * Get all sides.
+   *
    * @return a list of all SideItems.
    */
   ResponseEntity<List<SideItem>> getAllSides();
 
   /**
    * Get a specific SideItem by id
+   *
    * @param id id of requested SideItem
    * @return specified SideItem
    */
@@ -35,6 +38,7 @@ public interface SideApi {
 
   /**
    * Add a SideItem.
+   *
    * @param newSide new SideItem to add
    * @return SideItem added to database.
    */
@@ -43,6 +47,7 @@ public interface SideApi {
 
   /**
    * Delete a SideItem by id.
+   *
    * @param id id of SideItem to delete
    * @return {@code HttpStatus.NO_CONTENT} if side successfully removed and
    * {@code HttpStatus.NOT_FOUND} if id wasn't found.

@@ -19,6 +19,7 @@ public interface SpecialApi {
 
   /**
    * Get all special items
+   *
    * @return List of all SpecialItem from database
    */
   ResponseEntity<List<SpecialItem>> getAllSpecials();
@@ -26,7 +27,7 @@ public interface SpecialApi {
 
   /**
    * Get a specific specialItem by specialId
-   * @param id
+   *
    * @return specialItem found by Id
    */
   ResponseEntity<SpecialItem> getSpecialById(@PathVariable String id);
@@ -34,6 +35,7 @@ public interface SpecialApi {
 
   /**
    * Add Special to the Mongo database
+   *
    * @param specialId specialId given to add to the database
    * @param name name given to add to the database
    * @param description description given to add to the database
@@ -46,6 +48,7 @@ public interface SpecialApi {
 
   /**
    * Delete a special Item found by id from database
+   *
    * @param id id given for search
    * @return HttpStatus.NO_CONTENT if successfully removed, HttpStatus.NOT_FOUND if id wasn't found.
    */

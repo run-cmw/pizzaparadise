@@ -46,6 +46,7 @@ public class ToppingItem {
 
   /**
    * Creating new ToppingItem
+   *
    * @param id given to this ToppingItem
    * @param toppingName given to this ToppingItem
    * @param toppingType given to this ToppingItem
@@ -69,6 +70,7 @@ public class ToppingItem {
 
   /**
    * Get id
+   *
    * @return id
    */
   @ApiModelProperty(example = "1", required = true, value = "")
@@ -87,6 +89,7 @@ public class ToppingItem {
 
   /**
    * Get toppingName
+   *
    * @return toppingName
    **/
   @ApiModelProperty(example = "Sausage", value = "")
@@ -107,6 +110,7 @@ public class ToppingItem {
 
   /**
    * Get toppingType
+   *
    * @return toppingType
    **/
   @ApiModelProperty(example = "meat", value = "")
@@ -127,6 +131,7 @@ public class ToppingItem {
 
   /**
    * Get toppingSmallPrice
+   *
    * @return toppingSmallPrice
    **/
   @ApiModelProperty(example = "2.5", value = "")
@@ -146,6 +151,7 @@ public class ToppingItem {
 
   /**
    * Get toppingMediumPrice
+   *
    * @return toppingMediumPrice
    **/
   @ApiModelProperty(example = "2.75", value = "")
@@ -165,6 +171,7 @@ public class ToppingItem {
 
   /**
    * Get toppingLargePrice
+   *
    * @return toppingLargePrice
    **/
   @ApiModelProperty(example = "3.0", value = "")
@@ -184,6 +191,7 @@ public class ToppingItem {
 
   /**
    * Get toppingGluten
+   *
    * @return toppingGluten
    **/
   @ApiModelProperty(example = "gluten", value = "")
@@ -201,8 +209,10 @@ public class ToppingItem {
     this.toppingGluten = toppingGluten;
   }
 
-  /*
+  /**
    * Spring representation of a Topping Item
+   *
+   * @return string representation of a topping item
    */
   @Override
   public String toString() {
@@ -217,5 +227,28 @@ public class ToppingItem {
         '}';
   }
 
+  /**
+   * Check if two objects are equal
+   *
+   * @param obj object given to compare
+   * @return true if two objects are equal, false otherwise
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    ToppingItem toppingItem = (ToppingItem) obj;
+    return toppingItem.getId().equals(this.id) &&
+        toppingItem.getToppingName().equals(this.toppingName) &&
+        toppingItem.getToppingType().equals(this.toppingType) &&
+        toppingItem.getToppingSmallPrice().equals(this.toppingSmallPrice) &&
+        toppingItem.getToppingMediumPrice().equals(this.toppingMediumPrice) &&
+        toppingItem.getToppingLargePrice().equals(this.toppingLargePrice) &&
+        toppingItem.getToppingGluten().equals(this.toppingGluten);
+  }
 
 }

@@ -8,7 +8,8 @@ import io.swagger.annotations.Api;
 @Api(value = "pizzaCount", description = "PizzaCount API")
 public interface PizzaCountApi {
 
-
-  String getNumOfPizzaByInput(int adult, int kid);
-
+  // get suggested pizza order count
+  ResponseEntity<String> getNumOfPizzaByInput(
+      @ApiParam(value = "Adult") @PathVariable("adult") Integer adult,
+      @ApiParam(value = "Kid") @PathVariable("kid") Integer kid);
 }

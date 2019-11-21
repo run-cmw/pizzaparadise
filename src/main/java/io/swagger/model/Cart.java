@@ -19,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 @ApiModel
 @Document(collection = "Cart")
 public class Cart {
+
   @Id
   @JsonProperty("CartID")
   private ObjectId id;
@@ -34,8 +35,9 @@ public class Cart {
   private boolean specialApplied;
 
   /**
-   * Create new Cart.
-   * By default, total price is 0.0, list of pizzas and sides are empty, and no specials are applied.
+   * Create new Cart. By default, total price is 0.0, list of pizzas and sides are empty, and no
+   * specials are applied.
+   *
    * @param id cartID given to this new Cart
    * @param storeID storeID given to connect this Cart.
    */
@@ -50,6 +52,7 @@ public class Cart {
 
   /**
    * Get cartID of this Cart.
+   *
    * @return cartID
    */
   public String getId() {
@@ -58,6 +61,7 @@ public class Cart {
 
   /**
    * Set cartID of this Cart.
+   *
    * @param id new cartID given to this Cart
    */
   public void setId(ObjectId id) {
@@ -66,18 +70,25 @@ public class Cart {
 
   /**
    * Get storeID of this Cart.
+   *
    * @return storeID
    */
-  public String getStoreID() { return this.storeID; }
+  public String getStoreID() {
+    return this.storeID;
+  }
 
   /**
    * Set storeID to this Cart.
+   *
    * @param id new storeID given to this Cart
    */
-  public void setStoreID(String id) { this.storeID = storeID; }
+  public void setStoreID(String id) {
+    this.storeID = storeID;
+  }
 
   /**
    * Get the totalAmount in this Cart.
+   *
    * @return totalAmount in this Cart
    */
   public Double getTotalAmount() {
@@ -86,6 +97,7 @@ public class Cart {
 
   /**
    * Set the totalAmount in this Cart.
+   *
    * @param p new totalAmount given to this Cart
    */
   public void setTotalAmount(Double totalAmount) {
@@ -94,6 +106,7 @@ public class Cart {
 
   /**
    * Get list of pizzas in this Cart.
+   *
    * @return list of pizzas in this Cart
    */
   public List<Pizza> getPizzas() {
@@ -102,6 +115,7 @@ public class Cart {
 
   /**
    * Get list of sideID in this Cart.
+   *
    * @return list of sideID in this Cart
    */
   public List<String> getSides() {
@@ -110,6 +124,7 @@ public class Cart {
 
   /**
    * Check if special is already applied in this Cart.
+   *
    * @return true if special is applied, false if there is no special in this cart
    */
   public boolean isSpecialApplied() {
@@ -118,6 +133,7 @@ public class Cart {
 
   /**
    * Set the specialApplied to this Cart.
+   *
    * @param applied true if special is applied, false if special is not applied.
    */
   public void setSpecialApplied(boolean applied) {
@@ -127,6 +143,7 @@ public class Cart {
 
   /**
    * String representation of this Cart.
+   *
    * @return a String representation of this Cart
    */
   @Override
@@ -143,13 +160,18 @@ public class Cart {
 
   /**
    * Check if two objects are equal.
+   *
    * @param obj object given for comparison
    * @return true if two objects are equal, false otherwise.
    */
   @Override
   public boolean equals(Object obj) {
-    if(this == obj) return true;
-    if(obj == null) { return false; }
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
     Cart cart = (Cart) obj;
     return cart.getSides().equals(this.sides) && cart.getStoreID().equals(this.storeID)
         && cart.getPizzas().equals(this.pizzas) && cart.getId().equals(this.id)

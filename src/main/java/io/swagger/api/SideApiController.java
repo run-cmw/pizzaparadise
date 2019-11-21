@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
     date = "2019-09-26T03:54:46.062Z[GMT]")
 @RestController
 public class SideApiController implements SideApi {
+
   @Autowired
   private SideService sideService;
 
@@ -47,9 +48,9 @@ public class SideApiController implements SideApi {
       tags = {
           "side",
       })
-  public ResponseEntity<Optional<SideItem>> getSideById(@PathVariable String id) {
-    if(sideService.getSideById(id) == null) {
-      return new ResponseEntity<Optional<SideItem>>(HttpStatus.NOT_FOUND);
+  public ResponseEntity<SideItem> getSideById(@PathVariable String id) {
+    if (sideService.getSideById(id) == null) {
+      return new ResponseEntity<SideItem>(HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<Optional<SideItem>>(sideService.getSideById(id), HttpStatus.OK);
   }

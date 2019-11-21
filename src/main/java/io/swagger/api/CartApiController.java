@@ -34,9 +34,8 @@ public class CartApiController implements CartApi {
   private StoreService storeService;
 
   /**
-   * {@inheritDoc}
-   * HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
-   * HttpStatus.OK - if Cart was successfully found.
+   * {@inheritDoc} HttpStatus.NOT_FOUND - if storeId and cartId are not matching. HttpStatus.OK - if
+   * Cart was successfully found.
    */
   @GetMapping("store/{storeId}/cart/{cartId}")
   @ApiOperation(
@@ -52,9 +51,8 @@ public class CartApiController implements CartApi {
   }
 
   /**
-   * {@inheritDoc}
-   * HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
-   * HttpStatus.OK - if price of the Cart was successfully found.
+   * {@inheritDoc} HttpStatus.NOT_FOUND - if storeId and cartId are not matching. HttpStatus.OK - if
+   * price of the Cart was successfully found.
    */
   @GetMapping("/store/{storeId}/cart/{cartId}/price")
   @ApiOperation(
@@ -75,11 +73,9 @@ public class CartApiController implements CartApi {
   }
 
   /**
-   * {@inheritDoc}
-   * HttpStatus.NOT_FOUND - if the storeId is not found.
-   * HttpStatus.NOT_FOUND - if the pizzaSizeId is not found.
-   * HttpStatus.NOT_FOUND - if the store's gluten setting does not match with given gluten.
-   * HttpStatus.CREATED - if pizza was successfully added to Cart.
+   * {@inheritDoc} HttpStatus.NOT_FOUND - if the storeId is not found. HttpStatus.NOT_FOUND - if the
+   * pizzaSizeId is not found. HttpStatus.NOT_FOUND - if the store's gluten setting does not match
+   * with given gluten. HttpStatus.CREATED - if pizza was successfully added to Cart.
    */
   @PostMapping("/store/{storeId}/cart/{cartId}/add/pizza")
   @ApiOperation(
@@ -116,10 +112,8 @@ public class CartApiController implements CartApi {
   }
 
   /**
-   * {@inheritDoc}
-   * HttpStatus.NOT_FOUND - if the storeId is not found.
-   * HttpStatus.NOT_FOUND - if the sideId is not found.
-   * HttpStatus.CREATED - if side was successfully added to Cart.
+   * {@inheritDoc} HttpStatus.NOT_FOUND - if the storeId is not found. HttpStatus.NOT_FOUND - if the
+   * sideId is not found. HttpStatus.CREATED - if side was successfully added to Cart.
    */
   @PostMapping("/store/{storeId}/cart/{cartId}/add/side")
   @ApiOperation(
@@ -149,8 +143,7 @@ public class CartApiController implements CartApi {
   }
 
   /**
-   * {@inheritDoc}
-   * HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
+   * {@inheritDoc} HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
    * HttpStatus.NO_CONTENT - if cartId is successfully removed.
    */
   @DeleteMapping("store/{storeId}/cart/{cartId}/delete")
@@ -170,10 +163,9 @@ public class CartApiController implements CartApi {
   }
 
   /**
-   * {@inheritDoc}
-   * HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
-   * HttpStatus.NOT_FOUND - if the sideId is not found.
-   * HttpStatus.NO_CONTENT - if side is successfully removed from Cart.
+   * {@inheritDoc} HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
+   * HttpStatus.NOT_FOUND - if the sideId is not found. HttpStatus.NO_CONTENT - if side is
+   * successfully removed from Cart.
    */
   @DeleteMapping("store/{storeId}/cart/{cartId}/delete/side")
   @ApiOperation(
@@ -196,10 +188,9 @@ public class CartApiController implements CartApi {
   }
 
   /**
-   * {@inheritDoc}
-   * HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
-   * HttpStatus.BAD_REQUEST - if given pizzaIndex is less than 0.
-   * HttpStatus.NO_CONTENT - if side is successfully removed from Cart.
+   * {@inheritDoc} HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
+   * HttpStatus.BAD_REQUEST - if given pizzaIndex is less than 0. HttpStatus.NO_CONTENT - if side is
+   * successfully removed from Cart.
    */
   @DeleteMapping("store/{storeId}/cart/{cartId}/delete/pizza")
   @ApiOperation(

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Price Response
  */
 public class PriceResponse {
+
   @JsonProperty("Success")
   private boolean success;
   @JsonProperty("Price")
@@ -15,6 +16,7 @@ public class PriceResponse {
 
   /**
    * Construct a new PriceResponse
+   *
    * @param success true if successfully got the price, false otherwise.
    * @param price price that was found.
    * @param currency currency that was found.
@@ -27,6 +29,7 @@ public class PriceResponse {
 
   /**
    * Get the price.
+   *
    * @return Double price.
    */
   public Double getPrice() {
@@ -35,6 +38,7 @@ public class PriceResponse {
 
   /**
    * Get the currency unit of this price.
+   *
    * @return String if it is in US dollar, return "USD"
    */
   public String getCurrency() {
@@ -43,6 +47,7 @@ public class PriceResponse {
 
   /**
    * Check if the PriceResponse was successful.
+   *
    * @return true if price was found, false otherwise.
    */
   public boolean isSuccess() {

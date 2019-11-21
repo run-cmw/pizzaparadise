@@ -20,14 +20,17 @@ import org.springframework.web.bind.annotation.RequestBody;
  * Interface for the Store API
  */
 public interface StoreApi {
+
   /**
    * Get all stores.
+   *
    * @return a list of all StoreItems.
    */
   ResponseEntity<List<StoreItem>> getAllStores();
 
   /**
    * Get a specific StoreItem by id
+   *
    * @param id id of requested StoreItem
    * @return specified StoreItem
    */
@@ -35,6 +38,7 @@ public interface StoreApi {
 
   /**
    * Add a StoreItem.
+   *
    * @param newStore new StoreItem to add
    * @return StoreItem added to database.
    */
@@ -43,6 +47,7 @@ public interface StoreApi {
 
   /**
    * Delete a StoreItem by id.
+   *
    * @param id id of StoreItem to delete
    * @return {@code HttpStatus.NO_CONTENT} if store successfully removed and
    * {@code HttpStatus.NOT_FOUND} if id wasn't found.

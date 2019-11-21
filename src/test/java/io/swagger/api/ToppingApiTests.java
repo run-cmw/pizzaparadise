@@ -11,6 +11,8 @@ import io.swagger.service.ToppingItemService;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.Assert;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +24,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest
 public class ToppingApiTests {
 
-  @Autowired
-  private ToppingItemService toppingService;
 
   @MockBean
   private ToppingItemRepository toppingRepository;
+
+  @Autowired
+  private ToppingItemService toppingItemService;
 
 
   @Test
@@ -44,41 +47,43 @@ public class ToppingApiTests {
             "non-gluten")
     ).collect(Collectors.toList()));
 
-    Assert.assertEquals(6, toppingService.getAllTopping().size());
+    Assert.assertEquals(6, toppingItemService.getAllTopping().size());
 
     ToppingItem topping1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5,
         2.75, 3.0, "gluten");
 
-    Assert.assertEquals(toppingService.getToppingById("pepperoni1").toString(),
+    Assert.assertEquals(toppingItemService.getToppingById("pepperoni1").toString(),
         topping1.toString());
 
     ToppingItem topping2 = new ToppingItem("onion1", "onion", "vegetable", 2.0,
         2.25, 2.5, "non-gluten");
 
-    Assert.assertEquals(toppingService.getToppingById("onion1").toString(),
+    Assert.assertEquals(toppingItemService.getToppingById("onion1").toString(),
         topping2.toString());
 
     ToppingItem topping3 = new ToppingItem("mushroom1", "mushroom", "vegetable", 2.0,
         2.25, 2.5, "non-gluten");
 
-    Assert.assertEquals(toppingService.getToppingById("mushroom1").toString(),
+    Assert.assertEquals(toppingItemService.getToppingById("mushroom1").toString(),
         topping3.toString());
 
     Assert.assertFalse(topping3.equals(null));
 
-    Assert.assertEquals(toppingService.getToppingById("errorId"), null);
+    Assert.assertEquals(toppingItemService.getToppingById("errorId"), null);
 
   }
 
+
   @Test
   public void statusCodeTest() {
-    int statusCodeOk = given().get("https://hidden-beyond-92673.herokuapp.com/topping")
+
+    int statusCodeOk = given().get("https://pizza-paradise.herokuapp.com/topping")
         .statusCode();
-    Assert.assertEquals(statusCodeOk, 200);
+    assertEquals(200,statusCodeOk);
 
     int statusCodeNotFound = given().get("https://hidden-beyond-92673.herokuapp.com/toppings")
         .statusCode();
-    Assert.assertEquals(statusCodeNotFound, 404);
+    assertEquals(404,statusCodeNotFound);
 
 
   }

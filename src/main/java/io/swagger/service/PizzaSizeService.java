@@ -14,6 +14,7 @@ public class PizzaSizeService {
 
   /**
    * Find all pizza sizes from database
+   *
    * @return list of pizza sizes
    */
   public List<PizzaSize> getAllPizzaSizes() {
@@ -23,11 +24,12 @@ public class PizzaSizeService {
 
   /**
    * Find a pizza size using id
+   *
    * @param id sizeId given to search
    * @return a pizza size found by id
    */
   public PizzaSize getPizzaSizeById(String id) {
-    if(!pizzaSizeRepository.existsById(id)) {
+    if (!pizzaSizeRepository.existsById(id)) {
       return null;
     }
     PizzaSize size = pizzaSizeRepository.findById(id).get();

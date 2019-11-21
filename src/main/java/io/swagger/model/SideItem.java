@@ -9,7 +9,9 @@ import org.springframework.validation.annotation.Validated;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-/** StoreItem */
+/**
+ * StoreItem
+ */
 @Validated
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
@@ -52,6 +54,7 @@ public class SideItem {
 
   /**
    * Get side's id.
+   *
    * @return side's id.
    */
   @ApiModelProperty(example = "hotWings", required = true, value = "")
@@ -63,6 +66,7 @@ public class SideItem {
 
   /**
    * Set side's id.
+   *
    * @param id side's id
    */
   public void setId(String id) {
@@ -71,6 +75,7 @@ public class SideItem {
 
   /**
    * Get side's name.
+   *
    * @return side's name.
    */
   @ApiModelProperty(example = "Hot wings", required = true, value = "")
@@ -82,6 +87,7 @@ public class SideItem {
 
   /**
    * Set side's name.
+   *
    * @param name side's name
    */
   public void setName(String name) {
@@ -90,6 +96,7 @@ public class SideItem {
 
   /**
    * Get side's price.
+   *
    * @return side's price.
    */
   @ApiModelProperty(example = "3.89", required = true, value = "")
@@ -101,6 +108,7 @@ public class SideItem {
 
   /**
    * Set side's price.
+   *
    * @param price side's price
    */
   public void setPrice(Double price) {
@@ -109,6 +117,7 @@ public class SideItem {
 
   /**
    * Get side's type.
+   *
    * @return side's type.
    */
   @ApiModelProperty(example = "condiment", required = true, value = "")
@@ -120,6 +129,7 @@ public class SideItem {
 
   /**
    * Set side's type.
+   *
    * @param type side's type
    */
   public void setType(String type) {
@@ -130,7 +140,8 @@ public class SideItem {
    * Indicates whether some other object is "equal to" this one.
    *
    * @param obj - the reference object with which to compare
-   * @return {@code true} if this object is the same as the obj argument and {@code false} otherwise.
+   * @return {@code true} if this object is the same as the obj argument and {@code false}
+   * otherwise.
    */
   @Override
   public boolean equals(java.lang.Object o) {
@@ -149,6 +160,7 @@ public class SideItem {
 
   /**
    * Returns a hash code value for a SideItem.
+   *
    * @return hash code value for a SideItem.
    */
   @Override
@@ -166,10 +178,10 @@ public class SideItem {
   @Override
   public String toString() {
     return "SideItem{"
-      + "id='" + id + '\''
-      + ", name='" + name + '\''
-      + ", price='" + price + '\''
-      + ", type='" + type + '\''
-      + '}';
+        + "id='" + id + '\''
+        + ", name='" + name + '\''
+        + ", price='" + price + '\''
+        + ", type='" + type + '\''
+        + '}';
   }
 }

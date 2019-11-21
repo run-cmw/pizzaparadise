@@ -1,20 +1,10 @@
 package io.swagger.service;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import io.swagger.model.ToppingItem;
 import io.swagger.repository.ToppingItemRepository;
 import java.util.List;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class ToppingItemService {
@@ -23,31 +13,43 @@ public class ToppingItemService {
   public ToppingItemRepository toppingItemRepository;
 
 
+  /**
+   * Get all Topping Items
+   *
+   * @return List of Topping Item found in the database
+   */
   public List<ToppingItem> getAllTopping() {
     return toppingItemRepository.findAll();
   }
 
+  /**
+   * Get ToppingItem by Id
+   *
+   * @param id id given to search
+   * @return the toppingItem that matches with id.
+   */
   public ToppingItem getToppingById(String id) {
-    for (ToppingItem item : toppingItemRepository.findAll()) {
-      if (item.getId().equals(id)) {
-        return item;
-      }
-    }
-    return null;
+    ToppingItem topping = toppingItemRepository.findById(id).get();
+    return topping;
+  }
+
+  /**
+   * Add topping to the database
+   *
+   * @return the toppingItem that is added
+   */
+  public ToppingItem addTopping(ToppingItem toppingItem) {
+    toppingItemRepository.save(toppingItem);
+    return toppingItem;
   }
 
 
-  public ToppingItem addTopping(ToppingItem newTopping) {
-    toppingItemRepository.save(newTopping);
-    return newTopping;
-  }
-
-
-  public String deleteTopping(String id) {
-    if (toppingItemRepository.existsById(id)) {
-      toppingItemRepository.deleteById(id);
-      return "deleted with id " + id;
-    }
-    return "id does not exist: " + id;
+  /**
+   * Delete topping by id from database
+   *
+   * @param id id given to delete
+   */
+  public void deleteTopping(String id) {
+    toppingItemRepository.deleteById(id);
   }
 }

@@ -45,6 +45,7 @@ public class SpecialItem {
 
   /**
    * Get id
+   *
    * @return id
    */
   public String getId() {
@@ -53,6 +54,7 @@ public class SpecialItem {
 
   /**
    * Set id
+   *
    * @param id new id given for this item
    */
   @ApiModelProperty(example = "buy1Get1Free")
@@ -62,6 +64,7 @@ public class SpecialItem {
 
   /**
    * Get name
+   *
    * @return name
    */
   public String getName() {
@@ -70,6 +73,7 @@ public class SpecialItem {
 
   /**
    * Set name
+   *
    * @param name new name given for this special item
    */
   @ApiModelProperty(example = "Buy1Get1Free")
@@ -79,6 +83,7 @@ public class SpecialItem {
 
   /**
    * Get description
+   *
    * @return description
    */
   public String getDescription() {
@@ -87,6 +92,7 @@ public class SpecialItem {
 
   /**
    * Set description
+   *
    * @param description new description for Special item
    */
   @ApiModelProperty(
@@ -100,6 +106,7 @@ public class SpecialItem {
 
   /**
    * Spring representation of a Special Item
+   *
    * @return string representation of a special item
    */
   @Override
@@ -113,6 +120,7 @@ public class SpecialItem {
 
   /**
    * Check if two objects are equal
+   *
    * @param obj object given to compare
    * @return true if two objects are equal, false otherwise
    */

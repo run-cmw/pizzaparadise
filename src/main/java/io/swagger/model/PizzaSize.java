@@ -25,6 +25,7 @@ public class PizzaSize {
 
   /**
    * Creating new PizzaSize
+   *
    * @param id id given to this PizzaSize
    * @param sizeName sizeName given to this PizzaSize
    * @param sizeInch sizeInch given to this PizzaSize
@@ -39,6 +40,7 @@ public class PizzaSize {
 
   /**
    * Get this id.
+   *
    * @return id.
    */
   public String getId() {
@@ -47,6 +49,7 @@ public class PizzaSize {
 
   /**
    * Set id.
+   *
    * @param id new id given to this PizzaSize.
    */
   @ApiModelProperty(example = "small")
@@ -56,6 +59,7 @@ public class PizzaSize {
 
   /**
    * Get this sizeName.
+   *
    * @return sizeName.
    */
   public String getSizeName() {
@@ -64,6 +68,7 @@ public class PizzaSize {
 
   /**
    * Set sizeName for this PizzaSize.
+   *
    * @param sizeName new sizeName given to this PizzaSize.
    */
   @ApiModelProperty(example = "Small")
@@ -73,6 +78,7 @@ public class PizzaSize {
 
   /**
    * Get this sizeInch.
+   *
    * @return sizeInch.
    */
   public String getSizeInch() {
@@ -81,6 +87,7 @@ public class PizzaSize {
 
   /**
    * Set sizeInch for this PizzaSize.
+   *
    * @param sizeInch new sizeInch given to this PizzaSize.
    */
   @ApiModelProperty(example = "11")
@@ -90,6 +97,7 @@ public class PizzaSize {
 
   /**
    * Get this price.
+   *
    * @return price.
    */
   public Double getPrice() {
@@ -98,6 +106,7 @@ public class PizzaSize {
 
   /**
    * Set price for this PizzaSize.
+   *
    * @param price new price given to this PizzaSize.
    */
   @ApiModelProperty(example = "13.99")
@@ -107,6 +116,7 @@ public class PizzaSize {
 
   /**
    * String representation of PizzaSize
+   *
    * @return String representation of PizzaSize
    */
   @Override
@@ -121,13 +131,18 @@ public class PizzaSize {
 
   /**
    * Check if two objects are equal.
+   *
    * @param obj obj given to compare
    * @return true if two objects are equal, false otherwise.
    */
   @Override
   public boolean equals(Object obj) {
-    if(this == obj) return true;
-    if(obj == null) { return false; }
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
     PizzaSize size = (PizzaSize) obj;
     return size.getId().equals(this.id) &&
         size.getPrice().equals(this.price) &&

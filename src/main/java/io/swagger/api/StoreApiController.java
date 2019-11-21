@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
     date = "2019-09-26T03:54:46.062Z[GMT]")
 @RestController
 public class StoreApiController implements StoreApi {
+
   @Autowired
   private StoreService storeService;
 
@@ -46,11 +47,11 @@ public class StoreApiController implements StoreApi {
       tags = {
           "store",
       })
-  public ResponseEntity<Optional<StoreItem>> getStoreById(String id) {
-    if(storeService.getStoreById(id) == null) {
-      return new ResponseEntity<Optional<StoreItem>>(HttpStatus.NOT_FOUND);
+  public ResponseEntity<StoreItem> getStoreById(@PathVariable String id) {
+    if (storeService.getStoreById(id) == null) {
+      return new ResponseEntity<StoreItem>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<Optional<StoreItem>>(storeService.getStoreById(id), HttpStatus.OK);
+    return new ResponseEntity<StoreItem>(storeService.getStoreById(id), HttpStatus.OK);
   }
 
   /**
@@ -71,7 +72,7 @@ public class StoreApiController implements StoreApi {
   /**
    * {@inheritDoc}
    * HttpStatus.NOT_FOUND - if id is not found in database.
-   * HttpStatus.OK - if StoreItem is successfully removed.
+   * HttpStatus.NO_CONTENT - if StoreItem is successfully removed.
    */
   @DeleteMapping("/store/delete/{id}")
   @ApiOperation(
@@ -79,11 +80,11 @@ public class StoreApiController implements StoreApi {
       tags = {
           "store",
       })
-  public HttpStatus deleteStore(String id) {
+  public ResponseEntity<Void> deleteStore(@PathVariable String id) {
     if (storeService.getStoreById(id) == null) {
-      return HttpStatus.NOT_FOUND;
+      return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
     }
     storeService.deleteStore(id);
-    return HttpStatus.OK;
+    return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
   }
 }

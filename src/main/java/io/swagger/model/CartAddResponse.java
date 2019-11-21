@@ -40,6 +40,7 @@ public class CartAddResponse {
 
   /**
    * Check if the CartAddResponse was successful.
+   *
    * @return true if it was successful, false otherwise.
    */
   public boolean getSuccess() {
@@ -48,6 +49,7 @@ public class CartAddResponse {
 
   /**
    * Get list of items added to cart.
+   *
    * @return list of items that are added by this query.
    */
   public List<String> getItems() {
@@ -56,6 +58,7 @@ public class CartAddResponse {
 
   /**
    * Get CartId of this CartAddResponse.
+   *
    * @return CartId the destination where items are saved.
    */
   public String getCartID() {
@@ -64,6 +67,7 @@ public class CartAddResponse {
 
   /**
    * Get StoreId of this CartAddResponse.
+   *
    * @return storeId the destination where items are saved.
    */
   public String getStoreID() {
@@ -72,6 +76,7 @@ public class CartAddResponse {
 
   /**
    * Get the message of this CartAddResponse.
+   *
    * @return message to show if it was successful or failed.
    */
   public String getMessage() {
