@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,8 +51,7 @@ public class ToppingItemTest {
     assertNotEquals(toppingItem2, toppingItem1);
     assertEquals(toppingItem2, toppingItem2);
     assertNotEquals(toppingItem3, toppingItem1);
-    assertNotEquals(toppingItem2, 2);
-    assertNotEquals(toppingItem2, null);
+    assertNotNull(toppingItem2);
   }
 
   @Test
@@ -64,14 +64,28 @@ public class ToppingItemTest {
   public void toStringTest() {
     final String TOPPING_ITEM_AS_STRING =
         "ToppingItem{"
-            + "id='" + toppingItem1.getId() + '\''
-            + ", topping name='" + toppingItem1.getToppingName() + '\''
-            + ", topping type='" + toppingItem1.getToppingType() + '\''
-            + ", topping small price='" + toppingItem1.getToppingSmallPrice() + '\''
-            + ", topping medium price='" + toppingItem1.getToppingMediumPrice() + '\''
-            + ", topping large price='" + toppingItem1.getToppingLargePrice() + '\''
-            + ", topping gluten='" + toppingItem1.getToppingGluten() + '\''
-        + '}';
+            + "id='"
+            + toppingItem1.getId()
+            + '\''
+            + ", topping name='"
+            + toppingItem1.getToppingName()
+            + '\''
+            + ", topping type='"
+            + toppingItem1.getToppingType()
+            + '\''
+            + ", topping small price='"
+            + toppingItem1.getToppingSmallPrice()
+            + '\''
+            + ", topping medium price='"
+            + toppingItem1.getToppingMediumPrice()
+            + '\''
+            + ", topping large price='"
+            + toppingItem1.getToppingLargePrice()
+            + '\''
+            + ", topping gluten='"
+            + toppingItem1.getToppingGluten()
+            + '\''
+            + '}';
 
     assertEquals(TOPPING_ITEM_AS_STRING, toppingItem1.toString());
   }

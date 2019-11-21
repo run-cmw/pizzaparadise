@@ -1,10 +1,14 @@
 package io.swagger.api;
 
-import static com.jayway.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
+
+import io.swagger.model.SideItem;
+import io.swagger.repository.SideItemRepository;
+import io.swagger.service.SideService;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.Before;
@@ -14,33 +18,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import io.swagger.model.SideItem;
-import io.swagger.repository.SideItemRepository;
-import io.swagger.service.SideService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class SideApiTest {
-  @Autowired
-  private SideService sideService;
+  final String TEST_SIDE_ID = "cheeseSticks";
 
-  @MockBean
-  private SideItemRepository sideItemRepository;
+  @Autowired private SideService sideService;
+
+  @MockBean private SideItemRepository sideItemRepository;
   private SideItem testSide;
   private SideItem testSide2;
   private SideItem testSide3;
 
   @Before
   public void setUp() {
-    testSide = new SideItem("cheeseSticks", "Cheesesticks", 7.99, "appetizer");
+    testSide = new SideItem(TEST_SIDE_ID, "Cheesesticks", 7.99, "appetizer");
     testSide2 = new SideItem("chocolateChipCookie", "Chocolate chip cookie", 1.99, "dessert");
     testSide3 = new SideItem("brownie", "Brownie", 2.49, "dessert");
 
-    when(sideItemRepository.findAll()).thenReturn(Stream.of(
-        testSide,
-        testSide2,
-        testSide3
-    ).collect(Collectors.toList()));
+    when(sideItemRepository.findAll())
+        .thenReturn(Stream.of(testSide, testSide2, testSide3).collect(Collectors.toList()));
+
+    when(sideItemRepository.findById(TEST_SIDE_ID)).thenReturn(Optional.of(testSide));
   }
 
   @Test
@@ -51,10 +51,15 @@ public class SideApiTest {
 
   @Test
   public void getSideByIdTest() {
-    final String TEST_SIDE_ID = "cheeseSticks";
 
-    assertEquals(sideService.getSideById(TEST_SIDE_ID), testSide);
-    assertEquals(sideService.getSideById(TEST_SIDE_ID).toString(), testSide.toString());
+    for (SideItem item : sideService.getAllSides()) {
+      System.err.println(item.toString());
+    }
+
+    final SideItem actualSide = sideService.getSideById(TEST_SIDE_ID);
+
+    assertEquals(testSide, actualSide);
+    assertEquals(testSide.toString(), actualSide.toString());
   }
 
   @Test
@@ -69,14 +74,5 @@ public class SideApiTest {
     assertEquals(testSide, testSide);
     assertNotEquals(testSide, testSide2);
     assertNotEquals(testSide, null);
-  }
-
-  @Test
-  public void statusCodeTest() {
-    int statusCodeOk = given().get("https://fierce-hamlet-19207.herokuapp.com/side").statusCode();
-    int statusCodeNotFound = given().get("https://fierce-hamlet-19207.herokuapp.com/sides").statusCode();
-
-    assertEquals(statusCodeOk, 200);
-    assertEquals(statusCodeNotFound, 404);
   }
 }

@@ -4,9 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import io.swagger.model.StoreItem;
 import java.util.List;
-import java.util.Optional;
 import javax.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
     date = "2019-09-26T03:54:46.062Z[GMT]")
 @Api(value = "stores", description = "the store API")
 
-/**
- * Interface for the Store API
- */
+/** Interface for the Store API */
 public interface StoreApi {
 
   /**
@@ -34,7 +30,7 @@ public interface StoreApi {
    * @param id id of requested StoreItem
    * @return specified StoreItem
    */
-  ResponseEntity<Optional<StoreItem>> getStoreById(@PathVariable String id);
+  ResponseEntity<StoreItem> getStoreById(@PathVariable String id);
 
   /**
    * Add a StoreItem.
@@ -49,8 +45,9 @@ public interface StoreApi {
    * Delete a StoreItem by id.
    *
    * @param id id of StoreItem to delete
-   * @return {@code HttpStatus.NO_CONTENT} if store successfully removed and
-   * {@code HttpStatus.NOT_FOUND} if id wasn't found.
+   * @return {@code HttpStatus.NO_CONTENT} if store successfully removed and {@code
+   *     HttpStatus.NOT_FOUND} if id wasn't found.
    */
-  HttpStatus deleteStore(@PathVariable String id);
+  ResponseEntity<Void> deleteStore(
+      @ApiParam(value = "StoreItem to delete") @PathVariable String id);
 }

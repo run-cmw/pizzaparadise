@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,72 +20,64 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class StoreApiController implements StoreApi {
 
-  @Autowired
-  private StoreService storeService;
+  @Autowired private StoreService storeService;
 
-  /**
-   * {@inheritDoc}
-   * HttpStatus.OK - if StoreItems are successfully found.
-   */
+  /** {@inheritDoc} HttpStatus.OK - if StoreItems are successfully found. */
   @GetMapping("/store")
   @ApiOperation(
       value = "Get all StoreItems",
       tags = {
-          "store",
+        "store",
       })
   public ResponseEntity<List<StoreItem>> getAllStores() {
     return new ResponseEntity<List<StoreItem>>(storeService.getAllStores(), HttpStatus.OK);
   }
 
   /**
-   * {@inheritDoc}
-   * HttpStatus.NOT_FOUND - if id is not found in database.
-   * HttpStatus.OK - if StoreItem is successfully found.
+   * {@inheritDoc} HttpStatus.NOT_FOUND - if id is not found in database. HttpStatus.OK - if
+   * StoreItem is successfully found.
    */
   @GetMapping("/store/{id}")
   @ApiOperation(
       value = "Get a specific StoreItem using id",
       tags = {
-          "store",
+        "store",
       })
   public ResponseEntity<StoreItem> getStoreById(@PathVariable String id) {
-    if (storeService.getStoreById(id) == null) {
-      return new ResponseEntity<StoreItem>(HttpStatus.NOT_FOUND);
+    Optional<StoreItem> storeItem = storeService.getStoreById(id);
+    if (storeItem.isPresent()) {
+      return new ResponseEntity<StoreItem>(storeItem.get(), HttpStatus.OK);
     }
-    return new ResponseEntity<StoreItem>(storeService.getStoreById(id), HttpStatus.OK);
+    return new ResponseEntity<StoreItem>(HttpStatus.NOT_FOUND);
   }
 
-  /**
-   * {@inheritDoc}
-   * HttpStatus.OK - if StoreItem is successfully added or updated.
-   */
-  @PostMapping("/store/add")
+  /** {@inheritDoc} HttpStatus.OK - if StoreItem is successfully added or updated. */
+  @PostMapping("/store")
   @ApiOperation(
       value = "Add a StoreItem",
       tags = {
-          "store",
+        "store",
       })
   public ResponseEntity<StoreItem> addStore(StoreItem newStore) {
-    return new ResponseEntity<StoreItem>(
-        storeService.addStore(newStore), HttpStatus.OK);
+    return new ResponseEntity<StoreItem>(storeService.addStore(newStore), HttpStatus.OK);
   }
 
   /**
-   * {@inheritDoc}
-   * HttpStatus.NOT_FOUND - if id is not found in database.
-   * HttpStatus.NO_CONTENT - if StoreItem is successfully removed.
+   * {@inheritDoc} HttpStatus.NOT_FOUND - if id is not found in database. HttpStatus.NO_CONTENT - if
+   * StoreItem is successfully removed.
    */
-  @DeleteMapping("/store/delete/{id}")
+  @DeleteMapping("/store/{id}")
   @ApiOperation(
       value = "Delete a StoreItem using id",
       tags = {
-          "store",
+        "store",
       })
   public ResponseEntity<Void> deleteStore(@PathVariable String id) {
-    if (storeService.getStoreById(id) == null) {
-      return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+    Optional<StoreItem> storeItem = storeService.getStoreById(id);
+    if (storeItem.isPresent()) {
+      storeService.deleteStore(id);
+      return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
-    storeService.deleteStore(id);
-    return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
   }
 }

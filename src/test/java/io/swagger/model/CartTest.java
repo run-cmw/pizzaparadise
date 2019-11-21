@@ -12,8 +12,6 @@ public class CartTest {
   private Cart cart3;
   private ObjectId id1;
 
-
-
   @Before
   public void setUp() {
     id1 = new ObjectId();
@@ -36,12 +34,10 @@ public class CartTest {
     Assert.assertFalse(cart1.getStoreID().equals(cart3.getStoreID()));
   }
 
-
   @Test
   public void getPriceTest() {
     Assert.assertEquals(cart1.getTotalAmount(), (Double) 0.00);
   }
-
 
   @Test
   public void getSideTest() {
@@ -58,7 +54,6 @@ public class CartTest {
     Assert.assertEquals(pizzas.size(), 1);
   }
 
-
   @Test
   public void equalTest() {
     Assert.assertFalse(cart1.equals(null));
@@ -70,10 +65,11 @@ public class CartTest {
 
   @Test
   public void toStringTest() {
-    Assert.assertEquals(cart1.toString(), "Cart{id='" + id1 +
-        "', list of pizza= []'," + " list of side= []', total price= 0.0}");
-
-
+    Assert.assertEquals(
+        "Cart{cartId='"
+            + id1
+            + "', storeId='brooklyn', list of pizza=[], list of side=[], total price=0.0, special applied=false}",
+        cart1.toString());
   }
 
   @Test
@@ -87,7 +83,5 @@ public class CartTest {
     Assert.assertEquals(test2.getTotalAmount(), (Double) 5.00);
 
     Assert.assertEquals(test2.getId(), id3.toHexString());
-
-
   }
 }

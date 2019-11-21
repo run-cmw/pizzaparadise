@@ -4,7 +4,6 @@ import io.swagger.annotations.*;
 import io.swagger.model.ToppingItem;
 import io.swagger.service.ToppingItemService;
 import java.util.List;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ToppingApiController implements ToppingApi {
 
-  @Autowired
-  private ToppingItemService toppingItemService;
+  @Autowired private ToppingItemService toppingItemService;
 
-  /**
-   * {@inheritDoc} HttpStatus.OK - if toppingItem is successfully found.
-   */
+  /** {@inheritDoc} HttpStatus.OK - if toppingItem is successfully found. */
   @GetMapping("/topping")
   @ApiOperation(
       value = "Get all ToppingItem",
       tags = {
-          "topping",
+        "topping",
       })
   @ApiResponse(code = 200, message = "OK")
   public ResponseEntity<List<ToppingItem>> getAllTopping() {
@@ -44,10 +40,13 @@ public class ToppingApiController implements ToppingApi {
   @ApiOperation(
       value = "Get ToppingItem with specific id",
       tags = {
-          "topping",
+        "topping",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 404, message = "NOT_FOUND")})
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 404, message = "NOT_FOUND")
+      })
   public ResponseEntity<ToppingItem> getToppingById(String id) {
     if (toppingItemService.getToppingById(id) == null) {
       return new ResponseEntity<ToppingItem>(HttpStatus.NOT_FOUND);
@@ -59,35 +58,40 @@ public class ToppingApiController implements ToppingApi {
    * {@inheritDoc} HttpStatus.OK - if topping is successfully created. HttpStatus.FORBIDDEN - if
    * there is already a toppingId in database
    */
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 403, message = "FORBIDDEN")})
-  @PostMapping("/topping/add")
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 403, message = "FORBIDDEN")
+      })
+  @PostMapping("/topping")
   @ApiOperation(
       value = "add a ToppingItem",
       tags = {
-          "topping",
+        "topping",
       })
   public ResponseEntity<ToppingItem> addTopping(ToppingItem toppingItem) {
     if (toppingItemService.getToppingById(toppingItem.getId()) != null) {
       return new ResponseEntity<ToppingItem>(HttpStatus.FORBIDDEN);
     }
-    return new ResponseEntity<ToppingItem>(toppingItemService.addTopping(toppingItem),
-        HttpStatus.OK);
+    return new ResponseEntity<ToppingItem>(
+        toppingItemService.addTopping(toppingItem), HttpStatus.OK);
   }
 
   /**
    * {@inheritDoc} HttpStatus.NOT_FOUND - if toppingId is not found from database.
    * HttpStatus.NO_CONTENT - if toppingItem is successfully removed.
    */
-  @DeleteMapping("/topping/delete/{id}")
+  @DeleteMapping("/topping/{id}")
   @ApiOperation(
       value = "delete a ToppingItem with id",
       tags = {
-          "topping",
+        "topping",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code = 204, message = "NO_CONTENT"),
-      @ApiResponse(code = 404, message = "NOT_FOUND")})
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 204, message = "NO_CONTENT"),
+        @ApiResponse(code = 404, message = "NOT_FOUND")
+      })
   public HttpStatus deleteTopping(String id) {
 
     if (toppingItemService.getToppingById(id) == null) {
@@ -95,6 +99,5 @@ public class ToppingApiController implements ToppingApi {
     }
     toppingItemService.deleteTopping(id);
     return HttpStatus.NO_CONTENT;
-
   }
 }

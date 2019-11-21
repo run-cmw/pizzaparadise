@@ -24,14 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CartApiController implements CartApi {
 
-  @Autowired
-  private CartService cartService;
-  @Autowired
-  private PizzaSizeService sizeService;
-  @Autowired
-  private SideService sideService;
-  @Autowired
-  private StoreService storeService;
+  @Autowired private CartService cartService;
+  @Autowired private PizzaSizeService sizeService;
+  @Autowired private SideService sideService;
+  @Autowired private StoreService storeService;
 
   /**
    * {@inheritDoc} HttpStatus.NOT_FOUND - if storeId and cartId are not matching. HttpStatus.OK - if
@@ -41,7 +37,7 @@ public class CartApiController implements CartApi {
   @ApiOperation(
       value = "Get all items in the cart with specific id.",
       tags = {
-          "cart",
+        "cart",
       })
   public ResponseEntity<Cart> getCartItemsById(String storeId, String cartId) {
     if (cartService.getCartItemsById(storeId, cartId) == null) {
@@ -58,18 +54,21 @@ public class CartApiController implements CartApi {
   @ApiOperation(
       value = "Get price of all items in the cart with specific id.",
       tags = {
-          "cart",
+        "cart",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=200, message = "OK"), @ApiResponse(code=404, message = "NOT_FOUND")})
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 404, message = "NOT_FOUND")
+      })
   public ResponseEntity<PriceResponse> getPriceOfCartById(String storeId, String cartId) {
     if (cartService.getCartItemsById(storeId, cartId) == null) {
       PriceResponse response = new PriceResponse(false, null, null);
       return new ResponseEntity<PriceResponse>(response, HttpStatus.NOT_FOUND);
     }
 
-    return new ResponseEntity<PriceResponse>(cartService.getTotalAmountInCart(cartId),
-        HttpStatus.OK);
+    return new ResponseEntity<PriceResponse>(
+        cartService.getTotalAmountInCart(cartId), HttpStatus.OK);
   }
 
   /**
@@ -77,17 +76,26 @@ public class CartApiController implements CartApi {
    * pizzaSizeId is not found. HttpStatus.NOT_FOUND - if the store's gluten setting does not match
    * with given gluten. HttpStatus.CREATED - if pizza was successfully added to Cart.
    */
-  @PostMapping("/store/{storeId}/cart/{cartId}/add/pizza")
+  @PostMapping("/store/{storeId}/cart/{cartId}/pizza")
   @ApiOperation(
       value = "add pizza to the specific cart.",
       tags = {
-          "cart",
+        "cart",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=201, message = "CREATED"), @ApiResponse(code=404, message = "NOT_FOUND")})
-  public ResponseEntity<CartAddResponse> addPizzaToCart(String storeId, String cartId,
-      String sizeId, boolean gluten,
-      String topping1, String topping2, String topping3, String topping4) {
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 201, message = "CREATED"),
+        @ApiResponse(code = 404, message = "NOT_FOUND")
+      })
+  public ResponseEntity<CartAddResponse> addPizzaToCart(
+      String storeId,
+      String cartId,
+      String sizeId,
+      boolean gluten,
+      String topping1,
+      String topping2,
+      String topping3,
+      String topping4) {
     CartAddResponse response;
     String message;
     if (storeService.getStoreById(storeId) == null) {
@@ -101,30 +109,33 @@ public class CartApiController implements CartApi {
       return new ResponseEntity<CartAddResponse>(response, HttpStatus.NOT_FOUND);
     }
 
-    response = cartService.addPizzaToCart(storeId, cartId, sizeId, gluten, topping1, topping2,
-        topping3, topping4);
+    response =
+        cartService.addPizzaToCart(
+            storeId, cartId, sizeId, gluten, topping1, topping2, topping3, topping4);
     if (response.getSuccess() == false) {
       return new ResponseEntity<CartAddResponse>(response, HttpStatus.NOT_FOUND);
     } else {
       return new ResponseEntity<CartAddResponse>(response, HttpStatus.CREATED);
     }
-
   }
 
   /**
    * {@inheritDoc} HttpStatus.NOT_FOUND - if the storeId is not found. HttpStatus.NOT_FOUND - if the
    * sideId is not found. HttpStatus.CREATED - if side was successfully added to Cart.
    */
-  @PostMapping("/store/{storeId}/cart/{cartId}/add/side")
+  @PostMapping("/store/{storeId}/cart/{cartId}/side")
   @ApiOperation(
       value = "add side to the specific cart.",
       tags = {
-          "cart",
+        "cart",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=201, message = "CREATED"), @ApiResponse(code=404, message = "NOT_FOUND")})
-  public ResponseEntity<CartAddResponse> addSideToCart(String storeId, String cartId,
-      String sideId) {
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 201, message = "CREATED"),
+        @ApiResponse(code = 404, message = "NOT_FOUND")
+      })
+  public ResponseEntity<CartAddResponse> addSideToCart(
+      String storeId, String cartId, String sideId) {
     CartAddResponse response;
     String message;
     if (storeService.getStoreById(storeId) == null) {
@@ -139,22 +150,23 @@ public class CartApiController implements CartApi {
     }
     response = cartService.addSideToCart(storeId, cartId, sideId);
     return new ResponseEntity<CartAddResponse>(response, HttpStatus.CREATED);
-
   }
 
   /**
    * {@inheritDoc} HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
    * HttpStatus.NO_CONTENT - if cartId is successfully removed.
    */
-  @DeleteMapping("store/{storeId}/cart/{cartId}/delete")
+  @DeleteMapping("store/{storeId}/cart/{cartId}")
   @ApiOperation(
       value = "Delete a Cart with id.",
       tags = {
-          "cart",
+        "cart",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=204, message = "NO_CONTENT"),
-      @ApiResponse(code=404, message = "NOT_FOUND")})
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 204, message = "NO_CONTENT"),
+        @ApiResponse(code = 404, message = "NOT_FOUND")
+      })
   public HttpStatus deleteCart(String storeId, String cartId) {
     if (cartService.getCartItemsById(storeId, cartId) == null) {
       return HttpStatus.NOT_FOUND;
@@ -167,15 +179,17 @@ public class CartApiController implements CartApi {
    * HttpStatus.NOT_FOUND - if the sideId is not found. HttpStatus.NO_CONTENT - if side is
    * successfully removed from Cart.
    */
-  @DeleteMapping("store/{storeId}/cart/{cartId}/delete/side")
+  @DeleteMapping("store/{storeId}/cart/{cartId}/side")
   @ApiOperation(
       value = "Delete a sideItem from a Cart with id.",
       tags = {
-          "cart",
+        "cart",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=204, message = "NO_CONTENT"),
-      @ApiResponse(code=404, message = "NOT_FOUND")})
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 204, message = "NO_CONTENT"),
+        @ApiResponse(code = 404, message = "NOT_FOUND")
+      })
   public HttpStatus deleteSideFromCart(String storeId, String cartId, String sideId) {
     if (cartService.getCartItemsById(storeId, cartId) == null) {
       return HttpStatus.NOT_FOUND;
@@ -184,7 +198,6 @@ public class CartApiController implements CartApi {
       return HttpStatus.NOT_FOUND;
     }
     return cartService.deleteSideFromCart(cartId, sideId);
-
   }
 
   /**
@@ -192,16 +205,18 @@ public class CartApiController implements CartApi {
    * HttpStatus.BAD_REQUEST - if given pizzaIndex is less than 0. HttpStatus.NO_CONTENT - if side is
    * successfully removed from Cart.
    */
-  @DeleteMapping("store/{storeId}/cart/{cartId}/delete/pizza")
+  @DeleteMapping("store/{storeId}/cart/{cartId}/pizza")
   @ApiOperation(
       value = "Delete a pizza from a Cart with index number(starting zero).",
       tags = {
-          "cart",
+        "cart",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=204, message = "NO_CONTENT"),
-      @ApiResponse(code=400, message = "BAD_REQUEST"),
-      @ApiResponse(code=404, message = "NOT_FOUND")})
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 204, message = "NO_CONTENT"),
+        @ApiResponse(code = 400, message = "BAD_REQUEST"),
+        @ApiResponse(code = 404, message = "NOT_FOUND")
+      })
   public HttpStatus deletePizzaFromCart(String storeId, String cartId, Integer pizzaIndex) {
     if (cartService.getCartItemsById(storeId, cartId) == null) {
       return HttpStatus.NOT_FOUND;
@@ -211,5 +226,4 @@ public class CartApiController implements CartApi {
     }
     return cartService.deletePizzaFromCart(cartId, pizzaIndex);
   }
-
 }

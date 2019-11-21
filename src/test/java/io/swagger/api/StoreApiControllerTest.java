@@ -1,10 +1,14 @@
 package io.swagger.api;
 
-import static com.jayway.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
+
+import io.swagger.model.StoreItem;
+import io.swagger.repository.StoreItemRepository;
+import io.swagger.service.StoreService;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.Before;
@@ -14,30 +18,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import io.swagger.model.StoreItem;
-import io.swagger.repository.StoreItemRepository;
-import io.swagger.service.StoreService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class StoreApiControllerTest {
-  @Autowired
-  private StoreService storeService;
+  final String TEST_STORE_ID = "moonglow";
+  private final StoreItem TEST_STORE_1 =
+      new StoreItem(TEST_STORE_ID, "999 Moonglow Ave", "Emeryville", "California", "70802", true);
+  private final StoreItem TEST_STORE_2 =
+      new StoreItem("plank", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105", false);
 
-  @MockBean
-  private StoreItemRepository storeItemRepository;
-  private StoreItem testStore;
-  private StoreItem testStore2;
+  @Autowired private StoreService storeService;
+
+  @MockBean private StoreItemRepository storeItemRepository;
 
   @Before
   public void setUp() {
-    testStore = new StoreItem("moonglow", "999 Moonglow Ave", "Emeryville", "California", "70802", true);
-    testStore2 = new StoreItem("plank", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105", false);
+    when(storeItemRepository.findAll())
+        .thenReturn(Stream.of(TEST_STORE_1, TEST_STORE_2).collect(Collectors.toList()));
 
-    when(storeItemRepository.findAll()).thenReturn(Stream.of(
-        testStore,
-        testStore2
-    ).collect(Collectors.toList()));
+    when(storeItemRepository.findById(TEST_STORE_ID)).thenReturn(Optional.of(TEST_STORE_1));
   }
 
   @Test
@@ -48,13 +48,10 @@ public class StoreApiControllerTest {
 
   @Test
   public void getStoreByIdTest() {
-    final String TEST_STORE_ID = "moonglow";
-    final String TEST_STORE2_ID = "plank";
 
-    assertEquals((storeService.getStoreById(TEST_STORE_ID)), testStore);
-    assertEquals((storeService.getStoreById(TEST_STORE2_ID)), testStore2);
-    assertEquals((storeService.getStoreById(TEST_STORE_ID).toString()), testStore.toString());
-    assertEquals((storeService.getStoreById(TEST_STORE2_ID).toString()), testStore2.toString());
+    final StoreItem actualStore = storeService.getStoreById(TEST_STORE_ID).get();
+
+    assertEquals(TEST_STORE_1, actualStore);
   }
 
   @Test
@@ -66,17 +63,8 @@ public class StoreApiControllerTest {
 
   @Test
   public void equalityTest() {
-    assertEquals(testStore, testStore);
-    assertNotEquals(testStore, testStore2);
-    assertNotEquals(testStore, null);
-  }
-
-  @Test
-  public void statusCodeTest() {
-    int statusCodeOk = given().get("https://fierce-hamlet-19207.herokuapp.com/store").statusCode();
-    int statusCodeNotFound = given().get("https://fierce-hamlet-19207.herokuapp.com/stores").statusCode();
-
-    assertEquals(statusCodeOk, 200);
-    assertEquals(statusCodeNotFound, 404);
+    assertEquals(TEST_STORE_1, TEST_STORE_1);
+    assertNotEquals(TEST_STORE_1, TEST_STORE_2);
+    assertNotEquals(TEST_STORE_1, null);
   }
 }

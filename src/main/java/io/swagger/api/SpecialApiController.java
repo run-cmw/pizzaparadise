@@ -18,22 +18,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SpecialApiController implements SpecialApi {
 
-  @Autowired
-  private SpecialItemService specialItemService;
+  @Autowired private SpecialItemService specialItemService;
 
-  /**
-   * {@inheritDoc} HttpStatus.OK - if specialItem is successfully found.
-   */
+  /** {@inheritDoc} HttpStatus.OK - if specialItem is successfully found. */
   @GetMapping("/special")
   @ApiOperation(
       value = "Get all SpecialItems",
       tags = {
-          "special",
+        "special",
       })
   @ApiResponse(code = 200, message = "OK")
   public ResponseEntity<List<SpecialItem>> getAllSpecials() {
-    return new ResponseEntity<List<SpecialItem>>(specialItemService.getAllSpecials(),
-        HttpStatus.OK);
+    return new ResponseEntity<List<SpecialItem>>(
+        specialItemService.getAllSpecials(), HttpStatus.OK);
   }
 
   /**
@@ -44,10 +41,13 @@ public class SpecialApiController implements SpecialApi {
   @ApiOperation(
       value = "Get SpecialItem with specific id",
       tags = {
-          "special",
+        "special",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 404, message = "NOT_FOUND")})
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 404, message = "NOT_FOUND")
+      })
   public ResponseEntity<SpecialItem> getSpecialById(String id) {
     if (specialItemService.getSpecialById(id) == null) {
       return new ResponseEntity<SpecialItem>(HttpStatus.NOT_FOUND);
@@ -59,14 +59,16 @@ public class SpecialApiController implements SpecialApi {
    * {@inheritDoc} HttpStatus.CREATED - if special is created. HttpStatus.FORBIDDEN - if there is
    * already a specialId in database
    */
-  @ApiResponses(value = {
-      @ApiResponse(code = 201, message = "CREATED"),
-      @ApiResponse(code = 403, message = "FORBIDDEN")})
-  @PostMapping("/special/add")
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 201, message = "CREATED"),
+        @ApiResponse(code = 403, message = "FORBIDDEN")
+      })
+  @PostMapping("/special")
   @ApiOperation(
       value = "add a SpecialItem",
       tags = {
-          "special",
+        "special",
       })
   public ResponseEntity<SpecialItem> addSpecial(String specialId, String name, String description) {
     if (specialItemService.getSpecialById(specialId) != null) {
@@ -80,15 +82,17 @@ public class SpecialApiController implements SpecialApi {
    * {@inheritDoc} HttpStatus.NOT_FOUND - if specialId is not found from database.
    * HttpStatus.NO_CONTENT - if specialItem is successfully removed.
    */
-  @DeleteMapping("/special/delete/{id}")
+  @DeleteMapping("/special/{id}")
   @ApiOperation(
       value = "delete a SpecialItem with id",
       tags = {
-          "special",
+        "special",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code = 204, message = "NO_CONTENT"),
-      @ApiResponse(code = 404, message = "NOT_FOUND")})
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 204, message = "NO_CONTENT"),
+        @ApiResponse(code = 404, message = "NOT_FOUND")
+      })
   public HttpStatus deleteSpecial(String id) {
 
     if (specialItemService.getSpecialById(id) == null) {
@@ -96,7 +100,5 @@ public class SpecialApiController implements SpecialApi {
     }
     specialItemService.deleteSpecial(id);
     return HttpStatus.NO_CONTENT;
-
   }
-
 }

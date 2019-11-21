@@ -9,9 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 
-/**
- * Cart class
- */
+/** Cart class */
 @Validated
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
@@ -23,14 +21,19 @@ public class Cart {
   @Id
   @JsonProperty("CartID")
   private ObjectId id;
+
   @JsonProperty("List of Pizzas")
   private List<Pizza> pizzas;
+
   @JsonProperty("List of Sides")
   private List<String> sides;
+
   @JsonProperty("StoreID")
   private String storeID;
+
   @JsonProperty("Total Price")
   private Double totalAmount;
+
   @JsonProperty("Special Applied")
   private boolean specialApplied;
 
@@ -140,7 +143,6 @@ public class Cart {
     this.specialApplied = applied;
   }
 
-
   /**
    * String representation of this Cart.
    *
@@ -149,12 +151,20 @@ public class Cart {
   @Override
   public String toString() {
     return "Cart{"
-        + "cartId='" + id + '\''
-        + "storeId='" + storeID + '\''
-        + ", list of pizza= " + pizzas.toString() + '\''
-        + ", list of side= " + sides.toString() + '\''
-        + ", total price= " + totalAmount + '\''
-        + "special applied= " + specialApplied
+        + "cartId='"
+        + id
+        + '\''
+        + ", storeId='"
+        + storeID
+        + '\''
+        + ", list of pizza="
+        + pizzas.toString()
+        + ", list of side="
+        + sides.toString()
+        + ", total price="
+        + totalAmount
+        + ", special applied="
+        + specialApplied
         + '}';
   }
 
@@ -173,9 +183,10 @@ public class Cart {
       return false;
     }
     Cart cart = (Cart) obj;
-    return cart.getSides().equals(this.sides) && cart.getStoreID().equals(this.storeID)
-        && cart.getPizzas().equals(this.pizzas) && cart.getId().equals(this.id)
+    return cart.getSides().equals(this.sides)
+        && cart.getStoreID().equals(this.storeID)
+        && cart.getPizzas().equals(this.pizzas)
+        && cart.getId().equals(this.id)
         && cart.getTotalAmount().equals(this.totalAmount);
   }
-
 }

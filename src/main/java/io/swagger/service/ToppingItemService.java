@@ -3,15 +3,14 @@ package io.swagger.service;
 import io.swagger.model.ToppingItem;
 import io.swagger.repository.ToppingItemRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ToppingItemService {
 
-  @Autowired
-  public ToppingItemRepository toppingItemRepository;
-
+  @Autowired public ToppingItemRepository toppingItemRepository;
 
   /**
    * Get all Topping Items
@@ -29,8 +28,11 @@ public class ToppingItemService {
    * @return the toppingItem that matches with id.
    */
   public ToppingItem getToppingById(String id) {
-    ToppingItem topping = toppingItemRepository.findById(id).get();
-    return topping;
+    Optional<ToppingItem> topping = toppingItemRepository.findById(id);
+    if (!topping.isPresent()) {
+      return null;
+    }
+    return topping.get();
   }
 
   /**
@@ -42,7 +44,6 @@ public class ToppingItemService {
     toppingItemRepository.save(toppingItem);
     return toppingItem;
   }
-
 
   /**
    * Delete topping by id from database
