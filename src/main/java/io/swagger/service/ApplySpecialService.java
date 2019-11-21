@@ -1,5 +1,6 @@
 package io.swagger.service;
 
+import io.swagger.Message;
 import io.swagger.model.ApplySpecialResponse;
 import io.swagger.model.Cart;
 import io.swagger.model.Pizza;
@@ -20,16 +21,6 @@ public class ApplySpecialService {
   private static final String FREE_PIZZA = "buy1get1free";
   private static final String FREE_SODA = "buy1PizzaGetSodaFree";
 
-  private static final String ERROR_DISCOUNT_30_PERCENT =
-      "ERROR_CART_MUST_CONTAIN_TWO_LARGE_TOPPINGLESS_PIZZAS";
-  private static final String ERROR_FREE_PIZZA = "ERROR_CART_MUST_CONTAIN_TWO_OR_MORE_PIZZAS";
-  private static final String ERROR_FREE_SODA =
-      "ERROR_CART_MUST_CONTAIN_ONE_OR_MORE_PIZZAS_AND_DRINKS";
-  private static final String ERROR_INVALID_SPECIAL = "ERROR_INVALID_SPECIAL";
-  private static final String ERROR_NO_CART = "ERROR_CART_NOT_AT_STORE";
-  private static final String ERROR_ONE_SPECIAL = "ERROR_ONLY_ONE_SPECIAL_PER_CART";
-  private static final String ERROR_UNIMPLEMENTED_SPECIAL = "ERROR_SPECIAL_NOT_IMPLEMENTED";
-
   @Autowired
   private CartRepository cartRepository;
 
@@ -42,6 +33,9 @@ public class ApplySpecialService {
   @Autowired
   private SideService sideService;
 
+  @Autowired
+  private PizzaService pizzaService;
+
   /**
    * Apply the specified special to the given store and cart.
    *
@@ -53,27 +47,28 @@ public class ApplySpecialService {
       throws Exception {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
 
-    if (cart.isSpecialApplied()) {
-      throw new Exception(ERROR_ONE_SPECIAL);
+    // Check if valid special, if cart is at store, and if special has been applied to cart.
+    if(!checkSpecial(specialId)) {
+      throw new Exception(Message.ERROR_INVALID_SPECIAL); // return nul?????
     }
 
     if (!checkCartAtStore(cartId, storeId)) {
-      throw new Exception(ERROR_NO_CART);
+      throw new Exception(Message.ERROR_NO_CART);
     }
 
-    if (checkSpecial(specialId)) {
-      switch (specialId) {
-      case FREE_PIZZA:
-        return applyBuy1Get1Special(storeId, cartId);
-      case DISCOUNT_30_PERCENT:
-        return apply30PercentOffSpecial(storeId, cartId);
-      case FREE_SODA:
-        return applyFreeSodaSpecial(storeId, cartId);
-      default:
-        throw new Exception(ERROR_UNIMPLEMENTED_SPECIAL);
-      }
-    } else {
-      throw new Exception(ERROR_INVALID_SPECIAL);
+    if (cart.isSpecialApplied()) {
+      throw new Exception(Message.ERROR_ONE_SPECIAL);
+    }
+
+    switch (specialId) {
+    case FREE_PIZZA:
+      return applyBuy1Get1Special(storeId, cartId);
+    case DISCOUNT_30_PERCENT:
+      return apply30PercentOffSpecial(storeId, cartId);
+    case FREE_SODA:
+      return applyFreeSodaSpecial(storeId, cartId);
+    default:
+      throw new Exception(Message.ERROR_UNIMPLEMENTED_SPECIAL);
     }
   }
 
@@ -84,7 +79,7 @@ public class ApplySpecialService {
    * @return {@code true} if the id is a valid special and {@code false}
    *         otherwise.
    */
-  protected boolean checkSpecial(String specialId) {
+  private boolean checkSpecial(String specialId) {
     return specialItemRepository.existsById(specialId);
   }
 
@@ -96,7 +91,7 @@ public class ApplySpecialService {
    * @return {@code true} if the cart exists at the particular store and
    *         {@code false} otherwise.
    */
-  protected boolean checkCartAtStore(String cartId, String storeId) {
+  private boolean checkCartAtStore(String cartId, String storeId) {
     for (Cart cart : cartRepository.findAll()) {
       if (cart.getId().equals(cartId) && cart.getStoreID().equals(storeId)) {
         return true;
@@ -111,7 +106,8 @@ public class ApplySpecialService {
    * @param storeId id of the store that the cart belongs to
    * @param cartId  id of the cart receiving the special
    */
-  protected ApplySpecialResponse applyBuy1Get1Special(String storeId, String cartId) throws Exception {
+  private ApplySpecialResponse applyBuy1Get1Special(String storeId, String cartId)
+      throws Exception { // !!! CHANGE TO IOException and remove execption in method!!!
     ApplySpecialResponse applySpecialResponse = new ApplySpecialResponse(FREE_PIZZA);
     Cart cart = cartService.getCartItemsById(storeId, cartId);
     List<Pizza> pizzas = cart.getPizzas();
@@ -120,31 +116,36 @@ public class ApplySpecialService {
     double highestCostPizzaPrice = 0.00;
     double secondHighestCostPizzaPrice = 0.00;
 
-    if (pizzas.size() > 1) {
-      // Find highest cost pizza.
-      for (Pizza pizza : pizzas) {
-        if (pizza.getPrice() > highestCostPizzaPrice) {
-          highestCostPizza = pizza;
-          highestCostPizzaPrice = highestCostPizza.getPrice();
-        }
-      }
-
-      // Find second highest cost pizza.
-      for (Pizza pizza : pizzas) {
-        if (!pizza.equals(highestCostPizza) && pizza.getPrice() > secondHighestCostPizzaPrice) {
-          secondHighestCostPizza = pizza;
-          secondHighestCostPizzaPrice = secondHighestCostPizza.getPrice();
-        }
-      }
-      // Make price of pizza of equal or lesser value free.
-      applySpecialResponse.setSavings(secondHighestCostPizza.getPrice());
-      secondHighestCostPizza.setPrice(0.00);
-      cart.setSpecialApplied(true);
-      cartRepository.save(cart);
-      applySpecialResponse.setSuccess(true);
-    } else {
-      throw new Exception(ERROR_FREE_PIZZA);
+    // Check if at least two pizzas are in cart.
+    if(pizzas.size() < 2) {
+      throw new Exception(Message.ERROR_FREE_PIZZA); // !!!! return null??
     }
+
+
+    // Find highest cost pizza.
+    for (Pizza pizza : pizzas) {
+      if (pizzaService.getPizzaPrice(pizza) > highestCostPizzaPrice) {
+        highestCostPizza = pizza;
+        highestCostPizzaPrice = pizzaService.getPizzaPrice(highestCostPizza);
+      }
+    }
+
+    // Find second highest cost pizza.
+    for (Pizza pizza : pizzas) {
+      if (!pizza.equals(highestCostPizza) && pizzaService.getPizzaPrice(pizza)
+          > secondHighestCostPizzaPrice) {
+        secondHighestCostPizza = pizza;
+        secondHighestCostPizzaPrice = pizzaService.getPizzaPrice(secondHighestCostPizza);
+      }
+    }
+    // Reduce cart price by the price of the second highest cost pizza (which will now be free).
+    Double savings = pizzaService.getPizzaPrice(secondHighestCostPizza);
+    applySpecialResponse.setSavings(savings);
+    cart.setTotalAmount(cart.getTotalAmount() - savings);
+    cart.setSpecialApplied(true);
+    cartRepository.save(cart);
+    applySpecialResponse.setSuccess(true);
+
     return applySpecialResponse;
   }
 
@@ -153,9 +154,9 @@ public class ApplySpecialService {
    *
    * @param cartId Id of cart being checked for special
    */
-  protected ApplySpecialResponse apply30PercentOffSpecial(String storeId, String cartId) throws Exception {
+  private ApplySpecialResponse apply30PercentOffSpecial(String storeId, String cartId)
+      throws Exception {
     ApplySpecialResponse applySpecialResponse = new ApplySpecialResponse(DISCOUNT_30_PERCENT);
-
     Cart cart = cartService.getCartItemsById(storeId, cartId);
     List<Pizza> pizzas = cart.getPizzas();
     List<Pizza> largePizzas = new ArrayList<>();
@@ -166,23 +167,24 @@ public class ApplySpecialService {
 
     // Put large toppingless pizzas in list.
     for (Pizza pizza : pizzas) {
-      if (pizza.getSizeID().equals(LARGE_PIZZA) && pizza.getToppingCount() == 0) {
+      if (pizza.getSizeID().equals(LARGE_PIZZA) && pizza.getToppingIDs().size() == 0) {
         largePizzas.add(pizza);
       }
     }
 
-    // Verify at least two large pizzas with no toppings.
-    if (largePizzas.size() >= 2) {
-      // Reduce price of cart by 30%.
-      newCartPrice = oldCartPrice * THIRTY_PERCENT_OFF;
-      cart.setTotalAmount(newCartPrice);
-      applySpecialResponse.setSavings(oldCartPrice - newCartPrice);
-      cart.setSpecialApplied(true);
-      cartRepository.save(cart);
-      applySpecialResponse.setSuccess(true);
-    } else {
-      throw new Exception(ERROR_DISCOUNT_30_PERCENT);
+    // Verify there are at least two large pizzas with no toppings.
+    if(largePizzas.size() < 2) {
+      throw new Exception(Message.ERROR_DISCOUNT_30_PERCENT); // return nul????????
     }
+
+    // Reduce price of cart by 30%.
+    newCartPrice = oldCartPrice * THIRTY_PERCENT_OFF;
+    cart.setTotalAmount(newCartPrice);
+    applySpecialResponse.setSavings(oldCartPrice - newCartPrice);
+    cart.setSpecialApplied(true);
+    cartRepository.save(cart);
+    applySpecialResponse.setSuccess(true);
+
     return applySpecialResponse;
   }
 
@@ -192,9 +194,9 @@ public class ApplySpecialService {
    * @param sides list of side items
    * @return {@code true} if the list contains a drink and {@code false} otherwise.
    */
-  private boolean hasDrink(List<SideItem> sides) {
-    for(SideItem side : sides) {
-      if (side.getType() == SideItem.TYPE_DRINK) {
+  private boolean hasDrink(List<String> sides) {
+    for(String sideId : sides) {
+      if (sideService.getSideById(sideId).get().getType() == SideItem.TYPE_DRINK) {
         return true;
       }
     }
@@ -206,33 +208,36 @@ public class ApplySpecialService {
    *
    * @param cartId Id of cart being checked for special
    */
-  protected ApplySpecialResponse applyFreeSodaSpecial(String storeId, String cartId) throws Exception {
+  private ApplySpecialResponse applyFreeSodaSpecial(String storeId, String cartId)
+      throws Exception {
     ApplySpecialResponse applySpecialResponse = new ApplySpecialResponse(FREE_SODA);
-
     Cart cart = cartService.getCartItemsById(storeId, cartId);
     List<Pizza> pizzas = cart.getPizzas();
-    List<SideItem> sides = new ArrayList<>();
+    List<String> sides = cart.getSides();
+    List<String> drinks = new ArrayList<>();
     double oldCartPrice = cart.getTotalAmount();
     double highestCostDrinkPrice = 0.00;
 
-    for (String sideId : cart.getSides()) {
-      sides.add(sideService.getSideById(sideId));
+    // Check that the cart contains at least one pizza and one drink.
+    if (pizzas.size() < 1 || !hasDrink(sides)) {
+      throw new Exception(Message.ERROR_FREE_SODA); // return nul??
     }
 
-    if (pizzas.size() == 0 || !hasDrink(sides)) {
-      throw new Exception(ERROR_FREE_SODA);
+    // Add drinks to a list.
+    for (String sideId : sides) {
+      if(sideService.getSideById(sideId).get().getType() == SideItem.TYPE_DRINK)
+      drinks.add(sideId);
     }
 
-    for (SideItem side : sides) {
+    // Find highest cost drink.
+    for (String drinkId : drinks) {
       // Find highest cost drink price
-      Double price = side.getPrice();
+      Double price = sideService.getSideById(drinkId).get().getPrice();
       if (price > highestCostDrinkPrice) {
         highestCostDrinkPrice = price;
       }
     }
-    // Make price of drink free. Must subtract price of drink from cart total bc cart design does
-    // not have side prices. We want to change the price of the cart's side, not change the price
-    // of the actual SideItem in the database with setPrice().
+    // Reduce cart price by the price of the highest cost drink (which will now be free).
     applySpecialResponse.setSavings(highestCostDrinkPrice);
     double newCartPrice = oldCartPrice - highestCostDrinkPrice;
     cart.setTotalAmount(newCartPrice);
