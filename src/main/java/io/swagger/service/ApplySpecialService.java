@@ -1,6 +1,5 @@
 package io.swagger.service;
 
-import io.swagger.Message;
 import io.swagger.model.ApplySpecialResponse;
 import io.swagger.model.Cart;
 import io.swagger.model.Pizza;
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ApplySpecialService {
   private static final String DISCOUNT_30_PERCENT = "buy2LargePizzaNoTopping";
-  private static final String FREE_PIZZA = "buy1get1free";
+  private static final String FREE_PIZZA = "buy1Get1Free";
   private static final String FREE_SODA = "buy1PizzaGetSodaFree";
 
   @Autowired
@@ -42,22 +41,23 @@ public class ApplySpecialService {
    * @param specialId id of the special being requested
    * @param storeId id of the store that the cart belongs to
    * @param cartId  id of the cart receiving the special
+   * @throws Exception through applyBuy1Get1Special()'s getPizzaPrice() if invalid topping
    */
-  public ApplySpecialResponse applySpecial(String specialId, String storeId, String cartId)
+  public ApplySpecialResponse applySpecial(String specialId, String storeId, String cartId) 
       throws Exception {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
 
     // Check if valid special, if cart is at store, and if special has been applied to cart.
     if(!checkSpecial(specialId)) {
-      throw new Exception(Message.ERROR_INVALID_SPECIAL); // return nul?????
+      return null;
     }
 
     if (!checkCartAtStore(cartId, storeId)) {
-      throw new Exception(Message.ERROR_NO_CART);
+      return null;
     }
 
     if (cart.isSpecialApplied()) {
-      throw new Exception(Message.ERROR_ONE_SPECIAL);
+      return null;
     }
 
     switch (specialId) {
@@ -68,7 +68,7 @@ public class ApplySpecialService {
     case FREE_SODA:
       return applyFreeSodaSpecial(storeId, cartId);
     default:
-      throw new Exception(Message.ERROR_UNIMPLEMENTED_SPECIAL);
+      return null;
     }
   }
 
@@ -79,7 +79,7 @@ public class ApplySpecialService {
    * @return {@code true} if the id is a valid special and {@code false}
    *         otherwise.
    */
-  private boolean checkSpecial(String specialId) {
+  public boolean checkSpecial(String specialId) {
     return specialItemRepository.existsById(specialId);
   }
 
@@ -91,7 +91,7 @@ public class ApplySpecialService {
    * @return {@code true} if the cart exists at the particular store and
    *         {@code false} otherwise.
    */
-  private boolean checkCartAtStore(String cartId, String storeId) {
+  public boolean checkCartAtStore(String cartId, String storeId) {
     for (Cart cart : cartRepository.findAll()) {
       if (cart.getId().equals(cartId) && cart.getStoreID().equals(storeId)) {
         return true;
@@ -105,9 +105,10 @@ public class ApplySpecialService {
    *
    * @param storeId id of the store that the cart belongs to
    * @param cartId  id of the cart receiving the special
+   * @throws Exception through getPizzaPrice(Pizza pizza) if invalid topping.
    */
-  private ApplySpecialResponse applyBuy1Get1Special(String storeId, String cartId)
-      throws Exception { // !!! CHANGE TO IOException and remove execption in method!!!
+  public ApplySpecialResponse applyBuy1Get1Special(String storeId, String cartId)
+      throws Exception {
     ApplySpecialResponse applySpecialResponse = new ApplySpecialResponse(FREE_PIZZA);
     Cart cart = cartService.getCartItemsById(storeId, cartId);
     List<Pizza> pizzas = cart.getPizzas();
@@ -116,9 +117,9 @@ public class ApplySpecialService {
     double highestCostPizzaPrice = 0.00;
     double secondHighestCostPizzaPrice = 0.00;
 
-    // Check if at least two pizzas are in cart.
+    // Verify there are at least two pizzas in cart.
     if(pizzas.size() < 2) {
-      throw new Exception(Message.ERROR_FREE_PIZZA); // !!!! return null??
+      return null;
     }
 
 
@@ -154,8 +155,7 @@ public class ApplySpecialService {
    *
    * @param cartId Id of cart being checked for special
    */
-  private ApplySpecialResponse apply30PercentOffSpecial(String storeId, String cartId)
-      throws Exception {
+  public ApplySpecialResponse apply30PercentOffSpecial(String storeId, String cartId) {
     ApplySpecialResponse applySpecialResponse = new ApplySpecialResponse(DISCOUNT_30_PERCENT);
     Cart cart = cartService.getCartItemsById(storeId, cartId);
     List<Pizza> pizzas = cart.getPizzas();
@@ -174,7 +174,7 @@ public class ApplySpecialService {
 
     // Verify there are at least two large pizzas with no toppings.
     if(largePizzas.size() < 2) {
-      throw new Exception(Message.ERROR_DISCOUNT_30_PERCENT); // return nul????????
+      return null;
     }
 
     // Reduce price of cart by 30%.
@@ -196,7 +196,7 @@ public class ApplySpecialService {
    */
   private boolean hasDrink(List<String> sides) {
     for(String sideId : sides) {
-      if (sideService.getSideById(sideId).get().getType() == SideItem.TYPE_DRINK) {
+      if (sideService.getSideById(sideId).get().getType().equals(SideItem.TYPE_DRINK)) {
         return true;
       }
     }
@@ -208,8 +208,7 @@ public class ApplySpecialService {
    *
    * @param cartId Id of cart being checked for special
    */
-  private ApplySpecialResponse applyFreeSodaSpecial(String storeId, String cartId)
-      throws Exception {
+  public ApplySpecialResponse applyFreeSodaSpecial(String storeId, String cartId) {
     ApplySpecialResponse applySpecialResponse = new ApplySpecialResponse(FREE_SODA);
     Cart cart = cartService.getCartItemsById(storeId, cartId);
     List<Pizza> pizzas = cart.getPizzas();
@@ -218,14 +217,14 @@ public class ApplySpecialService {
     double oldCartPrice = cart.getTotalAmount();
     double highestCostDrinkPrice = 0.00;
 
-    // Check that the cart contains at least one pizza and one drink.
+    // Verify that the cart contains at least one pizza and one drink.
     if (pizzas.size() < 1 || !hasDrink(sides)) {
-      throw new Exception(Message.ERROR_FREE_SODA); // return nul??
+      return null;
     }
 
     // Add drinks to a list.
     for (String sideId : sides) {
-      if(sideService.getSideById(sideId).get().getType() == SideItem.TYPE_DRINK)
+      if(sideService.getSideById(sideId).get().getType().equals(SideItem.TYPE_DRINK))
       drinks.add(sideId);
     }
 

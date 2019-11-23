@@ -1,8 +1,13 @@
 package io.swagger.api;
 
+import io.swagger.Message;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import io.swagger.model.ApplySpecialResponse;
+import io.swagger.model.Cart;
 import io.swagger.service.ApplySpecialService;
+import io.swagger.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApplySpecialApiController implements ApplySpecialApi {
   @Autowired
   private ApplySpecialService applySpecialService;
+  @Autowired
+  private CartService cartService;
 
   /**
    * {@inheritDoc}
@@ -30,22 +37,51 @@ public class ApplySpecialApiController implements ApplySpecialApi {
       tags = {
           "apply special",
       })
-  public ResponseEntity<ApplySpecialResponse> applySpecial(String specialId, String storeId, String cartId) {
-    try {
-      if(applySpecialService.applySpecial(specialId,storeId, cartId).getSuccess() == false) {
-        return new ResponseEntity<ApplySpecialResponse>
-            (applySpecialService.applySpecial(specialId, storeId, cartId),
-                HttpStatus.BAD_REQUEST);
+  @ApiResponses(value = {
+      @ApiResponse(code=400, message = "BAD_REQUEST")})
+  public ResponseEntity<ApplySpecialResponse> applySpecial
+  (String specialId, String storeId, String cartId) throws Exception {
+    ApplySpecialResponse response;
+    Cart cart = cartService.getCartItemsById(storeId, cartId);
+
+    if(!applySpecialService.checkSpecial(specialId)) {
+      response = new ApplySpecialResponse(specialId);
+      response.setMessage(Message.ERROR_INVALID_SPECIAL);
+      return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.BAD_REQUEST);
+    }
+    if(!applySpecialService.checkCartAtStore(cartId, storeId)) {
+      response = new ApplySpecialResponse(specialId);
+      response.setMessage(Message.ERROR_NO_CART);
+      return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.BAD_REQUEST);
+    }
+    if(cart.isSpecialApplied() == true) {
+      response = new ApplySpecialResponse(specialId);
+      response.setMessage(Message.ERROR_ONE_SPECIAL);
+      return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    if(applySpecialService.applySpecial(specialId, storeId, cartId) == null) {
+      switch(specialId) {
+        case "buy1Get1Free":
+          response = new ApplySpecialResponse(specialId);
+          response.setMessage(Message.ERROR_FREE_PIZZA);
+          return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.BAD_REQUEST);
+        case "buy2LargePizzaNoTopping":
+          response = new ApplySpecialResponse(specialId);
+          response.setMessage(Message.ERROR_DISCOUNT_30_PERCENT);
+          return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.BAD_REQUEST);
+        case "buy1PizzaGetSodaFree":
+          response = new ApplySpecialResponse(specialId);
+          response.setMessage(Message.ERROR_FREE_SODA);
+          return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.BAD_REQUEST);
+//        default:
+//          response = new ApplySpecialResponse(specialId);
+//          response.setMessage((Message.ERROR_UNIMPLEMENTED_SPECIAL));
+//          return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.BAD_REQUEST);
       }
-    } catch (Exception e) {
-      e.printStackTrace();
     }
-    try {
-      return new ResponseEntity<ApplySpecialResponse>
-          (applySpecialService.applySpecial(specialId, storeId, cartId), HttpStatus.OK);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return null;
+
+    return new ResponseEntity<ApplySpecialResponse>
+        (applySpecialService.applySpecial(specialId, storeId, cartId), HttpStatus.OK);
   }
 }
