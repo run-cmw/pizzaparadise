@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Pizza class
+ * Pizza class
  */
 public class Pizza {
 
@@ -22,6 +22,7 @@ public class Pizza {
 
   /**
    * Create new Pizza
+   *
    * @param sizeID pizzaSizeID given to this Pizza
    * @param gluten true if it is gluten, false if it is glutenFree
    */
@@ -33,6 +34,7 @@ public class Pizza {
 
   /**
    * Get pizzaSizeID
+   *
    * @return PizzaSizeID
    */
   @ApiModelProperty(example = "small")
@@ -42,6 +44,7 @@ public class Pizza {
 
   /**
    * Check if this pizza is gluten
+   *
    * @return true if it is gluten, false if it is a gluten free pizza
    */
   @ApiModelProperty(example = "true")
@@ -51,6 +54,7 @@ public class Pizza {
 
   /**
    * Get all the toppingIDs in this Pizza
+   *
    * @return list of ToppingIDs in this Pizza
    */
   @ApiModelProperty(allowableValues = "pepperoni")

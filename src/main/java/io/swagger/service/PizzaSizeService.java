@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class PizzaSizeService {
 
-  @Autowired
-  private PizzaSizeRepository pizzaSizeRepository;
+  @Autowired private PizzaSizeRepository pizzaSizeRepository;
 
   /**
    * Find all pizza sizes from database
+   *
    * @return list of pizza sizes
    */
   public List<PizzaSize> getAllPizzaSizes() {
@@ -24,6 +24,7 @@ public class PizzaSizeService {
 
   /**
    * Find a pizza size using id
+   *
    * @param id sizeId given to search
    * @return a pizza size found by id
    */

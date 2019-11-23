@@ -16,6 +16,7 @@ public class SpecialItemService {
 
   /**
    * Get all Special Items
+   *
    * @return List of Special Items found in the database
    */
   public List<SpecialItem> getAllSpecials() {
@@ -24,6 +25,7 @@ public class SpecialItemService {
 
   /**
    * Get SpecialItem by Id
+   *
    * @param id id given to search
    * @return the specialItem that matches with id.
    */
@@ -47,6 +49,7 @@ public class SpecialItemService {
 
   /**
    * Delete special by id from database
+   *
    * @param id id given to delete
    */
   public void deleteSpecial(String id) {

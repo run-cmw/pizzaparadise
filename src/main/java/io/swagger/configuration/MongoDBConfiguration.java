@@ -4,7 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-@EnableMongoRepositories(basePackages={"io.swagger.repository"})
+@EnableMongoRepositories(basePackages = {"io.swagger.repository"})
 @Configuration
 public class MongoDBConfiguration implements CommandLineRunner {
 

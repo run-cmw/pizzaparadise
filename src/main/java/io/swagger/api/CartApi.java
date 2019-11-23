@@ -21,6 +21,7 @@ public interface CartApi {
 
   /**
    * get all items from specific Cart from a store by using storeID, cartID.
+   *
    * @param storeId storeId given to this API.
    * @param cartId cartId given to this API.
    * @return Cart shows all information of this Cart.
@@ -31,9 +32,11 @@ public interface CartApi {
 
   /**
    * get total amount of specific Cart from a store by using storeID, cartID.
+   *
    * @param storeId storeId given to this API.
    * @param cartId cartId given to this API.
-   * @return PriceResponse contains information about "Success", "Total Price", and "Currency" of Cart
+   * @return PriceResponse contains information about "Success", "Total Price", and "Currency" of
+   * Cart
    */
   ResponseEntity<PriceResponse> getPriceOfCartById(
       @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
@@ -41,7 +44,9 @@ public interface CartApi {
 
 
   /**
-   * add pizza to specific Cart to store by using storeID, cartID, with pizzaSizeID, gluten, toppingIDs
+   * add pizza to specific Cart to store by using storeID, cartID, with pizzaSizeID, gluten,
+   * toppingIDs
+   *
    * @param storeId storeId given to this API.
    * @param cartId cartId given to this API.
    * @param pizza pizza given to add to Cart.
@@ -55,18 +60,20 @@ public interface CartApi {
 
   /**
    * add side to specific Cart found from store by using storeID, cartID, with sideID.
+   *
    * @param storeId storeId given to this API.
    * @param cartId cartId given to this API.
    * @param sideId sideId given to add to Cart.
    * @return CartAddResponse contains information about side that is added.
    */
   ResponseEntity<CartAddResponse> addSideToCart(
-      @ApiParam(value = "StoreID")@PathVariable("storeId") String storeId,
+      @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
       @ApiParam(value = "CartID") @PathVariable("cartId") String cartId,
       @ApiParam(value = "SideID") @RequestParam(required = true) String sideId);
 
   /**
    * delete a cart from a store by using by using storeID, cartID.
+   *
    * @param storeId storeId given to this API.
    * @param cartId cartId given delete.
    * @return HttpStatus correspond to this action.
@@ -77,9 +84,10 @@ public interface CartApi {
 
   /**
    * delete a side item in cart by using by using storeID, cartID, sideID.
-   * @param storeId storeId given to this API.
-   * @param cartId cartId given to this API.
-   * @param sideId  sideId given to delete from cart.
+   *
+   * @param storeId store to search for the given cart id
+   * @param cartId cart id to delete the item from
+   * @param sideId id of the side to delete
    * @return HttpStatus correspond to this action.
    */
   HttpStatus deleteSideFromCart(
@@ -89,9 +97,10 @@ public interface CartApi {
 
   /**
    * delete a pizza in cart by using by using storeID, cartID, an index from pizza List.
+   *
    * @param storeId storeId given to this API.
    * @param cartId cartId given to this API.
-   * @param pizza  pizza given to delete from Cart.
+   * @param pizza pizza given to delete from Cart.
    * @return HttpStatus correspond to this action.
    */
   HttpStatus deletePizzaFromCart(

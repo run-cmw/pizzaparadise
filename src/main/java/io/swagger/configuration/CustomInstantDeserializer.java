@@ -30,6 +30,7 @@ import org.threeten.bp.temporal.TemporalAccessor;
  */
 public class CustomInstantDeserializer<T extends Temporal>
     extends ThreeTenDateTimeDeserializerBase<T> {
+
   private static final long serialVersionUID = 1L;
 
   public static final CustomInstantDeserializer<Instant> INSTANT =
@@ -138,11 +139,11 @@ public class CustomInstantDeserializer<T extends Temporal>
     this.adjust =
         adjust == null
             ? new BiFunction<T, ZoneId, T>() {
-              @Override
-              public T apply(T t, ZoneId zoneId) {
-                return t;
-              }
-            }
+          @Override
+          public T apply(T t, ZoneId zoneId) {
+            return t;
+          }
+        }
             : adjust;
   }
 
@@ -168,47 +169,44 @@ public class CustomInstantDeserializer<T extends Temporal>
     // NOTE: Timestamps contain no timezone info, and are always in configured TZ. Only
     // string values have to be adjusted to the configured TZ.
     switch (parser.getCurrentTokenId()) {
-      case JsonTokenId.ID_NUMBER_FLOAT:
-        {
-          BigDecimal value = parser.getDecimalValue();
-          long seconds = value.longValue();
-          int nanoseconds = DecimalUtils.extractNanosecondDecimal(value, seconds);
-          return fromNanoseconds.apply(
-              new FromDecimalArguments(seconds, nanoseconds, getZone(context)));
-        }
+      case JsonTokenId.ID_NUMBER_FLOAT: {
+        BigDecimal value = parser.getDecimalValue();
+        long seconds = value.longValue();
+        int nanoseconds = DecimalUtils.extractNanosecondDecimal(value, seconds);
+        return fromNanoseconds.apply(
+            new FromDecimalArguments(seconds, nanoseconds, getZone(context)));
+      }
 
-      case JsonTokenId.ID_NUMBER_INT:
-        {
-          long timestamp = parser.getLongValue();
-          if (context.isEnabled(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS)) {
-            return this.fromNanoseconds.apply(
-                new FromDecimalArguments(timestamp, 0, this.getZone(context)));
-          }
-          return this.fromMilliseconds.apply(
-              new FromIntegerArguments(timestamp, this.getZone(context)));
+      case JsonTokenId.ID_NUMBER_INT: {
+        long timestamp = parser.getLongValue();
+        if (context.isEnabled(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS)) {
+          return this.fromNanoseconds.apply(
+              new FromDecimalArguments(timestamp, 0, this.getZone(context)));
         }
+        return this.fromMilliseconds.apply(
+            new FromIntegerArguments(timestamp, this.getZone(context)));
+      }
 
-      case JsonTokenId.ID_STRING:
-        {
-          String string = parser.getText().trim();
-          if (string.length() == 0) {
-            return null;
-          }
-          if (string.endsWith("+0000")) {
-            string = string.substring(0, string.length() - 5) + "Z";
-          }
-          T value;
-          try {
-            TemporalAccessor acc = _formatter.parse(string);
-            value = parsedToValue.apply(acc);
-            if (context.isEnabled(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)) {
-              return adjust.apply(value, this.getZone(context));
-            }
-          } catch (DateTimeException e) {
-            throw _peelDTE(e);
-          }
-          return value;
+      case JsonTokenId.ID_STRING: {
+        String string = parser.getText().trim();
+        if (string.length() == 0) {
+          return null;
         }
+        if (string.endsWith("+0000")) {
+          string = string.substring(0, string.length() - 5) + "Z";
+        }
+        T value;
+        try {
+          TemporalAccessor acc = _formatter.parse(string);
+          value = parsedToValue.apply(acc);
+          if (context.isEnabled(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)) {
+            return adjust.apply(value, this.getZone(context));
+          }
+        } catch (DateTimeException e) {
+          throw _peelDTE(e);
+        }
+        return value;
+      }
     }
     throw context.mappingException("Expected type float, integer, or string.");
   }
@@ -221,6 +219,7 @@ public class CustomInstantDeserializer<T extends Temporal>
   }
 
   private static class FromIntegerArguments {
+
     public final long value;
     public final ZoneId zoneId;
 
@@ -231,6 +230,7 @@ public class CustomInstantDeserializer<T extends Temporal>
   }
 
   private static class FromDecimalArguments {
+
     public final long integer;
     public final int fraction;
     public final ZoneId zoneId;

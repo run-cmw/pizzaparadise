@@ -7,19 +7,20 @@ import io.swagger.annotations.ApiModelProperty;
  * Price Response
  */
 public class PriceResponse {
+
   @JsonProperty("Success")
   private boolean success;
   @JsonProperty("Price")
   private Double price;
   @JsonProperty("Currency")
   private String currency;
-
   @JsonProperty("Message")
   private String message;
 
   /**
    * Construct a new PriceResponse
-   * Only create this if its true
+   * Use this constructor for successful responses.
+   *
    * @param price price that was found.
    * @param currency currency that was found.
    */
@@ -32,7 +33,8 @@ public class PriceResponse {
 
   /**
    * Construct a new PriceResponse
-   * Only create this if its false
+   * Use this constructur for failing responses.
+   *
    * @param message message given to PriceResponse.
    */
   public PriceResponse(String message) {
@@ -44,6 +46,7 @@ public class PriceResponse {
 
   /**
    * Get the price.
+   *
    * @return Double price.
    */
   @ApiModelProperty(example = "10.00")
@@ -53,6 +56,7 @@ public class PriceResponse {
 
   /**
    * Get the currency unit of this price.
+   *
    * @return String if it is in US dollar, return "USD"
    */
   @ApiModelProperty(example = "USD")
@@ -62,6 +66,7 @@ public class PriceResponse {
 
   /**
    * Check if the PriceResponse was successful.
+   *
    * @return true if price was found, false otherwise.
    */
   @ApiModelProperty(example = "true")

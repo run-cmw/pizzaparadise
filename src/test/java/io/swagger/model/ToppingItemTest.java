@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,13 +55,9 @@ public class ToppingItemTest {
 
   @Test
   public void equalsTest() {
-    ToppingItem sameAsTopping1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
-
-    //assertEquals(topping1, sameAsTopping1);
-    //assertEquals(topping1, topping1);
-    //assertNotEquals(topping1, topping2);
-    //assertNotEquals(null, topping2);
-
+    assertNotEquals(topping2, topping1);
+    assertEquals(topping2, topping2);
+    assertNotNull(topping2);
   }
 
   @Test
@@ -77,14 +74,28 @@ public class ToppingItemTest {
 
     final String TOPPING_ITEM_AS_STRING =
         "ToppingItem{"
-            + "id='" + topping1.getId() + '\''
-            + ", topping name='" + topping1.getToppingName() + '\''
-            + ", topping type='" + topping1.getToppingType() + '\''
-            + ", topping small price='" + topping1.getToppingSmallPrice() + '\''
-            + ", topping medium price='" + topping1.getToppingMediumPrice() + '\''
-            + ", topping large price='" + topping1.getToppingLargePrice() + '\''
-            + ", topping gluten='" + topping1.getToppingGluten() + '\''
-        + '}';
+            + "id='"
+            + topping1.getId()
+            + '\''
+            + ", topping name='"
+            + topping1.getToppingName()
+            + '\''
+            + ", topping type='"
+            + topping1.getToppingType()
+            + '\''
+            + ", topping small price='"
+            + topping1.getToppingSmallPrice()
+            + '\''
+            + ", topping medium price='"
+            + topping1.getToppingMediumPrice()
+            + '\''
+            + ", topping large price='"
+            + topping1.getToppingLargePrice()
+            + '\''
+            + ", topping gluten='"
+            + topping1.getToppingGluten()
+            + '\''
+            + '}';
 
     assertEquals(TOPPING_ITEM_AS_STRING, topping1.toString());
   }

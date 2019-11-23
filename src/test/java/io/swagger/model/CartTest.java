@@ -44,7 +44,6 @@ public class CartTest {
     assertEquals("stoneWay", cart.getStoreID());
   }
 
-
   @Test
   public void testGetPrice() {
     assertEquals((Double) 0.00, cart.getTotalAmount());
@@ -69,8 +68,8 @@ public class CartTest {
 
   @Test
   public void testToString() {
-    String test = "Cart{cartId= " + id.toString()
-        + ", storeId= brooklyn, listOfPizza= [], listOfSide= [], totalPrice= 0.0, specialApplied= false}";
+    String test = "Cart{cartId='" + id.toString()
+        + "', storeId='brooklyn', listOfPizza=[], listOfSide=[], totalPrice=0.0, specialApplied=false}";
     assertEquals(test, cart.toString());
   }
 

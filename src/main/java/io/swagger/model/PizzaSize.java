@@ -25,6 +25,7 @@ public class PizzaSize {
 
   /**
    * Creating new PizzaSize
+   *
    * @param id id given to this PizzaSize
    * @param sizeName sizeName given to this PizzaSize
    * @param sizeInch sizeInch given to this PizzaSize
@@ -39,6 +40,7 @@ public class PizzaSize {
 
   /**
    * Get this id.
+   *
    * @return id.
    */
   @ApiModelProperty(example = "small")
@@ -48,6 +50,7 @@ public class PizzaSize {
 
   /**
    * Set id.
+   *
    * @param id new id given to this PizzaSize.
    */
   public void setId(String id) {
@@ -56,6 +59,7 @@ public class PizzaSize {
 
   /**
    * Get this sizeName.
+   *
    * @return sizeName.
    */
   @ApiModelProperty(example = "Small")
@@ -65,6 +69,7 @@ public class PizzaSize {
 
   /**
    * Set sizeName for this PizzaSize.
+   *
    * @param sizeName new sizeName given to this PizzaSize.
    */
   public void setSizeName(String sizeName) {
@@ -73,6 +78,7 @@ public class PizzaSize {
 
   /**
    * Get this sizeInch.
+   *
    * @return sizeInch.
    */
   @ApiModelProperty(example = "11")
@@ -82,6 +88,7 @@ public class PizzaSize {
 
   /**
    * Set sizeInch for this PizzaSize.
+   *
    * @param sizeInch new sizeInch given to this PizzaSize.
    */
   public void setSizeInch(String sizeInch) {
@@ -90,6 +97,7 @@ public class PizzaSize {
 
   /**
    * Get this price.
+   *
    * @return price.
    */
   @ApiModelProperty(example = "13.99")
@@ -99,6 +107,7 @@ public class PizzaSize {
 
   /**
    * Set price for this PizzaSize.
+   *
    * @param price new price given to this PizzaSize.
    */
   public void setPrice(Double price) {
@@ -107,6 +116,7 @@ public class PizzaSize {
 
   /**
    * String representation of PizzaSize
+   *
    * @return String representation of PizzaSize
    */
   @Override
@@ -121,6 +131,7 @@ public class PizzaSize {
 
   /**
    * Check if two objects are equal.
+   *
    * @param obj obj given to compare
    * @return true if two objects are equal, false otherwise.
    */

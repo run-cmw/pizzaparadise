@@ -60,7 +60,7 @@ public class SideServiceTest {
   @Test
   public void getSideByIdTest() {
     SideItem side = setUpWater();
-    SideItem sideFromDB = sideService.getSideById(WATER).get();
+    SideItem sideFromDB = sideService.getSideById(WATER);
     assertEquals(side, sideFromDB);
   }
 

@@ -22,6 +22,7 @@ public interface PizzaSizeApi {
 
   /**
    * Get List of all pizza Sizes
+   *
    * @return list of pizza Sizes from database
    */
   ResponseEntity<List<PizzaSize>> getAllPizzaSizes();
@@ -29,6 +30,7 @@ public interface PizzaSizeApi {
 
   /**
    * Get a specific pizza size with id
+   *
    * @param id pizzaSizeId given to search
    * @return PizzaSize found using id
    */

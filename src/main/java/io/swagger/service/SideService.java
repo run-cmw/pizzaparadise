@@ -7,16 +7,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Service for the Side API
- */
+/** Service for the Side API */
 @Service
 public class SideService {
-  @Autowired
-  public SideItemRepository sideItemRepository;
+
+  @Autowired public SideItemRepository sideItemRepository;
 
   /**
    * Get all sides.
+   *
    * @return a list of all SideItems.
    */
   public List<SideItem> getAllSides() {
@@ -25,24 +24,26 @@ public class SideService {
 
   /**
    * Get a specific SideItem by id
+   *
    * @param id id of requested SideItem
    * @return specified SideItem
    */
-  public Optional<SideItem> getSideById(String id) {
+  public SideItem getSideById(String id) {
     Optional<SideItem> side = sideItemRepository.findById(id);
-    if(!side.isPresent()) {
+    if (!side.isPresent()) {
       return null;
     }
-    return side;
+    return side.get();
   }
 
   /**
    * Add a SideItem.
+   *
    * @param newSide new SideItem to add
    * @return SideItem that was added.
    */
   public SideItem addSide(SideItem newSide) {
-    if(sideItemRepository.findById(newSide.getId()).isPresent()) {
+    if (sideItemRepository.findById(newSide.getId()).isPresent()) {
       return null;
     } else {
       sideItemRepository.save(newSide);
@@ -52,6 +53,7 @@ public class SideService {
 
   /**
    * Delete a SideItem by id.
+   *
    * @param id id of SideItem to delete
    */
   public void deleteSide(String id) {

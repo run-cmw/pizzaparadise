@@ -68,6 +68,7 @@ public class CartAddResponse {
 
   /**
    * Check if the CartAddResponse was successful.
+   *
    * @return true if it was successful, false otherwise.
    */
   @ApiModelProperty(example = "true")
@@ -93,6 +94,7 @@ public class CartAddResponse {
 
   /**
    * Get CartId of this CartAddResponse.
+   *
    * @return CartId the destination where items are saved.
    */
   @ApiModelProperty(example = "5dd325ad5793784ecfe1b74c")
@@ -102,6 +104,7 @@ public class CartAddResponse {
 
   /**
    * Get StoreId of this CartAddResponse.
+   *
    * @return storeId the destination where items are saved.
    */
   @ApiModelProperty(example = "eastlake")
@@ -111,6 +114,7 @@ public class CartAddResponse {
 
   /**
    * Get the message of this CartAddResponse.
+   *
    * @return message to show if it was successful or failed.
    */
   public String getMessage() {

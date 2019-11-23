@@ -1,13 +1,12 @@
 package io.swagger.api;
 
-import static com.jayway.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.containsString;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
-
 
 import io.swagger.model.ToppingItem;
 import io.swagger.repository.ToppingItemRepository;
 import io.swagger.service.ToppingItemService;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.Assert;
@@ -26,83 +25,47 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @TestPropertySource(locations = "classpath:/application-test.properties")
 public class ToppingApiTests {
 
-  @Autowired
-  private ToppingItemService toppingService;
+  @MockBean private ToppingItemRepository toppingRepository;
 
-  @MockBean
-  private ToppingItemRepository toppingRepository;
-
+  @Autowired private ToppingItemService toppingItemService;
 
   @Test
   public void getAllToppingTest() {
-    when(toppingRepository.findAll()).thenReturn(Stream.of(
-        new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten"),
-        new ToppingItem("sausage1", "sausage", "meat", 2.5, 2.75, 3.0, "gluten"),
-        new ToppingItem("onion1", "onion", "vegetable", 2.0, 2.25, 2.5,
-            "non-gluten"),
-        new ToppingItem("greenPeppers1", "green peppers", "vegetable", 2.0, 2.25, 2.5,
-            "non-gluten"),
-        new ToppingItem("mushroom1", "mushroom", "vegetable", 2.0, 2.25, 2.5,
-            "non-gluten"),
-        new ToppingItem("blackOlives1", "black olives", "vegetable", 2.0, 2.25, 2.5,
-            "non-gluten")
-    ).collect(Collectors.toList()));
+    when(toppingRepository.findAll())
+        .thenReturn(
+            Stream.of(
+                    new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten"),
+                    new ToppingItem("sausage1", "sausage", "meat", 2.5, 2.75, 3.0, "gluten"),
+                    new ToppingItem("onion1", "onion", "vegetable", 2.0, 2.25, 2.5, "non-gluten"),
+                    new ToppingItem(
+                        "greenPeppers1",
+                        "green peppers",
+                        "vegetable",
+                        2.0,
+                        2.25,
+                        2.5,
+                        "non-gluten"),
+                    new ToppingItem(
+                        "mushroom1", "mushroom", "vegetable", 2.0, 2.25, 2.5, "non-gluten"),
+                    new ToppingItem(
+                        "blackOlives1", "black olives", "vegetable", 2.0, 2.25, 2.5, "non-gluten"))
+                .collect(Collectors.toList()));
 
-    Assert.assertEquals(6, toppingService.getAllTopping().size());
-
-    ToppingItem topping1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5,
-        2.75, 3.0, "gluten");
-
-    Assert.assertEquals(toppingService.getToppingById("pepperoni1").toString(),
-        topping1.toString());
-
-    ToppingItem topping2 = new ToppingItem("onion1", "onion", "vegetable", 2.0,
-        2.25, 2.5, "non-gluten");
-
-    Assert.assertEquals(toppingService.getToppingById("onion1").toString(),
-        topping2.toString());
-
-    ToppingItem topping3 = new ToppingItem("mushroom1", "mushroom", "vegetable", 2.0,
-        2.25, 2.5, "non-gluten");
-
-    Assert.assertEquals(toppingService.getToppingById("mushroom1").toString(),
-        topping3.toString());
-
-    Assert.assertFalse(topping3.equals(null));
-
-    Assert.assertEquals(toppingService.getToppingById("errorId"), null);
-
+    Assert.assertEquals(6, toppingItemService.getAllTopping().size());
   }
 
   @Test
-  public void statusCodeTest() {
-    int statusCodeOk = given().get("https://hidden-beyond-92673.herokuapp.com/topping")
-        .statusCode();
-    Assert.assertEquals(statusCodeOk, 200);
+  public void getToppingByIdTest() {
+    ToppingItem topping1 =
+        new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
 
-    int statusCodeNotFound = given().get("https://hidden-beyond-92673.herokuapp.com/toppings")
-        .statusCode();
-    Assert.assertEquals(statusCodeNotFound, 404);
-
-
+    when(toppingRepository.findById(topping1.getId())).thenReturn(Optional.of(topping1));
+    Assert.assertEquals(topping1, toppingItemService.getToppingById("pepperoni1"));
   }
 
   @Test
-  public void verifyNameTest() {
-    given().when().get("https://hidden-beyond-92673.herokuapp.com/topping").then()
-        .body(containsString("pepperoni"));
+  public void getNonexistentToppingTest() {
+    when(toppingRepository.findById(any())).thenReturn(Optional.empty());
+    Assert.assertNull(toppingItemService.getToppingById("errorId"));
   }
-
-  @Test
-  public void verifyTypeTest() {
-    given().when().get("https://hidden-beyond-92673.herokuapp.com/topping").then()
-        .body(containsString("meat"));
-  }
-
-  @Test
-  public void verifyGlutenTest() {
-    given().when().get("https://hidden-beyond-92673.herokuapp.com/topping").then()
-        .body(containsString("non-gluten"));
-  }
-
 }

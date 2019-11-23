@@ -1,13 +1,9 @@
 package io.swagger.api;
 
 import io.swagger.annotations.*;
-import io.swagger.model.PizzaSize;
-import io.swagger.model.SideItem;
 import io.swagger.model.SpecialItem;
-import io.swagger.service.PizzaSizeService;
 import io.swagger.service.SpecialItemService;
 import java.util.List;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,28 +18,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SpecialApiController implements SpecialApi {
 
-  @Autowired
-  private SpecialItemService specialItemService;
+  @Autowired private SpecialItemService specialItemService;
 
-  /**
-   * {@inheritDoc}
-   * HttpStatus.OK - if specialItem is successfully found.
-   */
+  /** {@inheritDoc} HttpStatus.OK - if specialItem is successfully found. */
   @GetMapping("/special")
   @ApiOperation(
       value = "Get all SpecialItems",
       tags = {
         "special",
       })
-  @ApiResponse(code=200, message = "OK")
+  @ApiResponse(code = 200, message = "OK")
   public ResponseEntity<List<SpecialItem>> getAllSpecials() {
-    return new ResponseEntity<List<SpecialItem>>(specialItemService.getAllSpecials(), HttpStatus.OK);
+    return new ResponseEntity<List<SpecialItem>>(
+        specialItemService.getAllSpecials(), HttpStatus.OK);
   }
 
   /**
-   * {@inheritDoc}
-   * HttpStatus.NOT_FOUND - if specialId is not found from database.
-   * HttpStatus.OK - if specialItem is successfully found.
+   * {@inheritDoc} HttpStatus.NOT_FOUND - if specialId is not found from database. HttpStatus.OK -
+   * if specialItem is successfully found.
    */
   @GetMapping("/special/{id}")
   @ApiOperation(
@@ -51,10 +43,13 @@ public class SpecialApiController implements SpecialApi {
       tags = {
         "special",
       })
-  @ApiResponses(value = {
-    @ApiResponse(code=200, message = "OK"), @ApiResponse(code=404, message = "NOT_FOUND")})
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 404, message = "NOT_FOUND")
+      })
   public ResponseEntity<SpecialItem> getSpecialById(String id) {
-    if(specialItemService.getSpecialById(id) == null) {
+    if (specialItemService.getSpecialById(id) == null) {
       return new ResponseEntity<SpecialItem>(HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<SpecialItem>(specialItemService.getSpecialById(id), HttpStatus.OK);
@@ -67,11 +62,11 @@ public class SpecialApiController implements SpecialApi {
    */
   @ApiResponses(value = {
       @ApiResponse(code=200, message = "OK"), @ApiResponse(code=403, message = "FORBIDDEN")})
-  @PostMapping("/special/add")
+  @PostMapping("/special")
   @ApiOperation(
       value = "add a SpecialItem",
       tags = {
-          "special",
+        "special",
       })
   public ResponseEntity<SpecialItem> addSpecial(SpecialItem specialItem) {
     if (specialItemService.getSpecialById(specialItem.getId()) != null) {
@@ -81,19 +76,20 @@ public class SpecialApiController implements SpecialApi {
   }
 
   /**
-   * {@inheritDoc}
-   * HttpStatus.NOT_FOUND - if specialId is not found from database.
+   * {@inheritDoc} HttpStatus.NOT_FOUND - if specialId is not found from database.
    * HttpStatus.NO_CONTENT - if specialItem is successfully removed.
    */
-  @DeleteMapping("/special/delete/{id}")
+  @DeleteMapping("/special/{id}")
   @ApiOperation(
       value = "delete a SpecialItem with id",
       tags = {
-          "special",
+        "special",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=204, message = "NO_CONTENT"),
-      @ApiResponse(code=404, message = "NOT_FOUND")})
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 204, message = "NO_CONTENT"),
+        @ApiResponse(code = 404, message = "NOT_FOUND")
+      })
   public HttpStatus deleteSpecial(String id) {
 
     if (specialItemService.getSpecialById(id) == null) {
@@ -101,7 +97,5 @@ public class SpecialApiController implements SpecialApi {
     }
     specialItemService.deleteSpecial(id);
     return HttpStatus.NO_CONTENT;
-
   }
-
 }
