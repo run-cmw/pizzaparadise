@@ -235,3 +235,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/code,java,linux,macos,maven,windows,intellij+all
+
+cov.xml
