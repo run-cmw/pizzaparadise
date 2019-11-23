@@ -36,13 +36,10 @@ public class PizzaServiceTest {
     sizeRepo.deleteAll();
   }
 
-  String SMALL_SIZE = "small";
-  String MEDIUM_SIZE = "medium";
-  String LARGE_SIZE = "large";
-  String TOPPING_NOT_FOUND = "TOPPING_NOT_FOUND";
-
-  String BACON = "bacon1";
-  String BROCCOLI = "broccoli1";
+  static final String SMALL_SIZE = "small";
+  static final String MEDIUM_SIZE = "medium";
+  static final String LARGE_SIZE = "large";
+  static final String TOPPING_NOT_FOUND = "TOPPING_NOT_FOUND";
 
   private ToppingItem setupBacon() {
     ToppingItem bacon = new ToppingItem("bacon1", "bacon", "meat", 2.50, 2.75, 3.00, "gluten");
@@ -86,8 +83,8 @@ public class PizzaServiceTest {
     Pizza pizza = setUpPizza(SMALL_SIZE, true);
     ToppingItem bacon = setupBacon();
     ToppingItem broccoli = setupBroccoli();
-    pizza.getToppingIDs().add(BACON);
-    pizza.getToppingIDs().add(BROCCOLI);
+    pizza.getToppingIDs().add(bacon.getId());
+    pizza.getToppingIDs().add(broccoli.getId());
 
     Double price = pizzaService.getPizzaPrice(pizza);
     assertEquals((Double) 14.49, price);

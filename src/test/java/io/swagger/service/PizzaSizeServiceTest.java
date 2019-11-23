@@ -30,9 +30,6 @@ public class PizzaSizeServiceTest {
     sizeRepo.deleteAll();
   }
 
-  String SMALL_SIZE = "small";
-  String MEDIUM_SIZE = "medium";
-
   private PizzaSize setUpSmallSize() {
     PizzaSize pizzaSize = new PizzaSize("small", "Small", "6", 9.99);
     sizeRepo.insert(pizzaSize);
@@ -60,7 +57,7 @@ public class PizzaSizeServiceTest {
   public void getPizzaSizeByIdTest() {
     PizzaSize pizzaSize1 = setUpSmallSize();
 
-    PizzaSize sizeFromDB = sizeService.getPizzaSizeById(SMALL_SIZE);
+    PizzaSize sizeFromDB = sizeService.getPizzaSizeById(pizzaSize1.getId());
     assertEquals(pizzaSize1, sizeFromDB);
 
     assertNull(sizeService.getPizzaSizeById("noSmall"));
@@ -78,7 +75,7 @@ public class PizzaSizeServiceTest {
     PizzaSize pizzaSize = setUpMediumSize();
 
     try {
-      sizeService.deletePizzaSize(MEDIUM_SIZE);
+      sizeService.deletePizzaSize(pizzaSize.getId());
       assertEquals(0, sizeRepo.count());
     } catch (Exception err) {
       fail(err.getMessage());

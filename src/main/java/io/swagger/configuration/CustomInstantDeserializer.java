@@ -165,6 +165,7 @@ public class CustomInstantDeserializer<T extends Temporal>
   }
 
   @Override
+  @SuppressWarnings("deprecation")
   public T deserialize(JsonParser parser, DeserializationContext context) throws IOException {
     // NOTE: Timestamps contain no timezone info, and are always in configured TZ. Only
     // string values have to be adjusted to the configured TZ.

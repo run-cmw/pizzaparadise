@@ -10,7 +10,6 @@ import io.swagger.model.Pizza;
 import io.swagger.model.PriceResponse;
 import io.swagger.model.SideItem;
 import io.swagger.service.CartService;
-import io.swagger.service.PizzaService;
 import io.swagger.service.PizzaSizeService;
 import io.swagger.service.SideService;
 import io.swagger.service.StoreService;
@@ -33,8 +32,6 @@ public class CartApiController implements CartApi {
   @Autowired private PizzaSizeService sizeService;
   @Autowired private SideService sideService;
   @Autowired private StoreService storeService;
-
-  @Autowired private PizzaService pizzaService;
 
   /**
    * {@inheritDoc} HttpStatus.NOT_FOUND - if storeId and cartId are not matching. HttpStatus.OK - if
@@ -105,7 +102,6 @@ public class CartApiController implements CartApi {
   public ResponseEntity<CartAddResponse> addPizzaToCart(
       String storeId, String cartId, Pizza pizza) {
     final CartAddResponse response;
-    final String message;
     if (pizza.getToppingIDs().size() > Pizza.MAXIMUM_TOPPING_COUNT) {
       response = new CartAddResponse(Message.TOO_MANY_PIZZA_TOPPINGS);
       return new ResponseEntity<CartAddResponse>(response, HttpStatus.BAD_REQUEST);

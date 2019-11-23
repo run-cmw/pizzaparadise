@@ -31,9 +31,6 @@ public class SpecialServiceTest {
     specialRepo.deleteAll();
   }
 
-  String BUY1GET1FREE = "buy1get1Free";
-  String FREE_SODA = "freeSoda";
-
   private SpecialItem setupBuy1Get1FreeSpecial() {
     SpecialItem special = new SpecialItem("buy1get1Free", "Buy1Get1", "description1");
     specialRepo.insert(special);
@@ -59,9 +56,10 @@ public class SpecialServiceTest {
   @Test
   public void getSpecialByIdTest() {
     SpecialItem special = setupBuy1Get1FreeSpecial();
+    SpecialItem specialFromService = specialService.getSpecialById(special.getId());
 
-    assertEquals(special, specialService.getSpecialById(BUY1GET1FREE));
-    assertNotNull(specialService.getSpecialById(BUY1GET1FREE));
+    assertNotNull(specialFromService);
+    assertEquals(special, specialFromService);
     assertNull(specialService.getSpecialById("noSpecial"));
   }
 
@@ -77,7 +75,7 @@ public class SpecialServiceTest {
   public void deleteSpecialTest() {
     SpecialItem special = setupFreeSodaSpecial();
     try {
-      specialService.deleteSpecial(FREE_SODA);
+      specialService.deleteSpecial(special.getId());
       assertEquals(0, specialRepo.count());
     } catch (Exception err) {
       fail(err.getMessage());
