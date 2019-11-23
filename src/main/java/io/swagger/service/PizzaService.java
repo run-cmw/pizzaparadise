@@ -1,12 +1,11 @@
 package io.swagger.service;
 
-import io.swagger.Message;
+import io.swagger.exceptions.ToppingNotFoundException;
 import io.swagger.model.Pizza;
 import io.swagger.model.PizzaSize;
 import io.swagger.model.ToppingItem;
 import io.swagger.repository.PizzaSizeRepository;
 import io.swagger.repository.ToppingItemRepository;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +26,12 @@ public class PizzaService {
 
   /**
    * Get the price of the given pizza.
+   *
    * @param pizza pizza given to calculate the pizza price.
    * @return Pizza that contains updated pizza price.
-   * @throws IOException throw exception if invalid topping.
+   * @throws ToppingNotFoundException throw exception if invalid topping.
    */
-  public Double getPizzaPrice(Pizza pizza) throws IOException {
+  public Double getPizzaPrice(Pizza pizza) throws ToppingNotFoundException {
     Double price = 0.00;
     String sizeID = pizza.getSizeID();
     PizzaSize pizzaSize = sizeRepository.findById(sizeID).get();
@@ -43,20 +43,21 @@ public class PizzaService {
   }
 
   /**
-   * SUB-Function of getPizzaPrice()
-   * Calculate the price of all toppings based on the size of pizza.
-   * If size of pizza is small, then we calculate the small topping prices.
-   * @param sizeID sizeId given to provide the size of pizza
+   * SUB-Function of getPizzaPrice() Calculate the price of all toppings based on
+   * the size of pizza. If size of pizza is small, then we calculate the small
+   * topping prices.
+   *
+   * @param sizeID   sizeId given to provide the size of pizza
    * @param toppings list of toppings given to calculate the price
    * @return Double the price of all toppings in the pizza.
-   * @throws IOException throw exception if invalid topping.
+   * @throws ToppingNotFoundException throw exception if invalid topping.
    */
-  public Double getPizzaToppingPrice(String sizeID, List<String> toppings) throws IOException {
+  public Double getPizzaToppingPrice(String sizeID, List<String> toppings) throws ToppingNotFoundException {
     Double price = 0.00;
     for (String toppingID : toppings) {
       Optional<ToppingItem> topping = toppingRepository.findById(toppingID);
       if (!topping.isPresent()) {
-        throw new IOException(Message.TOPPING_NOT_FOUND);
+        throw new ToppingNotFoundException();
       }
       if (sizeID.equals(SIZE_SMALL)) {
         price += topping.get().getToppingSmallPrice();

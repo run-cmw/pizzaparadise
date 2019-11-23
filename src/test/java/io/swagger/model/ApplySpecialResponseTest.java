@@ -1,15 +1,14 @@
 package io.swagger.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
 public class ApplySpecialResponseTest {
   private ApplySpecialResponse applySpecialResponse;
   private ApplySpecialResponse sameObject;
@@ -17,9 +16,9 @@ public class ApplySpecialResponseTest {
 
   @Before
   public void setUp() {
-    applySpecialResponse = new ApplySpecialResponse("buy1PizzaGetSodaFree");
-    sameObject = new ApplySpecialResponse("buy1PizzaGetSodaFree");
-    differentObject = new ApplySpecialResponse("buy1Get1Free");
+    applySpecialResponse = new ApplySpecialResponse("buy1PizzaGetSodaFree", 0.00);
+    sameObject = new ApplySpecialResponse("buy1PizzaGetSodaFree", 0.00);
+    differentObject = new ApplySpecialResponse("buy1Get1Free", 1.00);
   }
 
   @Test
@@ -35,37 +34,36 @@ public class ApplySpecialResponseTest {
 
   @Test
   public void testGetSuccess() {
-    assertEquals(false, applySpecialResponse.getSuccess());
+    assertFalse(new ApplySpecialResponse("ERROR_MESSAGE").getSuccess());
   }
 
   @Test
   public void testSetSuccess() {
     applySpecialResponse.setSuccess(true);
-    assertEquals(true, applySpecialResponse.getSuccess());
+    assertTrue(applySpecialResponse.getSuccess());
   }
 
   @Test
   public void testGetMessage() {
-    assertEquals(null, applySpecialResponse.getMessage());
+    assertNull(applySpecialResponse.getMessage());
   }
 
   @Test
   public void testSetMessage() {
-    applySpecialResponse.setMessage("ERROR_ONLY_ONE_SPECIAL_PER_CART");
-    assertEquals("ERROR_ONLY_ONE_SPECIAL_PER_CART", applySpecialResponse.getMessage());
+    assertEquals("ERROR_MESSAGE", (new ApplySpecialResponse("ERROR_MESSAGE")).getMessage());
   }
 
   @Test
   public void testGetSavings() {
-    assert(0.00 == applySpecialResponse.getSavings());
+    assertEquals(0.00, (double) applySpecialResponse.getSavings(), 0.001);
   }
 
   @Test
   public void testSetSavings() {
     applySpecialResponse.setSavings(2.49);
-    assert(2.49 == applySpecialResponse.getSavings());
+    assertEquals(2.49, (double) applySpecialResponse.getSavings(), 0.001);
   }
-  
+
   @Test
   public void testEquals() {
     assertEquals(sameObject, applySpecialResponse);

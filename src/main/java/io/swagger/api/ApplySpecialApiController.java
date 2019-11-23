@@ -11,7 +11,7 @@ import io.swagger.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @javax.annotation.Generated(
@@ -31,7 +31,7 @@ public class ApplySpecialApiController implements ApplySpecialApi {
    *                          applied to the cart or bc the cart's contents do not match the
    *                          special's requirements
    */
-  @PutMapping("/applySpecial")
+  @PostMapping("/applySpecial")
   @ApiOperation(
       value = "Update the price of the cart depending on the special being applied.",
       tags = {
@@ -40,7 +40,7 @@ public class ApplySpecialApiController implements ApplySpecialApi {
   @ApiResponses(value = {
       @ApiResponse(code=400, message = "BAD_REQUEST")})
   public ResponseEntity<ApplySpecialResponse> applySpecial
-  (String specialId, String storeId, String cartId) throws Exception {
+  (String specialId, String storeId, String cartId) {
     ApplySpecialResponse response;
     Cart cart = cartService.getCartItemsById(storeId, cartId);
 

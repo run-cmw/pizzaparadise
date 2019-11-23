@@ -5,12 +5,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+
+import io.swagger.exceptions.ToppingNotFoundException;
 import io.swagger.model.Pizza;
 import io.swagger.model.PizzaSize;
 import io.swagger.model.ToppingItem;
 import io.swagger.repository.PizzaSizeRepository;
 import io.swagger.repository.ToppingItemRepository;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
@@ -23,7 +24,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-@TestPropertySource(locations = "classpath:/application-test.properties")
+@TestPropertySource("classpath:/application-test.properties")
 public class PizzaServiceTest {
 
   @Autowired
@@ -117,8 +118,7 @@ public class PizzaServiceTest {
     try {
       pizzaService.getPizzaToppingPrice(MEDIUM_SIZE, toppingIDs2);
       fail();
-    } catch (IOException err) {
-      assertThat(err.getMessage(), is(TOPPING_NOT_FOUND));
+    } catch (ToppingNotFoundException err) {
     }
   }
 

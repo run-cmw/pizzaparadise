@@ -33,8 +33,20 @@ public class ApplySpecialResponse {
    *
    * @param specialId identifier of the special being applied
    */
-  public ApplySpecialResponse(String specialId) {
+  public ApplySpecialResponse(String specialId, Double savings) {
     this.specialId = specialId;
+    this.savings = savings;
+    this.success = true;
+  }
+
+  /**
+   * Construct a failing ApplySpecialResponse.
+   *
+   * @param message the error message explaining the failure
+   */
+  public ApplySpecialResponse(String message) {
+    this.message = message;
+    this.success = false;
   }
 
   /**

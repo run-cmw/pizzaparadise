@@ -1,5 +1,6 @@
 package io.swagger.service;
 
+import io.swagger.exceptions.ToppingNotFoundException;
 import io.swagger.model.Cart;
 import io.swagger.model.Pizza;
 import io.swagger.model.SideItem;
@@ -72,12 +73,13 @@ public class CartService {
    * @return pizza that was added to Cart
    * @throws Exception if the topping in the pizza is not valid.
    */
-  public Pizza addPizzaToCart(Cart cart, Pizza pizza) throws Exception {
+  public Pizza addPizzaToCart(Cart cart, Pizza pizza) throws ToppingNotFoundException {
     Double pizzaPrice = pizzaService.getPizzaPrice(pizza);
     cart.getPizzas().add(pizza);
     Double price = cart.getTotalAmount() + pizzaPrice;
     price = Math.round(price * 100.0) / 100.0;
     cart.setTotalAmount(price);
+    cart.setSpecialApplied(false);
     cartRepository.save(cart);
     return pizza;
   }
@@ -95,6 +97,7 @@ public class CartService {
     price = Math.round(price * 100.0) / 100.0;
     cart.setTotalAmount(price);
     cart.getSides().add(sideID);
+    cart.setSpecialApplied(false);
     cartRepository.save(cart);
     return side;
   }
@@ -157,11 +160,16 @@ public class CartService {
    * @return Double the price of all pizzas in the Cart.
    * @throws Exception if topping of the pizza is invalid
    */
-  public Double getPizzasPrice(Cart cart) throws Exception {
+  public Double getPizzasPrice(Cart cart) {
     Double price = 0.00;
     List<Pizza> pizzas = cart.getPizzas();
     for (Pizza pizza : pizzas) {
-      price += pizzaService.getPizzaPrice(pizza);
+      try {
+        price += pizzaService.getPizzaPrice(pizza);
+      } catch (ToppingNotFoundException e) {
+        // Remember that the assert won't happen in production
+        throw new RuntimeException(e);
+      }
     }
     return Math.round(price * 100.0) / 100.0;
   }
@@ -172,10 +180,9 @@ public class CartService {
    * @param side side given to delete from cart.
    */
   public void deleteSideFromCart(Cart cart, SideItem side) {
-    Double price = cart.getTotalAmount() - side.getPrice();
-    price = Math.round(price * 100.0) / 100.0;
-    cart.setTotalAmount(price);
     cart.getSides().remove(side.getId());
+    cart.setTotalAmount(cart.getTotalAmount());
+    cart.setSpecialApplied(false);
     cartRepository.save(cart);
   }
 
@@ -185,12 +192,16 @@ public class CartService {
    * @param pizza pizza given to delete from list of pizza.
    * @throws Exception if topping of the pizza is invalid
    */
-  public void deletePizzaFromCart(Cart cart, Pizza pizza) throws Exception {
-    Double price = cart.getTotalAmount() - pizzaService.getPizzaPrice(pizza);
-    price = Math.round(price * 100.0) / 100.0;
-    cart.setTotalAmount(price);
-    cart.getPizzas().remove(pizza);
+  public boolean deletePizzaFromCart(Cart cart, Pizza pizza) {
+    boolean deletedPizza = cart.getPizzas().remove(pizza);
+    if (!deletedPizza) {
+      return false;
+    }
+
+    cart.setSpecialApplied(false);
+    cart.setTotalAmount(cart.getTotalAmount());
     cartRepository.save(cart);
+    return true;
   }
 
 }
