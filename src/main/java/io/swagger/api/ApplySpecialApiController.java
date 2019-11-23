@@ -39,45 +39,32 @@ public class ApplySpecialApiController implements ApplySpecialApi {
     ApplySpecialResponse response;
     Cart cart = cartService.getCartItemsById(storeId, cartId);
 
-    if (!applySpecialService.checkSpecial(specialId)) {
-      response = new ApplySpecialResponse(specialId);
-      response.setMessage(Message.ERROR_INVALID_SPECIAL);
-      return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.BAD_REQUEST);
-    }
     if (!applySpecialService.checkCartAtStore(cartId, storeId)) {
       response = new ApplySpecialResponse(specialId);
       response.setMessage(Message.ERROR_NO_CART);
-      return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.NOT_FOUND);
     }
+
     if (cart.isSpecialApplied() == true) {
       response = new ApplySpecialResponse(specialId);
       response.setMessage(Message.ERROR_ONE_SPECIAL);
       return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.BAD_REQUEST);
     }
 
-    if (applySpecialService.applySpecial(specialId, storeId, cartId) == null) {
-      switch (specialId) {
-        case "buy1Get1Free":
-          response = new ApplySpecialResponse(specialId);
-          response.setMessage(Message.ERROR_FREE_PIZZA);
-          return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.BAD_REQUEST);
-        case "buy2LargePizzaNoTopping":
-          response = new ApplySpecialResponse(specialId);
-          response.setMessage(Message.ERROR_DISCOUNT_30_PERCENT);
-          return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.BAD_REQUEST);
-        case "buy1PizzaGetSodaFree":
-          response = new ApplySpecialResponse(specialId);
-          response.setMessage(Message.ERROR_FREE_SODA);
-          return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.BAD_REQUEST);
-          //        default:
-          //          response = new ApplySpecialResponse(specialId);
-          //          response.setMessage((Message.ERROR_UNIMPLEMENTED_SPECIAL));
-          //          return new ResponseEntity<ApplySpecialResponse>(response,
-          // HttpStatus.BAD_REQUEST);
-      }
+    ApplySpecialResponse applySpecialResponse =
+        applySpecialService.applySpecial(specialId, storeId, cartId);
+
+    if (applySpecialResponse == null) {
+      return new ResponseEntity<ApplySpecialResponse>(
+          new ApplySpecialResponse(Message.ERROR_INVALID_SPECIAL), HttpStatus.BAD_REQUEST);
     }
 
-    return new ResponseEntity<ApplySpecialResponse>(
-        applySpecialService.applySpecial(specialId, storeId, cartId), HttpStatus.OK);
+    final HttpStatus httpStatus;
+    if (applySpecialResponse.getSuccess()) {
+      httpStatus = HttpStatus.OK;
+    } else {
+      httpStatus = HttpStatus.BAD_REQUEST;
+    }
+    return new ResponseEntity<ApplySpecialResponse>(applySpecialResponse, httpStatus);
   }
 }

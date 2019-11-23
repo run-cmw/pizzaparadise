@@ -1,5 +1,6 @@
 package io.swagger.service;
 
+import io.swagger.Message;
 import io.swagger.exceptions.ToppingNotFoundException;
 import io.swagger.model.ApplySpecialResponse;
 import io.swagger.model.Cart;
@@ -106,7 +107,7 @@ public class ApplySpecialService {
 
     // Verify there are at least two pizzas in cart.
     if (pizzas.size() < 2) {
-      return null;
+      return new ApplySpecialResponse(Message.ERROR_FREE_PIZZA);
     }
 
     // Find highest cost pizza.
@@ -159,7 +160,7 @@ public class ApplySpecialService {
 
     // Verify there are at least two large pizzas with no toppings.
     if (largePizzas.size() < 2) {
-      return null;
+      return new ApplySpecialResponse(Message.ERROR_DISCOUNT_30_PERCENT);
     }
 
     // Reduce price of cart by 30%.
@@ -201,7 +202,7 @@ public class ApplySpecialService {
 
     // Verify that the cart contains at least one pizza and one drink.
     if (pizzas.size() < 1 || !hasDrink(sides)) {
-      return null;
+      return new ApplySpecialResponse(Message.ERROR_FREE_SODA);
     }
 
     // Add drinks to a list.
