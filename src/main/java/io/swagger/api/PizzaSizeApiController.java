@@ -72,7 +72,7 @@ public class PizzaSizeApiController implements PizzaSizeApi {
    * @return pizzaSize added to database HttpStatus.FORBIDDEN - if pizzaSize already exist in the
    *     Database HttpStatus.OK - if pizzaSize successfully added
    */
-  @GetMapping("/size/add")
+  @GetMapping("/size")
   @ApiOperation(
       value = "add PizzaSize",
       tags = {
@@ -94,7 +94,7 @@ public class PizzaSizeApiController implements PizzaSizeApi {
    * {@inheritDoc} HttpStatus.NOT_FOUND - if specialId is not found from database.
    * HttpStatus.NO_CONTENT - if specialItem is successfully removed.
    */
-  @DeleteMapping("/size/delete/{id}")
+  @DeleteMapping("/size/{id}")
   @ApiOperation(
       value = "delete a PizzaSize with id",
       tags = {
