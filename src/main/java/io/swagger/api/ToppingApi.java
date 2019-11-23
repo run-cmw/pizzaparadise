@@ -9,9 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-/**
- * ToppingApi interface
- */
+/** ToppingApi interface */
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
     date = "2019-09-26T03:54:46.062Z[GMT]")
@@ -25,7 +23,6 @@ public interface ToppingApi {
    */
   ResponseEntity<List<ToppingItem>> getAllTopping();
 
-
   /**
    * Get a specific toppingItem by toppingId
    *
@@ -34,7 +31,6 @@ public interface ToppingApi {
    */
   ResponseEntity<ToppingItem> getToppingById(
       @ApiParam(value = "ToppingID") @PathVariable String id);
-
 
   /**
    * Add Topping to the Mongo database

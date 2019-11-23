@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class PizzaTest {
   public Pizza pizza1;
   public Pizza pizza2;

@@ -36,12 +36,11 @@ public interface CartApi {
    * @param storeId storeId given to this API.
    * @param cartId cartId given to this API.
    * @return PriceResponse contains information about "Success", "Total Price", and "Currency" of
-   * Cart
+   *     Cart
    */
   ResponseEntity<PriceResponse> getPriceOfCartById(
       @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
       @ApiParam(value = "CartID") @PathVariable("cartId") String cartId);
-
 
   /**
    * add pizza to specific Cart to store by using storeID, cartID, with pizzaSizeID, gluten,
@@ -56,7 +55,6 @@ public interface CartApi {
       @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
       @ApiParam(value = "CartID") @PathVariable("cartId") String cartId,
       @ApiParam(value = "Pizza to add") @Valid @RequestBody Pizza pizza);
-
 
   /**
    * add side to specific Cart found from store by using storeID, cartID, with sideID.
@@ -106,7 +104,6 @@ public interface CartApi {
   HttpStatus deletePizzaFromCart(
       @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
       @ApiParam(value = "CartID") @PathVariable("cartId") String cartId,
-      @ApiParam(value = "Pizza to delete") @Valid @RequestBody Pizza pizza) throws Exception;
-
-
+      @ApiParam(value = "Pizza to delete") @Valid @RequestBody Pizza pizza)
+      throws Exception;
 }

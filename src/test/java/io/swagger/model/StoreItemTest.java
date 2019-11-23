@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,7 +16,8 @@ public class StoreItemTest {
   public void setUp() {
     storeItem = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska", "94608", false);
     sameObject = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska", "94608", false);
-    differentObject = new StoreItem("louisiana", "555 Louisiana Blvd", "Clam Gulch", "Alaska", "94608", true);
+    differentObject =
+        new StoreItem("louisiana", "555 Louisiana Blvd", "Clam Gulch", "Alaska", "94608", true);
   }
 
   @Test
@@ -100,16 +102,29 @@ public class StoreItemTest {
 
   @Test
   public void toStringTest() {
-    StoreItem storeItem = new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+    StoreItem storeItem =
+        new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
 
     final String STORE_ITEM_AS_STRING =
         "StoreItem{"
-            + "id='" + storeItem.getId() + '\''
-            + ", streetNumAndName='" + storeItem.getStreetNumAndName() + '\''
-            + ", city='" + storeItem.getCity() + '\''
-            + ", state='" + storeItem.getState() + '\''
-            + ", zipCode='" + storeItem.getZipCode() + '\''
-            + ", offersGlutenFree='" + storeItem.getOffersGlutenFree() + '\''
+            + "id='"
+            + storeItem.getId()
+            + '\''
+            + ", streetNumAndName='"
+            + storeItem.getStreetNumAndName()
+            + '\''
+            + ", city='"
+            + storeItem.getCity()
+            + '\''
+            + ", state='"
+            + storeItem.getState()
+            + '\''
+            + ", zipCode='"
+            + storeItem.getZipCode()
+            + '\''
+            + ", offersGlutenFree='"
+            + storeItem.getOffersGlutenFree()
+            + '\''
             + '}';
 
     assertEquals(STORE_ITEM_AS_STRING, storeItem.toString());

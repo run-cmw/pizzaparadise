@@ -1,10 +1,10 @@
 package io.swagger.service;
 
-
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
+
 import io.swagger.model.StoreItem;
 import io.swagger.repository.StoreItemRepository;
 import java.util.List;
@@ -20,11 +20,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest
 @TestPropertySource(locations = "classpath:/application-test.properties")
 public class StoreServiceTest {
-  @Autowired
-  public StoreService storeService;
+  @Autowired public StoreService storeService;
 
-  @Autowired
-  public StoreItemRepository storeRepo;
+  @Autowired public StoreItemRepository storeRepo;
 
   @Before
   public void setUp() {
@@ -35,13 +33,15 @@ public class StoreServiceTest {
   String EASTLAKE = "eastlake";
 
   private StoreItem setUpBrooklynStore() {
-    StoreItem store = new StoreItem("brooklyn", "4060 9th ave", "Seattle", "Washington", "98105", false);
+    StoreItem store =
+        new StoreItem("brooklyn", "4060 9th ave", "Seattle", "Washington", "98105", false);
     storeRepo.insert(store);
     return store;
   }
 
   private StoreItem setUpEastLakeStore() {
-    StoreItem store = new StoreItem("eastlake", "4115 Roosevelt way NE", "Seattle", "Washington", "98105", true);
+    StoreItem store =
+        new StoreItem("eastlake", "4115 Roosevelt way NE", "Seattle", "Washington", "98105", true);
     storeRepo.insert(store);
     return store;
   }
@@ -52,7 +52,7 @@ public class StoreServiceTest {
     StoreItem store2 = setUpEastLakeStore();
 
     assertEquals(2, storeRepo.count());
-    List<StoreItem> list =storeService.getAllStores();
+    List<StoreItem> list = storeService.getAllStores();
     assertTrue(list.contains(store1));
     assertTrue(list.contains(store2));
   }
@@ -65,7 +65,8 @@ public class StoreServiceTest {
 
   @Test
   public void addStoreTest() {
-    StoreItem store = new StoreItem("stoneWay", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105", false);
+    StoreItem store =
+        new StoreItem("stoneWay", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105", false);
     storeService.addStore(store);
     assertEquals(1, storeRepo.count());
     assertEquals(store, storeService.getStoreById("stoneWay").get());
@@ -90,8 +91,8 @@ public class StoreServiceTest {
 
   @Test
   public void TestStoreItemCanServeGlutenFree() {
-    StoreItem store = new StoreItem("stoneWay", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105", true);
+    StoreItem store =
+        new StoreItem("stoneWay", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105", true);
     assertTrue(storeService.storeOffersGlutenFree(store));
   }
-
 }

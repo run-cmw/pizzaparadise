@@ -7,17 +7,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Service for the Store API
- */
+/** Service for the Store API */
 @Service
 public class StoreService {
 
-  @Autowired
-  public StoreItemRepository storeItemRepository;
+  @Autowired public StoreItemRepository storeItemRepository;
 
   /**
    * Get all stores.
+   *
    * @return a list of all StoreItems.
    */
   public List<StoreItem> getAllStores() {
@@ -26,12 +24,13 @@ public class StoreService {
 
   /**
    * Get a specific StoreItem by id
+   *
    * @param id id of requested StoreItem
    * @return specified StoreItem
    */
   public Optional<StoreItem> getStoreById(String id) {
     Optional<StoreItem> store = storeItemRepository.findById(id);
-    if(!store.isPresent()) {
+    if (!store.isPresent()) {
       return null;
     }
     return store;
@@ -39,6 +38,7 @@ public class StoreService {
 
   /**
    * Add a StoreItem.
+   *
    * @param newStore new StoreItem to add
    * @return StoreItem that was added.
    */
@@ -49,6 +49,7 @@ public class StoreService {
 
   /**
    * Delete a StoreItem by id.
+   *
    * @param id id of StoreItem to delete
    */
   public void deleteStore(String id) {
@@ -57,6 +58,7 @@ public class StoreService {
 
   /**
    * Return whether the store with the given id offers gluten free.
+   *
    * @param id id of the store
    * @return {@code true} if the store offers gluten free and {@code false} otherwise
    */
@@ -66,6 +68,7 @@ public class StoreService {
 
   /**
    * Return whether the given store offers gluten free.
+   *
    * @param storeItem the store
    * @return {@code true} if the store offers gluten free and {@code false} otherwise
    */

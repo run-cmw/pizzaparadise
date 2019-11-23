@@ -16,19 +16,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @TestPropertySource(locations = "classpath:/application-test.properties")
 public class PizzaSizeServiceTest {
 
+  @Autowired public PizzaSizeService sizeService;
 
-  @Autowired
-  public PizzaSizeService sizeService;
-
-  @Autowired
-  private PizzaSizeRepository sizeRepo;
-
+  @Autowired private PizzaSizeRepository sizeRepo;
 
   @Before
   public void setUp() {
@@ -39,18 +34,16 @@ public class PizzaSizeServiceTest {
   String MEDIUM_SIZE = "medium";
 
   private PizzaSize setUpSmallSize() {
-    PizzaSize pizzaSize = new PizzaSize("small", "Small", "6",9.99);
+    PizzaSize pizzaSize = new PizzaSize("small", "Small", "6", 9.99);
     sizeRepo.insert(pizzaSize);
     return pizzaSize;
   }
 
   private PizzaSize setUpMediumSize() {
-    PizzaSize pizzaSize = new PizzaSize("medium", "Medium", "9",12.99);
+    PizzaSize pizzaSize = new PizzaSize("medium", "Medium", "9", 12.99);
     sizeRepo.insert(pizzaSize);
     return pizzaSize;
   }
-
-
 
   @Test
   public void getAllSizeTest() {
@@ -75,9 +68,9 @@ public class PizzaSizeServiceTest {
 
   @Test
   public void TestAddPizzaSize() {
-    PizzaSize test = new PizzaSize("medium", "Medium", "9",12.99);
+    PizzaSize test = new PizzaSize("medium", "Medium", "9", 12.99);
     PizzaSize pizzaSize2 = sizeService.addPizzaSize(test);
-    assertEquals(pizzaSize2,test);
+    assertEquals(pizzaSize2, test);
   }
 
   @Test
@@ -87,9 +80,8 @@ public class PizzaSizeServiceTest {
     try {
       sizeService.deletePizzaSize(MEDIUM_SIZE);
       assertEquals(0, sizeRepo.count());
-    } catch(Exception err) {
+    } catch (Exception err) {
       fail(err.getMessage());
     }
   }
-
 }

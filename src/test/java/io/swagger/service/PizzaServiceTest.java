@@ -1,9 +1,6 @@
 package io.swagger.service;
 
-
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import io.swagger.exceptions.ToppingNotFoundException;
@@ -27,15 +24,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @TestPropertySource("classpath:/application-test.properties")
 public class PizzaServiceTest {
 
-  @Autowired
-  public PizzaService pizzaService;
+  @Autowired public PizzaService pizzaService;
 
-  @Autowired
-  private ToppingItemRepository toppingRepo;
+  @Autowired private ToppingItemRepository toppingRepo;
 
-  @Autowired
-  private PizzaSizeRepository sizeRepo;
-
+  @Autowired private PizzaSizeRepository sizeRepo;
 
   @Before
   public void setUp() {
@@ -58,7 +51,8 @@ public class PizzaServiceTest {
   }
 
   private ToppingItem setupBroccoli() {
-    ToppingItem broccoli = new ToppingItem("broccoli1", "broccoli", "vegetable", 2.00, 2.25, 2.50, "non-gluten");
+    ToppingItem broccoli =
+        new ToppingItem("broccoli1", "broccoli", "vegetable", 2.00, 2.25, 2.50, "non-gluten");
     toppingRepo.insert(broccoli);
     return broccoli;
   }
@@ -69,18 +63,19 @@ public class PizzaServiceTest {
   }
 
   private PizzaSize setUpSmallSize() {
-    PizzaSize pizzaSize = new PizzaSize("small", "Small", "6",9.99);
+    PizzaSize pizzaSize = new PizzaSize("small", "Small", "6", 9.99);
     sizeRepo.insert(pizzaSize);
     return pizzaSize;
   }
 
   private PizzaSize setUpMediumSize() {
-    PizzaSize pizzaSize = new PizzaSize("medium", "Medium", "9",12.99);
+    PizzaSize pizzaSize = new PizzaSize("medium", "Medium", "9", 12.99);
     sizeRepo.insert(pizzaSize);
     return pizzaSize;
   }
+
   private PizzaSize setUpLargeSize() {
-    PizzaSize pizzaSize = new PizzaSize("large", "Large", "11",14.99);
+    PizzaSize pizzaSize = new PizzaSize("large", "Large", "11", 14.99);
     sizeRepo.insert(pizzaSize);
     return pizzaSize;
   }
@@ -121,5 +116,4 @@ public class PizzaServiceTest {
     } catch (ToppingNotFoundException err) {
     }
   }
-
 }

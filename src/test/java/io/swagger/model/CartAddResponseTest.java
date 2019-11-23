@@ -6,6 +6,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -64,9 +65,11 @@ public class CartAddResponseTest {
 
   @Test
   public void TestToString() {
-    assertEquals("CartAddResponse{success=true, cartId=cart1, storeID=brooklyn, "
-        + "pizza=Pizza{sizeID=small, gluten=true, toppingIDs=[]},"
-        + " side=null, message=null}", response1.toString());
+    assertEquals(
+        "CartAddResponse{success=true, cartId=cart1, storeID=brooklyn, "
+            + "pizza=Pizza{sizeID=small, gluten=true, toppingIDs=[]},"
+            + " side=null, message=null}",
+        response1.toString());
   }
 
   @Test
@@ -82,5 +85,4 @@ public class CartAddResponseTest {
     assertNotEquals(response2, response3);
     assertNotNull(response1);
   }
-
 }

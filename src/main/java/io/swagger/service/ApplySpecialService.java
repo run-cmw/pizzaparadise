@@ -1,6 +1,5 @@
 package io.swagger.service;
 
-import io.swagger.Message;
 import io.swagger.exceptions.ToppingNotFoundException;
 import io.swagger.model.ApplySpecialResponse;
 import io.swagger.model.Cart;

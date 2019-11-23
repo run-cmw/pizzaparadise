@@ -56,12 +56,14 @@ public class SpecialApiController implements SpecialApi {
   }
 
   /**
-   * {@inheritDoc}
-   * HttpStatus.OK - if special is successfully created.
-   * HttpStatus.FORBIDDEN - if there is already a specialId in database
+   * {@inheritDoc} HttpStatus.OK - if special is successfully created. HttpStatus.FORBIDDEN - if
+   * there is already a specialId in database
    */
-  @ApiResponses(value = {
-      @ApiResponse(code=200, message = "OK"), @ApiResponse(code=403, message = "FORBIDDEN")})
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 403, message = "FORBIDDEN")
+      })
   @PostMapping("/special")
   @ApiOperation(
       value = "add a SpecialItem",
@@ -72,7 +74,8 @@ public class SpecialApiController implements SpecialApi {
     if (specialItemService.getSpecialById(specialItem.getId()) != null) {
       return new ResponseEntity<SpecialItem>(HttpStatus.FORBIDDEN);
     }
-    return new ResponseEntity<SpecialItem>(specialItemService.addSpecial(specialItem), HttpStatus.OK);
+    return new ResponseEntity<SpecialItem>(
+        specialItemService.addSpecial(specialItem), HttpStatus.OK);
   }
 
   /**

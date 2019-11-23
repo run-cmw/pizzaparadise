@@ -68,8 +68,10 @@ public class CartTest {
 
   @Test
   public void testToString() {
-    String test = "Cart{cartId='" + id.toString()
-        + "', storeId='brooklyn', listOfPizza=[], listOfSide=[], totalPrice=0.0, specialApplied=false}";
+    String test =
+        "Cart{cartId='"
+            + id.toString()
+            + "', storeId='brooklyn', listOfPizza=[], listOfSide=[], totalPrice=0.0, specialApplied=false}";
     assertEquals(test, cart.toString());
   }
 
@@ -85,7 +87,6 @@ public class CartTest {
     assertEquals((Double) 0.00, cart.getTotalAmount());
     cart.setTotalAmount(5.00);
     assertEquals((Double) 5.00, cart.getTotalAmount());
-
   }
 
   @Test

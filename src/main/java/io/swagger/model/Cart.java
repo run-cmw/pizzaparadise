@@ -182,14 +182,16 @@ public class Cart {
    */
   @Override
   public boolean equals(Object obj) {
-    if(this == obj) return true;
-    if(obj == null || getClass() != obj.getClass()) { return false; }
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
     Cart cart = (Cart) obj;
-    return cart.getSides().equals(this.sides) &&
-        cart.getPizzas().equals(this.pizzas) &&
-        cart.getId().equals(this.id.toString()) &&
-        cart.getStoreID().equals(this.storeID) &&
-        Double.compare(cart.getTotalAmount(), this.totalAmount) == 0 &&
-        cart.isSpecialApplied() == this.specialApplied;
+    return cart.getSides().equals(this.sides)
+        && cart.getPizzas().equals(this.pizzas)
+        && cart.getId().equals(this.id.toString())
+        && cart.getStoreID().equals(this.storeID)
+        && Double.compare(cart.getTotalAmount(), this.totalAmount) == 0
+        && cart.isSpecialApplied() == this.specialApplied;
   }
 }

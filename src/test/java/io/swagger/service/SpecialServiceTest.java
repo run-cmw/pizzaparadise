@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
 import io.swagger.model.SpecialItem;
 import io.swagger.repository.SpecialItemRepository;
 import java.util.List;
@@ -21,12 +22,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @TestPropertySource(locations = "classpath:/application-test.properties")
 public class SpecialServiceTest {
 
-  @Autowired
-  public SpecialItemService specialService;
+  @Autowired public SpecialItemService specialService;
 
-  @Autowired
-  public SpecialItemRepository specialRepo;
-
+  @Autowired public SpecialItemRepository specialRepo;
 
   @Before
   public void setUp() {
@@ -81,10 +79,8 @@ public class SpecialServiceTest {
     try {
       specialService.deleteSpecial(FREE_SODA);
       assertEquals(0, specialRepo.count());
-    } catch(Exception err) {
+    } catch (Exception err) {
       fail(err.getMessage());
     }
-
   }
-
 }

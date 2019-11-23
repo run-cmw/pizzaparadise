@@ -6,9 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 
-/**
- * SpecialItem
- */
+/** SpecialItem */
 @Validated
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
@@ -16,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 @ApiModel
 @Document(collection = "SpecialItem")
 public class SpecialItem {
-
 
   @JsonProperty("id")
   private String id;
@@ -26,7 +23,6 @@ public class SpecialItem {
 
   @JsonProperty("description")
   private String description;
-
 
   /**
    * Create new SpecialItem
@@ -101,7 +97,6 @@ public class SpecialItem {
     this.description = description;
   }
 
-
   /**
    * Spring representation of a Special Item
    *
@@ -109,11 +104,7 @@ public class SpecialItem {
    */
   @Override
   public String toString() {
-    return "SpecialItem{" +
-        "id=" + id +
-        ", name=" + name +
-        ", description=" + description +
-        "}";
+    return "SpecialItem{" + "id=" + id + ", name=" + name + ", description=" + description + "}";
   }
 
   /**
@@ -131,10 +122,8 @@ public class SpecialItem {
       return false;
     }
     SpecialItem specialItem = (SpecialItem) obj;
-    return specialItem.getId().equals(this.id) &&
-        specialItem.getName().equals(this.name) &&
-        specialItem.getDescription().equals(this.description);
+    return specialItem.getId().equals(this.id)
+        && specialItem.getName().equals(this.name)
+        && specialItem.getDescription().equals(this.description);
   }
-
-
 }

@@ -1,12 +1,11 @@
 package io.swagger.service;
 
-
 import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Java6Assertions.fail;
 import static org.junit.Assert.assertEquals;
+
 import io.swagger.model.SideItem;
 import io.swagger.repository.SideItemRepository;
-
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,11 +19,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest
 @TestPropertySource(locations = "classpath:/application-test.properties")
 public class SideServiceTest {
-  @Autowired
-  public SideService sideService;
+  @Autowired public SideService sideService;
 
-  @Autowired
-  public SideItemRepository sideRepo;
+  @Autowired public SideItemRepository sideRepo;
 
   @Before
   public void setUp() {
@@ -77,9 +74,8 @@ public class SideServiceTest {
     try {
       sideService.deleteSide(CHOCOLATE_COOKIE);
       assertEquals(0, sideRepo.count());
-    } catch(Exception err) {
+    } catch (Exception err) {
       fail(err.getMessage());
     }
   }
-
 }

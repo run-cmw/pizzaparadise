@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class SideItemTest {
 
   private SideItem sideItem;
@@ -35,7 +34,7 @@ public class SideItemTest {
   public void testGetName() {
     assertEquals("Hot wings", sideItem.getName());
   }
-  
+
   @Test
   public void testSetName() {
     sideItem.setName("Cheese sticks");
@@ -47,7 +46,7 @@ public class SideItemTest {
     Double price = 7.99;
     assertEquals(price, sideItem.getPrice());
   }
-  
+
   @Test
   public void testSetPrice() {
     Double price = 6.99;
@@ -83,12 +82,20 @@ public class SideItemTest {
   @Test
   public void testToString() {
     final String SIDE_ITEM_AS_STRING =
-      "SideItem{"
-      + "id='" + sideItem.getId() + '\''
-      + ", name='" + sideItem.getName()+ '\''
-      + ", price='" + sideItem.getPrice()+ '\''
-      + ", type='" + sideItem.getType()+ '\''
-      + '}';
+        "SideItem{"
+            + "id='"
+            + sideItem.getId()
+            + '\''
+            + ", name='"
+            + sideItem.getName()
+            + '\''
+            + ", price='"
+            + sideItem.getPrice()
+            + '\''
+            + ", type='"
+            + sideItem.getType()
+            + '\''
+            + '}';
 
     assertEquals(SIDE_ITEM_AS_STRING, sideItem.toString());
   }

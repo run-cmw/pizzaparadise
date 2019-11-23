@@ -9,7 +9,6 @@ import io.swagger.model.CartAddResponse;
 import io.swagger.model.Pizza;
 import io.swagger.model.PriceResponse;
 import io.swagger.model.SideItem;
-import io.swagger.repository.CartRepository;
 import io.swagger.service.CartService;
 import io.swagger.service.PizzaService;
 import io.swagger.service.PizzaSizeService;
@@ -35,8 +34,7 @@ public class CartApiController implements CartApi {
   @Autowired private SideService sideService;
   @Autowired private StoreService storeService;
 
-  @Autowired
-  private PizzaService pizzaService;
+  @Autowired private PizzaService pizzaService;
 
   /**
    * {@inheritDoc} HttpStatus.NOT_FOUND - if storeId and cartId are not matching. HttpStatus.OK - if
@@ -48,8 +46,11 @@ public class CartApiController implements CartApi {
       tags = {
         "cart",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=200, message = "OK"), @ApiResponse(code=404, message = "NOT_FOUND")})
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 404, message = "NOT_FOUND")
+      })
   public ResponseEntity<Cart> getCartItemsById(String storeId, String cartId) {
     if (cartService.getCartItemsById(storeId, cartId) == null) {
       return new ResponseEntity<Cart>(HttpStatus.NOT_FOUND);
@@ -84,12 +85,10 @@ public class CartApiController implements CartApi {
   }
 
   /**
-   * {@inheritDoc}
-   * HttpStatus.NOT_FOUND - if the storeId is not found.
-   * HttpStatus.NOT_FOUND - if the pizzaSizeId is not found.
-   * HttpStatus.BAD_REQUEST - if the store's gluten setting does not match with given gluten.
-   * HttpStatus.BAD_REQUEST - if pizza toppings is greater than maximum toppings number.
-   * HttpStatus.OK - if pizza was successfully added to Cart.
+   * {@inheritDoc} HttpStatus.NOT_FOUND - if the storeId is not found. HttpStatus.NOT_FOUND - if the
+   * pizzaSizeId is not found. HttpStatus.BAD_REQUEST - if the store's gluten setting does not match
+   * with given gluten. HttpStatus.BAD_REQUEST - if pizza toppings is greater than maximum toppings
+   * number. HttpStatus.OK - if pizza was successfully added to Cart.
    */
   @PostMapping("/store/{storeId}/cart/{cartId}/pizza")
   @ApiOperation(
@@ -97,12 +96,14 @@ public class CartApiController implements CartApi {
       tags = {
         "cart",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=200, message = "OK"),
-      @ApiResponse(code=400, message = "BAD_REQUEST"),
-      @ApiResponse(code=404, message = "NOT_FOUND")})
-  public ResponseEntity<CartAddResponse> addPizzaToCart(String storeId, String cartId,
-      Pizza pizza) {
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 400, message = "BAD_REQUEST"),
+        @ApiResponse(code = 404, message = "NOT_FOUND")
+      })
+  public ResponseEntity<CartAddResponse> addPizzaToCart(
+      String storeId, String cartId, Pizza pizza) {
     final CartAddResponse response;
     final String message;
     if (pizza.getToppingIDs().size() > Pizza.MAXIMUM_TOPPING_COUNT) {
@@ -127,15 +128,14 @@ public class CartApiController implements CartApi {
       response = new CartAddResponse(pizza, cart.getId(), storeId);
       return new ResponseEntity<CartAddResponse>(response, HttpStatus.OK);
     } catch (Exception exception) {
-      return new ResponseEntity<CartAddResponse>(new CartAddResponse(exception.getMessage()), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<CartAddResponse>(
+          new CartAddResponse(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
   }
 
   /**
-   * {@inheritDoc}
-   * HttpStatus.NOT_FOUND - if the storeId is not found.
-   * HttpStatus.NOT_FOUND - if the sideId is not found.
-   * HttpStatus.OK - if side was successfully added to Cart.
+   * {@inheritDoc} HttpStatus.NOT_FOUND - if the storeId is not found. HttpStatus.NOT_FOUND - if the
+   * sideId is not found. HttpStatus.OK - if side was successfully added to Cart.
    */
   @PostMapping("/store/{storeId}/cart/{cartId}/side")
   @ApiOperation(
@@ -143,10 +143,13 @@ public class CartApiController implements CartApi {
       tags = {
         "cart",
       })
-  @ApiResponses(value = {
-      @ApiResponse(code=200, message = "OK"), @ApiResponse(code=404, message = "NOT_FOUND")})
-  public ResponseEntity<CartAddResponse> addSideToCart(String storeId, String cartId,
-      String sideId) {
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 404, message = "NOT_FOUND")
+      })
+  public ResponseEntity<CartAddResponse> addSideToCart(
+      String storeId, String cartId, String sideId) {
     final CartAddResponse response;
     if (storeService.getStoreById(storeId) == null) {
       response = new CartAddResponse(Message.STORE_NOT_FOUND);
@@ -206,7 +209,7 @@ public class CartApiController implements CartApi {
     if (cart == null) {
       return HttpStatus.NOT_FOUND;
     }
-    if(!cart.getSides().contains(sideId)) {
+    if (!cart.getSides().contains(sideId)) {
       return HttpStatus.BAD_REQUEST;
     }
     cartService.deleteSideFromCart(cart, sideService.getSideById(sideId));
@@ -230,7 +233,8 @@ public class CartApiController implements CartApi {
         @ApiResponse(code = 400, message = "BAD_REQUEST"),
         @ApiResponse(code = 404, message = "NOT_FOUND")
       })
-  public HttpStatus deletePizzaFromCart(String storeId, String cartId, Pizza pizza) throws Exception {
+  public HttpStatus deletePizzaFromCart(String storeId, String cartId, Pizza pizza)
+      throws Exception {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
     if (cart == null) {
       return HttpStatus.NOT_FOUND;

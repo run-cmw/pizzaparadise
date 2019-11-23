@@ -7,7 +7,6 @@ import static org.junit.Assert.assertFalse;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class PizzaSizeTest {
 
   public PizzaSize size1;
@@ -18,7 +17,6 @@ public class PizzaSizeTest {
     size1 = new PizzaSize("small", "small", "11", 13.00);
     size2 = new PizzaSize("medium", "medium", "13", 15.00);
   }
-
 
   @Test
   public void getIdTest() {
@@ -76,8 +74,6 @@ public class PizzaSizeTest {
 
   @Test
   public void toStringTest() {
-    assertEquals(size1.toString(),
-        "PizzaSize{id=small, sizeName=small, sizeInch=11, price=13.0}");
+    assertEquals(size1.toString(), "PizzaSize{id=small, sizeName=small, sizeInch=11, price=13.0}");
   }
 }
-

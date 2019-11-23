@@ -11,22 +11,20 @@ import org.springframework.web.bind.annotation.RequestParam;
     date = "2019-09-26T03:54:46.062Z[GMT]")
 @Api(value = "applySpecial", description = "Apply Special API")
 
-/**
- * Interface for the Apply Special API
- */
+/** Interface for the Apply Special API */
 public interface ApplySpecialApi {
   /**
    * Apply the specified special to the given store and cart.
    *
    * @param specialId id of the special being requested
-   * @param cartId  id of the cart receiving the special
+   * @param cartId id of the cart receiving the special
    * @param storeId id of the store that the cart belongs to
    * @return Success message that pizza was added to cart or error message if special is not valid
-   * for cart.
+   *     for cart.
    */
-  ResponseEntity<ApplySpecialResponse> applySpecial (
+  ResponseEntity<ApplySpecialResponse> applySpecial(
       @ApiParam(value = "Special to add") @RequestParam(required = true) String specialId,
       @ApiParam(value = "Store that contains cart") @RequestParam(required = true) String storeId,
       @ApiParam(value = "Cart to update") @RequestParam(required = true) String cartId)
-  throws Exception;
+      throws Exception;
 }

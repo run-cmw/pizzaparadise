@@ -20,10 +20,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @TestPropertySource(locations = "classpath:/application-test.properties")
 public class ToppingItemServiceTest {
 
-  @Autowired
-  private ToppingItemRepository toppingRepo;
-  @Autowired
-  private ToppingItemService toppingService;
+  @Autowired private ToppingItemRepository toppingRepo;
+  @Autowired private ToppingItemService toppingService;
 
   @Before
   public void setUp() {
@@ -40,7 +38,8 @@ public class ToppingItemServiceTest {
   }
 
   private ToppingItem setupBroccoli() {
-    ToppingItem broccoli = new ToppingItem("broccoli1", "broccoli", "vegetable", 2.00, 2.25, 2.50, "non-gluten");
+    ToppingItem broccoli =
+        new ToppingItem("broccoli1", "broccoli", "vegetable", 2.00, 2.25, 2.50, "non-gluten");
     toppingRepo.insert(broccoli);
     return broccoli;
   }
@@ -52,8 +51,8 @@ public class ToppingItemServiceTest {
 
     List<ToppingItem> allToppings = toppingService.getAllTopping();
     assertEquals(2, toppingRepo.count());
-    //assertTrue(allToppings.contains(topping1));
-    //assertTrue(allToppings.contains(topping2));
+    // assertTrue(allToppings.contains(topping1));
+    // assertTrue(allToppings.contains(topping2));
   }
 
   @Test
@@ -61,12 +60,13 @@ public class ToppingItemServiceTest {
     ToppingItem topping = setupBacon();
     ToppingItem toppingFromDB = toppingService.getToppingById(BACON);
     assertNull(toppingService.getToppingById("noTopping"));
-    //assertEquals(topping, toppingFromDB);
+    // assertEquals(topping, toppingFromDB);
   }
 
   @Test
   public void addToppingTest() {
-    ToppingItem broccoli = new ToppingItem("broccoli1", "broccoli", "vegetable", 2.00, 2.25, 2.50, "non-gluten");
+    ToppingItem broccoli =
+        new ToppingItem("broccoli1", "broccoli", "vegetable", 2.00, 2.25, 2.50, "non-gluten");
 
     ToppingItem toppingFromServer = toppingService.addTopping(broccoli);
     assertEquals(broccoli, toppingFromServer);

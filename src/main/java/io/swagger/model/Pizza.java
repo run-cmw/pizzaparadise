@@ -5,9 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Pizza class
- */
+/** Pizza class */
 public class Pizza {
 
   // Pizzas may have up to this many toppings
@@ -15,8 +13,10 @@ public class Pizza {
 
   @JsonProperty("PizzaSizeID")
   private String sizeID;
+
   @JsonProperty("gluten")
   private boolean gluten;
+
   @JsonProperty("toppingIDs")
   private List<String> toppingIDs;
 
@@ -64,28 +64,38 @@ public class Pizza {
 
   /**
    * String representation of this Pizza.
+   *
    * @return a String representation of this Pizza
    */
   @Override
   public String toString() {
-    return "Pizza{" + "sizeID=" + this.sizeID
-        + ", gluten=" + this.gluten
-        + ", toppingIDs=" + this.toppingIDs + "}";
+    return "Pizza{"
+        + "sizeID="
+        + this.sizeID
+        + ", gluten="
+        + this.gluten
+        + ", toppingIDs="
+        + this.toppingIDs
+        + "}";
   }
 
   /**
    * Check if two objects are equal.
+   *
    * @param obj object given for comparison
    * @return true if two objects are equal, false otherwise.
    */
   @Override
   public boolean equals(Object obj) {
-    if(obj == this) { return true; }
-    if(obj == null || getClass() != obj.getClass()) { return false; }
+    if (obj == this) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
     Pizza pizza = (Pizza) obj;
-    return this.sizeID.equals(pizza.getSizeID()) &&
-        this.gluten == pizza.gluten &&
-        this.toppingIDs.equals(pizza.getToppingIDs());
+    return this.sizeID.equals(pizza.getSizeID())
+        && this.gluten == pizza.gluten
+        && this.toppingIDs.equals(pizza.getToppingIDs());
   }
-
 }

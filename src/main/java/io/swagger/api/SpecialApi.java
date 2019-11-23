@@ -9,9 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-/**
- * SpecialAPI interface
- */
+/** SpecialAPI interface */
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
     date = "2019-09-26T03:54:46.062Z[GMT]")
@@ -25,15 +23,14 @@ public interface SpecialApi {
    */
   ResponseEntity<List<SpecialItem>> getAllSpecials();
 
-
   /**
    * Get a specific specialItem by specialId
    *
    * @param id special id to find
    * @return specialItem found by Id
    */
-  ResponseEntity<SpecialItem> getSpecialById(@ApiParam(value = "SpecialID") @PathVariable String id);
-
+  ResponseEntity<SpecialItem> getSpecialById(
+      @ApiParam(value = "SpecialID") @PathVariable String id);
 
   /**
    * Add a new special to the database

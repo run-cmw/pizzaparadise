@@ -30,7 +30,7 @@ public class PizzaSizeService {
    */
   public PizzaSize getPizzaSizeById(String id) {
     Optional<PizzaSize> size = pizzaSizeRepository.findById(id);
-    if(!size.isPresent()) {
+    if (!size.isPresent()) {
       return null;
     }
     return size.get();
@@ -38,6 +38,7 @@ public class PizzaSizeService {
 
   /**
    * Add PizzaSize to the database
+   *
    * @param pizzaSize pizzaSize given to add
    * @return the PizzaSize that is added
    */
@@ -46,9 +47,9 @@ public class PizzaSizeService {
     return pizzaSize;
   }
 
-
   /**
    * Delete PizzaSize by id from database
+   *
    * @param id id given to delete
    */
   public void deletePizzaSize(String id) {

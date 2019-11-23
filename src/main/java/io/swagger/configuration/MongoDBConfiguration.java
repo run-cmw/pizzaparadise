@@ -9,8 +9,5 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 public class MongoDBConfiguration implements CommandLineRunner {
 
   @Override
-  public void run(String... strings) throws Exception {
-
-  }
-
+  public void run(String... strings) throws Exception {}
 }

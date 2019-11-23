@@ -82,10 +82,18 @@ public class ApplySpecialResponseTest {
   public void testToString() {
     final String APPLY_SPECIAL_AS_STRING =
         "ApplySpecialResponse{"
-            + "specialId='" + applySpecialResponse.getSpecialId() + '\''
-            + ", success='" + applySpecialResponse.getSuccess() + '\''
-            + ", message='" + applySpecialResponse.getMessage() + '\''
-            + ", savings='" + applySpecialResponse.getSavings() + '\''
+            + "specialId='"
+            + applySpecialResponse.getSpecialId()
+            + '\''
+            + ", success='"
+            + applySpecialResponse.getSuccess()
+            + '\''
+            + ", message='"
+            + applySpecialResponse.getMessage()
+            + '\''
+            + ", savings='"
+            + applySpecialResponse.getSavings()
+            + '\''
             + '}';
 
     assertEquals(APPLY_SPECIAL_AS_STRING, applySpecialResponse.toString());

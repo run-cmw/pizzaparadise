@@ -3,6 +3,7 @@ package io.swagger.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
+
 import io.swagger.model.Cart;
 import io.swagger.model.Pizza;
 import io.swagger.model.PizzaSize;
@@ -27,23 +28,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @TestPropertySource(locations = "classpath:/application-test.properties")
 public class CartServiceTest {
 
-  @Autowired
-  public CartService cartService;
+  @Autowired public CartService cartService;
 
-  @Autowired
-  public CartRepository cartRepo;
+  @Autowired public CartRepository cartRepo;
 
-  @Autowired
-  public StoreItemRepository storeRepo;
+  @Autowired public StoreItemRepository storeRepo;
 
-  @Autowired
-  private ToppingItemRepository toppingRepo;
+  @Autowired private ToppingItemRepository toppingRepo;
 
-  @Autowired
-  private PizzaSizeRepository sizeRepo;
+  @Autowired private PizzaSizeRepository sizeRepo;
 
-  @Autowired
-  private SideItemRepository sideRepo;
+  @Autowired private SideItemRepository sideRepo;
 
   @Before
   public void setUp() {
@@ -67,7 +62,7 @@ public class CartServiceTest {
   }
 
   private PizzaSize setUpSmallSize() {
-    PizzaSize pizzaSize = new PizzaSize("small", "Small", "6",9.99);
+    PizzaSize pizzaSize = new PizzaSize("small", "Small", "6", 9.99);
     sizeRepo.insert(pizzaSize);
     return pizzaSize;
   }
@@ -134,7 +129,6 @@ public class CartServiceTest {
     assertEquals(smallPizza, pizzaFromService);
   }
 
-
   @Test
   public void getPizzasPriceTest() throws Exception {
     ObjectId cartId = new ObjectId();
@@ -148,7 +142,6 @@ public class CartServiceTest {
     Double price = cartService.getPizzasPrice(cart);
     assertEquals((Double) 12.49, price);
   }
-
 
   @Test
   public void getSidePriceTest() {
@@ -177,7 +170,7 @@ public class CartServiceTest {
     cartRepo.insert(cart);
     try {
       cartService.deleteCart(cartId);
-    } catch(Exception err) {
+    } catch (Exception err) {
       fail(err.getMessage());
     }
   }
@@ -207,5 +200,4 @@ public class CartServiceTest {
     cartService.deletePizzaFromCart(cart, smallPizza);
     assertEquals((Double) 0.00, cartService.getPizzasPrice(cart));
   }
-
 }

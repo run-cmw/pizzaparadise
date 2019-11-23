@@ -6,9 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 
-/**
- * PizzaSize
- */
+/** PizzaSize */
 @Validated
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
@@ -17,8 +15,7 @@ import org.springframework.validation.annotation.Validated;
 @Document(collection = "PizzaSize")
 public class PizzaSize {
 
-  @Id
-  private String id;
+  @Id private String id;
   private String sizeName;
   private String sizeInch;
   private Double price;
@@ -121,12 +118,16 @@ public class PizzaSize {
    */
   @Override
   public String toString() {
-    return "PizzaSize{" +
-        "id=" + id +
-        ", sizeName=" + sizeName +
-        ", sizeInch=" + sizeInch +
-        ", price=" + price +
-        "}";
+    return "PizzaSize{"
+        + "id="
+        + id
+        + ", sizeName="
+        + sizeName
+        + ", sizeInch="
+        + sizeInch
+        + ", price="
+        + price
+        + "}";
   }
 
   /**
@@ -137,13 +138,14 @@ public class PizzaSize {
    */
   @Override
   public boolean equals(Object obj) {
-    if(this == obj) return true;
-    if(obj == null || getClass() != obj.getClass()) { return false; }
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
     PizzaSize size = (PizzaSize) obj;
-    return size.getId().equals(this.id) &&
-        size.getPrice().equals(this.price) &&
-        size.getSizeName().equals(this.sizeName) &&
-        size.getSizeInch().equals(this.sizeInch);
+    return size.getId().equals(this.id)
+        && size.getPrice().equals(this.price)
+        && size.getSizeName().equals(this.sizeName)
+        && size.getSizeInch().equals(this.sizeInch);
   }
-
 }

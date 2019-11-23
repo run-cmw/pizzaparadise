@@ -1,8 +1,6 @@
 package io.swagger;
 
-/**
- * Error messages.
- */
+/** Error messages. */
 public class Message {
   // Cart messages
   public static final String TOO_MANY_PIZZA_TOPPINGS = "TOO_MANY_PIZZA_TOPPINGS";

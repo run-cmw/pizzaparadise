@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SpecialItemService {
 
-  @Autowired
-  public SpecialItemRepository specialItemRepository;
-
+  @Autowired public SpecialItemRepository specialItemRepository;
 
   /**
    * Get all Special Items
@@ -31,7 +29,7 @@ public class SpecialItemService {
    */
   public SpecialItem getSpecialById(String id) {
     Optional<SpecialItem> special = specialItemRepository.findById(id);
-    if(!special.isPresent()) {
+    if (!special.isPresent()) {
       return null;
     }
     return special.get();
@@ -39,13 +37,13 @@ public class SpecialItemService {
 
   /**
    * Add special to the database
+   *
    * @return the specialItem that is added
    */
   public SpecialItem addSpecial(SpecialItem specialItem) {
     specialItemRepository.save(specialItem);
     return specialItem;
   }
-
 
   /**
    * Delete special by id from database

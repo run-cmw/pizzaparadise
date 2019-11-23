@@ -1,22 +1,19 @@
 package io.swagger.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
-/**
- * StoreItem
- */
+/** StoreItem */
 @Validated
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
     date = "2019-09-26T03:54:46.062Z[GMT]")
-
 @ApiModel
 @Document(collection = "SideItem")
 public class SideItem {
@@ -141,7 +138,7 @@ public class SideItem {
    *
    * @param obj - the reference object with which to compare
    * @return {@code true} if this object is the same as the obj argument and {@code false}
-   * otherwise.
+   *     otherwise.
    */
   @Override
   public boolean equals(java.lang.Object o) {
@@ -169,19 +166,26 @@ public class SideItem {
   }
 
   /**
-   * Returns a string representation of a SideItem.
-   * Format - SideItem{id='sideItemId', name='sideItemName', price='sideItemPrice',
-   *              type='sideItemPrice'}
+   * Returns a string representation of a SideItem. Format - SideItem{id='sideItemId',
+   * name='sideItemName', price='sideItemPrice', type='sideItemPrice'}
    *
    * @return string representation of a SideItem.
    */
   @Override
   public String toString() {
     return "SideItem{"
-        + "id='" + id + '\''
-        + ", name='" + name + '\''
-        + ", price='" + price + '\''
-        + ", type='" + type + '\''
+        + "id='"
+        + id
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + ", price='"
+        + price
+        + '\''
+        + ", type='"
+        + type
+        + '\''
         + '}';
   }
 }

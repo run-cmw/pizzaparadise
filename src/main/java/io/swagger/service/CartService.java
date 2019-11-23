@@ -9,25 +9,20 @@ import io.swagger.repository.SideItemRepository;
 import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class CartService {
 
-  @Autowired
-  private CartRepository cartRepository;
+  @Autowired private CartRepository cartRepository;
 
-  @Autowired
-  private SideItemRepository sideRepository;
+  @Autowired private SideItemRepository sideRepository;
 
-  @Autowired
-  private PizzaService pizzaService;
-
+  @Autowired private PizzaService pizzaService;
 
   /**
    * Get Cart information by StoreID and CartID.
+   *
    * @param storeId storeId given to connect cart.
    * @param cartId cartId given to this function.
    * @return Cart if cartId was found from the store. Null if cartID and storeID are not connected.
@@ -43,6 +38,7 @@ public class CartService {
 
   /**
    * Create Cart using the objectId
+   *
    * @param storeId storeId given to connect cart.
    * @return cart that was created or get from database
    */
@@ -54,6 +50,7 @@ public class CartService {
 
   /**
    * Get or create Cart using the objectId using String cartId.
+   *
    * @param storeId storeId given to connect cart.
    * @param cartId cartId given to get or create.
    * @return cart that was created or get from database
@@ -68,6 +65,7 @@ public class CartService {
 
   /**
    * This function add pizza to Cart.
+   *
    * @param cart cart given to add pizza
    * @param pizza pizza given to add to Cart.
    * @return pizza that was added to Cart
@@ -85,9 +83,10 @@ public class CartService {
   }
 
   /**
-   * This function add side to Cart.
-   * If the cartId doesn't exist in the store, we create new Cart in the store and add side.
-   * Note that if input cartID doesn't exist, finalized cartID is newly made.
+   * This function add side to Cart. If the cartId doesn't exist in the store, we create new Cart in
+   * the store and add side. Note that if input cartID doesn't exist, finalized cartID is newly
+   * made.
+   *
    * @param sideID sideId given to add to the Cart.
    * @return Side sideItem that was added.
    */
@@ -111,9 +110,9 @@ public class CartService {
     cartRepository.deleteById(cartId);
   }
 
-
   /**
    * This function delete the Cart.
+   *
    * @param cartId cartId given to delete.
    */
   public void deleteCart(ObjectId cartId) {
@@ -122,6 +121,7 @@ public class CartService {
 
   /**
    * Get the total price of items(pizzas + sides) in the Cart using cartId.
+   *
    * @param cartId cartId given to get the total price of whole items.
    * @return PriceResponse that shows "Success:True", price and currency.
    */
@@ -132,6 +132,7 @@ public class CartService {
 
   /**
    * Get the total price of items(pizzas + sides) in the Cart using cart object.
+   *
    * @param cart cart given to get the total price of whole items.
    * @return PriceResponse that shows "Success:True", price and currency.
    */
@@ -141,6 +142,7 @@ public class CartService {
 
   /**
    * Get the total price of all sideItems in the Cart.
+   *
    * @param cart cart given to get the total price of side items.
    * @return Double the price of all side items in the Cart.
    */
@@ -156,6 +158,7 @@ public class CartService {
 
   /**
    * Get the total price of all Pizzas in the Cart.
+   *
    * @param cart cart given to calculate the total price of all pizzas in this Cart.
    * @return Double the price of all pizzas in the Cart.
    * @throws Exception if topping of the pizza is invalid
@@ -176,6 +179,7 @@ public class CartService {
 
   /**
    * Delete a side from a Cart.
+   *
    * @param cart cart given to delete side.
    * @param side side given to delete from cart.
    */
@@ -188,6 +192,7 @@ public class CartService {
 
   /**
    * Delete a pizza from a Cart.
+   *
    * @param cart cart given to delete a pizza.
    * @param pizza pizza given to delete from list of pizza.
    * @throws Exception if topping of the pizza is invalid
@@ -203,5 +208,4 @@ public class CartService {
     cartRepository.save(cart);
     return true;
   }
-
 }

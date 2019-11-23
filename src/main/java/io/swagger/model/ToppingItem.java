@@ -3,18 +3,13 @@ package io.swagger.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- * ToppingItem
- */
+/** ToppingItem */
 @Validated
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
@@ -55,9 +50,13 @@ public class ToppingItem {
    * @param toppingLargePrice given to this ToppingItem
    * @param toppingGluten given to this ToppingItem
    */
-
-  public ToppingItem(String id, String toppingName, String toppingType,
-      Double toppingSmallPrice, Double toppingMediumPrice, Double toppingLargePrice,
+  public ToppingItem(
+      String id,
+      String toppingName,
+      String toppingType,
+      Double toppingSmallPrice,
+      Double toppingMediumPrice,
+      Double toppingLargePrice,
       String toppingGluten) {
     this.id = id;
     this.toppingName = toppingName;
@@ -80,9 +79,7 @@ public class ToppingItem {
     return id;
   }
 
-  /**
-   * Set id
-   */
+  /** Set id */
   public void setId(String id) {
     this.id = id;
   }
@@ -91,60 +88,49 @@ public class ToppingItem {
    * Get toppingName
    *
    * @return toppingName
-   **/
+   */
   @ApiModelProperty(example = "Sausage", value = "")
   @NotNull
   @GetMapping("/{toppingName}")
-
   public String getToppingName() {
     return toppingName;
   }
 
-  /**
-   * Set toppingName
-   */
+  /** Set toppingName */
   public void setToppingName(String toppingName) {
     this.toppingName = toppingName;
   }
-
 
   /**
    * Get toppingType
    *
    * @return toppingType
-   **/
+   */
   @ApiModelProperty(example = "meat", value = "")
   @NotNull
   @Valid
-
   public String getToppingType() {
     return toppingType;
   }
 
-  /**
-   * Set topping type
-   */
+  /** Set topping type */
   public void setToppingType(String toppingType) {
     this.toppingType = toppingType;
   }
-
 
   /**
    * Get toppingSmallPrice
    *
    * @return toppingSmallPrice
-   **/
+   */
   @ApiModelProperty(example = "2.5", value = "")
   @NotNull
   @Valid
-
   public Double getToppingSmallPrice() {
     return toppingSmallPrice;
   }
 
-  /**
-   * Set topping small price
-   */
+  /** Set topping small price */
   public void setToppingSmallPrice(Double toppingSmallPrice) {
     this.toppingSmallPrice = toppingSmallPrice;
   }
@@ -153,18 +139,15 @@ public class ToppingItem {
    * Get toppingMediumPrice
    *
    * @return toppingMediumPrice
-   **/
+   */
   @ApiModelProperty(example = "2.75", value = "")
   @NotNull
   @Valid
-
   public Double getToppingMediumPrice() {
     return toppingMediumPrice;
   }
 
-  /**
-   * Set topping medium price
-   */
+  /** Set topping medium price */
   public void setToppingMediumPrice(Double toppingMediumPrice) {
     this.toppingMediumPrice = toppingMediumPrice;
   }
@@ -173,18 +156,15 @@ public class ToppingItem {
    * Get toppingLargePrice
    *
    * @return toppingLargePrice
-   **/
+   */
   @ApiModelProperty(example = "3.0", value = "")
   @NotNull
   @Valid
-
   public Double getToppingLargePrice() {
     return toppingLargePrice;
   }
 
-  /**
-   * Set topping large price
-   */
+  /** Set topping large price */
   public void setToppingLargePrice(Double toppingLargePrice) {
     this.toppingLargePrice = toppingLargePrice;
   }
@@ -193,18 +173,15 @@ public class ToppingItem {
    * Get toppingGluten
    *
    * @return toppingGluten
-   **/
+   */
   @ApiModelProperty(example = "gluten", value = "")
   @NotNull
   @Valid
-
   public String getToppingGluten() {
     return toppingGluten;
   }
 
-  /**
-   * Set topping gluten or non-gluten
-   */
+  /** Set topping gluten or non-gluten */
   public void setToppingGluten(String toppingGluten) {
     this.toppingGluten = toppingGluten;
   }
@@ -216,15 +193,29 @@ public class ToppingItem {
    */
   @Override
   public String toString() {
-    return "ToppingItem{" +
-        "id='" + id + '\'' +
-        ", topping name='" + toppingName + '\'' +
-        ", topping type='" + toppingType + '\'' +
-        ", topping small price='" + toppingSmallPrice + '\'' +
-        ", topping medium price='" + toppingMediumPrice + '\'' +
-        ", topping large price='" + toppingLargePrice + '\'' +
-        ", topping gluten='" + toppingGluten + '\'' +
-        '}';
+    return "ToppingItem{"
+        + "id='"
+        + id
+        + '\''
+        + ", topping name='"
+        + toppingName
+        + '\''
+        + ", topping type='"
+        + toppingType
+        + '\''
+        + ", topping small price='"
+        + toppingSmallPrice
+        + '\''
+        + ", topping medium price='"
+        + toppingMediumPrice
+        + '\''
+        + ", topping large price='"
+        + toppingLargePrice
+        + '\''
+        + ", topping gluten='"
+        + toppingGluten
+        + '\''
+        + '}';
   }
 
   /**
@@ -242,13 +233,12 @@ public class ToppingItem {
       return false;
     }
     ToppingItem toppingItem = (ToppingItem) obj;
-    return toppingItem.getId().equals(this.id) &&
-        toppingItem.getToppingName().equals(this.toppingName) &&
-        toppingItem.getToppingType().equals(this.toppingType) &&
-        toppingItem.getToppingSmallPrice().equals(this.toppingSmallPrice) &&
-        toppingItem.getToppingMediumPrice().equals(this.toppingMediumPrice) &&
-        toppingItem.getToppingLargePrice().equals(this.toppingLargePrice) &&
-        toppingItem.getToppingGluten().equals(this.toppingGluten);
+    return toppingItem.getId().equals(this.id)
+        && toppingItem.getToppingName().equals(this.toppingName)
+        && toppingItem.getToppingType().equals(this.toppingType)
+        && toppingItem.getToppingSmallPrice().equals(this.toppingSmallPrice)
+        && toppingItem.getToppingMediumPrice().equals(this.toppingMediumPrice)
+        && toppingItem.getToppingLargePrice().equals(this.toppingLargePrice)
+        && toppingItem.getToppingGluten().equals(this.toppingGluten);
   }
-
 }

@@ -9,14 +9,11 @@ import javax.validation.constraints.NotNull;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 
-/**
- * StoreItem
- */
+/** StoreItem */
 @Validated
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
     date = "2019-09-26T03:54:46.062Z[GMT]")
-
 @ApiModel
 @Document(collection = "StoreItem")
 public class StoreItem {
@@ -50,7 +47,12 @@ public class StoreItem {
    * @param zipCode zip code portion of store's address
    * @param offersGlutenFree whether store offers gluten free pizza
    */
-  public StoreItem(String id, String streetNumAndName, String city, String state, String zipCode,
+  public StoreItem(
+      String id,
+      String streetNumAndName,
+      String city,
+      String state,
+      String zipCode,
       boolean offersGlutenFree) {
     super();
     this.id = id;
@@ -192,7 +194,7 @@ public class StoreItem {
    *
    * @param obj - the reference object with which to compare
    * @return {@code true} if this object is the same as the obj argument and {@code false}
-   * otherwise.
+   *     otherwise.
    */
   @Override
   public boolean equals(java.lang.Object o) {
@@ -222,22 +224,33 @@ public class StoreItem {
   }
 
   /**
-   * Returns a string representation of a StoreItem.
-   * Format - StoreItem{id='storeItemId', streetNumAndName='storeItemStreetNumAndName',
-   *              city='storeItemCity', state='storeItemState', zipCode='storeItemZipCode',
-   *              offersGlutenFree='trueOrFalse'}
+   * Returns a string representation of a StoreItem. Format - StoreItem{id='storeItemId',
+   * streetNumAndName='storeItemStreetNumAndName', city='storeItemCity', state='storeItemState',
+   * zipCode='storeItemZipCode', offersGlutenFree='trueOrFalse'}
    *
    * @return string representation of a StoreItem.
    */
   @Override
   public String toString() {
     return "StoreItem{"
-        + "id='" + id + '\''
-        + ", streetNumAndName='" + streetNumAndName + '\''
-        + ", city='" + city + '\''
-        + ", state='" + state + '\''
-        + ", zipCode='" + zipCode + '\''
-        + ", offersGlutenFree='" + offersGlutenFree + '\''
+        + "id='"
+        + id
+        + '\''
+        + ", streetNumAndName='"
+        + streetNumAndName
+        + '\''
+        + ", city='"
+        + city
+        + '\''
+        + ", state='"
+        + state
+        + '\''
+        + ", zipCode='"
+        + zipCode
+        + '\''
+        + ", offersGlutenFree='"
+        + offersGlutenFree
+        + '\''
         + '}';
   }
 }

@@ -62,8 +62,10 @@ public class ToppingItemTest {
 
   @Test
   public void hashCodeTest() {
-    ToppingItem toppingItem1 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
-    ToppingItem toppingItem3 = new ToppingItem("onion1", "onion", "vegetable", 2.0, 2.25, 2.5, "non-gluten");
+    ToppingItem toppingItem1 =
+        new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "gluten");
+    ToppingItem toppingItem3 =
+        new ToppingItem("onion1", "onion", "vegetable", 2.0, 2.25, 2.5, "non-gluten");
 
     assertEquals(toppingItem1.hashCode(), toppingItem1.hashCode());
     assertNotEquals(toppingItem3.hashCode(), toppingItem1.hashCode());
@@ -99,7 +101,6 @@ public class ToppingItemTest {
 
     assertEquals(TOPPING_ITEM_AS_STRING, topping1.toString());
   }
-
 
   @Test
   public void setToppingTypeTest() {

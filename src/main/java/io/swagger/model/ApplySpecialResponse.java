@@ -1,19 +1,18 @@
 package io.swagger.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.validation.annotation.Validated;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /** Apply Special Response Model */
 @Validated
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
     date = "2019-09-26T03:54:46.062Z[GMT]")
-
 @ApiModel
 public class ApplySpecialResponse {
   @JsonProperty("specialId")
@@ -51,6 +50,7 @@ public class ApplySpecialResponse {
 
   /**
    * Get special's id.
+   *
    * @return special's id.
    */
   @ApiModelProperty(example = "buy1PizzaGetSodaFree", required = true, value = "")
@@ -62,6 +62,7 @@ public class ApplySpecialResponse {
 
   /**
    * Set special's id.
+   *
    * @param specialId special's id
    */
   public void setSpecialId(String specialId) {
@@ -70,6 +71,7 @@ public class ApplySpecialResponse {
 
   /**
    * Get success of applying special.
+   *
    * @return {@code true} if applying special successful and {@code false} otherwise.
    */
   @ApiModelProperty(example = "false", required = true, value = "")
@@ -81,6 +83,7 @@ public class ApplySpecialResponse {
 
   /**
    * Set success of applying special.
+   *
    * @param success success of applying special
    */
   public void setSuccess(boolean success) {
@@ -89,8 +92,9 @@ public class ApplySpecialResponse {
 
   /**
    * Get message regarding applying special.
-   * @return message regarding applying special: {@code null} if successful application and an
-   * error message otherwise.
+   *
+   * @return message regarding applying special: {@code null} if successful application and an error
+   *     message otherwise.
    */
   @ApiModelProperty(example = "ERROR_ONLY_ONE_SPECIAL_PER_CART", required = false, value = "")
   @Valid
@@ -100,8 +104,9 @@ public class ApplySpecialResponse {
 
   /**
    * Set message regarding applying special.
+   *
    * @param message message regarding applying special: {@code null} if successful application and
-   * an error message otherwise
+   *     an error message otherwise
    */
   public void setMessage(String message) {
     this.message = message;
@@ -109,6 +114,7 @@ public class ApplySpecialResponse {
 
   /**
    * Get savings received from special.
+   *
    * @return savings received from special.
    */
   @ApiModelProperty(example = "7.77", required = true, value = "")
@@ -120,6 +126,7 @@ public class ApplySpecialResponse {
 
   /**
    * Set savings received from special.
+   *
    * @param savings savings received from special
    */
   public void setSavings(Double savings) {
@@ -130,7 +137,8 @@ public class ApplySpecialResponse {
    * Indicates whether some other object is "equal to" this one.
    *
    * @param obj - the reference object with which to compare
-   * @return {@code true} if this object is the same as the obj argument and {@code false} otherwise.
+   * @return {@code true} if this object is the same as the obj argument and {@code false}
+   *     otherwise.
    */
   @Override
   public boolean equals(Object o) {
@@ -149,6 +157,7 @@ public class ApplySpecialResponse {
 
   /**
    * Returns a hash code value for an ApplySpecial.
+   *
    * @return hash code value for an ApplySpecial.
    */
   @Override
@@ -157,19 +166,27 @@ public class ApplySpecialResponse {
   }
 
   /**
-   * Returns a string representation of an ApplySpecial.
-   * Format - ApplySpecialResponse{specialId='specialId', success='applySpecialResponseSuccess',
-   *              message='applySpecialResponseMessage', savings='x.xx'}
+   * Returns a string representation of an ApplySpecial. Format -
+   * ApplySpecialResponse{specialId='specialId', success='applySpecialResponseSuccess',
+   * message='applySpecialResponseMessage', savings='x.xx'}
    *
    * @return string representation of a ApplySpecial.
    */
   @Override
   public String toString() {
     return "ApplySpecialResponse{"
-        + "specialId='" + specialId + '\''
-        + ", success='" + success + '\''
-        + ", message='" + message + '\''
-        + ", savings='" + savings + '\''
+        + "specialId='"
+        + specialId
+        + '\''
+        + ", success='"
+        + success
+        + '\''
+        + ", message='"
+        + message
+        + '\''
+        + ", savings='"
+        + savings
+        + '\''
         + '}';
   }
 }

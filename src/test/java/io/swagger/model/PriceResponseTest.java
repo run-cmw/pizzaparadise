@@ -4,6 +4,7 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,5 +42,4 @@ public class PriceResponseTest {
     assertEquals("CART_NOT_FOUND", response2.getMessage());
     assertNull(response1.getMessage());
   }
-
 }

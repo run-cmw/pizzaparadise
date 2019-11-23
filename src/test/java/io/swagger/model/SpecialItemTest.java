@@ -2,9 +2,9 @@ package io.swagger.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+
 import org.junit.Before;
 import org.junit.Test;
-
 
 public class SpecialItemTest {
 
@@ -16,7 +16,6 @@ public class SpecialItemTest {
     special1 = new SpecialItem("1", "Buy1Get1Free", "BuyOneGetOne description");
     special2 = new SpecialItem("2", "1SodaFree", "you get 1 soda description");
   }
-
 
   @Test
   public void getIdTest() {
@@ -62,12 +61,8 @@ public class SpecialItemTest {
 
   @Test
   public void toStringTest() {
-    assertEquals(special1.toString(), "SpecialItem{id=1, name=Buy1Get1Free, description=BuyOneGetOne description}");
-
+    assertEquals(
+        special1.toString(),
+        "SpecialItem{id=1, name=Buy1Get1Free, description=BuyOneGetOne description}");
   }
-
-
-
-
-
 }
