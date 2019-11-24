@@ -37,7 +37,7 @@ public class CartApiController implements CartApi {
    * {@inheritDoc} HttpStatus.NOT_FOUND - if storeId and cartId are not matching. HttpStatus.OK - if
    * Cart was successfully found.
    */
-  @GetMapping("store/{storeId}/cart/{cartId}")
+  @GetMapping("/cart/{storeId}/{cartId}")
   @ApiOperation(
       value = "Get all items in the cart with specific id.",
       tags = {
@@ -59,7 +59,7 @@ public class CartApiController implements CartApi {
    * {@inheritDoc} HttpStatus.NOT_FOUND - if storeId and cartId are not matching. HttpStatus.OK - if
    * price of the Cart was successfully found.
    */
-  @GetMapping("/store/{storeId}/cart/{cartId}/price")
+  @GetMapping("/cart/{storeId}/{cartId}/price")
   @ApiOperation(
       value = "Get price of all items in the cart with specific id.",
       tags = {
@@ -87,7 +87,7 @@ public class CartApiController implements CartApi {
    * with given gluten. HttpStatus.BAD_REQUEST - if pizza toppings is greater than maximum toppings
    * number. HttpStatus.OK - if pizza was successfully added to Cart.
    */
-  @PostMapping("/store/{storeId}/cart/{cartId}/pizza")
+  @PostMapping("/cart/{storeId}/{cartId}/pizza")
   @ApiOperation(
       value = "add pizza to the specific cart or by creating new cart.",
       tags = {
@@ -133,7 +133,7 @@ public class CartApiController implements CartApi {
    * {@inheritDoc} HttpStatus.NOT_FOUND - if the storeId is not found. HttpStatus.NOT_FOUND - if the
    * sideId is not found. HttpStatus.OK - if side was successfully added to Cart.
    */
-  @PostMapping("/store/{storeId}/cart/{cartId}/side")
+  @PostMapping("/cart/{storeId}/{cartId}/side")
   @ApiOperation(
       value = "add side to the specific cart or by creating new cart.",
       tags = {
@@ -165,7 +165,7 @@ public class CartApiController implements CartApi {
    * {@inheritDoc} HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
    * HttpStatus.NO_CONTENT - if cartId is successfully removed.
    */
-  @DeleteMapping("store/{storeId}/cart/{cartId}")
+  @DeleteMapping("/cart/{storeId}/{cartId}")
   @ApiOperation(
       value = "Delete a Cart with id.",
       tags = {
@@ -189,7 +189,7 @@ public class CartApiController implements CartApi {
    * HttpStatus.NOT_FOUND - if the sideId is not found. HttpStatus.NO_CONTENT - if side is
    * successfully removed from Cart.
    */
-  @DeleteMapping("store/{storeId}/cart/{cartId}/side")
+  @DeleteMapping("/cart/{storeId}/{cartId}/side")
   @ApiOperation(
       value = "Delete a sideItem from a Cart with id.",
       tags = {
@@ -217,7 +217,7 @@ public class CartApiController implements CartApi {
    * HttpStatus.BAD_REQUEST - if given pizzaIndex is less than 0. HttpStatus.NO_CONTENT - if side is
    * successfully removed from Cart.
    */
-  @DeleteMapping("store/{storeId}/cart/{cartId}/pizza")
+  @DeleteMapping("/cart/{storeId}/{cartId}/pizza")
   @ApiOperation(
       value = "Delete a pizza from a Cart with index number(starting zero).",
       tags = {

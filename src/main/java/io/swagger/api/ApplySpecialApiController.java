@@ -27,7 +27,7 @@ public class ApplySpecialApiController implements ApplySpecialApi {
    * if the the special cannot be applied bc a special has already been applied to the cart or bc
    * the cart's contents do not match the special's requirements
    */
-  @PostMapping("/store/{storeId}/cart/{cartId}/special")
+  @PostMapping("/cart/{storeId}/{cartId}/special")
   @ApiOperation(
       value = "Update the price of the cart depending on the special being applied.",
       tags = {
