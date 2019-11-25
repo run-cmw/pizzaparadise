@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /** ToppingItem */
 @Validated
@@ -154,7 +155,12 @@ public class ToppingItem {
   @NotNull
   @Valid
   public Double getToppingSmallPrice() {
-    return toppingSmallPrice = (double) Math.round(toppingSmallPrice * 100.0) / 100.0;
+    DecimalFormat df = new DecimalFormat("#.##");
+    return toppingSmallPrice = RoundingMode(Double.valueOf(df.format(toppingSmallPrice)));
+  }
+
+  private Double RoundingMode(Double valueOf) {
+    return null;
   }
 
   /** Set topping small price */
@@ -171,8 +177,8 @@ public class ToppingItem {
   @NotNull
   @Valid
   public Double getToppingMediumPrice() {
-    return toppingMediumPrice = (double) Math.round(toppingMediumPrice * 100.0) / 100.0;
-  }
+    DecimalFormat df = new DecimalFormat("#.##");
+    return toppingSmallPrice = RoundingMode(Double.valueOf(df.format(toppingMediumPrice)));  }
 
   /** Set topping medium price */
   public void setToppingMediumPrice(Double toppingMediumPrice) {
@@ -188,7 +194,8 @@ public class ToppingItem {
   @NotNull
   @Valid
   public Double getToppingLargePrice() {
-    return toppingLargePrice = (double) Math.round(toppingLargePrice * 100.0) / 100.0;
+    DecimalFormat df = new DecimalFormat("#.##");
+    return toppingSmallPrice = RoundingMode(Double.valueOf(df.format(toppingLargePrice)));
   }
 
   /** Set topping large price */
