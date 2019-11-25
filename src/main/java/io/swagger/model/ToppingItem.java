@@ -156,7 +156,7 @@ public class ToppingItem {
   @Valid
   public Double getToppingSmallPrice() {
     DecimalFormat df = new DecimalFormat("#.##");
-    return toppingSmallPrice = RoundingMode(Double.valueOf(df.format(toppingSmallPrice)));
+    return toppingSmallPrice = RoundingMode(Double.valueOf(df.format(getToppingSmallPrice())));
   }
 
   private Double RoundingMode(Double valueOf) {
@@ -178,7 +178,7 @@ public class ToppingItem {
   @Valid
   public Double getToppingMediumPrice() {
     DecimalFormat df = new DecimalFormat("#.##");
-    return toppingSmallPrice = RoundingMode(Double.valueOf(df.format(toppingMediumPrice)));  }
+    return toppingSmallPrice = RoundingMode(Double.valueOf(df.format(getToppingMediumPrice())));  }
 
   /** Set topping medium price */
   public void setToppingMediumPrice(Double toppingMediumPrice) {
@@ -195,7 +195,7 @@ public class ToppingItem {
   @Valid
   public Double getToppingLargePrice() {
     DecimalFormat df = new DecimalFormat("#.##");
-    return toppingSmallPrice = RoundingMode(Double.valueOf(df.format(toppingLargePrice)));
+    return toppingSmallPrice = RoundingMode(Double.valueOf(df.format(getToppingLargePrice())));
   }
 
   /** Set topping large price */
