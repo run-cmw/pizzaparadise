@@ -11,10 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 /** ToppingItem */
 @Validated
 @javax.annotation.Generated(
@@ -155,12 +151,7 @@ public class ToppingItem {
   @NotNull
   @Valid
   public Double getToppingSmallPrice() {
-    DecimalFormat df = new DecimalFormat("#.##");
-    return toppingSmallPrice = RoundingMode(Double.valueOf(df.format(getToppingSmallPrice())));
-  }
-
-  private Double RoundingMode(Double valueOf) {
-    return null;
+    return toppingSmallPrice;
   }
 
   /** Set topping small price */
@@ -177,8 +168,7 @@ public class ToppingItem {
   @NotNull
   @Valid
   public Double getToppingMediumPrice() {
-    DecimalFormat df = new DecimalFormat("#.##");
-    return toppingSmallPrice = RoundingMode(Double.valueOf(df.format(getToppingMediumPrice())));  }
+    return toppingMediumPrice; }
 
   /** Set topping medium price */
   public void setToppingMediumPrice(Double toppingMediumPrice) {
@@ -190,12 +180,11 @@ public class ToppingItem {
    *
    * @return toppingLargePrice
    */
-  @ApiModelProperty(example = "3.00", value = "")
+  @ApiModelProperty(example = "3.0", value = "")
   @NotNull
   @Valid
   public Double getToppingLargePrice() {
-    DecimalFormat df = new DecimalFormat("#.##");
-    return toppingSmallPrice = RoundingMode(Double.valueOf(df.format(getToppingLargePrice())));
+    return toppingLargePrice;
   }
 
   /** Set topping large price */
