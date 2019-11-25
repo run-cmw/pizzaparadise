@@ -147,16 +147,16 @@ public class ToppingItem {
    *
    * @return toppingSmallPrice
    */
-  @ApiModelProperty(example = "2.5", value = "")
+  @ApiModelProperty(example = "2.50", value = "")
   @NotNull
   @Valid
   public Double getToppingSmallPrice() {
-    return toppingSmallPrice;
+    return toppingSmallPrice = (double) Math.round(((toppingSmallPrice * 100) / 100));
   }
 
   /** Set topping small price */
   public void setToppingSmallPrice(Double toppingSmallPrice) {
-    this.toppingSmallPrice = (double) Math.round(((toppingSmallPrice * 100) / 100));
+    this.toppingSmallPrice = toppingSmallPrice;
   }
 
   /**
@@ -168,12 +168,12 @@ public class ToppingItem {
   @NotNull
   @Valid
   public Double getToppingMediumPrice() {
-    return toppingMediumPrice;
+    return toppingMediumPrice = (double) Math.round(((toppingMediumPrice * 100) / 100));
   }
 
   /** Set topping medium price */
   public void setToppingMediumPrice(Double toppingMediumPrice) {
-    this.toppingMediumPrice = (double) Math.round(((toppingMediumPrice * 100) / 100));
+    this.toppingMediumPrice = toppingMediumPrice;
   }
 
   /**
@@ -181,16 +181,16 @@ public class ToppingItem {
    *
    * @return toppingLargePrice
    */
-  @ApiModelProperty(example = "3.0", value = "")
+  @ApiModelProperty(example = "3.00", value = "")
   @NotNull
   @Valid
   public Double getToppingLargePrice() {
-    return toppingLargePrice;
+    return toppingLargePrice = (double) Math.round(((toppingLargePrice * 100) / 100));
   }
 
   /** Set topping large price */
   public void setToppingLargePrice(Double toppingLargePrice) {
-    this.toppingLargePrice  = (double) Math.round(((toppingLargePrice * 100) / 100));
+    this.toppingLargePrice = toppingLargePrice;
   }
 
   /**
