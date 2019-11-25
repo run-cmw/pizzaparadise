@@ -11,6 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 /** ToppingItem */
 @Validated
 @javax.annotation.Generated(
@@ -151,7 +154,7 @@ public class ToppingItem {
   @NotNull
   @Valid
   public Double getToppingSmallPrice() {
-    return toppingSmallPrice = (double) Math.round(((toppingSmallPrice * 100) / 100));
+    return toppingSmallPrice = (double) Math.round(toppingSmallPrice * 100.0) / 100.0;
   }
 
   /** Set topping small price */
@@ -168,7 +171,7 @@ public class ToppingItem {
   @NotNull
   @Valid
   public Double getToppingMediumPrice() {
-    return toppingMediumPrice = (double) Math.round(((toppingMediumPrice * 100) / 100));
+    return toppingMediumPrice = (double) Math.round(toppingMediumPrice * 100.0) / 100.0;
   }
 
   /** Set topping medium price */
@@ -185,7 +188,7 @@ public class ToppingItem {
   @NotNull
   @Valid
   public Double getToppingLargePrice() {
-    return toppingLargePrice = (double) Math.round(((toppingLargePrice * 100) / 100));
+    return toppingLargePrice = (double) Math.round(toppingLargePrice * 100.0) / 100.0;
   }
 
   /** Set topping large price */
