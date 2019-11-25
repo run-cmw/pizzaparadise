@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
     date = "2019-09-26T03:54:46.062Z[GMT]")
 @ApiModel
 @Document(collection = "ToppingItem")
+
 public class ToppingItem {
 
   @JsonProperty("id")
@@ -132,7 +133,7 @@ public class ToppingItem {
 
   /** Set topping small price */
   public void setToppingSmallPrice(Double toppingSmallPrice) {
-    this.toppingSmallPrice = toppingSmallPrice;
+    this.toppingSmallPrice = (double) Math.round(((toppingSmallPrice * 100) / 100));
   }
 
   /**
@@ -149,7 +150,7 @@ public class ToppingItem {
 
   /** Set topping medium price */
   public void setToppingMediumPrice(Double toppingMediumPrice) {
-    this.toppingMediumPrice = toppingMediumPrice;
+    this.toppingMediumPrice = (double) Math.round(((toppingMediumPrice * 100) / 100));
   }
 
   /**
@@ -166,7 +167,7 @@ public class ToppingItem {
 
   /** Set topping large price */
   public void setToppingLargePrice(Double toppingLargePrice) {
-    this.toppingLargePrice = toppingLargePrice;
+    this.toppingLargePrice  = (double) Math.round(((toppingLargePrice * 100) / 100));
   }
 
   /**
