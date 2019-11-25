@@ -1,8 +1,10 @@
 package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.DBStoreItems;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.repository.StoreItemRepository;
 import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -61,6 +63,21 @@ public class StoreItem {
     this.state = state;
     this.zipCode = zipCode;
     this.offersGlutenFree = offersGlutenFree;
+  }
+
+  /**
+   * Initialize StoreItemRepository by adding the 3 stores to the database.
+   * @param storeItemRepository repository for StoreItem storage
+   */
+  public static void initialize(StoreItemRepository storeItemRepository) {
+    if(storeItemRepository.count() == 0) {
+      storeItemRepository.insert(DBStoreItems.BROOKLYN_STORE);
+      storeItemRepository.insert(DBStoreItems.EASTLAKE_STORE);
+      storeItemRepository.insert(DBStoreItems.STONE_WAY_STORE);
+      storeItemRepository.save(DBStoreItems.BROOKLYN_STORE);
+      storeItemRepository.save(DBStoreItems.EASTLAKE_STORE);
+      storeItemRepository.save(DBStoreItems.STONE_WAY_STORE);
+    }
   }
 
   /**
