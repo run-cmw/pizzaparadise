@@ -1,8 +1,10 @@
 package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.DBSpecialItems;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.repository.SpecialItemRepository;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 
@@ -35,6 +37,21 @@ public class SpecialItem {
     this.id = id;
     this.name = name;
     this.description = description;
+  }
+
+  /**
+   * Initialize SpecialItemRepository by adding the 3 specials to the database.
+   * @param specialItemRepository repository for SpecialItem storage
+   */
+  public static void initialize(SpecialItemRepository specialItemRepository) {
+    if(specialItemRepository.count() == 0) {
+      specialItemRepository.insert(DBSpecialItems.BUY_1_GET_1_FREE);
+      specialItemRepository.insert(DBSpecialItems.BUY_1_PIZZA_GET_SODA_FREE);
+      specialItemRepository.insert(DBSpecialItems.BUY_2_LARGE_PIZZA_NO_TOPPING);
+      specialItemRepository.save(DBSpecialItems.BUY_1_GET_1_FREE);
+      specialItemRepository.save(DBSpecialItems.BUY_1_PIZZA_GET_SODA_FREE);
+      specialItemRepository.save(DBSpecialItems.BUY_2_LARGE_PIZZA_NO_TOPPING);
+    }
   }
 
   /**

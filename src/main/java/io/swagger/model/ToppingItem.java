@@ -1,10 +1,12 @@
 package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.DBToppingItems;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.repository.ToppingItemRepository;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,6 +68,27 @@ public class ToppingItem {
     this.toppingMediumPrice = toppingMediumPrice;
     this.toppingLargePrice = toppingLargePrice;
     this.toppingGluten = toppingGluten;
+  }
+
+  /**
+   * Initialize ToppingItemRepository by adding the 6 toppings to the database.
+   * @param toppingItemRepository repository for ToppingItem storage
+   */
+  public static void initialize(ToppingItemRepository toppingItemRepository) {
+    if(toppingItemRepository.count() == 0) {
+      toppingItemRepository.insert(DBToppingItems.BLACK_OLIVES);
+      toppingItemRepository.insert(DBToppingItems.GREEN_PEPPERS);
+      toppingItemRepository.insert(DBToppingItems.MUSHROOMS);
+      toppingItemRepository.insert(DBToppingItems.ONION);
+      toppingItemRepository.insert(DBToppingItems.PEPPERONI);
+      toppingItemRepository.insert(DBToppingItems.SAUSAGE);
+      toppingItemRepository.save(DBToppingItems.BLACK_OLIVES);
+      toppingItemRepository.save(DBToppingItems.GREEN_PEPPERS);
+      toppingItemRepository.save(DBToppingItems.MUSHROOMS);
+      toppingItemRepository.save(DBToppingItems.ONION);
+      toppingItemRepository.save(DBToppingItems.PEPPERONI);
+      toppingItemRepository.save(DBToppingItems.SAUSAGE);
+    }
   }
 
   /**

@@ -93,6 +93,16 @@ public class ApplySpecialService {
   }
 
   /**
+   * Helper that ounds the given price to show only two
+   * @param price price to round
+   * @return price after it has been rounded
+   */
+  private Double roundTwoDigitsAfterDecimal(double price) {
+    price = Math.round(price * 100.00) / 100.00;
+    return price;
+  }
+
+  /**
    * Makes the price of the second highest cost pizza free.
    *
    * @param storeId id of the store that the cart belongs to
@@ -102,8 +112,8 @@ public class ApplySpecialService {
   public ApplySpecialResponse applyBuy1Get1Special(String storeId, String cartId) {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
     List<Pizza> pizzas = cart.getPizzas();
-    double highestCostPizzaPrice = 0.00;
-    double secondHighestCostPizzaPrice = 0.00;
+    Double highestCostPizzaPrice = 0.00;
+    Double secondHighestCostPizzaPrice = 0.00;
 
     // Verify there are at least two pizzas in cart.
     if (pizzas.size() < 2) {
@@ -129,12 +139,13 @@ public class ApplySpecialService {
     }
 
     // Reduce cart price by the price of the second highest cost pizza (which will now be free).
-    Double savings = secondHighestCostPizzaPrice;
-    cart.setTotalAmount(cart.getTotalAmount() - savings);
+    Double newCartPrice = cart.getTotalAmount() - secondHighestCostPizzaPrice;
+    newCartPrice = roundTwoDigitsAfterDecimal(newCartPrice);
+    cart.setTotalAmount(newCartPrice);
     cart.setSpecialApplied(true);
     cartRepository.save(cart);
 
-    return new ApplySpecialResponse(FREE_PIZZA, savings);
+    return new ApplySpecialResponse(FREE_PIZZA, secondHighestCostPizzaPrice);
   }
 
   /**
@@ -146,9 +157,9 @@ public class ApplySpecialService {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
     List<Pizza> pizzas = cart.getPizzas();
     List<Pizza> largePizzas = new ArrayList<>();
-    double oldCartPrice = cart.getTotalAmount();
-    double newCartPrice;
-    final double thirtyPercentOff = 0.70;
+    Double oldCartPrice = cart.getTotalAmount();
+    Double newCartPrice;
+    final Double thirtyPercentOff = 0.70;
     final String largePizza = "large";
 
     // Put large toppingless pizzas in list.
@@ -165,11 +176,14 @@ public class ApplySpecialService {
 
     // Reduce price of cart by 30%.
     newCartPrice = oldCartPrice * thirtyPercentOff;
+    newCartPrice = roundTwoDigitsAfterDecimal(newCartPrice);
+    Double savings = oldCartPrice - newCartPrice;
+    savings = roundTwoDigitsAfterDecimal(savings);
     cart.setTotalAmount(newCartPrice);
     cart.setSpecialApplied(true);
     cartRepository.save(cart);
 
-    return new ApplySpecialResponse(DISCOUNT_30_PERCENT, oldCartPrice - newCartPrice);
+    return new ApplySpecialResponse(DISCOUNT_30_PERCENT, savings);
   }
 
   /**
@@ -197,8 +211,8 @@ public class ApplySpecialService {
     List<Pizza> pizzas = cart.getPizzas();
     List<String> sides = cart.getSides();
     List<String> drinks = new ArrayList<>();
-    double oldCartPrice = cart.getTotalAmount();
-    double highestCostDrinkPrice = 0.00;
+    Double oldCartPrice = cart.getTotalAmount();
+    Double highestCostDrinkPrice = 0.00;
 
     // Verify that the cart contains at least one pizza and one drink.
     if (pizzas.size() < 1 || !hasDrink(sides)) {
@@ -207,7 +221,9 @@ public class ApplySpecialService {
 
     // Add drinks to a list.
     for (String sideId : sides) {
-      if (sideService.getSideById(sideId).getType().equals(SideItem.TYPE_DRINK)) drinks.add(sideId);
+      if (sideService.getSideById(sideId).getType().equals(SideItem.TYPE_DRINK)) {
+        drinks.add(sideId);
+      }
     }
 
     // Find highest cost drink.
@@ -219,7 +235,8 @@ public class ApplySpecialService {
       }
     }
     // Reduce cart price by the price of the highest cost drink (which will now be free).
-    double newCartPrice = oldCartPrice - highestCostDrinkPrice;
+    Double newCartPrice = oldCartPrice - highestCostDrinkPrice;
+    newCartPrice = roundTwoDigitsAfterDecimal(newCartPrice);
     cart.setTotalAmount(newCartPrice);
     cart.setSpecialApplied(true);
     cartRepository.save(cart);
