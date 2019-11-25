@@ -1,7 +1,9 @@
 package io.swagger.model;
 
+import io.swagger.DBPizzaSizes;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.repository.PizzaSizeRepository;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
@@ -33,6 +35,21 @@ public class PizzaSize {
     this.sizeName = sizeName;
     this.sizeInch = sizeInch;
     this.price = price;
+  }
+
+  /**
+   * Initialize PizzaSizeRepository by adding the 3 pizza sizes to the database.
+   * @param pizzaSizeRepository repository for StoreItem storage
+   */
+  public static void initialize(PizzaSizeRepository pizzaSizeRepository) {
+    if(pizzaSizeRepository.count() == 0) {
+      pizzaSizeRepository.insert(DBPizzaSizes.LARGE);
+      pizzaSizeRepository.insert(DBPizzaSizes.MEDIUM);
+      pizzaSizeRepository.insert(DBPizzaSizes.SMALL);
+      pizzaSizeRepository.save(DBPizzaSizes.LARGE);
+      pizzaSizeRepository.save(DBPizzaSizes.MEDIUM);
+      pizzaSizeRepository.save(DBPizzaSizes.SMALL);
+    }
   }
 
   /**

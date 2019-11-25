@@ -1,8 +1,10 @@
 package io.swagger.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.DBSideItems;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.repository.SideItemRepository;
 import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -47,6 +49,57 @@ public class SideItem {
     this.name = name;
     this.price = price;
     this.type = type;
+  }
+
+  /**
+   * Initialize SideItemRepository by adding the 21 sides to the database.
+   * @param sideItemRepository repository for SideItem storage
+   */
+  public static void initialize(SideItemRepository sideItemRepository) {
+    if(sideItemRepository.count() == 0) {
+      sideItemRepository.insert(DBSideItems.BREADSTICKS);
+      sideItemRepository.insert(DBSideItems.CHEESE_STICKS);
+      sideItemRepository.insert(DBSideItems.BARBECUE_WINGS);
+      sideItemRepository.insert(DBSideItems.HOT_WINGS);
+      sideItemRepository.insert(DBSideItems.UNSAUCED_WINGS);
+      sideItemRepository.insert(DBSideItems.BARBECUE_SAUCE);
+      sideItemRepository.insert(DBSideItems.HOT_SAUCE);
+      sideItemRepository.insert(DBSideItems.MARINARA_SAUCE);
+      sideItemRepository.insert(DBSideItems.RANCH_SAUCE);
+      sideItemRepository.insert(DBSideItems.GRATED_CHEESE);
+      sideItemRepository.insert(DBSideItems.RED_PEPPER_FLAKES);
+      sideItemRepository.insert(DBSideItems.BROWNIE);
+      sideItemRepository.insert(DBSideItems.CHOCOLATE_CHIP_COOKIE);
+      sideItemRepository.insert(DBSideItems.BIG_COKE);
+      sideItemRepository.insert(DBSideItems.BIG_PEACH_CRUSH);
+      sideItemRepository.insert(DBSideItems.BIG_SPRITE);
+      sideItemRepository.insert(DBSideItems.BIG_WATER);
+      sideItemRepository.insert(DBSideItems.SMALL_COKE);
+      sideItemRepository.insert(DBSideItems.SMALL_PEACH_CRUSH);
+      sideItemRepository.insert(DBSideItems.SMALL_SPRITE);
+      sideItemRepository.insert(DBSideItems.SMALL_WATER);
+      sideItemRepository.save(DBSideItems.BREADSTICKS);
+      sideItemRepository.save(DBSideItems.CHEESE_STICKS);
+      sideItemRepository.save(DBSideItems.BARBECUE_WINGS);
+      sideItemRepository.save(DBSideItems.HOT_WINGS);
+      sideItemRepository.save(DBSideItems.UNSAUCED_WINGS);
+      sideItemRepository.save(DBSideItems.BARBECUE_SAUCE);
+      sideItemRepository.save(DBSideItems.HOT_SAUCE);
+      sideItemRepository.save(DBSideItems.MARINARA_SAUCE);
+      sideItemRepository.save(DBSideItems.RANCH_SAUCE);
+      sideItemRepository.save(DBSideItems.GRATED_CHEESE);
+      sideItemRepository.save(DBSideItems.RED_PEPPER_FLAKES);
+      sideItemRepository.save(DBSideItems.BROWNIE);
+      sideItemRepository.save(DBSideItems.CHOCOLATE_CHIP_COOKIE);
+      sideItemRepository.save(DBSideItems.BIG_COKE);
+      sideItemRepository.save(DBSideItems.BIG_PEACH_CRUSH);
+      sideItemRepository.save(DBSideItems.BIG_SPRITE);
+      sideItemRepository.save(DBSideItems.BIG_WATER);
+      sideItemRepository.save(DBSideItems.SMALL_COKE);
+      sideItemRepository.save(DBSideItems.SMALL_PEACH_CRUSH);
+      sideItemRepository.save(DBSideItems.SMALL_SPRITE);
+      sideItemRepository.save(DBSideItems.SMALL_WATER);
+    }
   }
 
   /**
