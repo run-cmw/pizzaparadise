@@ -5,6 +5,7 @@ import java.util.GregorianCalendar;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 
@@ -17,6 +18,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel
 @Document(collection = "Receipt")
 public class Receipt {
+  @Id
   @JsonProperty("ReceiptId")
   private ObjectId receiptId;
   @JsonProperty("TimePlaced")
@@ -44,7 +46,7 @@ public class Receipt {
    * 
    * @return receiptId of this Receipt
    */
-  @ApiModelProperty(example = "654444")
+  @ApiModelProperty(example = "5dde3ac83157466b630de3a9")
   public String getReceiptId() {
     return this.receiptId.toString();
   }
