@@ -3,7 +3,6 @@ package io.swagger.service;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 
 import io.swagger.DBPizzaSizes;
@@ -19,6 +18,10 @@ import io.swagger.model.SpecialItem;
 import io.swagger.repository.CartRepository;
 import io.swagger.repository.SpecialItemRepository;
 import io.swagger.repository.StoreItemRepository;
+import java.util.ArrayList;
+import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -125,18 +128,30 @@ public class ApplySpecialServiceTest {
 
   @Test
   public void testCheckCartAtStore_Success() throws ToppingNotFoundException {
-    setUpBuy1PizzaGetFreePizzaCart();
-    setUpBuy1PizzaGetFreeSodaCart();
-    setUpBuy2LargeToppinglessPizzasGet30PercentOffCart();
-    assertEquals("brooklyn", setUpBuy1PizzaGetFreePizzaCart().getStoreID());
-    assertEquals("eastlake", setUpBuy1PizzaGetFreeSodaCart().getStoreID());
-    assertEquals("stoneWay", setUpBuy2LargeToppinglessPizzasGet30PercentOffCart().
-        getStoreID());
+    Cart validCart1 = setUpBuy1PizzaGetFreePizzaCart();
+    Cart validCart2 = setUpBuy1PizzaGetFreeSodaCart();
+    Cart validCart3 = setUpBuy2LargeToppinglessPizzasGet30PercentOffCart();
+
+    assertTrue(applySpecialService.checkCartAtStore(
+        validCart1.getId(), setUpBuy1PizzaGetFreePizzaCart().getStoreID()));
+    assertTrue(applySpecialService.checkCartAtStore(
+        validCart2.getId(), setUpBuy1PizzaGetFreeSodaCart().getStoreID()));
+    assertTrue(applySpecialService.checkCartAtStore(
+        validCart3.getId(), setUpBuy2LargeToppinglessPizzasGet30PercentOffCart().getStoreID()));
   }
 
   @Test
   public void testCheckCartAtStore_Failure() throws ToppingNotFoundException {
-    assertNotEquals("eastlake", setUpBuy1PizzaGetFreePizzaCart().getStoreID());
+    Cart invalidCart1 = setUpBuy1PizzaGetFreePizzaCart();
+    Cart invalidCart2 = setUpBuy1PizzaGetFreeSodaCart();
+    Cart invalidCart3 = setUpBuy2LargeToppinglessPizzasGet30PercentOffCart();
+
+    assertFalse(applySpecialService.checkCartAtStore(
+        invalidCart3.getId(), setUpBuy1PizzaGetFreePizzaCart().getStoreID()));
+    assertFalse(applySpecialService.checkCartAtStore(
+        invalidCart1.getId(), setUpBuy1PizzaGetFreeSodaCart().getStoreID()));
+    assertFalse(applySpecialService.checkCartAtStore(
+        invalidCart2.getId(), setUpBuy2LargeToppinglessPizzasGet30PercentOffCart().getStoreID()));
   }
 
   @Test
@@ -168,6 +183,7 @@ public class ApplySpecialServiceTest {
         + "', "
         + "savings='0.0'"
         + "}";
+
 
     assertEquals(responseJson,
         applySpecialService.applyBuy1Get1Special(
@@ -209,6 +225,24 @@ public class ApplySpecialServiceTest {
         applySpecialService.apply30PercentOffSpecial(
             DBStoreItems.EASTLAKE_STORE.getId(),
             invalidCart.getId()).toString());
+  }
+
+  @Test
+  public void testHasDrink_Success() {
+    List<@NotNull @Valid String> sides = new ArrayList<>();
+    sides.add(DBSideItems.SMALL_PEACH_CRUSH.getId());
+    sides.add(DBSideItems.CHOCOLATE_CHIP_COOKIE.getId());
+
+    assertTrue(applySpecialService.hasDrink(sides));
+  }
+
+  @Test
+  public void testHasDrink_Failure() {
+    List<@NotNull @Valid String> sides = new ArrayList<>();
+    sides.add(DBSideItems.CHEESE_STICKS.getId());
+    sides.add(DBSideItems.CHOCOLATE_CHIP_COOKIE.getId());
+
+    assertFalse(applySpecialService.hasDrink(sides));
   }
 
   @Test
