@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import io.swagger.model.SideItem;
 import io.swagger.repository.SideItemRepository;
-import io.swagger.service.SideService;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
