@@ -4,29 +4,43 @@ import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 import io.swagger.model.ToppingItem;
 import io.swagger.repository.ToppingItemRepository;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+@EnableAutoConfiguration
 @TestPropertySource(locations = "classpath:/application-test.properties")
 public class ToppingItemServiceTest {
 
-  @Autowired private ToppingItemRepository toppingRepo;
+  @MockBean private ToppingItemRepository toppingRepo;
   @Autowired private ToppingItemService toppingService;
+  private ToppingItem bacon;
+  private ToppingItem broccoli;
 
   @Before
   public void setUp() {
-    toppingRepo.deleteAll();
+    broccoli = setupBroccoli();
+    bacon = setupBacon();
+    when(toppingRepo.findAll())
+        .thenReturn(Stream.of(broccoli, bacon).collect(Collectors.toList()));
+
+    when(toppingRepo.findById("bacon1")).thenReturn(Optional.of(bacon));
   }
 
   private ToppingItem setupBacon() {
@@ -48,7 +62,6 @@ public class ToppingItemServiceTest {
     ToppingItem topping2 = setupBroccoli();
 
     List<ToppingItem> allToppings = toppingService.getAllTopping();
-    assertEquals(2, toppingRepo.count());
     assertTrue(allToppings.contains(topping1));
     assertTrue(allToppings.contains(topping2));
   }
