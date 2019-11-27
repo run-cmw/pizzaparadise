@@ -3,21 +3,13 @@ package io.swagger.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import org.junit.Before;
+import io.swagger.DBSideItems;
 import org.junit.Test;
 
 public class SideItemTest {
-
-  private SideItem sideItem;
-  private SideItem sameObject;
-  private SideItem differentObject;
-
-  @Before
-  public void setUp() {
-    sideItem = new SideItem("hotWings", "Hot wings", 7.99, "appetizer");
-    sameObject = new SideItem("hotWings", "Hot wings", 7.99, "appetizer");
-    differentObject = new SideItem("2LiterPeachCrush", "2 liter Peach Crush", 2.99, "drink");
-  }
+  private SideItem sideItem = DBSideItems.HOT_WINGS;
+  private SideItem sameObject = DBSideItems.HOT_WINGS;
+  private SideItem differentObject = DBSideItems.CHOCOLATE_CHIP_COOKIE;
 
   @Test
   public void testGetId() {
@@ -32,13 +24,13 @@ public class SideItemTest {
 
   @Test
   public void testGetName() {
-    assertEquals("Hot wings", sideItem.getName());
+    assertEquals("hot wings", sideItem.getName());
   }
 
   @Test
   public void testSetName() {
-    sideItem.setName("Cheese sticks");
-    assertEquals("Cheese sticks", sideItem.getName());
+    sideItem.setName("cheese sticks");
+    assertEquals("cheese sticks", sideItem.getName());
   }
 
   @Test
@@ -49,7 +41,7 @@ public class SideItemTest {
 
   @Test
   public void testSetPrice() {
-    Double price = 6.99;
+    Double price = 3.99;
     sideItem.setPrice(price);
     assertEquals(price, sideItem.getPrice());
   }
@@ -84,16 +76,16 @@ public class SideItemTest {
     final String SIDE_ITEM_AS_STRING =
         "SideItem{"
             + "id='"
-            + sideItem.getId()
+            + "cheeseSticks"
             + '\''
             + ", name='"
-            + sideItem.getName()
+            + "hot wings"
             + '\''
             + ", price='"
-            + sideItem.getPrice()
+            + 7.99
             + '\''
             + ", type='"
-            + sideItem.getType()
+            + "appetizer"
             + '\''
             + '}';
 

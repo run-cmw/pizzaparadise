@@ -20,8 +20,7 @@ import io.swagger.repository.SpecialItemRepository;
 import io.swagger.repository.StoreItemRepository;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import junit.framework.TestCase;
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,6 +57,9 @@ public class ApplySpecialServiceTest {
   @Autowired
   private ApplySpecialService applySpecialService;
 
+  @Autowired
+  private SideService sideService;
+
   @Before
   public void setUp() {
     cartRepository.deleteAll();
@@ -66,20 +68,18 @@ public class ApplySpecialServiceTest {
   }
 
   private void setUpSpecialsRepo() {
-    SpecialItem special1 = specialItemService.addSpecial(DBSpecialItems.BUY_1_GET_1_FREE);
-    SpecialItem special2 = specialItemService.addSpecial(DBSpecialItems.BUY_1_PIZZA_GET_SODA_FREE);
-    SpecialItem special3 = specialItemService.addSpecial(
+    specialItemService.addSpecial(DBSpecialItems.BUY_1_GET_1_FREE);
+    specialItemService.addSpecial(DBSpecialItems.BUY_1_PIZZA_GET_SODA_FREE);
+    specialItemService.addSpecial(
         DBSpecialItems.BUY_2_LARGE_PIZZA_NO_TOPPING);
   }
 
   private Pizza setUpSmallPizza() {
-    Pizza pizza = new Pizza(DBPizzaSizes.SMALL.getId(), false);
-    return pizza;
+    return new Pizza(DBPizzaSizes.SMALL.getId(), false);
   }
 
   private Pizza setUpLargePizza() {
-    Pizza pizza = new Pizza(DBPizzaSizes.LARGE.getId(), true);
-    return pizza;
+    return new Pizza(DBPizzaSizes.LARGE.getId(), true);
   }
 
   private Cart setUpBuy1PizzaGetFreePizzaCart() throws ToppingNotFoundException {
@@ -157,149 +157,112 @@ public class ApplySpecialServiceTest {
   @Test
   public void testApplyBuy1Get1Special_Success() throws ToppingNotFoundException {
     Cart validCart = setUpBuy1PizzaGetFreePizzaCart();
+    ApplySpecialResponse response = applySpecialService.applyBuy1Get1Special(
+        DBStoreItems.BROOKLYN_STORE.getId(),
+        validCart.getId());
+    Double savings = 13.99;
 
-    final String responseJson = "ApplySpecialResponse{"
-        + "specialId='buy1Get1Free', "
-        + "success='true', "
-        + "message='null', "
-        + "savings='13.99'"
-        + "}";
-
-    assertEquals(responseJson,
-        applySpecialService.applyBuy1Get1Special(
-            DBStoreItems.BROOKLYN_STORE.getId(),
-            validCart.getId()).toString());
+    assertTrue(validCart.getPizzas().size() > 1);
+    assertEquals(DBSpecialItems.BUY_1_GET_1_FREE.getId(), response.getSpecialId());
+    assertTrue(response.getSuccess());
+    assertNull(response.getMessage());
+    TestCase.assertEquals(savings, response.getSavings());
   }
 
   @Test
   public void testApplyBuy1Get1Special_Failure() throws ToppingNotFoundException {
     Cart invalidCart = setUpBuy1PizzaGetFreeSodaCart();
+    ApplySpecialResponse response = applySpecialService.applyBuy1Get1Special(
+        DBStoreItems.EASTLAKE_STORE.getId(),
+        invalidCart.getId());
+    Double savings = 0.0;
 
-    final String responseJson = "ApplySpecialResponse{"
-        + "specialId='null', "
-        + "success='false', "
-        + "message='"
-        + Message.ERROR_FREE_PIZZA
-        + "', "
-        + "savings='0.0'"
-        + "}";
-
-
-    assertEquals(responseJson,
-        applySpecialService.applyBuy1Get1Special(
-            DBStoreItems.EASTLAKE_STORE.getId(),
-            invalidCart.getId()).toString());
+    assertFalse(invalidCart.getPizzas().size() > 1);
+    assertFalse(response.getSuccess());
+    assertEquals(Message.ERROR_FREE_PIZZA, response.getMessage());
+    TestCase.assertEquals(savings, response.getSavings());
   }
 
   @Test
   public void testApply30PercentOffSpecial_Success() throws ToppingNotFoundException {
     Cart validCart = setUpBuy2LargeToppinglessPizzasGet30PercentOffCart();
+    List<Pizza> pizzas = validCart.getPizzas();
+    List<String> emptyList = new ArrayList<>();
+    ApplySpecialResponse response = applySpecialService.apply30PercentOffSpecial(
+        DBStoreItems.STONE_WAY_STORE.getId(),
+        validCart.getId());
+    Double savings = 12.59;
 
-    final String responseJson = "ApplySpecialResponse{"
-        + "specialId='buy2LargePizzaNoTopping', "
-        + "success='true', "
-        + "message='null', "
-        + "savings='12.59'"
-        + "}";
-
-    assertEquals(responseJson,
-        applySpecialService.apply30PercentOffSpecial(
-            DBStoreItems.STONE_WAY_STORE.getId(),
-            validCart.getId()).toString());
+    assertEquals(DBPizzaSizes.LARGE.getId(), pizzas.get(0).getSizeID());
+    assertEquals(DBPizzaSizes.LARGE.getId(), pizzas.get(1).getSizeID());
+    assertEquals(emptyList, pizzas.get(0).getToppingIDs());
+    assertEquals(emptyList, pizzas.get(1).getToppingIDs());
+    assertEquals(DBSpecialItems.BUY_2_LARGE_PIZZA_NO_TOPPING.getId(), response.getSpecialId());
+    assertTrue(response.getSuccess());
+    assertNull(response.getMessage());
+    TestCase.assertEquals(savings, response.getSavings());
   }
 
   @Test
   public void testApply30PercentOffSpecial_Failure() throws ToppingNotFoundException {
     Cart invalidCart = setUpBuy1PizzaGetFreeSodaCart();
+    ApplySpecialResponse response = applySpecialService.apply30PercentOffSpecial(
+        DBStoreItems.EASTLAKE_STORE.getId(),
+        invalidCart.getId());
+    Double savings = 0.0;
 
-    final String responseJson = "ApplySpecialResponse{"
-        + "specialId='null', "
-        + "success='false', "
-        + "message='"
-        + Message.ERROR_DISCOUNT_30_PERCENT
-        + "', "
-        + "savings='0.0'"
-        + "}";
-
-    assertEquals(responseJson,
-        applySpecialService.apply30PercentOffSpecial(
-            DBStoreItems.EASTLAKE_STORE.getId(),
-            invalidCart.getId()).toString());
-  }
-
-  @Test
-  public void testHasDrink_Success() {
-    List<@NotNull @Valid String> sides = new ArrayList<>();
-    sides.add(DBSideItems.SMALL_PEACH_CRUSH.getId());
-    sides.add(DBSideItems.CHOCOLATE_CHIP_COOKIE.getId());
-
-    assertTrue(applySpecialService.hasDrink(sides));
-  }
-
-  @Test
-  public void testHasDrink_Failure() {
-    List<@NotNull @Valid String> sides = new ArrayList<>();
-    sides.add(DBSideItems.CHEESE_STICKS.getId());
-    sides.add(DBSideItems.CHOCOLATE_CHIP_COOKIE.getId());
-
-    assertFalse(applySpecialService.hasDrink(sides));
+    assertFalse(invalidCart.getPizzas().contains(DBPizzaSizes.LARGE));
+    assertFalse(response.getSuccess());
+    assertEquals(Message.ERROR_DISCOUNT_30_PERCENT, response.getMessage());
+    TestCase.assertEquals(savings, response.getSavings());
   }
 
   @Test
   public void testApplyFreeSodaSpecial_Success() throws ToppingNotFoundException {
     Cart validCart = setUpBuy1PizzaGetFreeSodaCart();
+    ApplySpecialResponse response = applySpecialService.applyFreeSodaSpecial(
+        DBStoreItems.EASTLAKE_STORE.getId(),
+        validCart.getId());
+    Double savings = 1.49;
 
-    final String responseJson = "ApplySpecialResponse{"
-        + "specialId='buy1PizzaGetSodaFree', "
-        + "success='true', "
-        + "message='null', "
-        + "savings='1.49'"
-        + "}";
-
-    assertEquals(responseJson,
-        applySpecialService.applyFreeSodaSpecial(
-            DBStoreItems.EASTLAKE_STORE.getId(),
-            validCart.getId()).toString());
+    assertTrue(validCart.getPizzas().size() > 0);
+    assertTrue(applySpecialService.hasDrink(validCart.getSides()));
+    assertEquals(DBSpecialItems.BUY_1_PIZZA_GET_SODA_FREE.getId(), response.getSpecialId());
+    assertTrue(response.getSuccess());
+    assertNull(response.getMessage());
+    TestCase.assertEquals(savings, response.getSavings());
   }
 
   @Test
   public void testApplyFreeSodaSpecial_Failure() throws ToppingNotFoundException {
     Cart invalidCart = setUpBuy1PizzaGetFreePizzaCart();
+    ApplySpecialResponse response = applySpecialService.applyFreeSodaSpecial(
+        DBStoreItems.BROOKLYN_STORE.getId(),
+        invalidCart.getId());
+    Double savings = 0.0;
 
-    final String responseJson = "ApplySpecialResponse{"
-        + "specialId='null', "
-        + "success='false', "
-        + "message='"
-        + Message.ERROR_FREE_SODA
-        + "', "
-        + "savings='0.0'"
-        + "}";
-
-    assertEquals(responseJson,
-        applySpecialService.applyFreeSodaSpecial(
-            DBStoreItems.BROOKLYN_STORE.getId(),
-            invalidCart.getId()).toString());
+    assertFalse(applySpecialService.hasDrink(invalidCart.getSides()));
+    assertFalse(response.getSuccess());
+    assertEquals(Message.ERROR_FREE_SODA, response.getMessage());
+    TestCase.assertEquals(savings, response.getSavings());
   }
 
   @Test
   public void testApplySpecial_Success_FreePizza() throws ToppingNotFoundException {
     Cart validCart = setUpBuy1PizzaGetFreePizzaCart();
     ApplySpecialResponse response = applySpecialService.applySpecial(
-        DBSpecialItems.BUY_1_GET_1_FREE.getId(),
+        "buy1Get1Free",
         DBStoreItems.BROOKLYN_STORE.getId(),
         validCart.getId());
-    System.out.println(DBSpecialItems.BUY_1_GET_1_FREE.getId());
-    System.out.println(DBStoreItems.BROOKLYN_STORE.getId());
-    System.out.println(validCart.getId());
 
-//    assertTrue(response.getSuccess());
+    assertTrue(response.getSuccess());
   }
 
   @Test
   public void testApplySpecial_Success_Discount30() throws ToppingNotFoundException {
     Cart validCart = setUpBuy2LargeToppinglessPizzasGet30PercentOffCart();
     ApplySpecialResponse response = applySpecialService.applySpecial(
-        DBSpecialItems.BUY_2_LARGE_PIZZA_NO_TOPPING.getId(),
+        "buy2LargePizzaNoTopping",
         DBStoreItems.STONE_WAY_STORE.getId(),
         validCart.getId());
 
@@ -308,14 +271,26 @@ public class ApplySpecialServiceTest {
 
   @Test
   public void testApplySpecial_Success_FreeSoda() throws ToppingNotFoundException {
-    Cart cart = setUpBuy1PizzaGetFreeSodaCart();
+    Cart validCart = setUpBuy1PizzaGetFreeSodaCart();
     ApplySpecialResponse response = applySpecialService.applySpecial(
+        "buy1PizzaGetSodaFree",
+        DBStoreItems.EASTLAKE_STORE.getId(),
+        validCart.getId());
+
+    System.out.println(DBSpecialItems.BUY_1_PIZZA_GET_SODA_FREE.getId());
+    System.out.println(DBStoreItems.EASTLAKE_STORE.getId());
+    System.out.println(validCart.getId());
+    System.out.println(validCart.getPizzas());
+    System.out.println(validCart.getSides());
+    System.out.println(validCart.isSpecialApplied());
+    System.out.println(validCart.getStoreID());
+    System.out.println(validCart.getTotalAmount());
+    System.out.println(applySpecialService.applySpecial(
         DBSpecialItems.BUY_1_PIZZA_GET_SODA_FREE.getId(),
         DBStoreItems.EASTLAKE_STORE.getId(),
-        cart.getId());
+        validCart.getId()));
 
-    System.out.println(response.toString());
-//    assertTrue(response.getSuccess());
+    assertTrue(response.getSuccess());
   }
 
   @Test

@@ -80,41 +80,11 @@ public class StoreItemTest {
   }
 
   @Test
-  public void testEqualsId() {
+  public void testEquals() {
     assertEquals(sameObject, storeItem);
     assertNotEquals(differentObject, storeItem);
     assertNotEquals(2, storeItem);
     assertNotEquals(null, storeItem);
-  }
-
-  @Test
-  public void testEqualsStreet() {
-    assertEquals(sameObject.getStreetNumAndName(), storeItem.getStreetNumAndName());
-    assertNotEquals(differentObject.getStreetNumAndName(), storeItem.getStreetNumAndName());
-  }
-
-  @Test
-  public void testEqualsCity() {
-    assertEquals(sameObject.getCity(), storeItem.getCity());
-    assertEquals(differentObject.getCity(), storeItem.getCity());
-  }
-
-  @Test
-  public void testEqualsState() {
-    assertEquals(sameObject.getState(), storeItem.getState());
-    assertEquals(differentObject.getState(), storeItem.getState());
-  }
-
-  @Test
-  public void testEqualsZip() {
-    assertEquals(sameObject.getZipCode(), storeItem.getZipCode());
-    assertNotEquals(differentObject.getZipCode(), storeItem.getZipCode());
-  }
-
-  @Test
-  public void testEqualsGlutenFreeOffering() {
-    assertEquals(sameObject.getOffersGlutenFree(), storeItem.getOffersGlutenFree());
-    assertNotEquals(differentObject.getOffersGlutenFree(), storeItem.getOffersGlutenFree());
   }
 
   @Test
