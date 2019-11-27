@@ -48,9 +48,6 @@ public class SpecialItem {
       specialItemRepository.insert(DBSpecialItems.BUY_1_GET_1_FREE);
       specialItemRepository.insert(DBSpecialItems.BUY_1_PIZZA_GET_SODA_FREE);
       specialItemRepository.insert(DBSpecialItems.BUY_2_LARGE_PIZZA_NO_TOPPING);
-      specialItemRepository.save(DBSpecialItems.BUY_1_GET_1_FREE);
-      specialItemRepository.save(DBSpecialItems.BUY_1_PIZZA_GET_SODA_FREE);
-      specialItemRepository.save(DBSpecialItems.BUY_2_LARGE_PIZZA_NO_TOPPING);
     }
   }
 
