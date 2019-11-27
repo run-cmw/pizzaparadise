@@ -56,7 +56,9 @@ public class CardTest {
   @Test
   public void equalsTest() {
     assertEquals(card, card);
-    assertNotEquals(null, card);
+    assertNotEquals(card, null);
+    SpecialItem sameAsSpecial1 = new SpecialItem("1", "Buy1Get1Free", "BuyOneGetOne description");
+    assertNotEquals(card, sameAsSpecial1);
     Card card1 = new Card("Jenny", "Lee", "4400616718352235", 1, 2021, CardProvider.VISA);
     Card card2 = new Card("YeJee", "Chung", "4400616718352235", 1, 2021, CardProvider.VISA);
     Card card3 = new Card("YeJee", "Lee", "4400616718352466", 1, 2021, CardProvider.VISA);
