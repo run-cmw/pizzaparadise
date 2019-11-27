@@ -3,6 +3,7 @@ package io.swagger.model;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -70,6 +71,14 @@ public class PizzaSizeTest {
     assertTrue(size1.equals(size1));
     assertFalse(size1.equals(size2));
     assertFalse(size1.equals(null));
+    SpecialItem special = new SpecialItem("2", "Buy1Get1Free", "BuyOneGetOne description");
+    assertNotEquals(size1, special);
+    PizzaSize size3 = new PizzaSize("small", "small1", "11", 13.00);
+    assertNotEquals(size1, size3);
+    PizzaSize size4 = new PizzaSize("small", "small", "13", 13.00);
+    assertNotEquals(size1, size4);
+    PizzaSize size5 = new PizzaSize("small", "small", "11", 15.00);
+    assertNotEquals(size1, size5);
   }
 
   @Test

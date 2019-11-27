@@ -4,26 +4,37 @@ import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Java6Assertions.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.when;
 
+import io.swagger.api.SideApiController;
 import io.swagger.model.PizzaSize;
 import io.swagger.repository.PizzaSizeRepository;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
+@EnableAutoConfiguration
 @TestPropertySource(locations = "classpath:/application-test.properties")
+@SpringBootTest
 public class PizzaSizeServiceTest {
 
   @Autowired public PizzaSizeService sizeService;
 
-  @Autowired private PizzaSizeRepository sizeRepo;
+  @Autowired
+  private PizzaSizeRepository sizeRepo;
+  private PizzaSize small;
+  private PizzaSize medium;
 
   @Before
   public void setUp() {
