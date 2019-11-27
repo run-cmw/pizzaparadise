@@ -17,7 +17,6 @@ public class Card {
   private Integer expMonth;
   @JsonProperty("ExpirationYear")
   private Integer expYear;
-  @JsonProperty("CardProvider")
   private CardProvider provider;
 
   /**
