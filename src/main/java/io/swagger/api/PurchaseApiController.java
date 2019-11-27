@@ -26,6 +26,13 @@ public class PurchaseApiController implements PurchaseApi {
   @Autowired
   private PurchaseService purchaseService;
 
+  /**
+   * {@inheritDoc}
+   *  HttpStatus.NOT_FOUND - if storeId and cartId are not matching.
+   *  HttpStatus.BAD_REQUEST - if the month is less than 1 or greater than 12.
+   *  HttpStatus.BAD_REQUEST - if the card is expired.
+   *  HttpStatus.OK - if the receipt was successfully created.
+   */
   @PostMapping("/cart/{storeId}/{cartId}/purchase")
   @ApiOperation(value = "Create receipt when user purchase.", tags = { "purchase", })
   @ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 400, message = "BAD_REQUEST"),

@@ -60,8 +60,8 @@ public class PurchaseResponse {
    * 
    * @return message of this PurchaseResponse
    */
-  @ApiModelProperty(example = "INVALID_EXP_MONTH")
-  public String message() {
+  @ApiModelProperty(example = "null")
+  public String getMessage() {
     return this.message;
   }
 

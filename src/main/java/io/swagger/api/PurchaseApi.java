@@ -15,6 +15,15 @@ import io.swagger.model.PurchaseResponse;
 /** Interface for Purchase API */
 public interface PurchaseApi {
 
+  /**
+   * Make purchase using CartId, StoreId, and the Card information
+   *
+   * @param cartId cartId given to find all items that needs to purchase
+   * @param storeId storeId given to find the cart
+   * @param card card information given to purchase
+   * @return successful PurchaseResponse contains receipt and failed PurchaseResponse contains error
+   * message.
+   */
   public ResponseEntity<PurchaseResponse> makePurchase(
       @ApiParam(value = "CartID") @PathVariable("cartId") String cartId,
       @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,
