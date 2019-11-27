@@ -20,5 +20,4 @@ public class Message {
   public static final String ERROR_INVALID_SPECIAL = "ERROR_INVALID_SPECIAL";
   public static final String ERROR_NO_CART = "ERROR_CART_NOT_AT_STORE";
   public static final String ERROR_ONE_SPECIAL = "ERROR_ONLY_ONE_SPECIAL_PER_CART";
-  public static final String ERROR_UNIMPLEMENTED_SPECIAL = "ERROR_SPECIAL_NOT_IMPLEMENTED";
 }
