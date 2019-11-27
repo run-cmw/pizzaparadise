@@ -1,28 +1,21 @@
 package io.swagger.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
+import io.swagger.DBStoreItems;
 import org.junit.Test;
 
 public class StoreItemTest {
-
-  private StoreItem storeItem;
-  private StoreItem sameObject;
-  private StoreItem differentObject;
-
-  @Before
-  public void setUp() {
-    storeItem = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska", "94608", false);
-    sameObject = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska", "94608", false);
-    differentObject =
-        new StoreItem("louisiana", "555 Louisiana Blvd", "Clam Gulch", "Alaska", "94608", true);
-  }
+  private StoreItem storeItem = DBStoreItems.BROOKLYN_STORE;
+  private StoreItem sameObject = DBStoreItems.BROOKLYN_STORE;
+  private StoreItem differentObject = DBStoreItems.EASTLAKE_STORE;
 
   @Test
   public void testGetId() {
-    assertEquals("gulf", storeItem.getId());
+    assertEquals("brooklyn", storeItem.getId());
   }
 
   @Test
@@ -33,7 +26,7 @@ public class StoreItemTest {
 
   @Test
   public void testGetStreetNumAndName() {
-    assertEquals("555 Gulf Blvd", storeItem.getStreetNumAndName());
+    assertEquals("555 Sunshine Ave", storeItem.getStreetNumAndName());
   }
 
   @Test
@@ -44,18 +37,18 @@ public class StoreItemTest {
 
   @Test
   public void testGetCity() {
-    assertEquals("Clam Gulch", storeItem.getCity());
-  }
-
-  @Test
-  public void testSetCity() {
-    storeItem.setCity("Seattle");
     assertEquals("Seattle", storeItem.getCity());
   }
 
   @Test
+  public void testSetCity() {
+    storeItem.setCity("Clam Gulch");
+    assertEquals("Clam Gulch", storeItem.getCity());
+  }
+
+  @Test
   public void testGetState() {
-    assertEquals("Alaska", storeItem.getState());
+    assertEquals("Washington", storeItem.getState());
   }
 
   @Test
@@ -66,7 +59,7 @@ public class StoreItemTest {
 
   @Test
   public void testGetZipCode() {
-    assertEquals("94608", storeItem.getZipCode());
+    assertEquals("98105", storeItem.getZipCode());
   }
 
   @Test
@@ -77,17 +70,17 @@ public class StoreItemTest {
 
   @Test
   public void testGetOffersGlutenFree() {
-    assertEquals(false, storeItem.getOffersGlutenFree());
+    assertFalse(storeItem.getOffersGlutenFree());
   }
 
   @Test
   public void testSetOffersGlutenFree() {
     storeItem.setOffersGlutenFree(true);
-    assertEquals(true, storeItem.getOffersGlutenFree());
+    assertTrue(storeItem.getOffersGlutenFree());
   }
 
   @Test
-  public void equalsTest() {
+  public void testEquals() {
     assertEquals(sameObject, storeItem);
     assertNotEquals(differentObject, storeItem);
     assertNotEquals(2, storeItem);
@@ -95,35 +88,33 @@ public class StoreItemTest {
   }
 
   @Test
-  public void hashCodeTest() {
+  public void testHashCode() {
     assertEquals(sameObject.hashCode(), storeItem.hashCode());
     assertNotEquals(differentObject.hashCode(), storeItem.hashCode());
   }
 
   @Test
-  public void toStringTest() {
-    StoreItem storeItem =
-        new StoreItem("sunshine", "555 Sunshine Ave", "Seattle", "California", "70806", true);
+  public void testToString() {
 
     final String STORE_ITEM_AS_STRING =
         "StoreItem{"
             + "id='"
-            + storeItem.getId()
+            + "sunshine"
             + '\''
             + ", streetNumAndName='"
-            + storeItem.getStreetNumAndName()
+            + "555 Sunshine Ave"
             + '\''
             + ", city='"
-            + storeItem.getCity()
+            + "Seattle"
             + '\''
             + ", state='"
-            + storeItem.getState()
+            + "Washington"
             + '\''
             + ", zipCode='"
-            + storeItem.getZipCode()
+            + "98105"
             + '\''
             + ", offersGlutenFree='"
-            + storeItem.getOffersGlutenFree()
+            + false
             + '\''
             + '}';
 

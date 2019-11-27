@@ -46,9 +46,6 @@ public class PizzaSize {
       pizzaSizeRepository.insert(DBPizzaSizes.LARGE);
       pizzaSizeRepository.insert(DBPizzaSizes.MEDIUM);
       pizzaSizeRepository.insert(DBPizzaSizes.SMALL);
-      pizzaSizeRepository.save(DBPizzaSizes.LARGE);
-      pizzaSizeRepository.save(DBPizzaSizes.MEDIUM);
-      pizzaSizeRepository.save(DBPizzaSizes.SMALL);
     }
   }
 

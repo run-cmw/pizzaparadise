@@ -36,7 +36,6 @@ public class ApplySpecialService {
    * @param specialId id of the special being requested
    * @param storeId id of the store that the cart belongs to
    * @param cartId id of the cart receiving the special
-   * @throws Exception through applyBuy1Get1Special()'s getPizzaPrice() if invalid topping
    */
   public ApplySpecialResponse applySpecial(String specialId, String storeId, String cartId) {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
@@ -72,7 +71,7 @@ public class ApplySpecialService {
    * @param specialId id of the special being requested
    * @return {@code true} if the id is a valid special and {@code false} otherwise.
    */
-  public boolean checkSpecial(String specialId) {
+  private boolean checkSpecial(String specialId) {
     return specialItemRepository.existsById(specialId);
   }
 
@@ -107,9 +106,8 @@ public class ApplySpecialService {
    *
    * @param storeId id of the store that the cart belongs to
    * @param cartId id of the cart receiving the special
-   * @throws Exception through getPizzaPrice(Pizza pizza) if invalid topping.
    */
-  public ApplySpecialResponse applyBuy1Get1Special(String storeId, String cartId) {
+  ApplySpecialResponse applyBuy1Get1Special(String storeId, String cartId) {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
     List<Pizza> pizzas = cart.getPizzas();
     Double highestCostPizzaPrice = 0.00;
@@ -153,7 +151,7 @@ public class ApplySpecialService {
    *
    * @param cartId Id of cart being checked for special
    */
-  public ApplySpecialResponse apply30PercentOffSpecial(String storeId, String cartId) {
+  ApplySpecialResponse apply30PercentOffSpecial(String storeId, String cartId) {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
     List<Pizza> pizzas = cart.getPizzas();
     List<Pizza> largePizzas = new ArrayList<>();
@@ -192,7 +190,7 @@ public class ApplySpecialService {
    * @param sides list of side items
    * @return {@code true} if the list contains a drink and {@code false} otherwise.
    */
-  private boolean hasDrink(List<String> sides) {
+  boolean hasDrink(List<String> sides) {
     for (String sideId : sides) {
       if (sideService.getSideById(sideId).getType().equals(SideItem.TYPE_DRINK)) {
         return true;
@@ -206,7 +204,7 @@ public class ApplySpecialService {
    *
    * @param cartId Id of cart being checked for special
    */
-  public ApplySpecialResponse applyFreeSodaSpecial(String storeId, String cartId) {
+  ApplySpecialResponse applyFreeSodaSpecial(String storeId, String cartId) {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
     List<Pizza> pizzas = cart.getPizzas();
     List<String> sides = cart.getSides();
