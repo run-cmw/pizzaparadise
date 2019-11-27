@@ -12,8 +12,10 @@ import io.swagger.Message;
 import io.swagger.model.ApplySpecialResponse;
 import io.swagger.model.Cart;
 import io.swagger.model.Pizza;
+import io.swagger.model.PizzaSize;
 import io.swagger.repository.CartRepository;
 import io.swagger.service.CartService;
+import io.swagger.service.PizzaSizeService;
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +44,9 @@ public class ApplySpecialApiControllerTest {
   @Autowired
   private CartService cartService;
 
+  @Autowired
+  private PizzaSizeService sizeService;
+
   @Before
   public void setUp() {
     cartRepository.deleteAll();
@@ -53,7 +58,10 @@ public class ApplySpecialApiControllerTest {
     Cart cart = new Cart(DBStoreItems.BROOKLYN_STORE.getId(), cartId);
     cartRepository.insert(cart);
 
-    Pizza pizza = new Pizza(DBPizzaSizes.LARGE.getId(), false);
+    PizzaSize largeSize = DBPizzaSizes.LARGE;
+    sizeService.addPizzaSize(largeSize);
+
+    Pizza pizza = new Pizza(largeSize.getId(), false);
     cartService.addPizzaToCart(cart, pizza);
     cartService.addPizzaToCart(cart, pizza);
 

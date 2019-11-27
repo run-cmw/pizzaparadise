@@ -14,10 +14,13 @@ import io.swagger.exceptions.ToppingNotFoundException;
 import io.swagger.model.ApplySpecialResponse;
 import io.swagger.model.Cart;
 import io.swagger.model.Pizza;
+import io.swagger.model.PizzaSize;
+import io.swagger.model.SideItem;
 import io.swagger.model.SpecialItem;
 import io.swagger.repository.CartRepository;
+import io.swagger.repository.PizzaSizeRepository;
+import io.swagger.repository.SideItemRepository;
 import io.swagger.repository.SpecialItemRepository;
-import io.swagger.repository.StoreItemRepository;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
@@ -46,7 +49,10 @@ public class ApplySpecialServiceTest {
   private SpecialItemRepository specialItemRepository;
 
   @Autowired
-  private StoreItemRepository storeItemRepository;
+  private PizzaSizeRepository sizeRepository;
+
+  @Autowired
+  private SideItemRepository sideRepository;
 
   @Autowired
   private CartService cartService;
@@ -58,13 +64,17 @@ public class ApplySpecialServiceTest {
   private ApplySpecialService applySpecialService;
 
   @Autowired
+  private PizzaSizeService sizeService;
+
+  @Autowired
   private SideService sideService;
 
   @Before
   public void setUp() {
     cartRepository.deleteAll();
     specialItemRepository.deleteAll();
-    storeItemRepository.deleteAll();
+    sizeRepository.deleteAll();
+    sideRepository.deleteAll();
   }
 
   private void setUpSpecialsRepo() {
@@ -75,18 +85,22 @@ public class ApplySpecialServiceTest {
   }
 
   private Pizza setUpSmallPizza() {
-    return new Pizza(DBPizzaSizes.SMALL.getId(), false);
+    PizzaSize smallPizza = DBPizzaSizes.SMALL;
+    sizeService.addPizzaSize(smallPizza);
+    return new Pizza(smallPizza.getId(), false);
   }
 
   private Pizza setUpLargePizza() {
-    return new Pizza(DBPizzaSizes.LARGE.getId(), true);
+    PizzaSize largePizza = DBPizzaSizes.LARGE;
+    sizeService.addPizzaSize(largePizza);
+    return new Pizza(largePizza.getId(), true);
   }
 
   private Cart setUpBuy1PizzaGetFreePizzaCart() throws ToppingNotFoundException {
     ObjectId cartId = new ObjectId();
     Cart cart = new Cart(DBStoreItems.BROOKLYN_STORE.getId(), cartId);
-    Pizza smallPizza = setUpSmallPizza();
     cartRepository.insert(cart);
+    Pizza smallPizza = setUpSmallPizza();
     cartService.addPizzaToCart(cart, smallPizza);
     cartService.addPizzaToCart(cart, smallPizza);
     return cart;
@@ -96,8 +110,8 @@ public class ApplySpecialServiceTest {
       throws ToppingNotFoundException {
     ObjectId cartId = new ObjectId();
     Cart cart = new Cart(DBStoreItems.STONE_WAY_STORE.getId(), cartId);
-    Pizza largePizza = setUpLargePizza();
     cartRepository.insert(cart);
+    Pizza largePizza = setUpLargePizza();
     cartService.addPizzaToCart(cart, largePizza);
     cartService.addPizzaToCart(cart, largePizza);
     return cart;
@@ -108,7 +122,12 @@ public class ApplySpecialServiceTest {
     Cart cart = new Cart(DBStoreItems.EASTLAKE_STORE.getId(), cartId);
     cartRepository.insert(cart);
     cartService.addPizzaToCart(cart, setUpSmallPizza());
-    cartService.addSideToCart(cart, DBSideItems.SMALL_PEACH_CRUSH.getId());
+    SideItem smallSoda = DBSideItems.SMALL_PEACH_CRUSH;
+    SideItem notSoda = DBSideItems.CHOCOLATE_CHIP_COOKIE;
+    sideService.addSide(smallSoda);
+    sideService.addSide(notSoda);
+    cartService.addSideToCart(cart, smallSoda.getId());
+    cartService.addSideToCart(cart, notSoda.getId());
     return cart;
   }
 
@@ -225,7 +244,7 @@ public class ApplySpecialServiceTest {
         validCart.getId());
     Double savings = 1.49;
 
-    assertTrue(validCart.getPizzas().size() > 0);
+    assertFalse(validCart.getPizzas().size() < 1);
     assertTrue(applySpecialService.hasDrink(validCart.getSides()));
     assertEquals(DBSpecialItems.BUY_1_PIZZA_GET_SODA_FREE.getId(), response.getSpecialId());
     assertTrue(response.getSuccess());
@@ -235,12 +254,15 @@ public class ApplySpecialServiceTest {
 
   @Test
   public void testApplyFreeSodaSpecial_Failure() throws ToppingNotFoundException {
-    Cart invalidCart = setUpBuy1PizzaGetFreePizzaCart();
+    ObjectId cartId = new ObjectId();
+    Cart invalidCart = new Cart(DBStoreItems.BROOKLYN_STORE.getId(), cartId);
+    cartRepository.insert(invalidCart);
     ApplySpecialResponse response = applySpecialService.applyFreeSodaSpecial(
         DBStoreItems.BROOKLYN_STORE.getId(),
         invalidCart.getId());
     Double savings = 0.0;
 
+    assertTrue(invalidCart.getPizzas().size () < 1);
     assertFalse(applySpecialService.hasDrink(invalidCart.getSides()));
     assertFalse(response.getSuccess());
     assertEquals(Message.ERROR_FREE_SODA, response.getMessage());
