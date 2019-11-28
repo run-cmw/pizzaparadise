@@ -1,6 +1,7 @@
 package io.swagger.service;
 
 import io.swagger.Message;
+import io.swagger.exceptions.SpecialNotFoundException;
 import io.swagger.exceptions.ToppingNotFoundException;
 import io.swagger.model.ApplySpecialResponse;
 import io.swagger.model.Cart;
@@ -37,20 +38,21 @@ public class ApplySpecialService {
    * @param storeId id of the store that the cart belongs to
    * @param cartId id of the cart receiving the special
    */
-  public ApplySpecialResponse applySpecial(String specialId, String storeId, String cartId) {
+  public ApplySpecialResponse applySpecial(String specialId, String storeId, String cartId)
+      throws SpecialNotFoundException {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
 
     // Check if valid special, if cart is at store, and if special has been applied to cart.
     if (!checkSpecial(specialId)) {
-      return null;
+      throw new SpecialNotFoundException(specialId);
     }
 
     if (!checkCartAtStore(cartId, storeId)) {
-      return null;
+      throw new RuntimeException("Cart not at store");
     }
 
     if (cart.isSpecialApplied()) {
-      return null;
+      throw new RuntimeException("Special is already applied");
     }
 
     switch (specialId) {
@@ -61,7 +63,7 @@ public class ApplySpecialService {
       case FREE_SODA:
         return applyFreeSodaSpecial(storeId, cartId);
       default:
-        return null;
+        throw new RuntimeException("Special does not exist");
     }
   }
 
@@ -93,6 +95,7 @@ public class ApplySpecialService {
 
   /**
    * Helper that ounds the given price to show only two
+   *
    * @param price price to round
    * @return price after it has been rounded
    */

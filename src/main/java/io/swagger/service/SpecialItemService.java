@@ -41,8 +41,7 @@ public class SpecialItemService {
    * @return the specialItem that is added
    */
   public SpecialItem addSpecial(SpecialItem specialItem) {
-    specialItemRepository.save(specialItem);
-    return specialItem;
+    return specialItemRepository.save(specialItem);
   }
 
   /**
