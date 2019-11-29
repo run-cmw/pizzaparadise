@@ -4,6 +4,7 @@ import io.swagger.Message;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.exceptions.SpecialNotFoundException;
 import io.swagger.model.ApplySpecialResponse;
 import io.swagger.model.Cart;
 import io.swagger.service.ApplySpecialService;
@@ -51,20 +52,20 @@ public class ApplySpecialApiController implements ApplySpecialApi {
       return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.BAD_REQUEST);
     }
 
-    ApplySpecialResponse applySpecialResponse =
-        applySpecialService.applySpecial(specialId, storeId, cartId);
+    try {
+      ApplySpecialResponse applySpecialResponse =
+          applySpecialService.applySpecial(specialId, storeId, cartId);
 
-    if (applySpecialResponse == null) {
+      final HttpStatus httpStatus;
+      if (applySpecialResponse.getSuccess()) {
+        httpStatus = HttpStatus.OK;
+      } else {
+        httpStatus = HttpStatus.BAD_REQUEST;
+      }
+      return new ResponseEntity<ApplySpecialResponse>(applySpecialResponse, httpStatus);
+    } catch (SpecialNotFoundException e) {
       return new ResponseEntity<ApplySpecialResponse>(
           new ApplySpecialResponse(Message.ERROR_INVALID_SPECIAL), HttpStatus.BAD_REQUEST);
     }
-
-    final HttpStatus httpStatus;
-    if (applySpecialResponse.getSuccess()) {
-      httpStatus = HttpStatus.OK;
-    } else {
-      httpStatus = HttpStatus.BAD_REQUEST;
-    }
-    return new ResponseEntity<ApplySpecialResponse>(applySpecialResponse, httpStatus);
   }
 }
