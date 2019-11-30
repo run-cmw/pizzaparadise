@@ -11,6 +11,8 @@ import io.swagger.DBSideItems;
 import io.swagger.DBSpecialItems;
 import io.swagger.DBStoreItems;
 import io.swagger.Message;
+import io.swagger.exceptions.CartNotAtStoreException;
+import io.swagger.exceptions.SpecialAlreadyAppliedException;
 import io.swagger.exceptions.SpecialNotFoundException;
 import io.swagger.exceptions.ToppingNotFoundException;
 import io.swagger.model.ApplySpecialResponse;
@@ -222,13 +224,16 @@ public class ApplySpecialServiceTest {
 
   @Test
   public void testApply30PercentOffSpecial_Failure() throws ToppingNotFoundException {
+    Pizza largePizzaNoToppingGluten = new Pizza(DBPizzaSizes.LARGE.getId(), true);
+    Pizza largePizzaNoToppingNoGluten = new Pizza(DBPizzaSizes.LARGE.getId(), false);
     Cart invalidCart = setUpBuy1PizzaGetFreeSodaCart();
     ApplySpecialResponse response =
         applySpecialService.apply30PercentOffSpecial(
             DBStoreItems.EASTLAKE_STORE.getId(), invalidCart.getId());
     Double savings = 0.0;
 
-    assertFalse(invalidCart.getPizzas().contains(DBPizzaSizes.LARGE));
+    assertFalse(invalidCart.getPizzas().contains(largePizzaNoToppingGluten));
+    assertFalse(invalidCart.getPizzas().contains(largePizzaNoToppingNoGluten));
     assertFalse(response.getSuccess());
     assertEquals(Message.ERROR_DISCOUNT_30_PERCENT, response.getMessage());
     TestCase.assertEquals(savings, response.getSavings());
@@ -251,7 +256,7 @@ public class ApplySpecialServiceTest {
   }
 
   @Test
-  public void testApplyFreeSodaSpecial_Failure() throws Exception {
+  public void testApplyFreeSodaSpecial_Failure() {
     ObjectId cartId = new ObjectId();
     Cart invalidCart = new Cart(DBStoreItems.BROOKLYN_STORE.getId(), cartId);
     cartRepository.insert(invalidCart);
@@ -308,33 +313,31 @@ public class ApplySpecialServiceTest {
     Cart validCart = setUpBuy2LargeToppinglessPizzasGet30PercentOffCart();
     String invalidSpecialId = "badId";
 
-    assertNull(
-        applySpecialService.applySpecial(
-            invalidSpecialId, DBStoreItems.STONE_WAY_STORE.getId(), validCart.getId()));
+    applySpecialService.applySpecial(
+            invalidSpecialId, DBStoreItems.STONE_WAY_STORE.getId(), validCart.getId());
   }
 
-  @Test
+  @Test(expected = CartNotAtStoreException.class)
   public void testApplySpecial_Failure_CartNotAtStore() throws Exception {
     setUpSpecialsRepo();
     Cart validCart = setUpBuy2LargeToppinglessPizzasGet30PercentOffCart();
     String invalidStore = DBStoreItems.BROOKLYN_STORE.getId();
 
     assertNotEquals(invalidStore, validCart.getStoreID());
-    assertNull(
-        applySpecialService.applySpecial(
-            DBSpecialItems.BUY_2_LARGE_PIZZA_NO_TOPPING.getId(), invalidStore, validCart.getId()));
+    applySpecialService.applySpecial(
+        DBSpecialItems.BUY_2_LARGE_PIZZA_NO_TOPPING.getId(), invalidStore, validCart.getId());
   }
 
-  @Test
+  @Test(expected = SpecialAlreadyAppliedException.class)
   public void testApplySpecial_Failure_SpecialAlreadyApplied() throws Exception {
     setUpSpecialsRepo();
     Cart validCart = setUpBuy2LargeToppinglessPizzasGet30PercentOffCart();
     validCart.setSpecialApplied(true);
+    cartRepository.save(validCart);
 
-    assertNull(
-        applySpecialService.applySpecial(
-            DBSpecialItems.BUY_2_LARGE_PIZZA_NO_TOPPING.getId(),
-            DBStoreItems.STONE_WAY_STORE.getId(),
-            validCart.getId()));
+    applySpecialService.applySpecial(
+        DBSpecialItems.BUY_2_LARGE_PIZZA_NO_TOPPING.getId(),
+        DBStoreItems.STONE_WAY_STORE.getId(),
+        validCart.getId());
   }
 }
