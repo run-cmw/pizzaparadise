@@ -2,6 +2,9 @@ package io.swagger.api;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
+import io.swagger.exceptions.CartNotAtStoreException;
+import io.swagger.exceptions.SpecialAlreadyAppliedException;
+import io.swagger.exceptions.SpecialNotFoundException;
 import io.swagger.model.ApplySpecialResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,5 +29,6 @@ public interface ApplySpecialApi {
       @ApiParam(value = "Special to add") @RequestParam(required = true) String specialId,
       @ApiParam(value = "Store that contains cart") @PathVariable("storeId") String storeId,
       @ApiParam(value = "Cart to update") @PathVariable("cartId") String cartId)
-      throws Exception;
+      throws SpecialNotFoundException, CartNotAtStoreException, SpecialAlreadyAppliedException,
+      Exception;
 }
