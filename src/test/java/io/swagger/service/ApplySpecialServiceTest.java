@@ -258,8 +258,8 @@ public class ApplySpecialServiceTest {
   @Test
   public void testApplyFreeSodaSpecial_Failure() throws ToppingNotFoundException {
     ObjectId cartWithNonDrinkSideId = new ObjectId();
-    Cart cartWithNonDrinkSide = new Cart(
-        DBStoreItems.BROOKLYN_STORE.getId(), cartWithNonDrinkSideId);
+    Cart cartWithNonDrinkSide =
+        new Cart(DBStoreItems.BROOKLYN_STORE.getId(), cartWithNonDrinkSideId);
     SideItem nonDrinkSide = DBSideItems.MARINARA_SAUCE;
     sideService.addSide(nonDrinkSide);
     cartService.addSideToCart(cartWithNonDrinkSide, nonDrinkSide.getId());
@@ -320,7 +320,7 @@ public class ApplySpecialServiceTest {
     String invalidSpecialId = "badId";
 
     applySpecialService.applySpecial(
-            invalidSpecialId, DBStoreItems.STONE_WAY_STORE.getId(), validCart.getId());
+        invalidSpecialId, DBStoreItems.STONE_WAY_STORE.getId(), validCart.getId());
   }
 
   @Test(expected = CartNotAtStoreException.class)

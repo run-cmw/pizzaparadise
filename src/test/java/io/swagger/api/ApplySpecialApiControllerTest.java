@@ -35,17 +35,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @EnableAutoConfiguration
 @SpringBootTest
 public class ApplySpecialApiControllerTest {
-  @Autowired
-  private ApplySpecialApi applySpecialApi;
+  @Autowired private ApplySpecialApi applySpecialApi;
 
-  @Autowired
-  private CartRepository cartRepository;
+  @Autowired private CartRepository cartRepository;
 
-  @Autowired
-  private CartService cartService;
+  @Autowired private CartService cartService;
 
-  @Autowired
-  private PizzaSizeService sizeService;
+  @Autowired private PizzaSizeService sizeService;
 
   @Before
   public void setUp() {
@@ -65,8 +61,11 @@ public class ApplySpecialApiControllerTest {
     cartService.addPizzaToCart(cart, pizza);
     cartService.addPizzaToCart(cart, pizza);
 
-    ResponseEntity<ApplySpecialResponse> responseEntity = applySpecialApi.applySpecial(
-        DBSpecialItems.BUY_1_GET_1_FREE.getId(), DBStoreItems.BROOKLYN_STORE.getId(), cart.getId());
+    ResponseEntity<ApplySpecialResponse> responseEntity =
+        applySpecialApi.applySpecial(
+            DBSpecialItems.BUY_1_GET_1_FREE.getId(),
+            DBStoreItems.BROOKLYN_STORE.getId(),
+            cart.getId());
 
     assertTrue(responseEntity.getBody().getSuccess());
     assertNull(responseEntity.getBody().getMessage());
@@ -78,10 +77,11 @@ public class ApplySpecialApiControllerTest {
     ObjectId cartId = new ObjectId();
     Cart cart = new Cart(DBStoreItems.EASTLAKE_STORE.getId(), cartId);
     cartRepository.insert(cart);
-    ResponseEntity<ApplySpecialResponse> responseEntity = applySpecialApi.applySpecial(
-        DBSpecialItems.BUY_1_GET_1_FREE.getId(),
-        DBStoreItems.EASTLAKE_STORE.getId(),
-        "wrongCartId");
+    ResponseEntity<ApplySpecialResponse> responseEntity =
+        applySpecialApi.applySpecial(
+            DBSpecialItems.BUY_1_GET_1_FREE.getId(),
+            DBStoreItems.EASTLAKE_STORE.getId(),
+            "wrongCartId");
 
     assertFalse(responseEntity.getBody().getSuccess());
     assertEquals(Message.ERROR_NO_CART, responseEntity.getBody().getMessage());
@@ -93,10 +93,9 @@ public class ApplySpecialApiControllerTest {
     ObjectId cartId = new ObjectId();
     Cart cart = new Cart(DBStoreItems.BROOKLYN_STORE.getId(), cartId);
     cartRepository.insert(cart);
-    ResponseEntity<ApplySpecialResponse> responseEntity = applySpecialApi.applySpecial(
-        "invalidSpecial",
-        DBStoreItems.BROOKLYN_STORE.getId(),
-        cart.getId());
+    ResponseEntity<ApplySpecialResponse> responseEntity =
+        applySpecialApi.applySpecial(
+            "invalidSpecial", DBStoreItems.BROOKLYN_STORE.getId(), cart.getId());
 
     assertFalse(responseEntity.getBody().getSuccess());
     assertEquals(Message.ERROR_INVALID_SPECIAL, responseEntity.getBody().getMessage());
@@ -109,8 +108,11 @@ public class ApplySpecialApiControllerTest {
     Cart cart = new Cart(DBStoreItems.BROOKLYN_STORE.getId(), cartId);
     cart.setSpecialApplied(true);
     cartRepository.insert(cart);
-    ResponseEntity<ApplySpecialResponse> responseEntity = applySpecialApi.applySpecial(
-        DBSpecialItems.BUY_1_GET_1_FREE.getId(), DBStoreItems.BROOKLYN_STORE.getId(), cart.getId());
+    ResponseEntity<ApplySpecialResponse> responseEntity =
+        applySpecialApi.applySpecial(
+            DBSpecialItems.BUY_1_GET_1_FREE.getId(),
+            DBStoreItems.BROOKLYN_STORE.getId(),
+            cart.getId());
 
     assertFalse(responseEntity.getBody().getSuccess());
     assertEquals(Message.ERROR_ONE_SPECIAL, responseEntity.getBody().getMessage());
