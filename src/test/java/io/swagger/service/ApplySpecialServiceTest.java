@@ -256,17 +256,23 @@ public class ApplySpecialServiceTest {
   }
 
   @Test
-  public void testApplyFreeSodaSpecial_Failure() {
-    ObjectId cartId = new ObjectId();
-    Cart invalidCart = new Cart(DBStoreItems.BROOKLYN_STORE.getId(), cartId);
-    cartRepository.insert(invalidCart);
+  public void testApplyFreeSodaSpecial_Failure() throws ToppingNotFoundException {
+    ObjectId cartWithNonDrinkSideId = new ObjectId();
+    Cart cartWithNonDrinkSide = new Cart(
+        DBStoreItems.BROOKLYN_STORE.getId(), cartWithNonDrinkSideId);
+    SideItem nonDrinkSide = DBSideItems.MARINARA_SAUCE;
+    sideService.addSide(nonDrinkSide);
+    cartService.addSideToCart(cartWithNonDrinkSide, nonDrinkSide.getId());
+    Cart cartWithNoSide = setUpBuy1PizzaGetFreePizzaCart();
+    cartRepository.save(cartWithNonDrinkSide);
     ApplySpecialResponse response =
         applySpecialService.applyFreeSodaSpecial(
-            DBStoreItems.BROOKLYN_STORE.getId(), invalidCart.getId());
+            DBStoreItems.BROOKLYN_STORE.getId(), cartWithNonDrinkSide.getId());
     Double savings = 0.0;
 
-    assertTrue(invalidCart.getPizzas().size() < 1);
-    assertFalse(applySpecialService.hasDrink(invalidCart.getSides()));
+    assertTrue(cartWithNonDrinkSide.getPizzas().size() < 1);
+    assertFalse(applySpecialService.hasDrink(cartWithNonDrinkSide.getSides()));
+    assertFalse(applySpecialService.hasDrink(cartWithNoSide.getSides()));
     assertFalse(response.getSuccess());
     assertEquals(Message.ERROR_FREE_SODA, response.getMessage());
     TestCase.assertEquals(savings, response.getSavings());
