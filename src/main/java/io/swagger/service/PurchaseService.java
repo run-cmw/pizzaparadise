@@ -23,7 +23,8 @@ public class PurchaseService {
    */
   public Receipt makeReceipt(Cart cart, Card card) {
     if (validateExpDate(card.getExpMonth(), card.getExpYear())) {
-      Receipt receipt = new Receipt(cart, card);
+      Card secureCard = secureCardNumber(card);
+      Receipt receipt = new Receipt(cart, secureCard);
       receiptRepository.save(receipt);
       return receipt;
     }
@@ -38,8 +39,20 @@ public class PurchaseService {
    */
   public boolean validateExpDate(Integer month, Integer year) {
     GregorianCalendar now = new GregorianCalendar();
-    int daysInMonth = Calendar.getInstance().getActualMaximum(month);
-    GregorianCalendar expDate = new GregorianCalendar(year, month, daysInMonth, 23, 59, 59);
+    GregorianCalendar expDate = new GregorianCalendar(year, month - 1, 1, 23, 59, 59);
+    int lastDate = expDate.getActualMaximum(expDate.DATE);
+    expDate.set(expDate.DATE, lastDate);
     return now.compareTo(expDate) <= 0;
+  }
+
+  /**
+   * Secure the cardNumber by only saving the last four digits
+   * @param card card given to secure in the database
+   * @return card with the only last four digits
+   */
+  public Card secureCardNumber(Card card) {
+    String cardNum = card.getCardNumber().substring(card.getCardNumber().length() - 4);
+    card.setCardNumber(cardNum);
+    return card;
   }
 }
