@@ -14,6 +14,7 @@ import io.swagger.model.Cart;
 import io.swagger.model.Pizza;
 import io.swagger.model.PizzaSize;
 import io.swagger.repository.CartRepository;
+import io.swagger.repository.PizzaSizeRepository;
 import io.swagger.service.CartService;
 import io.swagger.service.PizzaSizeService;
 import org.bson.types.ObjectId;
@@ -39,6 +40,8 @@ public class ApplySpecialApiControllerTest {
 
   @Autowired private CartRepository cartRepository;
 
+  @Autowired private PizzaSizeRepository sizeRepository;
+
   @Autowired private CartService cartService;
 
   @Autowired private PizzaSizeService sizeService;
@@ -46,6 +49,7 @@ public class ApplySpecialApiControllerTest {
   @Before
   public void setUp() {
     cartRepository.deleteAll();
+    sizeRepository.deleteAll();
   }
 
   @Test
