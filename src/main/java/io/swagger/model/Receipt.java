@@ -88,8 +88,7 @@ public class Receipt {
     return "Receipt{id=" + this.receiptId.toString() + ", " + "Time placed=" + this.timePlaced + ", " + "StoreId="
         + this.cart.getStoreID() + ", " + "Pizzas=" + this.cart.getPizzas() + ", " + "Sides=" + this.cart.getSides()
         + ", " + "Total Amount=" + this.cart.getTotalAmount() + ", " + "Card=" + this.card.getCardProvider()
-        + "card number ending with " + this.card.getCardNumber().substring(this.card.getCardNumber().length() - 5)
-        + "}";
+        + "card number ending with " + this.card.getCardNumber().substring(this.card.getCardNumber().length() - 4) + "}";
   }
 
   /**
