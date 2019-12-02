@@ -10,9 +10,9 @@ This repository contains code for the Pizza Paradise API, an API that supports a
 Important infomation about the API is available in the 
 [API design document](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadiseApiDesignDoc.pdf).
 
-A front-end service was built on using this API, and that Alexa skill may be viewed on
+A front-end service was built using this API, and that Alexa skill may be viewed on
 [LINK AFTER PUBLISHING]().
-Information about the Alexa skill is abailable in the 
+Information about the Alexa skill is available in the 
 [front-end design document](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadiseFrontEndDesignDoc.pdf).
 
 A summary of the entire project may be viewed on the 
@@ -20,7 +20,7 @@ A summary of the entire project may be viewed on the
 ([slides used in presentation]())
 and in the
 [final report](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadiseFinalProjectReport.pdf).
-Finally, the storyboard is accessible on 
+Finally, the project storyboard is accessible on 
 [Trello](https://trello.com/b/lLhNXLeo/pizza-paradise).
 
 #### Relevant documents
