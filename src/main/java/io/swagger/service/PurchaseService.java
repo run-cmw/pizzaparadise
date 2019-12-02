@@ -1,7 +1,6 @@
 package io.swagger.service;
 
 import io.swagger.repository.ReceiptRepository;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +32,7 @@ public class PurchaseService {
 
   /**
    * Validate the expiration date of the Card
+   * GregorianCalendar month starts from 0(January)
    * @param month month given to check
    * @param year year given to check
    * @return true if the month/year is not expired. false if it is expired.

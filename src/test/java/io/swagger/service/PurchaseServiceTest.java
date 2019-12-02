@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-
 import io.swagger.model.Card;
 import io.swagger.model.CardProvider;
 import io.swagger.model.Cart;
@@ -32,9 +31,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @EnableAutoConfiguration
 @TestPropertySource(locations = "classpath:/application-test.properties")
 public class PurchaseServiceTest {
-
-  @Autowired
-  public CartService cartService;
 
   @Autowired public CartRepository cartRepo;
 
