@@ -70,6 +70,14 @@ public class Card {
   }
 
   /**
+   * Set the cardNumber with this securedNum(last four digits)
+   * @param securedNum last 4 digits of the card
+   */
+  public void setCardNumber(String securedNum) {
+    this.cardNumber = securedNum;
+  }
+
+  /**
    * Get the expiration Month of this Card
    * 
    * @return expiration month of this Card
