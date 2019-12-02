@@ -61,7 +61,7 @@ public class ReceiptTest {
     String test = "Receipt{id=" + receipt.getReceiptId() + ", " + "Time placed=" + receipt.getTimePlaced() + ", "
         + "StoreId=" + cart.getStoreID() + ", " + "Pizzas=" + cart.getPizzas() + ", " + "Sides=" + cart.getSides()
         + ", " + "Total Amount=" + cart.getTotalAmount() + ", " + "Card=" + card.getCardProvider()
-        + "card number ending with " + card.getCardNumber().substring(this.card.getCardNumber().length() - 5) + "}";
+        + "card number ending with " + card.getCardNumber().substring(this.card.getCardNumber().length() - 4) + "}";
     assertEquals(test, receipt.toString());
   }
 
