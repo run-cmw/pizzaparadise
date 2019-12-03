@@ -47,21 +47,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class ApplySpecialServiceTest {
 
   @Autowired private CartRepository cartRepository;
-
   @Autowired private SpecialItemRepository specialItemRepository;
-
   @Autowired private PizzaSizeRepository sizeRepository;
-
   @Autowired private SideItemRepository sideRepository;
-
   @Autowired private CartService cartService;
-
   @Autowired private SpecialItemService specialItemService;
-
   @Autowired private ApplySpecialService applySpecialService;
-
   @Autowired private PizzaSizeService sizeService;
-
   @Autowired private SideService sideService;
 
   @Before
@@ -93,7 +85,7 @@ public class ApplySpecialServiceTest {
   private Cart setUpBuy1PizzaGetFreePizzaCart() throws ToppingNotFoundException {
     ObjectId cartId = new ObjectId();
     Cart cart = new Cart(DBStoreItems.BROOKLYN_STORE.getId(), cartId);
-    cartRepository.insert(cart);
+    cartRepository.save(cart);
     Pizza smallPizza = setUpSmallPizza();
     cartService.addPizzaToCart(cart, smallPizza);
     cartService.addPizzaToCart(cart, smallPizza);
@@ -104,7 +96,7 @@ public class ApplySpecialServiceTest {
       throws ToppingNotFoundException {
     ObjectId cartId = new ObjectId();
     Cart cart = new Cart(DBStoreItems.STONE_WAY_STORE.getId(), cartId);
-    cartRepository.insert(cart);
+    cartRepository.save(cart);
     Pizza largePizza = setUpLargePizza();
     cartService.addPizzaToCart(cart, largePizza);
     cartService.addPizzaToCart(cart, largePizza);
@@ -114,7 +106,7 @@ public class ApplySpecialServiceTest {
   private Cart setUpBuy1PizzaGetFreeSodaCart() throws ToppingNotFoundException {
     ObjectId cartId = new ObjectId();
     Cart cart = new Cart(DBStoreItems.EASTLAKE_STORE.getId(), cartId);
-    cartRepository.insert(cart);
+    cartRepository.save(cart);
     cartService.addPizzaToCart(cart, setUpSmallPizza());
     SideItem smallSoda = DBSideItems.SMALL_PEACH_CRUSH;
     SideItem notSoda = DBSideItems.CHOCOLATE_CHIP_COOKIE;

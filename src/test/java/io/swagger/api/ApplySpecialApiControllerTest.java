@@ -15,7 +15,6 @@ import io.swagger.model.Pizza;
 import io.swagger.model.PizzaSize;
 import io.swagger.repository.CartRepository;
 import io.swagger.repository.PizzaSizeRepository;
-import io.swagger.repository.SideItemRepository;
 import io.swagger.service.CartService;
 import io.swagger.service.PizzaSizeService;
 import org.bson.types.ObjectId;
@@ -38,29 +37,22 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest
 public class ApplySpecialApiControllerTest {
   @Autowired private ApplySpecialApi applySpecialApi;
-
   @Autowired private CartRepository cartRepository;
-
   @Autowired private PizzaSizeRepository sizeRepository;
-
-  @Autowired private SideItemRepository sideItemRepository;
-
   @Autowired private CartService cartService;
-
   @Autowired private PizzaSizeService sizeService;
 
   @Before
   public void setUp() {
     cartRepository.deleteAll();
     sizeRepository.deleteAll();
-    sideItemRepository.deleteAll();
   }
 
   @Test
   public void testApplySpecial_Success() throws Exception {
     ObjectId cartId = new ObjectId();
     Cart cart = new Cart(DBStoreItems.BROOKLYN_STORE.getId(), cartId);
-    cartRepository.insert(cart);
+    cartRepository.save(cart);
 
     PizzaSize largeSize = DBPizzaSizes.LARGE;
     sizeService.addPizzaSize(largeSize);
@@ -84,7 +76,7 @@ public class ApplySpecialApiControllerTest {
   public void testApplySpecial_Failure_CartNotAtStore() throws Exception {
     ObjectId cartId = new ObjectId();
     Cart cart = new Cart(DBStoreItems.EASTLAKE_STORE.getId(), cartId);
-    cartRepository.insert(cart);
+    cartRepository.save(cart);
     ResponseEntity<ApplySpecialResponse> responseEntity =
         applySpecialApi.applySpecial(
             DBSpecialItems.BUY_1_GET_1_FREE.getId(),
@@ -100,7 +92,7 @@ public class ApplySpecialApiControllerTest {
   public void testApplySpecial_Failure_InvalidSpecial() throws Exception {
     ObjectId cartId = new ObjectId();
     Cart cart = new Cart(DBStoreItems.BROOKLYN_STORE.getId(), cartId);
-    cartRepository.insert(cart);
+    cartRepository.save(cart);
     ResponseEntity<ApplySpecialResponse> responseEntity =
         applySpecialApi.applySpecial(
             "invalidSpecial", DBStoreItems.BROOKLYN_STORE.getId(), cart.getId());
@@ -115,7 +107,7 @@ public class ApplySpecialApiControllerTest {
     ObjectId cartId = new ObjectId();
     Cart cart = new Cart(DBStoreItems.BROOKLYN_STORE.getId(), cartId);
     cart.setSpecialApplied(true);
-    cartRepository.insert(cart);
+    cartRepository.save(cart);
     ResponseEntity<ApplySpecialResponse> responseEntity =
         applySpecialApi.applySpecial(
             DBSpecialItems.BUY_1_GET_1_FREE.getId(),
