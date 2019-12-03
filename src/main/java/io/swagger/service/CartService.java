@@ -127,7 +127,10 @@ public class CartService {
    */
   public Double getTotalAmountInCart(String cartId) {
     Cart cart = cartRepository.findById(cartId).get();
-    return cart.getTotalAmount();
+    Double price = 0.0;
+    price += getSidesPrice(cart);
+    price += getPizzasPrice(cart);
+    return Math.round(price * 100.0) / 100.0;
   }
 
   /**
@@ -185,7 +188,8 @@ public class CartService {
    */
   public void deleteSideFromCart(Cart cart, SideItem side) {
     cart.getSides().remove(side.getId());
-    cart.setTotalAmount(cart.getTotalAmount());
+    cartRepository.save(cart);
+    cart.setTotalAmount(getTotalAmountInCart(cart));
     cart.setSpecialApplied(false);
     cartRepository.save(cart);
   }
@@ -202,9 +206,9 @@ public class CartService {
     if (!deletedPizza) {
       return false;
     }
-
+    cartRepository.save(cart);
     cart.setSpecialApplied(false);
-    cart.setTotalAmount(cart.getTotalAmount());
+    cart.setTotalAmount(getTotalAmountInCart(cart));
     cartRepository.save(cart);
     return true;
   }

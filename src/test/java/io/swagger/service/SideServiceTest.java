@@ -11,12 +11,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+@EnableAutoConfiguration
 @TestPropertySource(locations = "classpath:/application-test.properties")
 public class SideServiceTest {
   @Autowired public SideService sideService;
@@ -66,6 +68,7 @@ public class SideServiceTest {
     SideItem side = new SideItem("snack", "Snack", 5.99, "dessert");
     SideItem sideFromDB = sideService.addSide(side);
     assertEquals(side, sideFromDB);
+    assertEquals(null, sideService.addSide(side));
   }
 
   @Test

@@ -84,5 +84,19 @@ public class CartAddResponseTest {
     assertNotEquals(response1, response2);
     assertNotEquals(response2, response3);
     assertNotNull(response1);
+    SpecialItem special = new SpecialItem("1", "Buy1Get1Free", "BuyOneGetOne description");
+    assertNotEquals(special, response1);
+    assertNotEquals(null, response1);
+    CartAddResponse response4 = new CartAddResponse(pizza, "cart1", "eastlake");
+    assertNotEquals(response4, response1);
+    Pizza pizza2 = new Pizza("medium", true);
+    CartAddResponse response5 = new CartAddResponse(pizza2, "cart1", "brooklyn");
+    assertNotEquals(response5, response1);
+    SideItem side2 = new SideItem("2LiterCoke", "2 liter Coke", 3.99, "drink");
+    CartAddResponse response6 = new CartAddResponse(side2, "cart2", "eastlake");
+    assertNotEquals(response6, response3);
+    assertNotEquals(response6, response1);
+    CartAddResponse response7 = new CartAddResponse("CART_NOT_FOUND");
+    assertNotEquals(response7, response2);
   }
 }

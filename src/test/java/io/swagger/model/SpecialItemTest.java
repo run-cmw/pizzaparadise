@@ -57,6 +57,14 @@ public class SpecialItemTest {
     assertEquals(special1, special1);
     assertNotEquals(special1, special2);
     assertNotEquals(special1, null);
+    SpecialItem special3 = new SpecialItem("2", "Buy1Get1Free", "BuyOneGetOne description");
+    assertNotEquals(special1, special3);
+    SpecialItem special4 = new SpecialItem("1", "Buy1Get1Free1", "BuyOneGetOne description");
+    assertNotEquals(special1, special4);
+    SpecialItem special5 = new SpecialItem("1", "Buy1Get1Free", "BuyOneGetOne description1");
+    assertNotEquals(special1, special5);
+    ToppingItem topping = new ToppingItem("pepperoni1", "pepperoni1", "meat", 2.5, 2.75, 3.0, "gluten");
+    assertNotEquals(special1, topping);
   }
 
   @Test
