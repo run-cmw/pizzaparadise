@@ -69,11 +69,18 @@ public class ApplySpecialResponseTest {
 
   @Test
   public void testEquals() {
+    StoreItem storeItem = new StoreItem(
+        "id",
+        "street", "city", "state", "zip", false);
+
+    assertEquals(applySpecialResponse, applySpecialResponse);
     assertEquals(sameObject, applySpecialResponse);
     assertNotEquals(differentObject, applySpecialResponse);
     assertNotEquals(2, applySpecialResponse);
     assertNotEquals(null, applySpecialResponse);
     assertNotNull(applySpecialResponse);
+    assertEquals(differentObject.getClass(), applySpecialResponse.getClass());
+    assertNotEquals(storeItem.getClass(), applySpecialResponse.getClass());
 
     // only different savings
     applySpecialResponse.setSpecialId("buy1Get1Free");
