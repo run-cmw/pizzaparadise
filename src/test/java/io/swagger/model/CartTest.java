@@ -96,7 +96,24 @@ public class CartTest {
     Cart sameAsCart = new Cart("brooklyn", id);
     assertEquals(cart, cart);
     assertEquals(sameAsCart, cart);
-    assertNotEquals(null, cart);
+    assertNotEquals(cart, null);
     assertNotEquals(cart2, cart);
+    SpecialItem special = new SpecialItem("1", "Buy1Get1Free", "BuyOneGetOne description");
+    assertNotEquals(cart, special);
+    Cart cart3 = new Cart("brooklyn", id);
+    Pizza pizza = new Pizza("small", false);
+    cart3.getPizzas().add(pizza);
+    assertNotEquals(cart3, cart);
+    Cart cart4 = new Cart("brooklyn", id);
+    cart4.getSides().add("16OzCoke");
+    assertNotEquals(cart4, cart);
+    Cart cart5 = new Cart("eastlake", id);
+    assertNotEquals(cart5, cart);
+    Cart cart6 = new Cart("brooklyn", id);
+    cart6.setTotalAmount(5.00);
+    assertNotEquals(cart6, cart);
+    Cart cart7 = new Cart("brooklyn", id);
+    cart7.setSpecialApplied(true);
+    assertNotEquals(cart7, cart);
   }
 }

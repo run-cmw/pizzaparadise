@@ -62,7 +62,17 @@ public class SideItemTest {
     assertEquals(sameObject, sideItem);
     assertNotEquals(differentObject, sideItem);
     assertNotEquals(2, sideItem);
-    assertNotEquals(null, sideItem);
+    assertNotEquals(sideItem, null);
+    SpecialItem special = new SpecialItem("1", "Buy1Get1Free", "BuyOneGetOne description");
+    assertNotEquals(sideItem, special);
+    SideItem side2 = new SideItem("hotWings1", "Hot wings", 7.99, "appetizer");
+    assertNotEquals(side2, sideItem);
+    SideItem side3 = new SideItem("hotWings", "Hot wings1", 7.99, "appetizer");
+    assertNotEquals(side3, sideItem);
+    SideItem side4 = new SideItem("hotWings", "Hot wings", 8.99, "appetizer");
+    assertNotEquals(side4, sideItem);
+    SideItem side5 = new SideItem("hotWings", "Hot wings", 7.99, "appetizer1");
+    assertNotEquals(side5, sideItem);
   }
 
   @Test

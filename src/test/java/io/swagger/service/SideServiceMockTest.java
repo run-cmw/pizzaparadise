@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import io.swagger.model.SideItem;
 import io.swagger.repository.SideItemRepository;
-import io.swagger.service.SideService;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
@@ -24,6 +24,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+@EnableAutoConfiguration
 @TestPropertySource(locations = "classpath:/application-test.properties")
 public class SideServiceMockTest {
   final String TEST_SIDE_ID = "cheeseSticks";

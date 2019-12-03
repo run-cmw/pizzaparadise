@@ -23,19 +23,19 @@ public class Cart {
   @JsonProperty("CartID")
   private ObjectId id;
 
-  @JsonProperty("List of Pizzas")
+  @JsonProperty("ListOfPizzas")
   private List<Pizza> pizzas;
 
-  @JsonProperty("List of Sides")
+  @JsonProperty("ListOfSides")
   private List<String> sides;
 
   @JsonProperty("StoreID")
   private String storeID;
 
-  @JsonProperty("Total Price")
+  @JsonProperty("TotalPrice")
   private Double totalAmount;
 
-  @JsonProperty("Special Applied")
+  @JsonProperty("SpecialApplied")
   private boolean specialApplied;
 
   /**

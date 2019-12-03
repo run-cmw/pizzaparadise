@@ -84,7 +84,21 @@ public class StoreItemTest {
     assertEquals(sameObject, storeItem);
     assertNotEquals(differentObject, storeItem);
     assertNotEquals(2, storeItem);
-    assertNotEquals(null, storeItem);
+    assertNotEquals(storeItem, null);
+    SpecialItem special = new SpecialItem("2", "Buy1Get1Free", "BuyOneGetOne description");
+    assertNotEquals(storeItem, special);
+    StoreItem store2 = new StoreItem("gulf1", "555 Gulf Blvd", "Clam Gulch", "Alaska", "94608", false);
+    assertNotEquals(store2, storeItem);
+    StoreItem store3 = new StoreItem("gulf", "555 Gulf Blvd1", "Clam Gulch", "Alaska", "94608", false);
+    assertNotEquals(store3, storeItem);
+    StoreItem store4 = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch1", "Alaska", "94608", false);
+    assertNotEquals(store4, storeItem);
+    StoreItem store5 = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska1", "94608", false);
+    assertNotEquals(store5, storeItem);
+    StoreItem store6 = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska", "946081", false);
+    assertNotEquals(store6, storeItem);
+    StoreItem store7 = new StoreItem("gulf", "555 Gulf Blvd", "Clam Gulch", "Alaska", "94608", true);
+    assertNotEquals(store7, storeItem);
   }
 
   @Test

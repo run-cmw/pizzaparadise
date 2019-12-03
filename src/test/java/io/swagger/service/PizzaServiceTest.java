@@ -2,7 +2,6 @@ package io.swagger.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-
 import io.swagger.exceptions.ToppingNotFoundException;
 import io.swagger.model.Pizza;
 import io.swagger.model.PizzaSize;
@@ -15,18 +14,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+@EnableAutoConfiguration
 @TestPropertySource("classpath:/application-test.properties")
 public class PizzaServiceTest {
 
   @Autowired public PizzaService pizzaService;
 
-  @Autowired private ToppingItemRepository toppingRepo;
+  @Autowired
+  private ToppingItemRepository toppingRepo;
 
   @Autowired private PizzaSizeRepository sizeRepo;
 
@@ -80,14 +82,19 @@ public class PizzaServiceTest {
   @Test
   public void TestGetPizzaPrice() throws Exception {
     setUpSmallSize();
-    Pizza pizza = setUpPizza(SMALL_SIZE, true);
+    Pizza pizza1 = setUpPizza(SMALL_SIZE, true);
     ToppingItem bacon = setupBacon();
     ToppingItem broccoli = setupBroccoli();
-    pizza.getToppingIDs().add(bacon.getId());
-    pizza.getToppingIDs().add(broccoli.getId());
+    pizza1.getToppingIDs().add(bacon.getId());
+    pizza1.getToppingIDs().add(broccoli.getId());
 
-    Double price = pizzaService.getPizzaPrice(pizza);
-    assertEquals((Double) 14.49, price);
+    Double price1 = pizzaService.getPizzaPrice(pizza1);
+    assertEquals((Double) 14.49, price1);
+    setUpLargeSize();
+    Pizza pizza2 = setUpPizza(LARGE_SIZE, true);
+    pizza2.getToppingIDs().add(bacon.getId());
+    Double price2 = pizzaService.getPizzaPrice(pizza2);
+    assertEquals((Double) 17.99, price2);
   }
 
   @Test
@@ -112,5 +119,12 @@ public class PizzaServiceTest {
       fail();
     } catch (ToppingNotFoundException err) {
     }
+    try {
+      pizzaService.getPizzaToppingPrice(LARGE_SIZE, toppingIDs2);
+      fail();
+    } catch (ToppingNotFoundException err) {
+    }
+    Double price3 = pizzaService.getPizzaToppingPrice("extraLarge", toppingIDs1);
+    assertEquals((Double) 0.00, price3);
   }
 }
