@@ -42,6 +42,15 @@ public class PizzaTest {
     assertEquals(pizza1, sameAsPizza1);
     assertEquals(pizza1, pizza1);
     assertNotEquals(pizza1, pizza2);
+    SpecialItem special = new SpecialItem("1", "Buy1Get1Free", "BuyOneGetOne description");
+    assertNotEquals(pizza1, special);
+    assertNotEquals(pizza1, null);
+    Pizza pizza3 = new Pizza("small", false);
+    assertNotEquals(pizza1, pizza3);
+    pizza1.getToppingIDs().add("bacon");
+    Pizza pizza4 = new Pizza("small", true);
+    pizza4.getToppingIDs().add("bacon1");
+    assertNotEquals(pizza1, pizza4);
   }
 
   @Test

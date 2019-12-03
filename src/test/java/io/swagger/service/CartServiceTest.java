@@ -1,7 +1,9 @@
 package io.swagger.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import io.swagger.model.Cart;
@@ -19,12 +21,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+@EnableAutoConfiguration
 @TestPropertySource(locations = "classpath:/application-test.properties")
 public class CartServiceTest {
 
@@ -197,7 +201,10 @@ public class CartServiceTest {
     smallPizza.getToppingIDs().add(BACON);
 
     cartRepo.insert(cart);
-    cartService.deletePizzaFromCart(cart, smallPizza);
+    assertFalse(cartService.deletePizzaFromCart(cart, smallPizza));
+    assertEquals((Double) 0.00, cartService.getPizzasPrice(cart));
+    cart.getPizzas().add(smallPizza);
+    assertTrue(cartService.deletePizzaFromCart(cart, smallPizza));
     assertEquals((Double) 0.00, cartService.getPizzasPrice(cart));
   }
 }

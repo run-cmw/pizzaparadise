@@ -58,6 +58,19 @@ public class ToppingItemTest {
     assertNotEquals(topping2, topping1);
     assertEquals(topping2, topping2);
     assertNotNull(topping2);
+    assertNotEquals(topping1, null);
+    ToppingItem topping3 = new ToppingItem("pepperoni1", "pepperoni1", "meat", 2.5, 2.75, 3.0, "gluten");
+    assertNotEquals(topping1, topping3);
+    ToppingItem topping4 = new ToppingItem("pepperoni1", "pepperoni", "vege", 2.5, 2.75, 3.0, "gluten");
+    assertNotEquals(topping1, topping4);
+    ToppingItem topping5 = new ToppingItem("pepperoni1", "pepperoni", "meat", 3.5, 2.75, 3.0, "gluten");
+    assertNotEquals(topping1, topping5);
+    ToppingItem topping6 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 3.75, 3.0, "gluten");
+    assertNotEquals(topping1, topping6);
+    ToppingItem topping7 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 4.0, "gluten");
+    assertNotEquals(topping1, topping7);
+    ToppingItem topping8 = new ToppingItem("pepperoni1", "pepperoni", "meat", 2.5, 2.75, 3.0, "non-gluten");
+    assertNotEquals(topping1, topping8);
   }
 
   @Test
