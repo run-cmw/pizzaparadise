@@ -30,7 +30,7 @@ Finally, the project storyboard is accessible on
 - [x] [Project storyboard](https://trello.com/b/lLhNXLeo/pizza-paradise)
 - [ ] [Final report](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadiseFinalProjectReport.pdf)
 - [ ] [Presentation video]()
-- [ ] [Presentation video slides](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadisePresentationSlides.pdf)
+- [x] [Presentation video slides](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadisePresentationSlides.pdf)
 
 #### Setup instructions
 - Create new Heroku app
