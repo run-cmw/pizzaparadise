@@ -4,6 +4,9 @@ import io.swagger.Message;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.exceptions.CartNotAtStoreException;
+import io.swagger.exceptions.SpecialAlreadyAppliedException;
+import io.swagger.exceptions.SpecialNotFoundException;
 import io.swagger.model.ApplySpecialResponse;
 import io.swagger.model.Cart;
 import io.swagger.service.ApplySpecialService;
@@ -34,7 +37,7 @@ public class ApplySpecialApiController implements ApplySpecialApi {
         "apply special",
       })
   @ApiResponses(value = {@ApiResponse(code = 400, message = "BAD_REQUEST")})
-  public ResponseEntity<ApplySpecialResponse> applySpecial(
+  public ResponseEntity<ApplySpecialResponse> applySpecial (
       String specialId, String storeId, String cartId) {
     ApplySpecialResponse response;
     Cart cart = cartService.getCartItemsById(storeId, cartId);
@@ -51,20 +54,20 @@ public class ApplySpecialApiController implements ApplySpecialApi {
       return new ResponseEntity<ApplySpecialResponse>(response, HttpStatus.BAD_REQUEST);
     }
 
-    ApplySpecialResponse applySpecialResponse =
-        applySpecialService.applySpecial(specialId, storeId, cartId);
+    try {
+      ApplySpecialResponse applySpecialResponse =
+          applySpecialService.applySpecial(specialId, storeId, cartId);
 
-    if (applySpecialResponse == null) {
+      final HttpStatus httpStatus;
+      if (applySpecialResponse.getSuccess()) {
+        httpStatus = HttpStatus.OK;
+      } else {
+        httpStatus = HttpStatus.BAD_REQUEST;
+      }
+      return new ResponseEntity<ApplySpecialResponse>(applySpecialResponse, httpStatus);
+    } catch (SpecialNotFoundException | CartNotAtStoreException | SpecialAlreadyAppliedException e) {
       return new ResponseEntity<ApplySpecialResponse>(
           new ApplySpecialResponse(Message.ERROR_INVALID_SPECIAL), HttpStatus.BAD_REQUEST);
     }
-
-    final HttpStatus httpStatus;
-    if (applySpecialResponse.getSuccess()) {
-      httpStatus = HttpStatus.OK;
-    } else {
-      httpStatus = HttpStatus.BAD_REQUEST;
-    }
-    return new ResponseEntity<ApplySpecialResponse>(applySpecialResponse, httpStatus);
   }
 }

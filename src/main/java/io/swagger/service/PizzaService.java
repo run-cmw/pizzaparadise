@@ -54,7 +54,7 @@ public class PizzaService {
     for (String toppingID : toppings) {
       Optional<ToppingItem> topping = toppingRepository.findById(toppingID);
       if (!topping.isPresent()) {
-        throw new ToppingNotFoundException();
+        throw new ToppingNotFoundException(toppingID);
       }
       if (sizeID.equals(SIZE_SMALL)) {
         price += topping.get().getToppingSmallPrice();

@@ -14,6 +14,6 @@ public class DBSpecialItems {
       "Buy1PizzaGetSodaFree", "If you buy 1 pizza, you get 1 free soda.");
   public static final SpecialItem BUY_2_LARGE_PIZZA_NO_TOPPING = new SpecialItem(
       "buy2LargePizzaNoTopping",
-      "Buy2LargePIzzaNoTopping30", "If you buy 2 large pizza that have no toppings,"
+      "Buy2LargePIzzaNoTopping30", "If you buy 2 large pizzas that have no toppings, "
       + "you get 30% off total cart price.");
 }

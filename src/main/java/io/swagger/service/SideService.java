@@ -46,8 +46,7 @@ public class SideService {
     if (sideItemRepository.findById(newSide.getId()).isPresent()) {
       return null;
     } else {
-      sideItemRepository.save(newSide);
-      return newSide;
+      return sideItemRepository.save(newSide);
     }
   }
 

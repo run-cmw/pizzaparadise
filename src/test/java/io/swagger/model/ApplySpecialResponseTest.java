@@ -3,9 +3,11 @@ package io.swagger.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import io.swagger.Message;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,7 +36,7 @@ public class ApplySpecialResponseTest {
 
   @Test
   public void testGetSuccess() {
-    assertFalse(new ApplySpecialResponse("ERROR_MESSAGE").getSuccess());
+    assertFalse(new ApplySpecialResponse(Message.ERROR_INVALID_SPECIAL).getSuccess());
   }
 
   @Test
@@ -50,7 +52,8 @@ public class ApplySpecialResponseTest {
 
   @Test
   public void testSetMessage() {
-    assertEquals("ERROR_MESSAGE", (new ApplySpecialResponse("ERROR_MESSAGE")).getMessage());
+    assertEquals("ERROR_ONLY_ONE_SPECIAL_PER_CART",
+        (new ApplySpecialResponse(Message.ERROR_ONE_SPECIAL)).getMessage());
   }
 
   @Test
@@ -66,10 +69,44 @@ public class ApplySpecialResponseTest {
 
   @Test
   public void testEquals() {
+    StoreItem storeItem = new StoreItem(
+        "id",
+        "street", "city", "state", "zip", false);
+
+    assertEquals(applySpecialResponse, applySpecialResponse);
     assertEquals(sameObject, applySpecialResponse);
     assertNotEquals(differentObject, applySpecialResponse);
     assertNotEquals(2, applySpecialResponse);
     assertNotEquals(null, applySpecialResponse);
+    assertNotNull(applySpecialResponse);
+    assertEquals(differentObject.getClass(), applySpecialResponse.getClass());
+    assertNotEquals(storeItem.getClass(), applySpecialResponse.getClass());
+
+    // only different savings
+    applySpecialResponse.setSpecialId("buy1Get1Free");
+    differentObject.setSpecialId("buy1Get1Free");
+    applySpecialResponse.setSuccess(false);
+    differentObject.setSuccess(false);
+    applySpecialResponse.setMessage(Message.ERROR_FREE_PIZZA);
+    differentObject.setMessage(Message.ERROR_FREE_PIZZA);
+    applySpecialResponse.setSavings(0.00);
+    differentObject.setSavings(45.00);
+    assertNotEquals(differentObject, applySpecialResponse);
+
+    // only different ids
+    differentObject.setSavings(0.00);
+    differentObject.setSpecialId("buy1PizzaGetSodaFree");
+    assertNotEquals(differentObject, applySpecialResponse);
+
+    // only different success
+    differentObject.setSpecialId("buy1Get1Free");
+    differentObject.setSuccess(true);
+    assertNotEquals(differentObject, applySpecialResponse);
+
+    // only different messages
+    differentObject.setSuccess(false);
+    differentObject.setMessage(Message.ERROR_FREE_SODA);
+    assertNotEquals(differentObject, applySpecialResponse);
   }
 
   @Test

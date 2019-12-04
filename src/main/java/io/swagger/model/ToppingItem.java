@@ -85,12 +85,6 @@ public class ToppingItem {
       toppingItemRepository.insert(DBToppingItems.ONION);
       toppingItemRepository.insert(DBToppingItems.PEPPERONI);
       toppingItemRepository.insert(DBToppingItems.SAUSAGE);
-      toppingItemRepository.save(DBToppingItems.BLACK_OLIVES);
-      toppingItemRepository.save(DBToppingItems.GREEN_PEPPERS);
-      toppingItemRepository.save(DBToppingItems.MUSHROOMS);
-      toppingItemRepository.save(DBToppingItems.ONION);
-      toppingItemRepository.save(DBToppingItems.PEPPERONI);
-      toppingItemRepository.save(DBToppingItems.SAUSAGE);
     }
   }
 
