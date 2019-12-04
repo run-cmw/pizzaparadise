@@ -17,7 +17,7 @@ Information about the Alexa skill is available in the
 
 A summary of the entire project may be viewed on the 
 [presentation video]()
-([slides used in presentation]())
+([slides used in presentation](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadisePresentationSlides.pdf))
 and in the
 [final report](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadiseFinalProjectReport.pdf).
 Finally, the project storyboard is accessible on 
@@ -30,7 +30,7 @@ Finally, the project storyboard is accessible on
 - [x] [Project storyboard](https://trello.com/b/lLhNXLeo/pizza-paradise)
 - [ ] [Final report](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadiseFinalProjectReport.pdf)
 - [ ] [Presentation video]()
-- [ ] [Presentation video slides]()
+- [ ] [Presentation video slides](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadisePresentationSlides.pdf)
 
 #### Setup instructions
 - Create new Heroku app
@@ -40,3 +40,13 @@ Finally, the project storyboard is accessible on
 #### Test instructions
 - On CLI: mvn validate (to run automated tests)
 - On CLI: mvn jacoco:report (to get detailed coverage reports)
+
+#### Alexa skill instructions
+- To test on Amazon Alexa app:
+    1. Download Amazon Alexa app
+    2. Login with Amazon account
+    3. Invoke skill by saying "Alexa, order Pizza Paradise"
+- To view source project
+    1. Sign up for [Voiceflow](https://www.voiceflow.com/)
+    2. View [copy of project development]()
+    
