@@ -141,12 +141,6 @@ public class CartApiControllerTest {
         DBToppingItems.PEPPERONI.getToppingLargePrice(),
         DBToppingItems.PEPPERONI.getToppingGluten());
     pizza4.getToppingIDs().add(pepperoni.getId());
-    cart4.getPizzas().add(pizza4);
-    cartRepository.save(cart4);
-
-    final ResponseEntity<CartAddResponse> cartResponse4 = cartApi
-        .addPizzaToCart(cart4.getStoreID(), cart4.getId(), pizza4);
-    assertEquals(HttpStatus.BAD_REQUEST, cartResponse4.getStatusCode());
 
     ObjectId cartId5 = new ObjectId();
     Cart cart5 = new Cart(DBStoreItems.STONE_WAY_STORE.getId(), cartId5);
@@ -168,6 +162,23 @@ public class CartApiControllerTest {
     final ResponseEntity<CartAddResponse> cartResponse5 = cartApi
         .addPizzaToCart(cart4.getStoreID(), cart5.getId(), pizza5);
     assertEquals(HttpStatus.BAD_REQUEST, cartResponse5.getStatusCode());
+
+    ObjectId cartId6 = new ObjectId();
+    Cart cart6 = new Cart(DBStoreItems.STONE_WAY_STORE.getId(), cartId6);
+    cartRepository.save(cart6);
+
+    PizzaSize largeSize6 = DBPizzaSizes.LARGE;
+    pizzaSizeService.addPizzaSize(largeSize6);
+    Pizza pizza6 = new Pizza(largeSize6.getId(), true);
+    cartService.addPizzaToCart(cart, pizza6);
+    pizza6.getToppingIDs().add(pepperoni.getId());
+    pizza6.getToppingIDs().add(pepperoni.getId());
+    pizza6.getToppingIDs().add(pepperoni.getId());
+
+    final ResponseEntity<CartAddResponse> cartResponse6 = cartApi
+        .addPizzaToCart(cart6.getStoreID(), cart6.getId(), pizza6);
+    assertEquals(HttpStatus.BAD_REQUEST, cartResponse6.getStatusCode());
+
   }
 
 
@@ -184,6 +195,14 @@ public class CartApiControllerTest {
     final ResponseEntity<CartAddResponse> cartResponse = cartApi
         .addSideToCart(cart.getStoreID(), cart.getId(), brownie.getId());
     assertEquals(HttpStatus.NOT_FOUND, cartResponse.getStatusCode());
+
+//    ObjectId cartId2= new ObjectId();
+//    Cart cart2 = new Cart(DBStoreItems.BROOKLYN_STORE.getId(), cartId2);
+//
+//    SideItem applePie = new SideItem("applePie", "apple pie", 6.99, "dessert");
+//    final ResponseEntity<CartAddResponse> cartResponse2 = cartApi
+//        .addSideToCart(cart.getStoreID(), cart2.getId(), applePie.getId());
+//    assertEquals(HttpStatus.NOT_FOUND, cartResponse2.getStatusCode());
 
   }
 
