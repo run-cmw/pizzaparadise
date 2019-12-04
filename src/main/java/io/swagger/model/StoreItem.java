@@ -74,9 +74,6 @@ public class StoreItem {
       storeItemRepository.insert(DBStoreItems.BROOKLYN_STORE);
       storeItemRepository.insert(DBStoreItems.EASTLAKE_STORE);
       storeItemRepository.insert(DBStoreItems.STONE_WAY_STORE);
-      storeItemRepository.save(DBStoreItems.BROOKLYN_STORE);
-      storeItemRepository.save(DBStoreItems.EASTLAKE_STORE);
-      storeItemRepository.save(DBStoreItems.STONE_WAY_STORE);
     }
   }
 
