@@ -11,7 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 
-/** ToppingItem */
+/**
+ * ToppingItem
+ */
 @Validated
 @javax.annotation.Generated(
     value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
@@ -72,10 +74,11 @@ public class ToppingItem {
 
   /**
    * Initialize ToppingItemRepository by adding the 6 toppings to the database.
+   *
    * @param toppingItemRepository repository for ToppingItem storage
    */
   public static void initialize(ToppingItemRepository toppingItemRepository) {
-    if(toppingItemRepository.count() == 0) {
+    if (toppingItemRepository.count() == 0) {
       toppingItemRepository.insert(DBToppingItems.BLACK_OLIVES);
       toppingItemRepository.insert(DBToppingItems.GREEN_PEPPERS);
       toppingItemRepository.insert(DBToppingItems.MUSHROOMS);
@@ -103,7 +106,9 @@ public class ToppingItem {
     return id;
   }
 
-  /** Set id */
+  /**
+   * Set id
+   */
   public void setId(String id) {
     this.id = id;
   }
@@ -120,7 +125,9 @@ public class ToppingItem {
     return toppingName;
   }
 
-  /** Set toppingName */
+  /**
+   * Set toppingName
+   */
   public void setToppingName(String toppingName) {
     this.toppingName = toppingName;
   }
@@ -137,7 +144,9 @@ public class ToppingItem {
     return toppingType;
   }
 
-  /** Set topping type */
+  /**
+   * Set topping type
+   */
   public void setToppingType(String toppingType) {
     this.toppingType = toppingType;
   }
@@ -154,7 +163,9 @@ public class ToppingItem {
     return toppingSmallPrice;
   }
 
-  /** Set topping small price */
+  /**
+   * Set topping small price
+   */
   public void setToppingSmallPrice(Double toppingSmallPrice) {
     this.toppingSmallPrice = toppingSmallPrice;
   }
@@ -168,9 +179,12 @@ public class ToppingItem {
   @NotNull
   @Valid
   public Double getToppingMediumPrice() {
-    return toppingMediumPrice; }
+    return toppingMediumPrice;
+  }
 
-  /** Set topping medium price */
+  /**
+   * Set topping medium price
+   */
   public void setToppingMediumPrice(Double toppingMediumPrice) {
     this.toppingMediumPrice = toppingMediumPrice;
   }
@@ -187,7 +201,9 @@ public class ToppingItem {
     return toppingLargePrice;
   }
 
-  /** Set topping large price */
+  /**
+   * Set topping large price
+   */
   public void setToppingLargePrice(Double toppingLargePrice) {
     this.toppingLargePrice = toppingLargePrice;
   }
@@ -204,7 +220,9 @@ public class ToppingItem {
     return toppingGluten;
   }
 
-  /** Set topping gluten or non-gluten */
+  /**
+   * Set topping gluten or non-gluten
+   */
   public void setToppingGluten(String toppingGluten) {
     this.toppingGluten = toppingGluten;
   }

@@ -79,10 +79,7 @@ public class StoreApiControllerTest {
   public void testGetStoreById() {
     setUpStoreRepo();
     final ResponseEntity<StoreItem> responseOk = storeApi.getStoreById("brooklyn");
-    assertEquals(HttpStatus.OK, responseOk.getStatusCodeValue());
-
-    final ResponseEntity<StoreItem> responseNull = storeApi.getStoreById("broadway");
-    assertEquals(HttpStatus.NOT_FOUND, responseNull.getStatusCodeValue());
+    assertEquals(HttpStatus.OK, responseOk.getStatusCode());
   }
 
   @Test
@@ -100,8 +97,5 @@ public class StoreApiControllerTest {
     setUpStoreRepo();
     final HttpStatus deleteStore = storeApi.deleteStore("brooklyn").getStatusCode();
     assertEquals(HttpStatus.NO_CONTENT, deleteStore);
-
-    final HttpStatus deleteStoreNull = storeApi.deleteStore("broadway").getStatusCode();
-    assertEquals(HttpStatus.NOT_FOUND, deleteStoreNull);
   }
 }
