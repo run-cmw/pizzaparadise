@@ -209,8 +209,8 @@ public class StoreItem {
   /**
    * Indicates whether some other object is "equal to" this one.
    *
-   * @param obj - the reference object with which to compare
-   * @return {@code true} if this object is the same as the obj argument and {@code false}
+   * @param o - the reference object with which to compare
+   * @return {@code true} if this object is the same as the o argument and {@code false}
    *     otherwise.
    */
   @Override
