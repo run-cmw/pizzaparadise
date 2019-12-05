@@ -16,7 +16,7 @@ Information about the Alexa skill is available in the
 [front-end design document](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadiseFrontEndDesignDoc.pdf).
 
 A summary of the entire project may be viewed on the 
-[presentation video]()
+[presentation video](https://www.youtube.com/watch?time_continue=1&v=2L7Dqp3WhCQ&feature=emb_title)
 ([slides used in presentation](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadisePresentationSlides.pdf))
 and in the
 [final report](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadiseFinalProjectReport.pdf).
@@ -29,7 +29,7 @@ Finally, the project storyboard is accessible on
 - [x] [Front-end design document](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadiseFrontEndDesignDoc.pdf)
 - [x] [Project storyboard](https://trello.com/b/lLhNXLeo/pizza-paradise)
 - [ ] [Final report](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadiseFinalProjectReport.pdf)
-- [ ] [Presentation video]()
+- [x] [Presentation video](https://www.youtube.com/watch?time_continue=1&v=2L7Dqp3WhCQ&feature=emb_title)
 - [x] [Presentation video slides](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadisePresentationSlides.pdf)
 
 #### Setup instructions
@@ -45,8 +45,8 @@ Finally, the project storyboard is accessible on
 - To test on Amazon Alexa app:
     1. Download Amazon Alexa app
     2. Login with Amazon account
-    3. Invoke skill by saying "Alexa, order Pizza Paradise"
+    3. Invoke skill by saying "Alexa order Pizza Paradise" ("Alexa" is the wake word for Alexa; "order Pizza Paradise" is the invocation for the skill)
 - To view source project
     1. Sign up for [Voiceflow](https://www.voiceflow.com/)
-    2. View [copy of project development]()
+    2. Download a [copy of project development](https://creator.voiceflow.com/dashboard?import=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0SWQiOjczNTYxLCJwcm9qZWN0TmFtZSI6IlBpenphIFBhcmFkaXNlIEFQSSIsImlhdCI6MTU3NTUwNTE4Nn0.nfzP7jzWdev0-mjf6vPVt6NrL9h3ZWvPhB37jjkns-s)
     
