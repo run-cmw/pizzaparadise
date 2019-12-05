@@ -28,7 +28,7 @@ public class ApplySpecialResponse {
   private Double savings = 0.00;
 
   /**
-   * Construct an ApplySpecialResponse with the given specialId.
+   * Construct an ApplySpecialResponse with the given specialId and savings.
    *
    * @param specialId identifier of the special being applied
    * @param savings amount saved after special has been applied

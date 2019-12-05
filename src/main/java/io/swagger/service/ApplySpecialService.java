@@ -1,6 +1,9 @@
 package io.swagger.service;
 
 import io.swagger.Message;
+import io.swagger.exceptions.CartNotAtStoreException;
+import io.swagger.exceptions.SpecialAlreadyAppliedException;
+import io.swagger.exceptions.SpecialNotFoundException;
 import io.swagger.exceptions.ToppingNotFoundException;
 import io.swagger.model.ApplySpecialResponse;
 import io.swagger.model.Cart;
@@ -38,20 +41,21 @@ public class ApplySpecialService {
    * @param cartId id of the cart receiving the special
    * @return response with information about the success of applying special
    */
-  public ApplySpecialResponse applySpecial(String specialId, String storeId, String cartId) {
+  public ApplySpecialResponse applySpecial(String specialId, String storeId, String cartId)
+      throws SpecialNotFoundException, CartNotAtStoreException, SpecialAlreadyAppliedException {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
 
-    // Check if valid special, if cart is at store, and if special has been applied to cart.
+    // Check if valid special
     if (!checkSpecial(specialId)) {
-      return null;
+      throw new SpecialNotFoundException(specialId);
     }
-
+    // Check if cart is at store
     if (!checkCartAtStore(cartId, storeId)) {
-      return null;
+      throw new CartNotAtStoreException(cartId);
     }
-
+    // Check if special has been applied to cart
     if (cart.isSpecialApplied()) {
-      return null;
+      throw new SpecialAlreadyAppliedException(specialId);
     }
 
     switch (specialId) {
@@ -62,7 +66,7 @@ public class ApplySpecialService {
       case FREE_SODA:
         return applyFreeSodaSpecial(storeId, cartId);
       default:
-        return null;
+        throw new SpecialNotFoundException(specialId);
     }
   }
 
@@ -72,7 +76,7 @@ public class ApplySpecialService {
    * @param specialId id of the special being requested
    * @return {@code true} if the id is a valid special and {@code false} otherwise.
    */
-  public boolean checkSpecial(String specialId) {
+  private boolean checkSpecial(String specialId) {
     return specialItemRepository.existsById(specialId);
   }
 
@@ -93,7 +97,8 @@ public class ApplySpecialService {
   }
 
   /**
-   * Helper that ounds the given price to show only two
+   * Helper that rounds the given price to show only two
+   *
    * @param price price to round
    * @return price after it has been rounded
    */
@@ -109,7 +114,7 @@ public class ApplySpecialService {
    * @param cartId id of the cart receiving the special
    * @return response with information about the success of applying special
    */
-  public ApplySpecialResponse applyBuy1Get1Special(String storeId, String cartId) {
+  ApplySpecialResponse applyBuy1Get1Special(String storeId, String cartId) {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
     List<Pizza> pizzas = cart.getPizzas();
     Double highestCostPizzaPrice = 0.00;
@@ -155,7 +160,7 @@ public class ApplySpecialService {
    * @param cartId Id of cart being checked for special
    * @return response with information about the success of applying special
    */
-  public ApplySpecialResponse apply30PercentOffSpecial(String storeId, String cartId) {
+  ApplySpecialResponse apply30PercentOffSpecial(String storeId, String cartId) {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
     List<Pizza> pizzas = cart.getPizzas();
     List<Pizza> largePizzas = new ArrayList<>();
@@ -194,7 +199,7 @@ public class ApplySpecialService {
    * @param sides list of side items
    * @return {@code true} if the list contains a drink and {@code false} otherwise.
    */
-  private boolean hasDrink(List<String> sides) {
+  boolean hasDrink(List<String> sides) {
     for (String sideId : sides) {
       if (sideService.getSideById(sideId).getType().equals(SideItem.TYPE_DRINK)) {
         return true;
@@ -210,7 +215,7 @@ public class ApplySpecialService {
    * @param cartId Id of cart being checked for special
    * @return response with information about the success of applying special
    */
-  public ApplySpecialResponse applyFreeSodaSpecial(String storeId, String cartId) {
+  ApplySpecialResponse applyFreeSodaSpecial(String storeId, String cartId) {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
     List<Pizza> pizzas = cart.getPizzas();
     List<String> sides = cart.getSides();

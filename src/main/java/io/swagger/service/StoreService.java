@@ -43,8 +43,11 @@ public class StoreService {
    * @return StoreItem that was added.
    */
   public StoreItem addStore(StoreItem newStore) {
-    storeItemRepository.save(newStore);
-    return newStore;
+    if(storeItemRepository.findById(newStore.getId()).isPresent()) {
+      return null;
+    } else {
+      return storeItemRepository.save(newStore);
+    }
   }
 
   /**
