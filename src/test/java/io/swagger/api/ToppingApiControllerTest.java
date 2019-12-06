@@ -93,7 +93,8 @@ public class ToppingApiControllerTest {
     final ResponseEntity<ToppingItem> response = toppingApi.addTopping(toppingItem4);
     assertEquals(HttpStatus.OK, response.getStatusCode());
 
-    final ResponseEntity<ToppingItem> response2 = toppingApi.addTopping(toppingItemService.getToppingById("pepperoni"));
+    final ResponseEntity<ToppingItem> response2 = toppingApi
+        .addTopping(toppingItemService.getToppingById("pepperoni"));
     assertEquals(HttpStatus.FORBIDDEN, response2.getStatusCode());
   }
 

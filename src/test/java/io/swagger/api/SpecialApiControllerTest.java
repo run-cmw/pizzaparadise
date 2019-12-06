@@ -94,7 +94,8 @@ public class SpecialApiControllerTest {
     final ResponseEntity<SpecialItem> response = specialApi.addSpecial(specialItem4);
     assertEquals(HttpStatus.OK, response.getStatusCode());
 
-    final ResponseEntity<SpecialItem> response2 = specialApi.addSpecial(specialItemService.getSpecialById("buy1Get1Free"));
+    final ResponseEntity<SpecialItem> response2 = specialApi
+        .addSpecial(specialItemService.getSpecialById("buy1Get1Free"));
     assertEquals(HttpStatus.FORBIDDEN, response2.getStatusCode());
   }
 

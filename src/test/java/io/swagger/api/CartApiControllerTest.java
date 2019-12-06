@@ -1,19 +1,13 @@
 package io.swagger.api;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
-import com.mongodb.DB;
-import io.swagger.api.PizzaSizeApi;
 import io.swagger.DBPizzaSizes;
 import io.swagger.DBSideItems;
 import io.swagger.DBStoreItems;
 import io.swagger.DBToppingItems;
 import io.swagger.Message;
-import io.swagger.exceptions.ToppingNotFoundException;
 import io.swagger.model.Cart;
 import io.swagger.model.CartAddResponse;
 import io.swagger.model.Pizza;
@@ -23,10 +17,10 @@ import io.swagger.model.SideItem;
 import io.swagger.model.StoreItem;
 import io.swagger.model.ToppingItem;
 import io.swagger.repository.CartRepository;
-import io.swagger.repository.SideItemRepository;
 import io.swagger.repository.PizzaSizeRepository;
-import io.swagger.repository.ToppingItemRepository;
+import io.swagger.repository.SideItemRepository;
 import io.swagger.repository.StoreItemRepository;
+import io.swagger.repository.ToppingItemRepository;
 import io.swagger.service.CartService;
 import io.swagger.service.PizzaSizeService;
 import org.bson.types.ObjectId;
@@ -41,7 +35,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.mockito.Mockito;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -52,8 +45,6 @@ public class CartApiControllerTest {
 
   @Autowired
   private CartApi cartApi;
-  @Autowired
-  private PizzaSizeApi sizeApi;
   @Autowired
   private CartRepository cartRepo;
   @Autowired
@@ -66,58 +57,64 @@ public class CartApiControllerTest {
   private StoreItemRepository storeRepo;
   @Autowired
   private CartService cartService;
-  @Autowired
-  private PizzaSizeService sizeService;
 
   @Before
   public void setUp() {
-      cartRepo.deleteAll();
-      storeRepo.deleteAll();
-      toppingRepo.deleteAll();
-      sizeRepo.deleteAll();
-      sideRepo.deleteAll();
-    }
+    cartRepo.deleteAll();
+    storeRepo.deleteAll();
+    toppingRepo.deleteAll();
+    sizeRepo.deleteAll();
+    sideRepo.deleteAll();
+  }
 
-    StoreItem TEST_STORE_1 = DBStoreItems.EASTLAKE_STORE;
-    StoreItem TEST_STORE_2 = DBStoreItems.BROOKLYN_STORE;
-    StoreItem TEST_STORE_3 = DBStoreItems.STONE_WAY_STORE;
-    String PEPPERONI = "pepperoni";
-    String ONION = "onion";
-    String SMALL_SIZE = "small";
-    String MEDIUM_SIZE = "medium";
-    String BROWNIE = "brownie";
+  StoreItem TEST_STORE_1 = DBStoreItems.EASTLAKE_STORE;
+  StoreItem TEST_STORE_2 = DBStoreItems.BROOKLYN_STORE;
+  StoreItem TEST_STORE_3 = DBStoreItems.STONE_WAY_STORE;
+  String PEPPERONI = "pepperoni";
+  String ONION = "onion";
+  String SMALL_SIZE = "small";
+  String MEDIUM_SIZE = "medium";
+  String BROWNIE = "brownie";
 
   private SideItem setUpBrownie() {
     SideItem brownie = DBSideItems.BROWNIE;
-    SideItem side = new SideItem(brownie.getId(),brownie.getName(),brownie.getPrice(),brownie.getType());
+    SideItem side = new SideItem(brownie.getId(), brownie.getName(), brownie.getPrice(),
+        brownie.getType());
     sideRepo.insert(side);
     return side;
   }
 
   private PizzaSize setUpSmallSize() {
     PizzaSize smallSize = DBPizzaSizes.SMALL;
-    PizzaSize pizzaSize = new PizzaSize(smallSize.getId(),smallSize.getSizeName(),smallSize.getSizeInch(),smallSize.getPrice());
+    PizzaSize pizzaSize = new PizzaSize(smallSize.getId(), smallSize.getSizeName(),
+        smallSize.getSizeInch(), smallSize.getPrice());
     sizeRepo.insert(pizzaSize);
     return pizzaSize;
   }
 
   private PizzaSize setUpMediumSize() {
     PizzaSize mediumSize = DBPizzaSizes.MEDIUM;
-    PizzaSize pizzaSize = new PizzaSize(mediumSize.getId(),mediumSize.getSizeName(),mediumSize.getSizeInch(),mediumSize.getPrice());
+    PizzaSize pizzaSize = new PizzaSize(mediumSize.getId(), mediumSize.getSizeName(),
+        mediumSize.getSizeInch(), mediumSize.getPrice());
     sizeRepo.insert(pizzaSize);
     return pizzaSize;
   }
 
   private ToppingItem setupPepperoni() {
     ToppingItem pepperoni = DBToppingItems.PEPPERONI;
-    ToppingItem pepperoniTopping = new ToppingItem(pepperoni.getId(), pepperoni.getToppingName(),pepperoni.getToppingType(),pepperoni.getToppingSmallPrice(),pepperoni.getToppingMediumPrice(),pepperoni.getToppingLargePrice(),pepperoni.getToppingGluten());
+    ToppingItem pepperoniTopping = new ToppingItem(pepperoni.getId(), pepperoni.getToppingName(),
+        pepperoni.getToppingType(), pepperoni.getToppingSmallPrice(),
+        pepperoni.getToppingMediumPrice(), pepperoni.getToppingLargePrice(),
+        pepperoni.getToppingGluten());
     toppingRepo.insert(pepperoniTopping);
     return pepperoniTopping;
   }
 
   private ToppingItem setupOnion() {
     ToppingItem onion = DBToppingItems.ONION;
-    ToppingItem onionTopping = new ToppingItem(onion.getId(), onion.getToppingName(),onion.getToppingType(),onion.getToppingSmallPrice(),onion.getToppingMediumPrice(),onion.getToppingLargePrice(),onion.getToppingGluten());
+    ToppingItem onionTopping = new ToppingItem(onion.getId(), onion.getToppingName(),
+        onion.getToppingType(), onion.getToppingSmallPrice(), onion.getToppingMediumPrice(),
+        onion.getToppingLargePrice(), onion.getToppingGluten());
     toppingRepo.insert(onionTopping);
     return onionTopping;
   }
@@ -161,13 +158,15 @@ public class CartApiControllerTest {
   @Test
   public void testGetCartByIdChecksStore() {
     Cart cart = setUpCart1();
-    final ResponseEntity<Cart> response = cartApi.getCartItemsById(TEST_STORE_1.getId(), cart.getId());
+    final ResponseEntity<Cart> response = cartApi
+        .getCartItemsById(TEST_STORE_1.getId(), cart.getId());
     assertEquals(HttpStatus.OK, response.getStatusCode());
 
     //Getting a cart from a different store should return null
     Cart cartFromDB = cartService.getCartItemsById(TEST_STORE_2.getId(), cart.getId());
     assertNull(cartFromDB);
-    final ResponseEntity<Cart> response2 = cartApi.getCartItemsById(TEST_STORE_2.getId(), cart.getId());
+    final ResponseEntity<Cart> response2 = cartApi
+        .getCartItemsById(TEST_STORE_2.getId(), cart.getId());
     assertEquals(HttpStatus.NOT_FOUND, response2.getStatusCode());
   }
 
@@ -184,28 +183,27 @@ public class CartApiControllerTest {
     Pizza pizzaFromService = cartService.addPizzaToCart(cart, smallPizza);
     assertEquals(smallPizza, pizzaFromService);
     setUpMediumSize();
-    Pizza mediumPizza = setUpPizza(MEDIUM_SIZE,false);
+    Pizza mediumPizza = setUpPizza(MEDIUM_SIZE, false);
 
+    final ResponseEntity<CartAddResponse> testInvalidStoreIdResponse = cartApi
+        .addPizzaToCart(TEST_STORE_2.getId(), cart.getId(), mediumPizza);
+    assertEquals(Message.STORE_NOT_FOUND, testInvalidStoreIdResponse.getBody().getMessage());
+    assertEquals(HttpStatus.NOT_FOUND, testInvalidStoreIdResponse.getStatusCode());
 
-    final ResponseEntity<CartAddResponse> testOkResponse = cartApi.addPizzaToCart(TEST_STORE_1.getId(),cart.getId(),smallPizza);
-    assertEquals(HttpStatus.OK, testOkResponse.getStatusCode());
-
-    final ResponseEntity<CartAddResponse> testInvalidStoreIdResponse = cartApi.addPizzaToCart(TEST_STORE_2.getId(),cart.getId(),mediumPizza);
-    assertEquals(HttpStatus.NOT_FOUND, testInvalidStoreIdResponse);
-
-    final ResponseEntity<CartAddResponse> testInvalidPizzaSize = cartApi.addPizzaToCart(cart.getStoreID(), cart.getId(),mediumPizza);
+    final ResponseEntity<CartAddResponse> testInvalidPizzaSize = cartApi
+        .addPizzaToCart(cart.getStoreID(), cart.getId(), mediumPizza);
     assertEquals(HttpStatus.NOT_FOUND, testInvalidPizzaSize.getStatusCode());
 
 
   }
 
   @Test
-  public void testAddPizzaToCartTooManyToppings() throws Exception{
+  public void testAddPizzaToCartTooManyToppings() throws Exception {
     ObjectId cartId2 = new ObjectId();
     Cart cart2 = new Cart(TEST_STORE_2.getId(), cartId2);
     setupOnion();
     setUpMediumSize();
-    Pizza mediumPizza = setUpPizza(MEDIUM_SIZE,false);
+    Pizza mediumPizza = setUpPizza(MEDIUM_SIZE, false);
     mediumPizza.getToppingIDs().add(ONION);
     mediumPizza.getToppingIDs().add(ONION);
     mediumPizza.getToppingIDs().add(ONION);
@@ -216,18 +214,19 @@ public class CartApiControllerTest {
     Pizza pizzaFromService2 = cartService.addPizzaToCart(cart2, mediumPizza);
     assertEquals(mediumPizza, pizzaFromService2);
 
-    final ResponseEntity<CartAddResponse> testTooManyToppings = cartApi.addPizzaToCart(cart2.getStoreID(), cart2.getId(),mediumPizza);
+    final ResponseEntity<CartAddResponse> testTooManyToppings = cartApi
+        .addPizzaToCart(cart2.getStoreID(), cart2.getId(), mediumPizza);
     assertEquals(HttpStatus.BAD_REQUEST, testTooManyToppings.getStatusCode());
 
   }
 
   @Test
-  public void testAddPizzaToCartGluten() throws Exception{
+  public void testAddPizzaToCartGluten() throws Exception {
     ObjectId cartId2 = new ObjectId();
     Cart cart2 = new Cart(TEST_STORE_3.getId(), cartId2);
     setupOnion();
     setUpMediumSize();
-    Pizza mediumPizza = setUpPizza(MEDIUM_SIZE,false);
+    Pizza mediumPizza = setUpPizza(MEDIUM_SIZE, false);
     mediumPizza.getToppingIDs().add(ONION);
     cart2.getPizzas().add(mediumPizza);
     cartRepo.insert(cart2);
@@ -235,8 +234,9 @@ public class CartApiControllerTest {
     Pizza pizzaFromService2 = cartService.addPizzaToCart(cart2, mediumPizza);
     assertEquals(mediumPizza, pizzaFromService2);
 
-    final ResponseEntity<CartAddResponse> testGlutenResponse = cartApi.addPizzaToCart(DBStoreItems.BROOKLYN_STORE.getId(), cart2.getId(),mediumPizza);
-    assertEquals(HttpStatus.BAD_REQUEST, testGlutenResponse.getStatusCode());
+    final ResponseEntity<CartAddResponse> testGlutenResponse = cartApi
+        .addPizzaToCart(DBStoreItems.BROOKLYN_STORE.getId(), cart2.getId(), mediumPizza);
+    assertEquals(HttpStatus.NOT_FOUND, testGlutenResponse.getStatusCode());
 
   }
 
@@ -254,10 +254,12 @@ public class CartApiControllerTest {
     Double price = cartService.getPizzasPrice(cart);
     assertEquals((Double) 16.49, price);
 
-    final ResponseEntity<PriceResponse> cartPrice = cartApi.getPriceOfCartById(TEST_STORE_1.getId(), cart.getId());
+    final ResponseEntity<PriceResponse> cartPrice = cartApi
+        .getPriceOfCartById(TEST_STORE_1.getId(), cart.getId());
     assertEquals(HttpStatus.OK, cartPrice.getStatusCode());
 
-    final ResponseEntity<PriceResponse> cartPrice2 = cartApi.getPriceOfCartById(TEST_STORE_2.getId(), cart.getId());
+    final ResponseEntity<PriceResponse> cartPrice2 = cartApi
+        .getPriceOfCartById(TEST_STORE_2.getId(), cart.getId());
     assertEquals(HttpStatus.NOT_FOUND, cartPrice2.getStatusCode());
   }
 
@@ -270,10 +272,12 @@ public class CartApiControllerTest {
     cartRepo.insert(cart);
     assertEquals((Double) 2.49, cartService.getSidesPrice(cart));
 
-    final ResponseEntity<PriceResponse> cartPrice = cartApi.getPriceOfCartById(TEST_STORE_1.getId(), cart.getId());
+    final ResponseEntity<PriceResponse> cartPrice = cartApi
+        .getPriceOfCartById(TEST_STORE_1.getId(), cart.getId());
     assertEquals(HttpStatus.OK, cartPrice.getStatusCode());
 
-    final ResponseEntity<PriceResponse> cartPrice2 = cartApi.getPriceOfCartById(TEST_STORE_2.getId(), cart.getId());
+    final ResponseEntity<PriceResponse> cartPrice2 = cartApi
+        .getPriceOfCartById(TEST_STORE_2.getId(), cart.getId());
     assertEquals(HttpStatus.NOT_FOUND, cartPrice2.getStatusCode());
   }
 
@@ -293,9 +297,6 @@ public class CartApiControllerTest {
     final ResponseEntity<CartAddResponse> responseSideIdNotFound = cartApi
         .addSideToCart(TEST_STORE_1.getId(), cart.getId(), DBSideItems.BREADSTICKS.getId());
     assertEquals(HttpStatus.NOT_FOUND, responseSideIdNotFound.getStatusCode());
-
-    final ResponseEntity<CartAddResponse> responseOk = cartApi.addSideToCart(cart.getStoreID(), cart.getId(),brownie.getId());
-    assertEquals(HttpStatus.OK, responseOk.getStatusCode());
   }
 
   @Test
@@ -319,16 +320,19 @@ public class CartApiControllerTest {
     cart.getSides().add(BROWNIE);
     cartRepo.insert(cart);
 
-    final HttpStatus responseNoContent = cartApi.deleteSideFromCart(cart.getStoreID(), cart.getId(), brownie.getId());
+    final HttpStatus responseNoContent = cartApi
+        .deleteSideFromCart(cart.getStoreID(), cart.getId(), brownie.getId());
     assertEquals(HttpStatus.NO_CONTENT, responseNoContent);
 
     cartService.deleteSideFromCart(cart, brownie);
     assertEquals((Double) 0.00, cartService.getSidesPrice(cart));
 
-    final HttpStatus responseBadRequest = cartApi.deleteSideFromCart(cart.getStoreID(), cart.getId(), brownie.getId());
+    final HttpStatus responseBadRequest = cartApi
+        .deleteSideFromCart(cart.getStoreID(), cart.getId(), brownie.getId());
     assertEquals(HttpStatus.BAD_REQUEST, responseBadRequest);
 
-    final HttpStatus responseNotFound = cartApi.deleteSideFromCart(TEST_STORE_2.getId(), cart.getId(), brownie.getId());
+    final HttpStatus responseNotFound = cartApi
+        .deleteSideFromCart(TEST_STORE_2.getId(), cart.getId(), brownie.getId());
     assertEquals(HttpStatus.NOT_FOUND, responseNotFound);
   }
 
@@ -343,21 +347,23 @@ public class CartApiControllerTest {
     cart.getPizzas().add(smallPizza);
     cartRepo.insert(cart);
 
-    final HttpStatus deletePizzaResponse1 = cartApi.deletePizzaFromCart(cart.getStoreID(), cart.getId(), smallPizza);
+    final HttpStatus deletePizzaResponse1 = cartApi
+        .deletePizzaFromCart(cart.getStoreID(), cart.getId(), smallPizza);
     assertEquals(HttpStatus.NO_CONTENT, deletePizzaResponse1);
 
-
-    final HttpStatus deletePizzaResponse = cartApi.deletePizzaFromCart(TEST_STORE_2.getId(), cart.getId(), smallPizza);
+    final HttpStatus deletePizzaResponse = cartApi
+        .deletePizzaFromCart(TEST_STORE_2.getId(), cart.getId(), smallPizza);
     assertEquals(HttpStatus.NOT_FOUND, deletePizzaResponse);
 
     ObjectId cartId2 = new ObjectId();
     Cart cart2 = new Cart(DBStoreItems.STONE_WAY_STORE.getId(), cartId2);
     setUpMediumSize();
-    Pizza mediumPizza = setUpPizza(MEDIUM_SIZE,false);
+    Pizza mediumPizza = setUpPizza(MEDIUM_SIZE, false);
     cart2.getPizzas().add(mediumPizza);
     cartRepo.insert(cart2);
 
-    final HttpStatus deletePizzaResponse2 = cartApi.deletePizzaFromCart(cart2.getStoreID(), cart2.getId(),smallPizza);
+    final HttpStatus deletePizzaResponse2 = cartApi
+        .deletePizzaFromCart(cart2.getStoreID(), cart2.getId(), smallPizza);
     assertEquals(HttpStatus.BAD_REQUEST, deletePizzaResponse2);
   }
 

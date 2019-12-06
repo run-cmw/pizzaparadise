@@ -35,6 +35,7 @@ public class PizzaCountApiControllerTest {
         .getNumOfPizzaByInput(adult, kid);
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
+
   @Test
   public void testGetNumOfPizzaByInputMedium() {
     int adult = 2;
