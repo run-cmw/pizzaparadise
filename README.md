@@ -38,7 +38,7 @@ Finally, the project storyboard is accessible on
 - Push to Heroku
 
 #### Test instructions
-- On CLI: mvn validate (to run automated tests)
+- On CLI: mvn verify (to run automated tests)
 - On CLI: mvn jacoco:report (to get detailed coverage reports)
 
 #### Alexa skill instructions (all downloads/sign-ups are free)
