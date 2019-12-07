@@ -31,5 +31,5 @@ public interface ApplySpecialApi {
       @ApiParam(value = "Store that contains cart") @PathVariable("storeId") String storeId,
       @ApiParam(value = "Cart to update") @PathVariable("cartId") String cartId)
       throws SpecialNotFoundException, CartNotAtStoreException, SpecialAlreadyAppliedException,
-      Exception;
+          Exception;
 }

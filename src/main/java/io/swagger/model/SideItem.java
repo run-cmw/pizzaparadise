@@ -53,10 +53,11 @@ public class SideItem {
 
   /**
    * Initialize SideItemRepository by adding the 21 sides to the database.
+   *
    * @param sideItemRepository repository for SideItem storage
    */
   public static void initialize(SideItemRepository sideItemRepository) {
-    if(sideItemRepository.count() == 0) {
+    if (sideItemRepository.count() == 0) {
       sideItemRepository.insert(DBSideItems.BREADSTICKS);
       sideItemRepository.insert(DBSideItems.CHEESE_STICKS);
       sideItemRepository.insert(DBSideItems.BARBECUE_WINGS);

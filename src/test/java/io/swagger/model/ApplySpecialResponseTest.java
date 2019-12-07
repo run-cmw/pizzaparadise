@@ -52,7 +52,8 @@ public class ApplySpecialResponseTest {
 
   @Test
   public void testSetMessage() {
-    assertEquals("ERROR_ONLY_ONE_SPECIAL_PER_CART",
+    assertEquals(
+        "ERROR_ONLY_ONE_SPECIAL_PER_CART",
         (new ApplySpecialResponse(Message.ERROR_ONE_SPECIAL)).getMessage());
   }
 
@@ -69,9 +70,7 @@ public class ApplySpecialResponseTest {
 
   @Test
   public void testEquals() {
-    StoreItem storeItem = new StoreItem(
-        "id",
-        "street", "city", "state", "zip", false);
+    StoreItem storeItem = new StoreItem("id", "street", "city", "state", "zip", false);
 
     assertEquals(applySpecialResponse, applySpecialResponse);
     assertEquals(sameObject, applySpecialResponse);
