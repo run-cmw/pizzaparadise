@@ -67,10 +67,11 @@ public class StoreItem {
 
   /**
    * Initialize StoreItemRepository by adding the 3 stores to the database.
+   *
    * @param storeItemRepository repository for StoreItem storage
    */
   public static void initialize(StoreItemRepository storeItemRepository) {
-    if(storeItemRepository.count() == 0) {
+    if (storeItemRepository.count() == 0) {
       storeItemRepository.insert(DBStoreItems.BROOKLYN_STORE);
       storeItemRepository.insert(DBStoreItems.EASTLAKE_STORE);
       storeItemRepository.insert(DBStoreItems.STONE_WAY_STORE);

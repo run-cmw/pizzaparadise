@@ -37,7 +37,7 @@ public class ApplySpecialApiController implements ApplySpecialApi {
         "apply special",
       })
   @ApiResponses(value = {@ApiResponse(code = 400, message = "BAD_REQUEST")})
-  public ResponseEntity<ApplySpecialResponse> applySpecial (
+  public ResponseEntity<ApplySpecialResponse> applySpecial(
       String specialId, String storeId, String cartId) {
     ApplySpecialResponse response;
     Cart cart = cartService.getCartItemsById(storeId, cartId);
@@ -65,7 +65,9 @@ public class ApplySpecialApiController implements ApplySpecialApi {
         httpStatus = HttpStatus.BAD_REQUEST;
       }
       return new ResponseEntity<ApplySpecialResponse>(applySpecialResponse, httpStatus);
-    } catch (SpecialNotFoundException | CartNotAtStoreException | SpecialAlreadyAppliedException e) {
+    } catch (SpecialNotFoundException
+        | CartNotAtStoreException
+        | SpecialAlreadyAppliedException e) {
       return new ResponseEntity<ApplySpecialResponse>(
           new ApplySpecialResponse(Message.ERROR_INVALID_SPECIAL), HttpStatus.BAD_REQUEST);
     }
