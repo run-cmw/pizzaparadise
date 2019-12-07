@@ -40,6 +40,9 @@ public class ApplySpecialService {
    * @param storeId id of the store that the cart belongs to
    * @param cartId id of the cart receiving the special
    * @return response with information about the success of applying special
+   * @throws CartNotAtStoreException given cart is not at given store
+   * @throws SpecialAlreadyAppliedException if cart already has a special applied
+   * @throws SpecialNotFoundException if special does not exits
    */
   public ApplySpecialResponse applySpecial(String specialId, String storeId, String cartId)
       throws SpecialNotFoundException, CartNotAtStoreException, SpecialAlreadyAppliedException {
