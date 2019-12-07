@@ -31,7 +31,7 @@ public class ApplySpecialResponse {
    * Construct an ApplySpecialResponse with the given specialId and savings.
    *
    * @param specialId identifier of the special being applied
-   * @param savings amount saved after special is applied to cart
+   * @param savings amount saved after special has been applied
    */
   public ApplySpecialResponse(String specialId, Double savings) {
     this.specialId = specialId;
@@ -137,8 +137,8 @@ public class ApplySpecialResponse {
   /**
    * Indicates whether some other object is "equal to" this one.
    *
-   * @param obj - the reference object with which to compare
-   * @return {@code true} if this object is the same as the obj argument and {@code false}
+   * @param o - the reference object with which to compare
+   * @return {@code true} if this object is the same as the o argument and {@code false}
    *     otherwise.
    */
   @Override

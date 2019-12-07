@@ -39,6 +39,7 @@ public class ApplySpecialService {
    * @param specialId id of the special being requested
    * @param storeId id of the store that the cart belongs to
    * @param cartId id of the cart receiving the special
+   * @return response with information about the success of applying special
    */
   public ApplySpecialResponse applySpecial(String specialId, String storeId, String cartId)
       throws SpecialNotFoundException, CartNotAtStoreException, SpecialAlreadyAppliedException {
@@ -111,6 +112,7 @@ public class ApplySpecialService {
    *
    * @param storeId id of the store that the cart belongs to
    * @param cartId id of the cart receiving the special
+   * @return response with information about the success of applying special
    */
   ApplySpecialResponse applyBuy1Get1Special(String storeId, String cartId) {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
@@ -154,7 +156,9 @@ public class ApplySpecialService {
   /**
    * Applies 30% off cart price if cart has 2 large pizzas with no toppings.
    *
+   * @param storeId Id of the store being ordered from
    * @param cartId Id of cart being checked for special
+   * @return response with information about the success of applying special
    */
   ApplySpecialResponse apply30PercentOffSpecial(String storeId, String cartId) {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
@@ -207,7 +211,9 @@ public class ApplySpecialService {
   /**
    * Makes the price of the highest cost drink free.
    *
+   * @param storeId Id of cart being ordered from
    * @param cartId Id of cart being checked for special
+   * @return response with information about the success of applying special
    */
   ApplySpecialResponse applyFreeSodaSpecial(String storeId, String cartId) {
     Cart cart = cartService.getCartItemsById(storeId, cartId);
