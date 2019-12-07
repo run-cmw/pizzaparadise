@@ -7,7 +7,6 @@ import io.swagger.DBPizzaSizes;
 import io.swagger.DBSideItems;
 import io.swagger.DBStoreItems;
 import io.swagger.DBToppingItems;
-import io.swagger.Message;
 import io.swagger.model.Cart;
 import io.swagger.model.CartAddResponse;
 import io.swagger.model.Pizza;
@@ -22,7 +21,6 @@ import io.swagger.repository.SideItemRepository;
 import io.swagger.repository.StoreItemRepository;
 import io.swagger.repository.ToppingItemRepository;
 import io.swagger.service.CartService;
-import io.swagger.service.PizzaSizeService;
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -187,7 +185,6 @@ public class CartApiControllerTest {
 
     final ResponseEntity<CartAddResponse> testInvalidStoreIdResponse = cartApi
         .addPizzaToCart(TEST_STORE_2.getId(), cart.getId(), mediumPizza);
-    assertEquals(Message.STORE_NOT_FOUND, testInvalidStoreIdResponse.getBody().getMessage());
     assertEquals(HttpStatus.NOT_FOUND, testInvalidStoreIdResponse.getStatusCode());
 
     final ResponseEntity<CartAddResponse> testInvalidPizzaSize = cartApi

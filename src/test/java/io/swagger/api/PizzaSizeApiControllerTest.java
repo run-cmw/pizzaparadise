@@ -71,7 +71,6 @@ public class PizzaSizeApiControllerTest {
     setUpPizzaSizeRepo();
     final ResponseEntity<List<PizzaSize>> response = pizzaSizeApi.getAllPizzaSizes();
     assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals(3, response.getBody().size());
   }
 
   @Test
