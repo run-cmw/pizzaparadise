@@ -67,10 +67,11 @@ public class StoreItem {
 
   /**
    * Initialize StoreItemRepository by adding the 3 stores to the database.
+   *
    * @param storeItemRepository repository for StoreItem storage
    */
   public static void initialize(StoreItemRepository storeItemRepository) {
-    if(storeItemRepository.count() == 0) {
+    if (storeItemRepository.count() == 0) {
       storeItemRepository.insert(DBStoreItems.BROOKLYN_STORE);
       storeItemRepository.insert(DBStoreItems.EASTLAKE_STORE);
       storeItemRepository.insert(DBStoreItems.STONE_WAY_STORE);
@@ -206,8 +207,8 @@ public class StoreItem {
   /**
    * Indicates whether some other object is "equal to" this one.
    *
-   * @param obj - the reference object with which to compare
-   * @return {@code true} if this object is the same as the obj argument and {@code false}
+   * @param o - the reference object with which to compare
+   * @return {@code true} if this object is the same as the o argument and {@code false}
    *     otherwise.
    */
   @Override

@@ -1,24 +1,24 @@
 package io.swagger.service;
 
+import io.swagger.model.Card;
+import io.swagger.model.Cart;
+import io.swagger.model.Receipt;
 import io.swagger.repository.ReceiptRepository;
 import java.util.GregorianCalendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import io.swagger.model.Card;
-import io.swagger.model.Cart;
-import io.swagger.model.Receipt;
 
 @Service
 public class PurchaseService {
 
-  @Autowired
-  private ReceiptRepository receiptRepository;
+  @Autowired private ReceiptRepository receiptRepository;
 
   /**
    * Create Receipt using the Cart and Card
+   *
    * @param cart cart given to show items
    * @param card card given to purchase
-   * @return receipt if card is valid, null if the card is expired
+   * @return Receipt if card is valid, null if the card is expired
    */
   public Receipt makeReceipt(Cart cart, Card card) {
     if (validateExpDate(card.getExpMonth(), card.getExpYear())) {
@@ -31,8 +31,8 @@ public class PurchaseService {
   }
 
   /**
-   * Validate the expiration date of the Card
-   * GregorianCalendar month starts from 0(January)
+   * Validate the expiration date of the Card GregorianCalendar month starts from 0(January)
+   *
    * @param month month given to check
    * @param year year given to check
    * @return true if the month/year is not expired. false if it is expired.
@@ -47,8 +47,9 @@ public class PurchaseService {
 
   /**
    * Secure the cardNumber by only saving the last four digits
+   *
    * @param card card given to secure in the database
-   * @return card with the only last four digits
+   * @return Card with the only last four digits
    */
   public Card secureCardNumber(Card card) {
     String cardNum = card.getCardNumber().substring(card.getCardNumber().length() - 4);

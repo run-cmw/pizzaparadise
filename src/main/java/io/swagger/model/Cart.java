@@ -105,7 +105,7 @@ public class Cart {
   /**
    * Set the totalAmount in this Cart.
    *
-   * @param p new totalAmount given to this Cart
+   * @param totalAmount new totalAmount given to this Cart
    */
   public void setTotalAmount(Double totalAmount) {
     this.totalAmount = totalAmount;

@@ -24,11 +24,12 @@ public interface ApplySpecialApi {
    * @param cartId id of the cart receiving the special
    * @return Success message that pizza was added to cart or error message if special is not valid
    *     for cart.
+   * @throws Exception with error message if special cannor be applied
    */
   ResponseEntity<ApplySpecialResponse> applySpecial(
       @ApiParam(value = "Special to add") @RequestParam(required = true) String specialId,
       @ApiParam(value = "Store that contains cart") @PathVariable("storeId") String storeId,
       @ApiParam(value = "Cart to update") @PathVariable("cartId") String cartId)
       throws SpecialNotFoundException, CartNotAtStoreException, SpecialAlreadyAppliedException,
-      Exception;
+          Exception;
 }

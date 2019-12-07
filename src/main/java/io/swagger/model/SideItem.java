@@ -53,10 +53,11 @@ public class SideItem {
 
   /**
    * Initialize SideItemRepository by adding the 21 sides to the database.
+   *
    * @param sideItemRepository repository for SideItem storage
    */
   public static void initialize(SideItemRepository sideItemRepository) {
-    if(sideItemRepository.count() == 0) {
+    if (sideItemRepository.count() == 0) {
       sideItemRepository.insert(DBSideItems.BREADSTICKS);
       sideItemRepository.insert(DBSideItems.CHEESE_STICKS);
       sideItemRepository.insert(DBSideItems.BARBECUE_WINGS);
@@ -168,8 +169,8 @@ public class SideItem {
   /**
    * Indicates whether some other object is "equal to" this one.
    *
-   * @param obj - the reference object with which to compare
-   * @return {@code true} if this object is the same as the obj argument and {@code false}
+   * @param o - the reference object with which to compare
+   * @return {@code true} if this object is the same as the o argument and {@code false}
    *     otherwise.
    */
   @Override

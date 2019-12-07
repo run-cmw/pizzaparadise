@@ -45,7 +45,7 @@ public class PizzaService {
    *
    * @param sizeID sizeId given to provide the size of pizza
    * @param toppings list of toppings given to calculate the price
-   * @return Double the price of all toppings in the pizza.
+   * @return price of all toppings in the pizza.
    * @throws ToppingNotFoundException throw exception if invalid topping.
    */
   public Double getPizzaToppingPrice(String sizeID, List<String> toppings)

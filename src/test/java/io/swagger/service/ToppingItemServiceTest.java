@@ -37,8 +37,7 @@ public class ToppingItemServiceTest {
   public void setUp() {
     broccoli = setupBroccoli();
     bacon = setupBacon();
-    when(toppingRepo.findAll())
-        .thenReturn(Stream.of(broccoli, bacon).collect(Collectors.toList()));
+    when(toppingRepo.findAll()).thenReturn(Stream.of(broccoli, bacon).collect(Collectors.toList()));
 
     when(toppingRepo.findById("bacon1")).thenReturn(Optional.of(bacon));
   }
