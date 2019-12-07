@@ -47,9 +47,23 @@ public class CardTest {
 
   @Test
   public void toStringTest() {
-    String test = "Card{Name=" + card.getFirstName() + " " + card.getLastName() + ", " + "CardNumber="
-        + card.getCardNumber() + ", " + "ExpirationDate=" + card.getExpMonth() + "/" + card.getExpYear() + ", "
-        + "CardProvider=" + card.getCardProvider() + "}";
+    String test =
+        "Card{Name="
+            + card.getFirstName()
+            + " "
+            + card.getLastName()
+            + ", "
+            + "CardNumber="
+            + card.getCardNumber()
+            + ", "
+            + "ExpirationDate="
+            + card.getExpMonth()
+            + "/"
+            + card.getExpYear()
+            + ", "
+            + "CardProvider="
+            + card.getCardProvider()
+            + "}";
     assertEquals(test, card.toString());
   }
 

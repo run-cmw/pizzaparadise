@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.GregorianCalendar;
-
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,10 +57,30 @@ public class ReceiptTest {
 
   @Test
   public void toStringTest() {
-    String test = "Receipt{id=" + receipt.getReceiptId() + ", " + "Time placed=" + receipt.getTimePlaced() + ", "
-        + "StoreId=" + cart.getStoreID() + ", " + "Pizzas=" + cart.getPizzas() + ", " + "Sides=" + cart.getSides()
-        + ", " + "Total Amount=" + cart.getTotalAmount() + ", " + "Card=" + card.getCardProvider()
-        + "card number ending with " + card.getCardNumber().substring(this.card.getCardNumber().length() - 4) + "}";
+    String test =
+        "Receipt{id="
+            + receipt.getReceiptId()
+            + ", "
+            + "Time placed="
+            + receipt.getTimePlaced()
+            + ", "
+            + "StoreId="
+            + cart.getStoreID()
+            + ", "
+            + "Pizzas="
+            + cart.getPizzas()
+            + ", "
+            + "Sides="
+            + cart.getSides()
+            + ", "
+            + "Total Amount="
+            + cart.getTotalAmount()
+            + ", "
+            + "Card="
+            + card.getCardProvider()
+            + "card number ending with "
+            + card.getCardNumber().substring(this.card.getCardNumber().length() - 4)
+            + "}";
     assertEquals(test, receipt.toString());
   }
 

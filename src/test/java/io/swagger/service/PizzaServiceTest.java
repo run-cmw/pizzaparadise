@@ -2,6 +2,7 @@ package io.swagger.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+
 import io.swagger.exceptions.ToppingNotFoundException;
 import io.swagger.model.Pizza;
 import io.swagger.model.PizzaSize;
@@ -27,8 +28,7 @@ public class PizzaServiceTest {
 
   @Autowired public PizzaService pizzaService;
 
-  @Autowired
-  private ToppingItemRepository toppingRepo;
+  @Autowired private ToppingItemRepository toppingRepo;
 
   @Autowired private PizzaSizeRepository sizeRepo;
 

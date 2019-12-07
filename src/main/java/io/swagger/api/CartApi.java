@@ -6,6 +6,7 @@ import io.swagger.model.Cart;
 import io.swagger.model.CartAddResponse;
 import io.swagger.model.Pizza;
 import io.swagger.model.PriceResponse;
+import io.swagger.exceptions.ToppingNotFoundException;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -100,6 +101,7 @@ public interface CartApi {
    * @param cartId cartId given to this API.
    * @param pizza pizza given to delete from Cart.
    * @return HttpStatus correspond to this action.
+   * @throws ToppingNotFoundException if the topping is not valid.
    */
   HttpStatus deletePizzaFromCart(
       @ApiParam(value = "StoreID") @PathVariable("storeId") String storeId,

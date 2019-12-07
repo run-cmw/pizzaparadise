@@ -8,9 +8,10 @@ import org.junit.Test;
 public class PizzaSuggestionResponseTest {
 
   private PizzaSuggestionResponse response1;
+
   @Before
-  public void setUp(){
-    response1 = new PizzaSuggestionResponse(1,1,1);
+  public void setUp() {
+    response1 = new PizzaSuggestionResponse(1, 1, 1);
   }
 
   @Test
@@ -27,5 +28,4 @@ public class PizzaSuggestionResponseTest {
   public void getLargeTest() {
     assertEquals((Integer) 1, response1.getLarge());
   }
-
 }
