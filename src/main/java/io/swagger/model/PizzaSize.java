@@ -39,10 +39,11 @@ public class PizzaSize {
 
   /**
    * Initialize PizzaSizeRepository by adding the 3 pizza sizes to the database.
+   *
    * @param pizzaSizeRepository repository for StoreItem storage
    */
   public static void initialize(PizzaSizeRepository pizzaSizeRepository) {
-    if(pizzaSizeRepository.count() == 0) {
+    if (pizzaSizeRepository.count() == 0) {
       pizzaSizeRepository.insert(DBPizzaSizes.LARGE);
       pizzaSizeRepository.insert(DBPizzaSizes.MEDIUM);
       pizzaSizeRepository.insert(DBPizzaSizes.SMALL);

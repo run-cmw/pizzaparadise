@@ -38,6 +38,7 @@ public class SpecialItemService {
   /**
    * Add special to the database
    *
+   * @param specialItem specialItem given to add.
    * @return the specialItem that is added
    */
   public SpecialItem addSpecial(SpecialItem specialItem) {

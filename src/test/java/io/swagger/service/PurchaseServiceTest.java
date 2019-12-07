@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
 import io.swagger.model.Card;
 import io.swagger.model.CardProvider;
 import io.swagger.model.Cart;
@@ -104,9 +105,5 @@ public class PurchaseServiceTest {
     Card card2 = new Card("YeJee", "Lee", "4400616718352235", 11, 2019, CardProvider.VISA);
     Receipt receipt2 = purchaseService.makeReceipt(cart, card2);
     assertNull(receipt2);
-
   }
-
-
-
 }

@@ -53,5 +53,4 @@ public class PurchaseResponseTest {
     assertEquals(Message.CART_NOT_FOUND, response2.getMessage());
     assertNull(response1.getMessage());
   }
-
 }
