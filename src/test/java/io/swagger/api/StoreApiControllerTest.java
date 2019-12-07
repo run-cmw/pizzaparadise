@@ -1,13 +1,13 @@
 package io.swagger.api;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
+import io.swagger.DBStoreItems;
 import io.swagger.model.StoreItem;
 import io.swagger.repository.StoreItemRepository;
 import io.swagger.service.StoreService;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,60 +15,87 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
-@TestPropertySource(locations = "classpath:/application-test.properties")
+@TestPropertySource("classpath:/application-test.properties")
+@EnableAutoConfiguration(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
+@SpringBootTest(classes = {StoreApiController.class, StoreService.class})
+
 public class StoreApiControllerTest {
-  final String TEST_STORE_ID = "moonglow";
-  private final StoreItem TEST_STORE_1 =
-      new StoreItem(TEST_STORE_ID, "999 Moonglow Ave", "Emeryville", "California", "70802", true);
-  private final StoreItem TEST_STORE_2 =
-      new StoreItem("plank", "777 Plank Rd", "Baton Rouge", "Louisiana", "98105", false);
 
-  @Autowired private StoreService storeService;
+  @MockBean
+  private StoreItemRepository storeItemRepository;
 
-  @MockBean private StoreItemRepository storeItemRepository;
+  @Autowired
+  private StoreService storeService;
+
+  @Autowired
+  private StoreApi storeApi;
 
   @Before
   public void setUp() {
+    storeItemRepository.deleteAll();
+  }
+
+  private void setUpStoreRepo() {
+    StoreItem store1 = storeService.addStore(DBStoreItems.BROOKLYN_STORE);
+    StoreItem store2 = storeService.addStore(DBStoreItems.EASTLAKE_STORE);
+    StoreItem store3 = storeService.addStore(
+        DBStoreItems.STONE_WAY_STORE);
+    storeItemRepository.insert(store1);
+    storeItemRepository.insert(store2);
+    storeItemRepository.insert(store3);
+
     when(storeItemRepository.findAll())
-        .thenReturn(Stream.of(TEST_STORE_1, TEST_STORE_2).collect(Collectors.toList()));
+        .thenReturn(Stream
+            .of(DBStoreItems.BROOKLYN_STORE, DBStoreItems.EASTLAKE_STORE,
+                DBStoreItems.STONE_WAY_STORE)
+            .collect(Collectors.toList()));
 
-    when(storeItemRepository.findById(TEST_STORE_ID)).thenReturn(Optional.of(TEST_STORE_1));
+    when(storeItemRepository.findById("brooklyn"))
+        .thenReturn(Optional.of(DBStoreItems.BROOKLYN_STORE));
   }
 
   @Test
-  public void getAllStoresTest() {
-    // Test size of list of stores
-    assertEquals(2, storeService.getAllStores().size());
+  public void testGetAllStore() {
+    setUpStoreRepo();
+    final ResponseEntity<List<StoreItem>> response = storeApi.getAllStores();
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(3, response.getBody().size());
   }
 
   @Test
-  public void getStoreByIdTest() {
-
-    final StoreItem actualStore = storeService.getStoreById(TEST_STORE_ID).get();
-
-    assertEquals(TEST_STORE_1, actualStore);
+  public void testGetStoreById() {
+    setUpStoreRepo();
+    final ResponseEntity<StoreItem> responseOk = storeApi.getStoreById("brooklyn");
+    assertEquals(HttpStatus.OK, responseOk.getStatusCode());
   }
 
   @Test
-  public void getStoreByIncorrectIdTest() {
-    final String NONEXISTENT_ID = "666";
-
-    assertNull(storeService.getStoreById(NONEXISTENT_ID));
+  public void testAddStore() {
+    setUpStoreRepo();
+    StoreItem storeItem4 = new StoreItem("broadway",
+        "1234 Broadway Ave E", "Seattle", "Washington",
+        "98103", true);
+    final ResponseEntity<StoreItem> response = storeApi.addStore(storeItem4);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
   @Test
-  public void equalityTest() {
-    assertEquals(TEST_STORE_1, TEST_STORE_1);
-    assertNotEquals(TEST_STORE_1, TEST_STORE_2);
-    assertNotEquals(TEST_STORE_1, null);
+  public void testDeleteStore() {
+    setUpStoreRepo();
+    final HttpStatus deleteStore = storeApi.deleteStore("brooklyn").getStatusCode();
+    assertEquals(HttpStatus.NO_CONTENT, deleteStore);
   }
 }
