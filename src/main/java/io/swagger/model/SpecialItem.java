@@ -41,10 +41,11 @@ public class SpecialItem {
 
   /**
    * Initialize SpecialItemRepository by adding the 3 specials to the database.
+   *
    * @param specialItemRepository repository for SpecialItem storage
    */
   public static void initialize(SpecialItemRepository specialItemRepository) {
-    if(specialItemRepository.count() == 0) {
+    if (specialItemRepository.count() == 0) {
       specialItemRepository.insert(DBSpecialItems.BUY_1_GET_1_FREE);
       specialItemRepository.insert(DBSpecialItems.BUY_1_PIZZA_GET_SODA_FREE);
       specialItemRepository.insert(DBSpecialItems.BUY_2_LARGE_PIZZA_NO_TOPPING);

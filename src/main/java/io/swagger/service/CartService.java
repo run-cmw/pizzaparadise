@@ -40,7 +40,7 @@ public class CartService {
    * Create Cart using the objectId
    *
    * @param storeId storeId given to connect cart.
-   * @return cart that was created or get from database
+   * @return Cart that was created or get from database.
    */
   public Cart createCart(String storeId) {
     Cart cart = new Cart(storeId, new ObjectId());
@@ -53,7 +53,7 @@ public class CartService {
    *
    * @param storeId storeId given to connect cart.
    * @param cartId cartId given to get or create.
-   * @return cart that was created or get from database
+   * @return Cart that was created or get from database.
    */
   public Cart getOrCreateCart(String storeId, String cartId) {
     Cart cart = getCartItemsById(storeId, cartId);
@@ -66,10 +66,10 @@ public class CartService {
   /**
    * This function add pizza to Cart.
    *
-   * @param cart cart given to add pizza
+   * @param cart cart given to add pizza.
    * @param pizza pizza given to add to Cart.
-   * @return pizza that was added to Cart
-   * @throws Exception if the topping in the pizza is not valid.
+   * @return Pizza that was added to Cart.
+   * @throws ToppingNotFoundException if the topping in the pizza is not valid.
    */
   public Pizza addPizzaToCart(Cart cart, Pizza pizza) throws ToppingNotFoundException {
     Double pizzaPrice = pizzaService.getPizzaPrice(pizza);
@@ -87,8 +87,9 @@ public class CartService {
    * the store and add side. Note that if input cartID doesn't exist, finalized cartID is newly
    * made.
    *
+   * @param cart cart given to add SideItem.
    * @param sideID sideId given to add to the Cart.
-   * @return Side sideItem that was added.
+   * @return SideItem that was added.
    */
   public SideItem addSideToCart(Cart cart, String sideID) {
     SideItem side = sideRepository.findById(sideID).get();
@@ -123,7 +124,7 @@ public class CartService {
    * Get the total price of items(pizzas + sides) in the Cart using cartId.
    *
    * @param cartId cartId given to get the total price of whole items.
-   * @return PriceResponse that shows "Success:True", price and currency.
+   * @return total price of the cart.
    */
   public Double getTotalAmountInCart(String cartId) {
     Cart cart = cartRepository.findById(cartId).get();
@@ -137,7 +138,7 @@ public class CartService {
    * Get the total price of items(pizzas + sides) in the Cart using cart object.
    *
    * @param cart cart given to get the total price of whole items.
-   * @return PriceResponse that shows "Success:True", price and currency.
+   * @return total price of the cart.
    */
   public Double getTotalAmountInCart(Cart cart) {
     return getTotalAmountInCart(cart.getId());
@@ -147,7 +148,7 @@ public class CartService {
    * Get the total price of all sideItems in the Cart.
    *
    * @param cart cart given to get the total price of side items.
-   * @return Double the price of all side items in the Cart.
+   * @return price of all side items in the Cart.
    */
   public Double getSidesPrice(Cart cart) {
     Double price = 0.00;
@@ -163,8 +164,8 @@ public class CartService {
    * Get the total price of all Pizzas in the Cart.
    *
    * @param cart cart given to calculate the total price of all pizzas in this Cart.
-   * @return Double the price of all pizzas in the Cart.
-   * @throws Exception if topping of the pizza is invalid
+   * @return price of all pizzas in the Cart.
+   * @throws RuntimeException if topping of the pizza is invalid
    */
   public Double getPizzasPrice(Cart cart) {
     Double price = 0.00;
@@ -199,7 +200,7 @@ public class CartService {
    *
    * @param cart cart given to delete a pizza.
    * @param pizza pizza given to delete from list of pizza.
-   * @throws Exception if topping of the pizza is invalid
+   * @return true if the pizza was successfully deleted, false otherwise.
    */
   public boolean deletePizzaFromCart(Cart cart, Pizza pizza) {
     boolean deletedPizza = cart.getPizzas().remove(pizza);
