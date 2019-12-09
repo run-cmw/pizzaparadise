@@ -43,7 +43,7 @@ Finally, the project storyboard is accessible on
 
 #### Alexa skill instructions (all downloads/sign-ups are free)
 - To use on Amazon Alexa app:
-    1. Enable the Pizza Paradise API skill on Amazon website or app (search for Pizza Paradise API and click Enable button)
+    1. Enable the skill on Amazon website or app (search for Pizza Paradise API and click the Enable button)
     2. Download Amazon Alexa app
     3. Login with Amazon account
     4. Invoke skill by saying "Alexa order Pizza Paradise" ("Alexa" is the wake word for Alexa; "order Pizza Paradise" is the invocation for the skill)
