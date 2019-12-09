@@ -43,12 +43,12 @@ Finally, the project storyboard is accessible on
 
 #### Alexa skill instructions (all downloads/sign-ups are free)
 - To use on Amazon Alexa app:
-    1. Download Amazon Alexa app
-    2. Login with Amazon account
-    3. Enable the Pizza Paradise API skill
+    1. Enable the Pizza Paradise API skill on Amazon website or app (search for Pizza Paradise API and click Enable button)
+    2. Download Amazon Alexa app
+    3. Login with Amazon account
     4. Invoke skill by saying "Alexa order Pizza Paradise" ("Alexa" is the wake word for Alexa; "order Pizza Paradise" is the invocation for the skill)
 - If you own an Alexa-compatible device, enable the skill as you would any other and invoke with "order Pizza Paradise"
-- To view source project of preview skill while it's under Amazon's distribution review
+- To view source project
     1. Sign up for [Voiceflow](https://www.voiceflow.com/)
     2. Download/import a [copy of the project](https://creator.voiceflow.com/dashboard?import=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0SWQiOjczNTYxLCJwcm9qZWN0TmFtZSI6IlBpenphIFBhcmFkaXNlIEFQSSIsImlhdCI6MTU3NTUwNTE4Nn0.nfzP7jzWdev0-mjf6vPVt6NrL9h3ZWvPhB37jjkns-s)
     3. Test the skill in Voice flow or click Upload to Alexa to test in the Alexa Developer console
