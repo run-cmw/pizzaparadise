@@ -20,13 +20,13 @@ A summary of the entire project may be viewed on the
 [presentation video](https://www.youtube.com/watch?time_continue=1&v=2L7Dqp3WhCQ&feature=emb_title)
 ([slides used in presentation](hhttps://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadisePresentationSlides.pdf),
 and the project storyboard is accessible on 
-[Trello](https://trello.com/b/lLhNXLeo/pizza-paradise).
+[Trello](https://trello.com/b/lLhNXLeo/pizza-paradise) (permission needed).
 
 #### List of relevant documents mentioned above
 - [Live API](https://pizzaparadise-api.herokuapp.com/swagger-ui.html)
 - [API design document](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadiseApiDesignDoc.pdf)
 - [Front-end design document](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadiseFrontEndDesignDoc.pdf)
-- [Project storyboard](https://trello.com/b/lLhNXLeo/pizza-paradise)
+- [Project storyboard](https://trello.com/b/lLhNXLeo/pizza-paradise) (permission needed)
 - [Presentation video](https://www.youtube.com/watch?time_continue=1&v=2L7Dqp3WhCQ&feature=emb_title)
 - [Presentation video slides](https://pizza-paradise.s3-us-west-2.amazonaws.com/resources/pizzaParadisePresentationSlides.pdf)
 
